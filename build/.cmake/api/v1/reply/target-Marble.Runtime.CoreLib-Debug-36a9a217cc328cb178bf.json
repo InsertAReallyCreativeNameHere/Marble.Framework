@@ -1,0 +1,534 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll"
+		},
+		{
+			"path" : "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/lib/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/libMarble.Runtime.CoreLib.dll.a"
+		},
+		{
+			"path" : "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.pdb"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"target_link_libraries",
+			"add_dependencies",
+			"target_compile_definitions",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 133,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 151,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 153,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 134,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 135,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 138,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 145,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 5,
+					"define" : "BUILD_TYPE_DYNAMIC=1"
+				},
+				{
+					"define" : "Marble_Runtime_CoreLib_EXPORTS"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "SDL_MAIN_HANDLED"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 6,
+					"path" : "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/Marble.Runtime.CoreLib/src"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/Marble.Mathematics/src"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/vendor/ctti/include"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/vendor/stb"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/vendor/SDL2-MinGW/include/SDL2"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0,
+				2,
+				4,
+				6,
+				8,
+				11,
+				13,
+				15,
+				17,
+				19,
+				22,
+				24,
+				26,
+				28,
+				30,
+				32,
+				35,
+				40,
+				44,
+				46
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 4,
+			"id" : "Marble.Runtime.GL::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "Marble.Runtime.CoreLib::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "..\\lib\\x86-MinGW-Debug-Win32\\Marble.Mathematics\\libMarble.Mathematics.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "..\\vendor\\SDL2-MinGW\\lib\\libSDL2main.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "..\\vendor\\SDL2-MinGW\\lib\\libSDL2.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "Marble.Runtime.CoreLib",
+	"nameOnDisk" : "Marble.Runtime.CoreLib.dll",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				2,
+				4,
+				6,
+				8,
+				11,
+				13,
+				15,
+				17,
+				19,
+				22,
+				24,
+				26,
+				28,
+				30,
+				32,
+				35,
+				40,
+				44,
+				46
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				1,
+				3,
+				5,
+				7,
+				9,
+				10,
+				12,
+				14,
+				16,
+				18,
+				20,
+				21,
+				23,
+				25,
+				27,
+				29,
+				31,
+				33,
+				34,
+				36,
+				37,
+				38,
+				39,
+				41,
+				42,
+				43,
+				45,
+				47,
+				48,
+				49
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Application.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Application.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Components/ComponentData.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Components/Image.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Components/Image.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Components/Panel.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Components/RectTransform.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/CoreAPI.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/CoreEngine.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Debug.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Debug.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/DsplMgmt.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Events.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Exception.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Exception.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Input.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Input.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Objects/Component.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Objects/Entity.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Objects/Object.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Objects/Object.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/PackageManager.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/PackageManager.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/Prefab.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Core/SceneManagement.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Extras/ConcurrentQueue.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Extras/Function.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Extras/Hash.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Extras/Lock.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Extras/Lock.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Extras/ManagedArray.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Extras/Property.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Rendering/Core.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Rendering/Core.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/Rendering/Renderer.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/inc.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Marble.Runtime.CoreLib/src/include/Marble.h",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

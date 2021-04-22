@@ -1,0 +1,1 @@
+ ../lib/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/libMarble.Runtime.CoreLib.dll.a ../lib/x86-MinGW-Debug-Win32/Marble.Mathematics/libMarble.Mathematics.dll.a -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

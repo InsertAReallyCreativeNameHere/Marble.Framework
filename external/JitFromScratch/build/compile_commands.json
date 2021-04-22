@@ -1,0 +1,22 @@
+[
+{
+  "directory": "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/external/JitFromScratch/build",
+  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS @CMakeFiles/JitFromScratch.dir/includes_CXX.rsp  -std=c++14 -g -o CMakeFiles\\JitFromScratch.dir\\main.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-2-IdiNahui-Boogaloo\\MarbleFramework\\external\\JitFromScratch\\main.cpp",
+  "file": "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/external/JitFromScratch/main.cpp"
+},
+{
+  "directory": "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/external/JitFromScratch/build",
+  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS @CMakeFiles/JitFromScratch.dir/includes_CXX.rsp  -std=c++14 -g -o CMakeFiles\\JitFromScratch.dir\\JitFromScratch.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-2-IdiNahui-Boogaloo\\MarbleFramework\\external\\JitFromScratch\\JitFromScratch.cpp",
+  "file": "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/external/JitFromScratch/JitFromScratch.cpp"
+},
+{
+  "directory": "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/external/JitFromScratch/build",
+  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS @CMakeFiles/JitFromScratch.dir/includes_CXX.rsp  -std=c++14 -g -o CMakeFiles\\JitFromScratch.dir\\SimpleOptimizer.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-2-IdiNahui-Boogaloo\\MarbleFramework\\external\\JitFromScratch\\SimpleOptimizer.cpp",
+  "file": "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/external/JitFromScratch/SimpleOptimizer.cpp"
+},
+{
+  "directory": "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/external/JitFromScratch/build",
+  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS @CMakeFiles/JitFromScratch.dir/includes_CXX.rsp  -std=c++14 -g -o CMakeFiles\\JitFromScratch.dir\\SimpleObjectCache.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-2-IdiNahui-Boogaloo\\MarbleFramework\\external\\JitFromScratch\\SimpleObjectCache.cpp",
+  "file": "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/external/JitFromScratch/SimpleObjectCache.cpp"
+}
+]

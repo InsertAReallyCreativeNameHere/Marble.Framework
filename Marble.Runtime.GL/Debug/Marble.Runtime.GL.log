@@ -1,0 +1,2 @@
+﻿  GL.cpp
+LINK : fatal error LNK1104: cannot open file 'kernel32.lib'

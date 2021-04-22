@@ -1,0 +1,344 @@
+IMG_gif.lo: IMG_gif.c SDL_image.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_main.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_stdinc.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_config.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_platform.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/begin_code.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/close_code.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/sys/types.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/crtdefs.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/corecrt.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/_mingw.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/_mingw_mac.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/_mingw_secapi.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/vadefs.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/sdks/_mingw_ddk.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/_mingw_off_t.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/stdio.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/corecrt_stdio_config.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/swprintf.inl \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/sec_api/stdio_s.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/stdlib.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/corecrt_wstdlib.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include-fixed/limits.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include-fixed/syslimits.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/limits.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/sec_api/stdlib_s.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/malloc.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/stddef.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/stddef.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/stdarg.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/stdarg.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/_mingw_stdarg.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/string.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/sec_api/string_s.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/strings.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/wchar.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/_mingw_stat64.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/sec_api/wchar_s.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/inttypes.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/stdint.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/stdint.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/ctype.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/math.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/float.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/float.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_assert.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_atomic.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_audio.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_error.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_endian.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_mutex.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_thread.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/process.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/corecrt_startup.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_rwops.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_clipboard.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_cpuinfo.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/intrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/setjmp.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/psdk_inc/intrin-impl.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/x86intrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/ia32intrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/immintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/mmintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/xmmintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/mm_malloc.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/emmintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/pmmintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/tmmintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/smmintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/popcntintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/wmmintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/fxsrintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/xsaveintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/xsaveoptintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/xsavesintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/xsavecintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avxintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx2intrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512fintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512erintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512pfintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512cdintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vlintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512bwintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512dqintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vlbwintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vldqintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512ifmaintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512ifmavlintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vbmiintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vbmivlintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx5124fmapsintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx5124vnniwintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vpopcntdqintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vbmi2intrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vbmi2vlintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vnniintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vnnivlintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vpopcntdqvlintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512bitalgintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vp2intersectintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vp2intersectvlintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/shaintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/lzcntintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/bmiintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/bmi2intrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/fmaintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/f16cintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/rtmintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/xtestintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/cetintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/gfniintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/vaesintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/vpclmulqdqintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/movdirintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/sgxintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/pconfigintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/waitpkgintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/cldemoteintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512bf16vlintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512bf16intrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/enqcmdintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/rdseedintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/prfchwintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/adxintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/clwbintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/clflushoptintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/wbnoinvdintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/pkuintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/mm3dnow.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/fma4intrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/ammintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/xopintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/lwpintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/tbmintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/mwaitxintrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/clzerointrin.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_events.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_video.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_pixels.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_rect.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_surface.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_blendmode.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_keyboard.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_keycode.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_scancode.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_mouse.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_joystick.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_gamecontroller.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_quit.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_gesture.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_touch.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_filesystem.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_haptic.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_hints.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_loadso.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_log.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_messagebox.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_metal.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_power.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_render.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_sensor.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_shape.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_system.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_timer.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_version.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_locale.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_version.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/begin_code.h \
+ D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/close_code.h
+SDL_image.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_main.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_stdinc.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_config.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_platform.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/begin_code.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/close_code.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/sys/types.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/crtdefs.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/corecrt.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/_mingw.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/_mingw_mac.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/_mingw_secapi.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/vadefs.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/sdks/_mingw_ddk.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/_mingw_off_t.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/stdio.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/corecrt_stdio_config.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/swprintf.inl:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/sec_api/stdio_s.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/stdlib.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/corecrt_wstdlib.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include-fixed/limits.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include-fixed/syslimits.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/limits.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/sec_api/stdlib_s.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/malloc.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/stddef.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/stddef.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/stdarg.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/stdarg.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/_mingw_stdarg.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/string.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/sec_api/string_s.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/strings.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/wchar.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/_mingw_stat64.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/sec_api/wchar_s.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/inttypes.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/stdint.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/stdint.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/ctype.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/math.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/float.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/float.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_assert.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_atomic.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_audio.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_error.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_endian.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_mutex.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_thread.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/process.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/corecrt_startup.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_rwops.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_clipboard.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_cpuinfo.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/intrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/setjmp.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/i686-w64-mingw32/include/psdk_inc/intrin-impl.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/x86intrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/ia32intrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/immintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/mmintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/xmmintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/mm_malloc.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/emmintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/pmmintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/tmmintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/smmintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/popcntintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/wmmintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/fxsrintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/xsaveintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/xsaveoptintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/xsavesintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/xsavecintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avxintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx2intrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512fintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512erintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512pfintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512cdintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vlintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512bwintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512dqintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vlbwintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vldqintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512ifmaintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512ifmavlintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vbmiintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vbmivlintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx5124fmapsintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx5124vnniwintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vpopcntdqintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vbmi2intrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vbmi2vlintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vnniintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vnnivlintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vpopcntdqvlintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512bitalgintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vp2intersectintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512vp2intersectvlintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/shaintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/lzcntintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/bmiintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/bmi2intrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/fmaintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/f16cintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/rtmintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/xtestintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/cetintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/gfniintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/vaesintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/vpclmulqdqintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/movdirintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/sgxintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/pconfigintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/waitpkgintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/cldemoteintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512bf16vlintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/avx512bf16intrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/enqcmdintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/rdseedintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/prfchwintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/adxintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/clwbintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/clflushoptintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/wbnoinvdintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/pkuintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/mm3dnow.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/fma4intrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/ammintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/xopintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/lwpintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/tbmintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/mwaitxintrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include/clzerointrin.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_events.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_video.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_pixels.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_rect.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_surface.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_blendmode.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_keyboard.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_keycode.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_scancode.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_mouse.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_joystick.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_gamecontroller.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_quit.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_gesture.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_touch.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_filesystem.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_haptic.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_hints.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_loadso.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_log.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_messagebox.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_metal.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_power.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_render.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_sensor.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_shape.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_system.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_timer.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_version.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_locale.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/SDL_version.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/begin_code.h:
+D:/Github/CykaBlyat-Tools/msys64/mingw32/include/SDL2/close_code.h:

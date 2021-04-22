@@ -1,0 +1,6 @@
+C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/build/CMakeFiles/Sandbox.dir
+C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/build/CMakeFiles/Marble.Mathematics.dir
+C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/build/CMakeFiles/Marble.Runtime.GL.dir
+C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/build/CMakeFiles/Marble.Runtime.CoreLib.dir
+C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/build/CMakeFiles/edit_cache.dir
+C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/build/CMakeFiles/rebuild_cache.dir

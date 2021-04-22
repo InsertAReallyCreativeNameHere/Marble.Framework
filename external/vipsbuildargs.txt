@@ -1,0 +1,16 @@
+libpng
+libjpeg
+libimagequant
+libexif
+libtiff
+libwebp
+zlib
+
+Do before.
+LDFLAGS="-static"
+
+--enable-static --disable-shared \
+--with-png-includes=$PWD/../libvips-deps/libpng  --with-png-libraries=$PWD/../libvips-deps/vipsbuildlibs \
+--with-jpeg-includes=$PWD/../libvips-deps/libjpeg  --with-jpeg-libraries=$PWD/../libvips-deps/vipsbuildlibs \
+--with-tiff-includes=$PWD/../libvips-deps/libtiff/libtiff  --with-tiff-libraries=$PWD/../libvips-deps/vipsbuildlibs \
+--with-zlib-includes=$PWD/../libvips-deps/zlib  --with-zlib-libraries=$PWD/../libvips-deps/vipsbuildlibs
