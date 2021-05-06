@@ -8,34 +8,22 @@
 
 ../Marble.Runtime.CoreLib/src/Core/CoreAPI.h
 
-../Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.h
-inc.h
--
-ctime
--
-iomanip
--
-string_view
--
-
 ../Marble.Runtime.CoreLib/src/Core/Debug.h
 inc.h
 -
-iostream
--
-vector
--
-string
--
-string_view
--
-thread
+codecvt
 -
 chrono
 -
-future
+iomanip
 -
-Core/CoreEngineExtensions.h
+iostream
+-
+locale
+-
+sstream
+-
+thread
 -
 
 ../Marble.Runtime.CoreLib/src/Extras/ManagedArray.h
@@ -76,13 +64,13 @@ unordered_set
 cstdint
 -
 
-C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/Marble.Mathematics/src/Maths/Mathematics.cpp
+C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Mathematics/src/Mathematics.cpp
 Mathematics.h
-C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/Marble.Mathematics/src/Maths/Mathematics.h
+C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Mathematics/src/Mathematics.h
 inc.h
 -
 
-C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/Marble.Mathematics/src/Maths/Mathematics.h
+C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Mathematics/src/Mathematics.h
 inc.h
 -
 Extras/ManagedArray.h

@@ -90,35 +90,6 @@ elseif (${BUILD_PLATFORM} STREQUAL Linux)
     )
 endif()
 
-project(Marble.Runtime.GL)
-
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Runtime.GL)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Runtime.GL)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Runtime.GL)
-
-file(GLOB_RECURSE GLSRCS configure_depends
-    "${CMAKE_SOURCE_DIR}/Marble.Runtime.GL/*.h"
-    "${CMAKE_SOURCE_DIR}/Marble.Runtime.GL/*.cpp"
-)
-
-add_library(Marble.Runtime.GL SHARED ${GLSRCS})
-add_dependencies("Marble.Runtime.GL" "Marble.Mathematics")
-target_compile_definitions(Marble.Runtime.GL PUBLIC SDL_MAIN_HANDLED BUILD_TYPE_DYNAMIC=1)
-
-if (${BUILD_PLATFORM} STREQUAL Win32)
-    target_link_libraries(Marble.Runtime.GL PUBLIC
-    )
-    target_include_directories(Marble.Runtime.GL PUBLIC
-        "${CMAKE_SOURCE_DIR}/Marble.Runtime.GL/src"
-    )
-elseif (${BUILD_PLATFORM} STREQUAL Linux)
-    target_link_libraries(Marble.Runtime.GL PUBLIC
-    )
-    target_include_directories(Marble.Runtime.GL PUBLIC
-        "${CMAKE_SOURCE_DIR}/Marble.Runtime.GL/src"
-    )
-endif()
-
 project(Marble.Runtime.CoreLib)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Runtime.CoreLib)
@@ -131,41 +102,40 @@ file(GLOB_RECURSE ENGINESRCS configure_depends
 )
 
 add_library(Marble.Runtime.CoreLib SHARED ${ENGINESRCS})
-add_dependencies("Marble.Runtime.CoreLib" "Marble.Runtime.GL")
 target_compile_definitions(Marble.Runtime.CoreLib PUBLIC SDL_MAIN_HANDLED BUILD_TYPE_DYNAMIC=1)
 
 if (${BUILD_PLATFORM} STREQUAL Win32)
     target_include_directories(Marble.Runtime.CoreLib PUBLIC
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
         "${CMAKE_SOURCE_DIR}/Marble.Mathematics/src"
-        "${CMAKE_SOURCE_DIR}/vendor/ctti/include"
-        "${CMAKE_SOURCE_DIR}/vendor/stb"
+        "${CMAKE_SOURCE_DIR}/dependencies/ctti/include"
+        "${CMAKE_SOURCE_DIR}/dependencies/stb"
     )
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        target_include_directories(Marble.Runtime.CoreLib PUBLIC "${CMAKE_SOURCE_DIR}/vendor/SDL2-MinGW/include/SDL2")
+        target_include_directories(Marble.Runtime.CoreLib PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/SDL2-MinGW/include/SDL2")
     elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-        target_include_directories(Marble.Runtime.CoreLib PUBLIC "${CMAKE_SOURCE_DIR}/vendor/SDL2/include")
+        target_include_directories(Marble.Runtime.CoreLib PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/SDL2/include")
     else()
         message(FATAL_ERROR "No supported compiler used.")
     endif()
-    target_link_libraries(Marble.Runtime.CoreLib PUBLIC "${CMAKE_SOURCE_DIR}/lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Mathematics/${CMAKE_IMPORT_LIBRARY_PREFIX}Marble.Mathematics${CMAKE_IMPORT_LIBRARY_SUFFIX}")
+    target_link_libraries(Marble.Runtime.CoreLib PUBLIC Marble.Mathematics)
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_link_libraries(Marble.Runtime.CoreLib PUBLIC 
-            "${CMAKE_SOURCE_DIR}/vendor/SDL2-MinGW/lib/libSDL2main.a"
-            "${CMAKE_SOURCE_DIR}/vendor/SDL2-MinGW/lib/libSDL2.dll.a"
+            "${CMAKE_SOURCE_DIR}/dependencies/SDL2-MinGW/lib/libSDL2main.a"
+            "${CMAKE_SOURCE_DIR}/dependencies/SDL2-MinGW/lib/libSDL2.dll.a"
         )
     elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
         target_link_libraries(Marble.Runtime.CoreLib PUBLIC 
-            "${CMAKE_SOURCE_DIR}/vendor/SDL2/lib/x86/SDL2main.lib"
-            "${CMAKE_SOURCE_DIR}/vendor/SDL2/lib/x86/SDL2.lib"
+            "${CMAKE_SOURCE_DIR}/dependencies/SDL2/lib/x86/SDL2main.lib"
+            "${CMAKE_SOURCE_DIR}/dependencies/SDL2/lib/x86/SDL2.lib"
         )
     else()
         message(FATAL_ERROR "No supported compiler used.")
     endif()
 elseif (${BUILD_PLATFORM} STREQUAL Linux)
     target_link_libraries(Marble.Runtime.CoreLib PUBLIC
-        "${CMAKE_SOURCE_DIR}/vendor/SDL2-Linux/lib/libSDL2.a"
-        "${CMAKE_SOURCE_DIR}/vendor/SDL2-Linux/lib/libSDL2main.a"
+        "${CMAKE_SOURCE_DIR}/dependencies/SDL2-Linux/lib/libSDL2.a"
+        "${CMAKE_SOURCE_DIR}/dependencies/SDL2-Linux/lib/libSDL2main.a"
         "${CMAKE_SOURCE_DIR}/lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/ImGui/libImGui.a"
         "${CMAKE_SOURCE_DIR}/lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/gl3w/libgl3w.a"
         ${CMAKE_DL_LIBS}
@@ -174,7 +144,7 @@ elseif (${BUILD_PLATFORM} STREQUAL Linux)
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
         "${CMAKE_SOURCE_DIR}/gl3w/include"
         "${CMAKE_SOURCE_DIR}/ImGUI"
-        "${CMAKE_SOURCE_DIR}/vendor/SDL2-Linux/include/SDL2"
+        "${CMAKE_SOURCE_DIR}/dependencies/SDL2-Linux/include/SDL2"
     )
 endif()
 
@@ -195,19 +165,19 @@ target_compile_definitions(Sandbox PUBLIC SDL_MAIN_HANDLED)
 
 if (${BUILD_PLATFORM} STREQUAL Win32)
     target_link_libraries(Sandbox PUBLIC
-        "${CMAKE_SOURCE_DIR}/lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Runtime.CoreLib/${CMAKE_IMPORT_LIBRARY_PREFIX}Marble.Runtime.CoreLib${CMAKE_IMPORT_LIBRARY_SUFFIX}"
-        "${CMAKE_SOURCE_DIR}/lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Mathematics/${CMAKE_IMPORT_LIBRARY_PREFIX}Marble.Mathematics${CMAKE_IMPORT_LIBRARY_SUFFIX}"
+        Marble.Mathematics
+        Marble.Runtime.CoreLib
     )
     target_include_directories(Sandbox PUBLIC
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src/include"
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
         "${CMAKE_SOURCE_DIR}/Marble.Mathematics/src"
-        "${CMAKE_SOURCE_DIR}/vendor/ctti/include"
+        "${CMAKE_SOURCE_DIR}/dependencies/ctti/include"
     )
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        target_include_directories(Sandbox PUBLIC "${CMAKE_SOURCE_DIR}/vendor/SDL2-MinGW/include/SDL2")
+        target_include_directories(Sandbox PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/SDL2-MinGW/include/SDL2")
     elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-        target_include_directories(Sandbox PUBLIC "${CMAKE_SOURCE_DIR}/vendor/SDL2/include")
+        target_include_directories(Sandbox PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/SDL2/include")
     else()
         message(FATAL_ERROR "No supported compiler used.")
     endif()
@@ -229,13 +199,13 @@ if (${BUILD_PLATFORM} STREQUAL Win32)
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         add_custom_command(TARGET Sandbox POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${PROJECT_SOURCE_DIR}/vendor/SDL2-MinGW/bin/SDL2.dll"
+            "${PROJECT_SOURCE_DIR}/dependencies/SDL2-MinGW/bin/SDL2.dll"
             $<TARGET_FILE_DIR:Sandbox>
         )
     elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
         add_custom_command(TARGET Sandbox POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${PROJECT_SOURCE_DIR}/vendor/SDL2/lib/${BUILD_ARCH}/SDL2.dll"
+            "${PROJECT_SOURCE_DIR}/dependencies/SDL2/lib/${BUILD_ARCH}/SDL2.dll"
             $<TARGET_FILE_DIR:Sandbox>
         )
     else()
@@ -250,6 +220,6 @@ elseif (${BUILD_PLATFORM} STREQUAL Linux)
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
         "${CMAKE_SOURCE_DIR}/GLAD/include"
         "${CMAKE_SOURCE_DIR}/ImGUI"
-        "${CMAKE_SOURCE_DIR}/vendor/SDL2-Linux/include/SDL2"
+        "${CMAKE_SOURCE_DIR}/dependencies/SDL2-Linux/include/SDL2"
     )
 endif()

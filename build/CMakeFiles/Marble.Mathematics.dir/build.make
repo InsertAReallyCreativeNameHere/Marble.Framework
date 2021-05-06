@@ -62,10 +62,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework
+CMAKE_SOURCE_DIR = C:\Users\Administrator\Documents\GitHub\Marble.Framework
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build
+CMAKE_BINARY_DIR = C:\Users\Administrator\Documents\GitHub\Marble.Framework\build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Marble.Mathematics.dir/depend.make
@@ -76,33 +76,33 @@ include CMakeFiles/Marble.Mathematics.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/Marble.Mathematics.dir/flags.make
 
-CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Maths/Mathematics.cpp.obj: CMakeFiles/Marble.Mathematics.dir/flags.make
-CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Maths/Mathematics.cpp.obj: CMakeFiles/Marble.Mathematics.dir/includes_CXX.rsp
-CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Maths/Mathematics.cpp.obj: ../Marble.Mathematics/src/Maths/Mathematics.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Maths/Mathematics.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Mathematics.dir\Marble.Mathematics\src\Maths\Mathematics.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Mathematics\src\Maths\Mathematics.cpp
+CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.obj: CMakeFiles/Marble.Mathematics.dir/flags.make
+CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.obj: CMakeFiles/Marble.Mathematics.dir/includes_CXX.rsp
+CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.obj: ../Marble.Mathematics/src/Mathematics.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Mathematics.dir\Marble.Mathematics\src\Mathematics.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Mathematics\src\Mathematics.cpp
 
-CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Maths/Mathematics.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Maths/Mathematics.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Mathematics\src\Maths\Mathematics.cpp > CMakeFiles\Marble.Mathematics.dir\Marble.Mathematics\src\Maths\Mathematics.cpp.i
+CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.i"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Mathematics\src\Mathematics.cpp > CMakeFiles\Marble.Mathematics.dir\Marble.Mathematics\src\Mathematics.cpp.i
 
-CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Maths/Mathematics.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Maths/Mathematics.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Mathematics\src\Maths\Mathematics.cpp -o CMakeFiles\Marble.Mathematics.dir\Marble.Mathematics\src\Maths\Mathematics.cpp.s
+CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.s"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Mathematics\src\Mathematics.cpp -o CMakeFiles\Marble.Mathematics.dir\Marble.Mathematics\src\Mathematics.cpp.s
 
 # Object files for target Marble.Mathematics
 Marble_Mathematics_OBJECTS = \
-"CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Maths/Mathematics.cpp.obj"
+"CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.obj"
 
 # External object files for target Marble.Mathematics
 Marble_Mathematics_EXTERNAL_OBJECTS =
 
-../bin/x86-MinGW-Debug-Win32/Marble.Mathematics/Marble.Mathematics.dll: CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Maths/Mathematics.cpp.obj
+../bin/x86-MinGW-Debug-Win32/Marble.Mathematics/Marble.Mathematics.dll: CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.obj
 ../bin/x86-MinGW-Debug-Win32/Marble.Mathematics/Marble.Mathematics.dll: CMakeFiles/Marble.Mathematics.dir/build.make
 ../bin/x86-MinGW-Debug-Win32/Marble.Mathematics/Marble.Mathematics.dll: CMakeFiles/Marble.Mathematics.dir/linklibs.rsp
 ../bin/x86-MinGW-Debug-Win32/Marble.Mathematics/Marble.Mathematics.dll: CMakeFiles/Marble.Mathematics.dir/objects1.rsp
 ../bin/x86-MinGW-Debug-Win32/Marble.Mathematics/Marble.Mathematics.dll: CMakeFiles/Marble.Mathematics.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library ..\bin\x86-MinGW-Debug-Win32\Marble.Mathematics\Marble.Mathematics.dll"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library ..\bin\x86-MinGW-Debug-Win32\Marble.Mathematics\Marble.Mathematics.dll"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Marble.Mathematics.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -115,6 +115,6 @@ CMakeFiles/Marble.Mathematics.dir/clean:
 .PHONY : CMakeFiles/Marble.Mathematics.dir/clean
 
 CMakeFiles/Marble.Mathematics.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles\Marble.Mathematics.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Administrator\Documents\GitHub\Marble.Framework C:\Users\Administrator\Documents\GitHub\Marble.Framework C:\Users\Administrator\Documents\GitHub\Marble.Framework\build C:\Users\Administrator\Documents\GitHub\Marble.Framework\build C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles\Marble.Mathematics.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Marble.Mathematics.dir/depend
 

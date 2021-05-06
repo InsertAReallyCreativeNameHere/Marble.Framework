@@ -9,7 +9,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.obj"
   "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.obj"
   "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp.obj"
-  "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.obj"
   "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Debug.cpp.obj"
   "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp.obj"
   "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp.obj"

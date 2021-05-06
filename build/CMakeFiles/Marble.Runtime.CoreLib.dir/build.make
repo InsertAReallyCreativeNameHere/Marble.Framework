@@ -62,10 +62,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework
+CMAKE_SOURCE_DIR = C:\Users\Administrator\Documents\GitHub\Marble.Framework
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build
+CMAKE_BINARY_DIR = C:\Users\Administrator\Documents\GitHub\Marble.Framework\build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Marble.Runtime.CoreLib.dir/depend.make
@@ -79,282 +79,268 @@ include CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Application.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Application.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Application.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Application.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Application.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Application.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Application.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Application.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Application.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Application.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Application.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Application.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Application.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\ComponentData.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Components\ComponentData.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\ComponentData.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Components\ComponentData.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Components\ComponentData.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\ComponentData.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Components\ComponentData.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\ComponentData.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Components\ComponentData.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\ComponentData.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Components\ComponentData.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\ComponentData.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Components/Image.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\Image.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Components\Image.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\Image.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Components\Image.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Components\Image.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\Image.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Components\Image.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\Image.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Components\Image.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\Image.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Components\Image.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\Image.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\Panel.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Components\Panel.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\Panel.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Components\Panel.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Components\Panel.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\Panel.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Components\Panel.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\Panel.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Components\Panel.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\Panel.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Components\Panel.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\Panel.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\RectTransform.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Components\RectTransform.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\RectTransform.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Components\RectTransform.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Components\RectTransform.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\RectTransform.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Components\RectTransform.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\RectTransform.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Components\RectTransform.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\RectTransform.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Components\RectTransform.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Components\RectTransform.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\CoreEngine.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\CoreEngine.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\CoreEngine.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\CoreEngine.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\CoreEngine.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\CoreEngine.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\CoreEngine.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\CoreEngine.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\CoreEngine.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\CoreEngine.cpp.s
-
-CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
-CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
-CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\CoreEngineExtensions.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\CoreEngineExtensions.cpp
-
-CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\CoreEngineExtensions.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\CoreEngineExtensions.cpp.i
-
-CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\CoreEngineExtensions.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\CoreEngineExtensions.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\CoreEngine.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\CoreEngine.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Debug.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Debug.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Debug.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Debug.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Debug.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Debug.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Debug.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Debug.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Debug.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Debug.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Debug.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Debug.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Debug.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Debug.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Debug.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Debug.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Debug.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Debug.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Debug.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Debug.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Debug.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Debug.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\DsplMgmt.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\DsplMgmt.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\DsplMgmt.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\DsplMgmt.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\DsplMgmt.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\DsplMgmt.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\DsplMgmt.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\DsplMgmt.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\DsplMgmt.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\DsplMgmt.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\DsplMgmt.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\DsplMgmt.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\EntityComponentSystem\CoreSystem.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\EntityComponentSystem\CoreSystem.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\EntityComponentSystem\CoreSystem.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\EntityComponentSystem\CoreSystem.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\EntityComponentSystem\CoreSystem.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\EntityComponentSystem\CoreSystem.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\EntityComponentSystem\CoreSystem.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\EntityComponentSystem\CoreSystem.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\EntityComponentSystem\CoreSystem.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\EntityComponentSystem\CoreSystem.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\EntityComponentSystem\CoreSystem.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\EntityComponentSystem\CoreSystem.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Exception.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Exception.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Exception.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Exception.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Exception.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Exception.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Exception.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Exception.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Exception.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Exception.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Exception.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Exception.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Exception.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Exception.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Exception.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Exception.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Exception.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Exception.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Exception.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Exception.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Exception.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Exception.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Input.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Input.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Input.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Input.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Input.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Input.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Input.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Input.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Input.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Input.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Input.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Input.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Input.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Input.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Input.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Input.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Input.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Input.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Input.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Input.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Input.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Input.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Component.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Objects\Component.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Component.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Objects\Component.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Objects\Component.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Component.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Objects\Component.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Component.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Objects\Component.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Component.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Objects\Component.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Component.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Entity.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Objects\Entity.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Entity.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Objects\Entity.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Objects\Entity.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Entity.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Objects\Entity.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Entity.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Objects\Entity.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Entity.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Objects\Entity.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Entity.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Object.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Object.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Object.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Object.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Object.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Object.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Objects\Object.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Object.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Object.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Objects\Object.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Object.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Object.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Objects\Object.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Object.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Objects\Object.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Object.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Object.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Object.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\Objects\Object.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Object.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\Objects\Object.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\Objects\Object.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/PackageManager.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/PackageManager.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/PackageManager.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/PackageManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/PackageManager.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\PackageManager.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\PackageManager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/PackageManager.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\PackageManager.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\PackageManager.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/PackageManager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/PackageManager.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\PackageManager.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\PackageManager.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\PackageManager.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\PackageManager.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/PackageManager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/PackageManager.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\PackageManager.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\PackageManager.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\PackageManager.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\PackageManager.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\SceneManagement.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\SceneManagement.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\SceneManagement.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\SceneManagement.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\SceneManagement.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\SceneManagement.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\SceneManagement.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\SceneManagement.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Core\SceneManagement.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\SceneManagement.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Core\SceneManagement.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Core\SceneManagement.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Extras/Lock.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Extras/Lock.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Extras/Lock.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Lock.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Extras/Lock.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Extras\Lock.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Extras\Lock.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Extras/Lock.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Extras\Lock.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Extras\Lock.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Extras/Lock.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Extras/Lock.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Extras\Lock.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Extras\Lock.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Extras\Lock.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Extras\Lock.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Extras/Lock.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Extras/Lock.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Extras\Lock.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Extras\Lock.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Extras\Lock.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Extras\Lock.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Core.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Core.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Core.cpp.obj: ../Marble.Runtime.CoreLib/src/Rendering/Core.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Core.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Rendering\Core.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Rendering\Core.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Core.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Rendering\Core.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Rendering\Core.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Core.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Core.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Rendering\Core.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Rendering\Core.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Rendering\Core.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Rendering\Core.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Core.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Core.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Rendering\Core.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Rendering\Core.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Rendering\Core.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Rendering\Core.cpp.s
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/flags.make
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.obj: CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.obj: ../Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Rendering\Renderer.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Rendering\Renderer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Rendering\Renderer.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Rendering\Renderer.cpp
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Rendering\Renderer.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Rendering\Renderer.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Rendering\Renderer.cpp > CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Rendering\Renderer.cpp.i
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Marble.Runtime.CoreLib\src\Rendering\Renderer.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Rendering\Renderer.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Marble.Runtime.CoreLib\src\Rendering\Renderer.cpp -o CMakeFiles\Marble.Runtime.CoreLib.dir\Marble.Runtime.CoreLib\src\Rendering\Renderer.cpp.s
 
 # Object files for target Marble.Runtime.CoreLib
 Marble_Runtime_CoreLib_OBJECTS = \
@@ -364,7 +350,6 @@ Marble_Runtime_CoreLib_OBJECTS = \
 "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.obj" \
 "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.obj" \
 "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp.obj" \
-"CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.obj" \
 "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Debug.cpp.obj" \
 "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp.obj" \
 "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp.obj" \
@@ -388,7 +373,6 @@ Marble_Runtime_CoreLib_EXTERNAL_OBJECTS =
 ../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.obj
 ../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.obj
 ../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp.obj
-../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.obj
 ../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Debug.cpp.obj
 ../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp.obj
 ../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp.obj
@@ -409,7 +393,7 @@ Marble_Runtime_CoreLib_EXTERNAL_OBJECTS =
 ../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: CMakeFiles/Marble.Runtime.CoreLib.dir/linklibs.rsp
 ../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: CMakeFiles/Marble.Runtime.CoreLib.dir/objects1.rsp
 ../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: CMakeFiles/Marble.Runtime.CoreLib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Linking CXX shared library ..\bin\x86-MinGW-Debug-Win32\Marble.Runtime.CoreLib\Marble.Runtime.CoreLib.dll"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Linking CXX shared library ..\bin\x86-MinGW-Debug-Win32\Marble.Runtime.CoreLib\Marble.Runtime.CoreLib.dll"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Marble.Runtime.CoreLib.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -422,6 +406,6 @@ CMakeFiles/Marble.Runtime.CoreLib.dir/clean:
 .PHONY : CMakeFiles/Marble.Runtime.CoreLib.dir/clean
 
 CMakeFiles/Marble.Runtime.CoreLib.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles\Marble.Runtime.CoreLib.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Administrator\Documents\GitHub\Marble.Framework C:\Users\Administrator\Documents\GitHub\Marble.Framework C:\Users\Administrator\Documents\GitHub\Marble.Framework\build C:\Users\Administrator\Documents\GitHub\Marble.Framework\build C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles\Marble.Runtime.CoreLib.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Marble.Runtime.CoreLib.dir/depend
 

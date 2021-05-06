@@ -62,10 +62,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework
+CMAKE_SOURCE_DIR = C:\Users\Administrator\Documents\GitHub\Marble.Framework
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build
+CMAKE_BINARY_DIR = C:\Users\Administrator\Documents\GitHub\Marble.Framework\build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Sandbox.dir/depend.make
@@ -79,16 +79,16 @@ include CMakeFiles/Sandbox.dir/flags.make
 CMakeFiles/Sandbox.dir/Sandbox/src/App.cpp.obj: CMakeFiles/Sandbox.dir/flags.make
 CMakeFiles/Sandbox.dir/Sandbox/src/App.cpp.obj: CMakeFiles/Sandbox.dir/includes_CXX.rsp
 CMakeFiles/Sandbox.dir/Sandbox/src/App.cpp.obj: ../Sandbox/src/App.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Sandbox.dir/Sandbox/src/App.cpp.obj"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Sandbox.dir\Sandbox\src\App.cpp.obj -c C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Sandbox\src\App.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Sandbox.dir/Sandbox/src/App.cpp.obj"
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Sandbox.dir\Sandbox\src\App.cpp.obj -c C:\Users\Administrator\Documents\GitHub\Marble.Framework\Sandbox\src\App.cpp
 
 CMakeFiles/Sandbox.dir/Sandbox/src/App.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Sandbox.dir/Sandbox/src/App.cpp.i"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Sandbox\src\App.cpp > CMakeFiles\Sandbox.dir\Sandbox\src\App.cpp.i
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Administrator\Documents\GitHub\Marble.Framework\Sandbox\src\App.cpp > CMakeFiles\Sandbox.dir\Sandbox\src\App.cpp.i
 
 CMakeFiles/Sandbox.dir/Sandbox/src/App.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Sandbox.dir/Sandbox/src/App.cpp.s"
-	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\Sandbox\src\App.cpp -o CMakeFiles\Sandbox.dir\Sandbox\src\App.cpp.s
+	C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Administrator\Documents\GitHub\Marble.Framework\Sandbox\src\App.cpp -o CMakeFiles\Sandbox.dir\Sandbox\src\App.cpp.s
 
 # Object files for target Sandbox
 Sandbox_OBJECTS = \
@@ -101,15 +101,17 @@ Sandbox_EXTERNAL_OBJECTS =
 ../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: CMakeFiles/Sandbox.dir/build.make
 ../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../lib/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/libMarble.Runtime.CoreLib.dll.a
 ../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../lib/x86-MinGW-Debug-Win32/Marble.Mathematics/libMarble.Mathematics.dll.a
+../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../vendor/SDL2-MinGW/lib/libSDL2main.a
+../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../vendor/SDL2-MinGW/lib/libSDL2.dll.a
 ../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: CMakeFiles/Sandbox.dir/linklibs.rsp
 ../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: CMakeFiles/Sandbox.dir/objects1.rsp
 ../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: CMakeFiles/Sandbox.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ..\bin\x86-MinGW-Debug-Win32\Sandbox\Sandbox.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ..\bin\x86-MinGW-Debug-Win32\Sandbox\Sandbox.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Sandbox.dir\link.txt --verbose=$(VERBOSE)
-	"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/bin/x86-MinGW-Debug-Win32/Marble.Mathematics/Marble.Mathematics.dll C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/bin/x86-MinGW-Debug-Win32/Sandbox
-	"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/bin/x86-MinGW-Debug-Win32/Sandbox
-	"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/runtime/C++ C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/bin/x86-MinGW-Debug-Win32/Sandbox
-	"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/vendor/SDL2-MinGW/bin/SDL2.dll C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/bin/x86-MinGW-Debug-Win32/Sandbox
+	"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Users/Administrator/Documents/GitHub/Marble.Framework/bin/x86-MinGW-Debug-Win32/Marble.Mathematics/Marble.Mathematics.dll C:/Users/Administrator/Documents/GitHub/Marble.Framework/bin/x86-MinGW-Debug-Win32/Sandbox
+	"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Users/Administrator/Documents/GitHub/Marble.Framework/bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll C:/Users/Administrator/Documents/GitHub/Marble.Framework/bin/x86-MinGW-Debug-Win32/Sandbox
+	"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory C:/Users/Administrator/Documents/GitHub/Marble.Framework/runtime/C++ C:/Users/Administrator/Documents/GitHub/Marble.Framework/bin/x86-MinGW-Debug-Win32/Sandbox
+	"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Users/Administrator/Documents/GitHub/Marble.Framework/vendor/SDL2-MinGW/bin/SDL2.dll C:/Users/Administrator/Documents/GitHub/Marble.Framework/bin/x86-MinGW-Debug-Win32/Sandbox
 
 # Rule to build all files generated by this target.
 CMakeFiles/Sandbox.dir/build: ../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe
@@ -121,6 +123,6 @@ CMakeFiles/Sandbox.dir/clean:
 .PHONY : CMakeFiles/Sandbox.dir/clean
 
 CMakeFiles/Sandbox.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles\Sandbox.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Administrator\Documents\GitHub\Marble.Framework C:\Users\Administrator\Documents\GitHub\Marble.Framework C:\Users\Administrator\Documents\GitHub\Marble.Framework\build C:\Users\Administrator\Documents\GitHub\Marble.Framework\build C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles\Sandbox.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Sandbox.dir/depend
 

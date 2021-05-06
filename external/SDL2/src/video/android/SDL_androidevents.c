@@ -175,10 +175,8 @@ Android_PumpEvents_NonBlocking(_THIS)
                 SDL_UnlockMutex(Android_ActivityMutex);
             }
 
-            if (videodata->pauseAudio) {
-                ANDROIDAUDIO_PauseDevices();
-                openslES_PauseDevices();
-            }
+            ANDROIDAUDIO_PauseDevices();
+            openslES_PauseDevices();
 
             backup_context = 0;
         }
@@ -193,10 +191,8 @@ Android_PumpEvents_NonBlocking(_THIS)
             SDL_SendAppEvent(SDL_APP_DIDENTERFOREGROUND);
             SDL_SendWindowEvent(Android_Window, SDL_WINDOWEVENT_RESTORED, 0, 0);
 
-            if (videodata->pauseAudio) {
-                ANDROIDAUDIO_ResumeDevices();
-                openslES_ResumeDevices();
-            }
+            ANDROIDAUDIO_ResumeDevices();
+            openslES_ResumeDevices();
 
             /* Restore the GL Context from here, as this operation is thread dependent */
             if (!isContextExternal && !SDL_HasEvent(SDL_QUIT)) {

@@ -1,7 +1,7 @@
 set(CMAKE_CXX_COMPILER "C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/bin/g++.exe")
 set(CMAKE_CXX_COMPILER_ARG1 "")
 set(CMAKE_CXX_COMPILER_ID "GNU")
-set(CMAKE_CXX_COMPILER_VERSION "10.2.0")
+set(CMAKE_CXX_COMPILER_VERSION "10.3.0")
 set(CMAKE_CXX_COMPILER_VERSION_INTERNAL "")
 set(CMAKE_CXX_COMPILER_WRAPPER "")
 set(CMAKE_CXX_STANDARD_COMPUTED_DEFAULT "14")
@@ -83,7 +83,7 @@ endif()
 
 
 
-set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/include/c++/10.2.0;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/include/c++/10.2.0/i686-w64-mingw32;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/include/c++/10.2.0/backward;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/include;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/lib/gcc/i686-w64-mingw32/10.2.0/include-fixed;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/i686-w64-mingw32/include")
+set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/include/c++/10.3.0;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/include/c++/10.3.0/i686-w64-mingw32;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/include/c++/10.3.0/backward;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/lib/gcc/i686-w64-mingw32/10.3.0/include;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/include;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/lib/gcc/i686-w64-mingw32/10.3.0/include-fixed;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/i686-w64-mingw32/include")
 set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "stdc++;mingw32;gcc_s;gcc;moldname;mingwex;pthread;advapi32;shell32;user32;kernel32;mingw32;gcc_s;gcc;moldname;mingwex")
-set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/lib/gcc/i686-w64-mingw32/10.2.0;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/lib/gcc;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/i686-w64-mingw32/lib;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/lib")
+set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/lib/gcc/i686-w64-mingw32/10.3.0;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/lib/gcc;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/i686-w64-mingw32/lib;C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/lib")
 set(CMAKE_CXX_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

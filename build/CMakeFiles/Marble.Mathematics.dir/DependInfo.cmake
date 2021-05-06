@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/Marble.Mathematics/src/Maths/Mathematics.cpp" "C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/build/CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Maths/Mathematics.cpp.obj"
+  "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Mathematics/src/Mathematics.cpp" "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build/CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

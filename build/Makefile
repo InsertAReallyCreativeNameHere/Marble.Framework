@@ -67,10 +67,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework
+CMAKE_SOURCE_DIR = C:\Users\Administrator\Documents\GitHub\Marble.Framework
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build
+CMAKE_BINARY_DIR = C:\Users\Administrator\Documents\GitHub\Marble.Framework\build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -99,9 +99,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Administrator\Documents\GitHub\CykaBlyat-2-IdiNahui-Boogaloo\MarbleFramework\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -156,19 +156,6 @@ Marble.Mathematics/fast:
 .PHONY : Marble.Mathematics/fast
 
 #=============================================================================
-# Target rules for targets named Marble.Runtime.GL
-
-# Build rule for target.
-Marble.Runtime.GL: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 Marble.Runtime.GL
-.PHONY : Marble.Runtime.GL
-
-# fast build rule for target.
-Marble.Runtime.GL/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/build
-.PHONY : Marble.Runtime.GL/fast
-
-#=============================================================================
 # Target rules for targets named Marble.Runtime.CoreLib
 
 # Build rule for target.
@@ -181,32 +168,32 @@ Marble.Runtime.CoreLib/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.CoreLib.dir\build.make CMakeFiles/Marble.Runtime.CoreLib.dir/build
 .PHONY : Marble.Runtime.CoreLib/fast
 
-Marble.Mathematics/src/Maths/Mathematics.obj: Marble.Mathematics/src/Maths/Mathematics.cpp.obj
+Marble.Mathematics/src/Mathematics.obj: Marble.Mathematics/src/Mathematics.cpp.obj
 
-.PHONY : Marble.Mathematics/src/Maths/Mathematics.obj
+.PHONY : Marble.Mathematics/src/Mathematics.obj
 
 # target to build an object file
-Marble.Mathematics/src/Maths/Mathematics.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Mathematics.dir\build.make CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Maths/Mathematics.cpp.obj
-.PHONY : Marble.Mathematics/src/Maths/Mathematics.cpp.obj
+Marble.Mathematics/src/Mathematics.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Mathematics.dir\build.make CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.obj
+.PHONY : Marble.Mathematics/src/Mathematics.cpp.obj
 
-Marble.Mathematics/src/Maths/Mathematics.i: Marble.Mathematics/src/Maths/Mathematics.cpp.i
+Marble.Mathematics/src/Mathematics.i: Marble.Mathematics/src/Mathematics.cpp.i
 
-.PHONY : Marble.Mathematics/src/Maths/Mathematics.i
+.PHONY : Marble.Mathematics/src/Mathematics.i
 
 # target to preprocess a source file
-Marble.Mathematics/src/Maths/Mathematics.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Mathematics.dir\build.make CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Maths/Mathematics.cpp.i
-.PHONY : Marble.Mathematics/src/Maths/Mathematics.cpp.i
+Marble.Mathematics/src/Mathematics.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Mathematics.dir\build.make CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.i
+.PHONY : Marble.Mathematics/src/Mathematics.cpp.i
 
-Marble.Mathematics/src/Maths/Mathematics.s: Marble.Mathematics/src/Maths/Mathematics.cpp.s
+Marble.Mathematics/src/Mathematics.s: Marble.Mathematics/src/Mathematics.cpp.s
 
-.PHONY : Marble.Mathematics/src/Maths/Mathematics.s
+.PHONY : Marble.Mathematics/src/Mathematics.s
 
 # target to generate assembly for a file
-Marble.Mathematics/src/Maths/Mathematics.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Mathematics.dir\build.make CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Maths/Mathematics.cpp.s
-.PHONY : Marble.Mathematics/src/Maths/Mathematics.cpp.s
+Marble.Mathematics/src/Mathematics.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Mathematics.dir\build.make CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.s
+.PHONY : Marble.Mathematics/src/Mathematics.cpp.s
 
 Marble.Runtime.CoreLib/src/Core/Application.obj: Marble.Runtime.CoreLib/src/Core/Application.cpp.obj
 
@@ -369,33 +356,6 @@ Marble.Runtime.CoreLib/src/Core/CoreEngine.s: Marble.Runtime.CoreLib/src/Core/Co
 Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.CoreLib.dir\build.make CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp.s
 .PHONY : Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp.s
-
-Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.obj: Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.obj
-
-.PHONY : Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.obj
-
-# target to build an object file
-Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.CoreLib.dir\build.make CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.obj
-.PHONY : Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.obj
-
-Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.i: Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.i
-
-.PHONY : Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.i
-
-# target to preprocess a source file
-Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.CoreLib.dir\build.make CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.i
-.PHONY : Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.i
-
-Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.s: Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.s
-
-.PHONY : Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.s
-
-# target to generate assembly for a file
-Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.CoreLib.dir\build.make CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.s
-.PHONY : Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.cpp.s
 
 Marble.Runtime.CoreLib/src/Core/Debug.obj: Marble.Runtime.CoreLib/src/Core/Debug.cpp.obj
 
@@ -748,33 +708,6 @@ Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.CoreLib.dir\build.make CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.s
 .PHONY : Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.s
 
-Marble.Runtime.GL/src/GL/GL.obj: Marble.Runtime.GL/src/GL/GL.cpp.obj
-
-.PHONY : Marble.Runtime.GL/src/GL/GL.obj
-
-# target to build an object file
-Marble.Runtime.GL/src/GL/GL.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/Marble.Runtime.GL/src/GL/GL.cpp.obj
-.PHONY : Marble.Runtime.GL/src/GL/GL.cpp.obj
-
-Marble.Runtime.GL/src/GL/GL.i: Marble.Runtime.GL/src/GL/GL.cpp.i
-
-.PHONY : Marble.Runtime.GL/src/GL/GL.i
-
-# target to preprocess a source file
-Marble.Runtime.GL/src/GL/GL.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/Marble.Runtime.GL/src/GL/GL.cpp.i
-.PHONY : Marble.Runtime.GL/src/GL/GL.cpp.i
-
-Marble.Runtime.GL/src/GL/GL.s: Marble.Runtime.GL/src/GL/GL.cpp.s
-
-.PHONY : Marble.Runtime.GL/src/GL/GL.s
-
-# target to generate assembly for a file
-Marble.Runtime.GL/src/GL/GL.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/Marble.Runtime.GL/src/GL/GL.cpp.s
-.PHONY : Marble.Runtime.GL/src/GL/GL.cpp.s
-
 Sandbox/src/App.obj: Sandbox/src/App.cpp.obj
 
 .PHONY : Sandbox/src/App.obj
@@ -812,11 +745,10 @@ help:
 	@echo ... rebuild_cache
 	@echo ... Marble.Mathematics
 	@echo ... Marble.Runtime.CoreLib
-	@echo ... Marble.Runtime.GL
 	@echo ... Sandbox
-	@echo ... Marble.Mathematics/src/Maths/Mathematics.obj
-	@echo ... Marble.Mathematics/src/Maths/Mathematics.i
-	@echo ... Marble.Mathematics/src/Maths/Mathematics.s
+	@echo ... Marble.Mathematics/src/Mathematics.obj
+	@echo ... Marble.Mathematics/src/Mathematics.i
+	@echo ... Marble.Mathematics/src/Mathematics.s
 	@echo ... Marble.Runtime.CoreLib/src/Core/Application.obj
 	@echo ... Marble.Runtime.CoreLib/src/Core/Application.i
 	@echo ... Marble.Runtime.CoreLib/src/Core/Application.s
@@ -835,9 +767,6 @@ help:
 	@echo ... Marble.Runtime.CoreLib/src/Core/CoreEngine.obj
 	@echo ... Marble.Runtime.CoreLib/src/Core/CoreEngine.i
 	@echo ... Marble.Runtime.CoreLib/src/Core/CoreEngine.s
-	@echo ... Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.obj
-	@echo ... Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.i
-	@echo ... Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.s
 	@echo ... Marble.Runtime.CoreLib/src/Core/Debug.obj
 	@echo ... Marble.Runtime.CoreLib/src/Core/Debug.i
 	@echo ... Marble.Runtime.CoreLib/src/Core/Debug.s
@@ -877,9 +806,6 @@ help:
 	@echo ... Marble.Runtime.CoreLib/src/Rendering/Renderer.obj
 	@echo ... Marble.Runtime.CoreLib/src/Rendering/Renderer.i
 	@echo ... Marble.Runtime.CoreLib/src/Rendering/Renderer.s
-	@echo ... Marble.Runtime.GL/src/GL/GL.obj
-	@echo ... Marble.Runtime.GL/src/GL/GL.i
-	@echo ... Marble.Runtime.GL/src/GL/GL.s
 	@echo ... Sandbox/src/App.obj
 	@echo ... Sandbox/src/App.i
 	@echo ... Sandbox/src/App.s

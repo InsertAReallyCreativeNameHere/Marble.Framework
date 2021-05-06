@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-../Marble.Mathematics/src/Maths/Mathematics.h
+../Marble.Mathematics/src/Mathematics.h
 inc.h
 -
 Extras/ManagedArray.h
@@ -27,6 +27,8 @@ Core/Objects/Component.h
 -
 Extras/Property.h
 -
+Rendering/Core.h
+-
 SDL.h
 -
 
@@ -43,63 +45,41 @@ Rendering/Core.h
 ../Marble.Runtime.CoreLib/src/Core/Components/RectTransform.h
 inc.h
 -
-vector
--
 Core/Objects/Component.h
--
-Core/Events.h
--
-Maths/Mathematics.h
 -
 Extras/Property.h
 -
-Extras/Lock.h
+Mathematics.h
 -
 
 ../Marble.Runtime.CoreLib/src/Core/CoreAPI.h
 
 ../Marble.Runtime.CoreLib/src/Core/CoreEngine.h
-future
+inc.h
 -
 atomic
--
-Core/Events.h
--
-Extras/Lock.h
 -
 SDL.h
 -
 SDL_syswm.h
 -
 
-../Marble.Runtime.CoreLib/src/Core/CoreEngineExtensions.h
-inc.h
--
-ctime
--
-iomanip
--
-string_view
--
-
 ../Marble.Runtime.CoreLib/src/Core/Debug.h
 inc.h
 -
-iostream
--
-vector
--
-string
--
-string_view
--
-thread
+codecvt
 -
 chrono
 -
-future
+iomanip
 -
-Core/CoreEngineExtensions.h
+iostream
+-
+locale
+-
+sstream
+-
+thread
 -
 
 ../Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.h
@@ -107,17 +87,17 @@ inc.h
 -
 string_view
 -
+SDL.h
+-
 
-../Marble.Runtime.CoreLib/src/Core/Events.h
-inc.h
-../Marble.Runtime.CoreLib/src/Core/inc.h
-map
+../Marble.Runtime.CoreLib/src/Core/Input.h
+vector
 -
-list
+SDL.h
 -
-Core/Debug.h
+Extras/ConcurrentQueue.h
 -
-Core/CoreEngineExtensions.h
+Mathematics.h
 -
 
 ../Marble.Runtime.CoreLib/src/Core/Objects/Component.h
@@ -155,11 +135,11 @@ Core/Components/RectTransform.h
 -
 Core/Objects/Component.h
 -
-Maths/Mathematics.h
--
 Extras/ManagedArray.h
 -
 Extras/Hash.h
+-
+Mathematics.h
 -
 
 ../Marble.Runtime.CoreLib/src/Core/Objects/Object.h
@@ -175,6 +155,10 @@ list
 -
 unordered_map
 -
+ctti/nameof.hpp
+-
+Extras/Hash.h
+-
 filesystem
 -
 
@@ -185,6 +169,40 @@ list
 -
 Core/Objects/Entity.h
 -
+
+../Marble.Runtime.CoreLib/src/Extras/ConcurrentQueue.h
+TargetConditionals.h
+../Marble.Runtime.CoreLib/src/Extras/TargetConditionals.h
+relacy/relacy_std.hpp
+../Marble.Runtime.CoreLib/src/Extras/relacy/relacy_std.hpp
+relacy_shims.h
+../Marble.Runtime.CoreLib/src/Extras/relacy_shims.h
+atomic
+-
+cassert
+-
+cstddef
+-
+cstdint
+-
+cstdlib
+-
+type_traits
+-
+algorithm
+-
+utility
+-
+limits
+-
+climits
+-
+array
+-
+thread
+-
+internal/concurrentqueue_internal_debug.h
+../Marble.Runtime.CoreLib/src/Extras/internal/concurrentqueue_internal_debug.h
 
 ../Marble.Runtime.CoreLib/src/Extras/Function.h
 utility
@@ -992,12 +1010,14 @@ cstdint
 
 ../vendor/ctti/include/ctti/type_tag.hpp
 
-C:/Users/Administrator/Documents/GitHub/CykaBlyat-2-IdiNahui-Boogaloo/MarbleFramework/Sandbox/src/App.cpp
+C:/Users/Administrator/Documents/GitHub/Marble.Framework/Sandbox/src/App.cpp
 Marble.h
 -
 cmath
 -
 iostream
+-
+thread
 -
 SDL.h
 -
@@ -1008,6 +1028,8 @@ Core/EntityComponentSystem/CoreSystem.h
 Core/Components/Panel.h
 -
 Core/Components/Image.h
+-
+Core/Input.h
 -
 Core/PackageManager.h
 -

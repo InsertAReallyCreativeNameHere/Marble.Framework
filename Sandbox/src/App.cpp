@@ -21,6 +21,7 @@ void start();
 void update();
 void stop();
 void thing(SDL_Keycode);
+void onkeydown(SDL_Keycode);
 
 bool quitted = false;
 
@@ -39,6 +40,8 @@ int main(int argc, char* argv[])
 			Application::quit();
 		}
 	};
+
+	CoreSystem::OnKeyDown = onkeydown;
 
 	if (Application::execute(argc, argv) != 0)
 	{
@@ -167,6 +170,8 @@ void stop()
 
 void thing(SDL_Keycode c)
 {
+	(void)c;
+
 	parent->rectTransform()->localRotation += 2;
 	_ent2->rectTransform()->localRotation += 2;
 	_ent->rectTransform()->localRotation += 2;
@@ -175,4 +180,11 @@ void thing(SDL_Keycode c)
 	//_ent->getFirstComponent<Panel>()->rectTransform()->localRotation += 1.0f;
 
 	//Debug::LogInfo(_ent2->getFirstComponent<Panel>()->rectTransform()->localPosition());
+}
+void onkeydown(SDL_Keycode c)
+{
+	if (c == SDLK_a)
+	{
+		Debug::LogInfo("wow");
+	}
 }

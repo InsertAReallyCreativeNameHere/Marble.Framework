@@ -193,7 +193,6 @@ typedef unsigned int uintptr_t;
 #define SDL_JOYSTICK_DISABLED 1
 #define SDL_HAPTIC_DISABLED 1
 #else
-#define SDL_JOYSTICK_VIRTUAL    1
 #define SDL_JOYSTICK_XINPUT 1
 #define SDL_HAPTIC_XINPUT   1
 #endif
@@ -220,7 +219,7 @@ typedef unsigned int uintptr_t;
 #define SDL_VIDEO_DRIVER_DUMMY  1
 
 /* Enable OpenGL ES 2.0 (via a modified ANGLE library) */
-#define SDL_VIDEO_OPENGL_ES2 1
+#define SDL_VIDEO_OPENGL_ES2 0
 #define SDL_VIDEO_OPENGL_EGL 1
 
 /* Enable appropriate renderer(s) */

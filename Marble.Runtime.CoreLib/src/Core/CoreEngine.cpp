@@ -50,7 +50,7 @@ SDL_Renderer* CoreEngine::rend = nullptr;
 SDL_DisplayMode CoreEngine::displMd;
 SDL_SysWMinfo CoreEngine::wmInfo;
 
-float CoreEngine::mspf = 16.666666666666f;
+float CoreEngine::mspf = 3500;
 float CoreEngine::msprf = 16.666666666666f;
 
 std::atomic<bool> CoreEngine::shouldBeRendering = false;
@@ -136,9 +136,9 @@ void CoreEngine::exit()
         CoreEngine::threadsFinished_0.load(std::memory_order_seq_cst) == false ||
         CoreEngine::threadsFinished_1.load(std::memory_order_seq_cst) == false
     )
-    {
-        std::this_thread::yield();
-    }
+    std::this_thread::yield();
+
+    fputs("Cleaning up...\n", stdout);
 
     Input::currentDownKeys.clear();
     Input::currentHeldKeys.clear();
@@ -157,7 +157,6 @@ void CoreEngine::exit()
     std::wstring dir = Application::currentWorkingDirectory + L"/RuntimeInternal";
     fs::remove_all(dir);
 
-    printf("Cleaning up...\n");
     SDL_Quit();
 }
 
