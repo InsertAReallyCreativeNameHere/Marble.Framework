@@ -32,10 +32,10 @@
 *.app
 
 # Repo specific
-build/
-bin/
-lib/
-garbage/
-external/
-.vs/
-.vscode/
+/build/
+/bin/
+/lib/
+/garbage/
+/external/
+/.vs/
+/.vscode/
