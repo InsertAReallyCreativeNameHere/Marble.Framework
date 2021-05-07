@@ -388,8 +388,8 @@ Marble_Runtime_CoreLib_EXTERNAL_OBJECTS =
 ../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.obj
 ../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: CMakeFiles/Marble.Runtime.CoreLib.dir/build.make
 ../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: ../lib/x86-MinGW-Debug-Win32/Marble.Mathematics/libMarble.Mathematics.dll.a
-../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: ../vendor/SDL2-MinGW/lib/libSDL2main.a
-../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: ../vendor/SDL2-MinGW/lib/libSDL2.dll.a
+../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: ../dependencies/SDL2-MinGW/lib/libSDL2main.a
+../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: ../dependencies/SDL2-MinGW/lib/libSDL2.dll.a
 ../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: CMakeFiles/Marble.Runtime.CoreLib.dir/linklibs.rsp
 ../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: CMakeFiles/Marble.Runtime.CoreLib.dir/objects1.rsp
 ../bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll: CMakeFiles/Marble.Runtime.CoreLib.dir/link.txt

@@ -19,9 +19,9 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../Marble.Runtime.CoreLib/src/include"
   "../Marble.Runtime.CoreLib/src"
   "../Marble.Mathematics/src"
-  "../vendor/ctti/include"
-  "../vendor/SDL2-MinGW/include/SDL2"
-  "../vendor/stb"
+  "../dependencies/ctti/include"
+  "../dependencies/SDL2-MinGW/include/SDL2"
+  "../dependencies/stb"
   )
 
 # Targets to which this target links.

@@ -1,6 +1,3 @@
-#ifndef __COREENGINE_H__
-#define __COREENGINE_H__
-
 #pragma once
 
 #include <inc.h>
@@ -59,5 +56,3 @@ namespace Marble
 		};
 	}
 }
-
-#endif

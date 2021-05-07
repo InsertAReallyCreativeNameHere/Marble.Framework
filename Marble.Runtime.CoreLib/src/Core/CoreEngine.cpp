@@ -50,14 +50,14 @@ SDL_Renderer* CoreEngine::rend = nullptr;
 SDL_DisplayMode CoreEngine::displMd;
 SDL_SysWMinfo CoreEngine::wmInfo;
 
-float CoreEngine::mspf = 3500;
+float CoreEngine::mspf = 16.6666666666f;
 float CoreEngine::msprf = 16.666666666666f;
 
 std::atomic<bool> CoreEngine::shouldBeRendering = false;
 std::atomic<bool> CoreEngine::canEventFilterRender = false;
 
-#define USE_DRIVER_ID 3 // Debugging only. Don't ship with this.
-//#undef USE_DRIVER_ID
+#define USE_DRIVER_ID 0 // Debugging only. Don't ship with this.
+#undef USE_DRIVER_ID
 
 int CoreEngine::execute(int argc, char* argv[])
 {
@@ -175,8 +175,7 @@ void CoreEngine::internalLoop()
 
     Debug::LogInfo("Internal loop started.\n");
 
-    if (CoreSystem::OnInitialize != nullptr)
-        CoreSystem::OnInitialize();
+    CoreSystem::OnInitialize();
 
     auto nextFrame = std::chrono::high_resolution_clock::now() + std::chrono::nanoseconds(static_cast<ullong>(CoreEngine::mspf * 1000000));
     while (readyToExit.load(std::memory_order_seq_cst) == false)
@@ -216,37 +215,21 @@ void CoreEngine::internalLoop()
         #pragma endregion
 
         #pragma region Pre-Tick
-        if (CoreSystem::OnKeyDown != nullptr)
-        {
-            for (auto it = Input::currentDownKeys.begin(); it != Input::currentDownKeys.end(); ++it)
-                CoreSystem::OnKeyDown(*it);
-        }
-        if (CoreSystem::OnKeyRepeat != nullptr)
-        {
-            for (auto it = Input::currentRepeatedKeys.begin(); it != Input::currentRepeatedKeys.end(); ++it)
-                CoreSystem::OnKeyRepeat(*it);
-        }
-        if (CoreSystem::OnMouseDown != nullptr)
-        {
-            for (auto it = Input::currentDownMouseButtons.begin(); it != Input::currentDownMouseButtons.end(); ++it)
-                CoreSystem::OnMouseDown(*it);
-        }
+        for (auto it = Input::currentDownKeys.begin(); it != Input::currentDownKeys.end(); ++it)
+            CoreSystem::OnKeyDown(*it);
+        for (auto it = Input::currentRepeatedKeys.begin(); it != Input::currentRepeatedKeys.end(); ++it)
+            CoreSystem::OnKeyRepeat(*it);
+        for (auto it = Input::currentDownMouseButtons.begin(); it != Input::currentDownMouseButtons.end(); ++it)
+            CoreSystem::OnMouseDown(*it);
         #pragma endregion
 
-        if (CoreSystem::OnTick != nullptr)
-            CoreSystem::OnTick();
+        CoreSystem::OnTick();
 
         #pragma region Post-Tick
-        if (CoreSystem::OnKeyUp != nullptr)
-        {
             for (auto it = Input::currentUpKeys.begin(); it != Input::currentUpKeys.end(); ++it)
                 CoreSystem::OnKeyUp(*it);
-        }
-        if (CoreSystem::OnMouseUp != nullptr)
-        {
             for (auto it = Input::currentUpMouseButtons.begin(); it != Input::currentUpMouseButtons.end(); ++it)
                 CoreSystem::OnMouseUp(*it);
-        }
         #pragma endregion
 
         #pragma region Render Offload
@@ -393,8 +376,7 @@ void CoreEngine::internalLoop()
         nextFrame += std::chrono::nanoseconds(static_cast<int64_t>(CoreEngine::mspf * 1000000));
     }
     
-    if (CoreSystem::OnQuit != nullptr)
-        CoreSystem::OnQuit();
+    CoreSystem::OnQuit();
         
     CoreEngine::threadsFinished_0 = true;
 }
@@ -599,11 +581,12 @@ void CoreEngine::internalRenderLoop()
                     SDL_SetHintWithPriority(SDL_HINT_RENDER_OPENGL_SHADERS , "1", SDL_HINT_OVERRIDE); // Don't change this you will break the texture rendering if you do.
                 #if _WIN32
                 else if (Renderer::driverName == "direct3d")
-                    SDL_SetHintWithPriority(SDL_HINT_RENDER_DIRECT3D_THREADSAFE , "1", SDL_HINT_OVERRIDE); // No extra multithreading help.
+                    SDL_SetHintWithPriority(SDL_HINT_RENDER_DIRECT3D_THREADSAFE , "0", SDL_HINT_OVERRIDE); // No extra multithreading help.
                 #endif
 
                 Renderer::rendererFlags = SDL_RENDERER_ACCELERATED;
                 CoreEngine::rend = SDL_CreateRenderer(wind, i, Renderer::rendererFlags);
+                Debug::LogInfo(CoreEngine::rend);
             }
             SDL_SetRenderDrawBlendMode(rend, SDL_BLENDMODE_BLEND);
         }

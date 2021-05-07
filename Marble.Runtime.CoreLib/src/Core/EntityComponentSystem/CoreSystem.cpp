@@ -5,17 +5,17 @@ using namespace Marble;
 void (*Marble::print)(const std::string_view&) = Debug::LogTrace;
 void (*Marble::wprint)(const std::wstring_view&) = Debug::LogTrace;
 
-void (*CoreSystem::OnInitialize)() = nullptr;
-void (*CoreSystem::OnTick)() = nullptr;
-void (*CoreSystem::OnPhysicsTick)();
+FuncPtrEvent<> CoreSystem::OnInitialize;
+FuncPtrEvent<> CoreSystem::OnTick;
+FuncPtrEvent<> CoreSystem::OnPhysicsTick;
 
-void (*CoreSystem::OnKeyDown)(SDL_Keycode key) = nullptr;
-void (*CoreSystem::OnKeyRepeat)(SDL_Keycode key) = nullptr;
-void (*CoreSystem::OnKeyUp)(SDL_Keycode key) = nullptr;
-void (*CoreSystem::OnMouseDown)(int mouseButton) = nullptr;
-void (*CoreSystem::OnMouseUp)(int mouseButton) = nullptr;
+FuncPtrEvent<> CoreSystem::OnAcquireFocus;
+FuncPtrEvent<> CoreSystem::OnLoseFocus;
 
-void (*CoreSystem::OnAcquireFocus)();
-void (*CoreSystem::OnLoseFocus)();
+FuncPtrEvent<SDL_Keycode> CoreSystem::OnKeyDown;
+FuncPtrEvent<SDL_Keycode> CoreSystem::OnKeyRepeat;
+FuncPtrEvent<SDL_Keycode> CoreSystem::OnKeyUp;
+FuncPtrEvent<int> CoreSystem::OnMouseDown;
+FuncPtrEvent<int> CoreSystem::OnMouseUp;
 
-void (*CoreSystem::OnQuit)() = nullptr;
+FuncPtrEvent<> CoreSystem::OnQuit;

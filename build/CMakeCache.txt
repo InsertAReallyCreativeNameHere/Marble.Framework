@@ -245,7 +245,7 @@ Marble.Mathematics_SOURCE_DIR:STATIC=C:/Users/Administrator/Documents/GitHub/Mar
 Marble.Runtime.CoreLib_BINARY_DIR:STATIC=C:/Users/Administrator/Documents/GitHub/Marble.Framework/build
 
 //Dependencies for the target
-Marble.Runtime.CoreLib_LIB_DEPENDS:STATIC=general;Marble.Mathematics;general;C:/Users/Administrator/Documents/GitHub/Marble.Framework/vendor/SDL2-MinGW/lib/libSDL2main.a;general;C:/Users/Administrator/Documents/GitHub/Marble.Framework/vendor/SDL2-MinGW/lib/libSDL2.dll.a;
+Marble.Runtime.CoreLib_LIB_DEPENDS:STATIC=general;Marble.Mathematics;general;C:/Users/Administrator/Documents/GitHub/Marble.Framework/dependencies/SDL2-MinGW/lib/libSDL2main.a;general;C:/Users/Administrator/Documents/GitHub/Marble.Framework/dependencies/SDL2-MinGW/lib/libSDL2.dll.a;
 
 //Value Computed by CMake
 Marble.Runtime.CoreLib_SOURCE_DIR:STATIC=C:/Users/Administrator/Documents/GitHub/Marble.Framework

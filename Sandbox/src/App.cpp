@@ -27,11 +27,11 @@ bool quitted = false;
 
 int main(int argc, char* argv[])
 {
-	CoreSystem::OnInitialize = start;
-	CoreSystem::OnTick = update;
-	CoreSystem::OnQuit = stop;
+	CoreSystem::OnInitialize += start;
+	CoreSystem::OnTick += update;
+	CoreSystem::OnQuit += stop;
 
-	CoreSystem::OnMouseDown = [](int mouseButton)
+	CoreSystem::OnMouseDown += [](int mouseButton)
 	{
 		if (mouseButton == SDL_BUTTON_LEFT)
 			Debug::LogError("Left button");
@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 		}
 	};
 
-	CoreSystem::OnKeyDown = onkeydown;
+	CoreSystem::OnKeyDown += onkeydown;
 
 	if (Application::execute(argc, argv) != 0)
 	{
