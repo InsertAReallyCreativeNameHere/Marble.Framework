@@ -5,6 +5,8 @@
 #include <atomic>
 #include <SDL.h>
 #include <SDL_syswm.h>
+#include <Extras/ConcurrentQueue.h>
+#include <Extras/Function.h>
 
 namespace Marble
 {
@@ -35,6 +37,9 @@ namespace Marble
 			static std::atomic<bool> threadsFinished_2;
 
 			static void displayModeStuff();
+
+			static moodycamel::ConcurrentQueue<skarupke::function<void()>> pendingPreTickEvents;
+			static moodycamel::ConcurrentQueue<skarupke::function<void()>> pendingPostTickEvents;
 
 			static void internalLoop();
 			static void internalWindowLoop();

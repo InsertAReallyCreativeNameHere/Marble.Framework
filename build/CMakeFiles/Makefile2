@@ -94,8 +94,8 @@ clean: CMakeFiles/Marble.Runtime.CoreLib.dir/clean
 # Target rules for target CMakeFiles/Sandbox.dir
 
 # All Build rule for target.
-CMakeFiles/Sandbox.dir/all: CMakeFiles/Marble.Mathematics.dir/all
 CMakeFiles/Sandbox.dir/all: CMakeFiles/Marble.Runtime.CoreLib.dir/all
+CMakeFiles/Sandbox.dir/all: CMakeFiles/Marble.Mathematics.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Sandbox.dir\build.make CMakeFiles/Sandbox.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Sandbox.dir\build.make CMakeFiles/Sandbox.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Administrator\Documents\GitHub\Marble.Framework\build\CMakeFiles --progress-num=23,24 "Built target Sandbox"

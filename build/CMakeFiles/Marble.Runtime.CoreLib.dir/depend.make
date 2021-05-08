@@ -4,6 +4,8 @@
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/CoreAPI.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/CoreEngine.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Debug.h
+CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/ConcurrentQueue.h
+CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Function.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.obj: ../Marble.Runtime.CoreLib/src/inc.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.obj: ../dependencies/SDL2-MinGW/include/SDL2/SDL.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Application.cpp.obj: ../dependencies/SDL2-MinGW/include/SDL2/SDL_assert.h
@@ -64,6 +66,7 @@ CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Component.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Entity.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Object.h
+CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/ConcurrentQueue.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Function.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Hash.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Lock.h
@@ -141,6 +144,7 @@ CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Entity.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Object.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/PackageManager.h
+CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/ConcurrentQueue.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Function.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Hash.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Lock.h
@@ -219,6 +223,7 @@ CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Component.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Entity.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Object.h
+CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/ConcurrentQueue.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Function.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Hash.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Lock.h
@@ -296,6 +301,7 @@ CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Component.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Entity.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Object.h
+CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/ConcurrentQueue.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Function.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Hash.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Lock.h
@@ -589,6 +595,7 @@ CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Co
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Component.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Entity.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Object.h
+CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/ConcurrentQueue.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Function.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Hash.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Lock.h
@@ -666,6 +673,7 @@ CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/En
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Entity.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Object.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/SceneManagement.h
+CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/ConcurrentQueue.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Function.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Hash.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Lock.h
@@ -812,6 +820,7 @@ CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManag
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Component.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Entity.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Object.h
+CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/ConcurrentQueue.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Function.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Hash.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Lock.h
@@ -950,6 +959,7 @@ CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Rende
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Entity.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/Objects/Object.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.obj: ../Marble.Runtime.CoreLib/src/Core/PackageManager.h
+CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/ConcurrentQueue.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Function.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Hash.h
 CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.obj: ../Marble.Runtime.CoreLib/src/Extras/Lock.h
