@@ -63,6 +63,10 @@ SDL.h
 -
 SDL_syswm.h
 -
+Extras/ConcurrentQueue.h
+-
+Extras/Function.h
+-
 
 ../Marble.Runtime.CoreLib/src/Core/Debug.h
 inc.h
@@ -1138,5 +1142,9 @@ atomic
 SDL.h
 -
 SDL_syswm.h
+-
+Extras/ConcurrentQueue.h
+-
+Extras/Function.h
 -
 

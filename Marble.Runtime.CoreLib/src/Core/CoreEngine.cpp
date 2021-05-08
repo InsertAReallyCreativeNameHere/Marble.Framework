@@ -50,6 +50,9 @@ SDL_Renderer* CoreEngine::rend = nullptr;
 SDL_DisplayMode CoreEngine::displMd;
 SDL_SysWMinfo CoreEngine::wmInfo;
 
+moodycamel::ConcurrentQueue<skarupke::function<void()>> CoreEngine::pendingPreTickEvents;
+moodycamel::ConcurrentQueue<skarupke::function<void()>> CoreEngine::pendingPostTickEvents;
+
 float CoreEngine::mspf = 16.6666666666f;
 float CoreEngine::msprf = 16.666666666666f;
 
@@ -140,13 +143,8 @@ void CoreEngine::exit()
 
     fputs("Cleaning up...\n", stdout);
 
-    Input::currentDownKeys.clear();
     Input::currentHeldKeys.clear();
-    Input::currentRepeatedKeys.clear();
-    Input::currentUpKeys.clear();
-    Input::currentDownMouseButtons.clear();
     Input::currentHeldMouseButtons.clear();
-    Input::currentUpMouseButtons.clear();
 
     for (auto it = Renderer::pendingRenderJobsOffload.begin(); it != Renderer::pendingRenderJobsOffload.end(); ++it)
         delete *it;
@@ -182,56 +180,26 @@ void CoreEngine::internalLoop()
     {
         #pragma region Loop Begin
         SDL_GetWindowSize(wind, &Window::width, &Window::height);
-
-        IInputEvent* inputEv;
-        while (Input::pendingInputEvents.try_dequeue(inputEv))
-        {
-            inputEv->execute();
-            delete inputEv;
-        }
-
-        for (auto it1 = Input::currentUpMouseButtons.begin(); it1 != Input::currentUpMouseButtons.end(); ++it1)
-        {
-            for (auto it2 = Input::currentHeldMouseButtons.begin(); it2 != Input::currentHeldMouseButtons.end(); ++it2)
-            {
-                if (*it2 == *it1)
-                {
-                    Input::currentHeldMouseButtons.erase(it2);
-                    break; // std::vector<T>::erase invalidates the positional pointer. Remove this break and demons will fly out your nose.
-                }
-            }
-        }
-        for (auto it1 = Input::currentUpKeys.begin(); it1 != Input::currentUpKeys.end(); ++it1)
-        {
-            for (auto it2 = Input::currentHeldKeys.begin(); it2 != Input::currentHeldKeys.end(); ++it2)
-            {
-                if (*it2 == *it1)
-                {
-                    Input::currentHeldKeys.erase(it2);
-                    break; // std::vector<T>::erase invalidates the positional pointer. Remove this break and demons will fly out your nose.
-                }
-            }
-        }
         #pragma endregion
 
+        static skarupke::function<void()> tickEvent;
+
         #pragma region Pre-Tick
-        for (auto it = Input::currentDownKeys.begin(); it != Input::currentDownKeys.end(); ++it)
-            CoreSystem::OnKeyDown(*it);
-        for (auto it = Input::currentRepeatedKeys.begin(); it != Input::currentRepeatedKeys.end(); ++it)
-            CoreSystem::OnKeyRepeat(*it);
-        for (auto it = Input::currentDownMouseButtons.begin(); it != Input::currentDownMouseButtons.end(); ++it)
-            CoreSystem::OnMouseDown(*it);
+        while (CoreEngine::pendingPreTickEvents.try_dequeue(tickEvent))
+            tickEvent();
         #pragma endregion
 
         CoreSystem::OnTick();
 
         #pragma region Post-Tick
-            for (auto it = Input::currentUpKeys.begin(); it != Input::currentUpKeys.end(); ++it)
-                CoreSystem::OnKeyUp(*it);
-            for (auto it = Input::currentUpMouseButtons.begin(); it != Input::currentUpMouseButtons.end(); ++it)
-                CoreSystem::OnMouseUp(*it);
+        while (CoreEngine::pendingPostTickEvents.try_dequeue(tickEvent))
+            tickEvent();
         #pragma endregion
 
+        #pragma region Loop End
+        Input::internalMouseMotion = { 0, 0 };
+        #pragma endregion
+        
         #pragma region Render Offload
         if (!Renderer::pendingRenderJobsOffload_flag.test_and_set())
         {
@@ -362,15 +330,6 @@ void CoreEngine::internalLoop()
         }
         #pragma endregion
 
-        #pragma region Loop End
-        Input::internalMouseMotion = { 0, 0 };
-        Input::currentDownMouseButtons.clear();
-        Input::currentUpMouseButtons.clear();
-        Input::currentDownKeys.clear();
-        Input::currentUpKeys.clear();
-        Input::currentRepeatedKeys.clear();
-        #pragma endregion
-        
         while (std::chrono::high_resolution_clock::now() < nextFrame)
             std::this_thread::yield();
         nextFrame += std::chrono::nanoseconds(static_cast<int64_t>(CoreEngine::mspf * 1000000));
@@ -507,20 +466,85 @@ void CoreEngine::internalWindowLoop()
             case SDL_MOUSEWHEEL:
                 break;
             case SDL_MOUSEBUTTONDOWN:
-                Input::pendingInputEvents.enqueue(new MouseButtonDownInputEvent(ev.button.button));
+                CoreEngine::pendingPreTickEvents.enqueue
+                (
+                    [=]
+                    {
+                        Input::currentHeldMouseButtons.push_back(ev.button.button);
+                        CoreSystem::OnMouseDown(ev.button.button);
+                    }
+                );
                 break;
             case SDL_MOUSEBUTTONUP:
-                Input::pendingInputEvents.enqueue(new MouseButtonUpInputEvent(ev.button.button));
+                CoreEngine::pendingPreTickEvents.enqueue
+                (
+                    [=]
+                    {
+                        CoreEngine::pendingPostTickEvents.enqueue
+                        (
+                            [=]
+                            {
+                                for (auto it = Input::currentHeldMouseButtons.begin(); it != Input::currentHeldMouseButtons.end(); ++it)
+                                {
+                                    if (*it == ev.button.button)
+                                    {
+                                        Input::currentHeldMouseButtons.erase(it);
+                                        break;
+                                    }
+                                }
+                            }
+                        );
+                        CoreSystem::OnMouseUp(ev.button.button);
+                    }
+                );
                 break;
             #pragma endregion
             #pragma region Key Events
             case SDL_KEYDOWN:
                 if (ev.key.repeat)
-                    Input::pendingInputEvents.enqueue(new KeyRepeatInputEvent(ev.key.keysym.sym));
-                else Input::pendingInputEvents.enqueue(new KeyDownInputEvent(ev.key.keysym.sym));
+                {
+                    CoreEngine::pendingPreTickEvents.enqueue
+                    (
+                        [=]
+                        {
+                            CoreSystem::OnKeyRepeat(ev.key.keysym.sym);
+                        }
+                    );
+                }
+                else
+                {
+                    CoreEngine::pendingPreTickEvents.enqueue
+                    (
+                        [=]
+                        {
+                            Input::currentHeldKeys.push_back(ev.key.keysym.sym);
+                            CoreSystem::OnKeyDown(ev.key.keysym.sym);
+                        }
+                    );
+                }
                 break;
             case SDL_KEYUP:
-                Input::pendingInputEvents.enqueue(new KeyUpInputEvent(ev.key.keysym.sym));
+                CoreEngine::pendingPreTickEvents.enqueue
+                (
+                    [=]
+                    {
+                        CoreEngine::pendingPostTickEvents.enqueue
+                        (
+                            [=]
+                            {
+                                for (auto it = Input::currentHeldKeys.begin(); it != Input::currentHeldKeys.end(); ++it)
+                                {
+                                    if (*it == ev.key.keysym.sym)
+                                    {
+                                        Input::currentHeldKeys.erase(it);
+                                        break;
+                                    }
+                                }
+                            }
+                        );
+                        CoreSystem::OnKeyUp(ev.key.keysym.sym);
+                    }
+                );
                 break;
             #pragma endregion
             }
@@ -581,7 +605,7 @@ void CoreEngine::internalRenderLoop()
                     SDL_SetHintWithPriority(SDL_HINT_RENDER_OPENGL_SHADERS , "1", SDL_HINT_OVERRIDE); // Don't change this you will break the texture rendering if you do.
                 #if _WIN32
                 else if (Renderer::driverName == "direct3d")
-                    SDL_SetHintWithPriority(SDL_HINT_RENDER_DIRECT3D_THREADSAFE , "0", SDL_HINT_OVERRIDE); // No extra multithreading help.
+                    SDL_SetHintWithPriority(SDL_HINT_RENDER_DIRECT3D_THREADSAFE , "1", SDL_HINT_OVERRIDE); // No extra multithreading help.
                 #endif
 
                 Renderer::rendererFlags = SDL_RENDERER_ACCELERATED;
