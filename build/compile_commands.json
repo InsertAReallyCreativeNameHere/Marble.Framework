@@ -1,107 +1,107 @@
 [
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DSDL_MAIN_HANDLED @CMakeFiles/Sandbox.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Sandbox.dir\\Sandbox\\src\\App.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Sandbox\\src\\App.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Sandbox/src/App.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Mathematics_EXPORTS @CMakeFiles/Marble.Mathematics.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Mathematics.dir\\Marble.Mathematics\\src\\Mathematics.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Mathematics\\src\\Mathematics.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Mathematics/src/Mathematics.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Mathematics_EXPORTS @CMakeFiles/Marble.Mathematics.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Mathematics.dir\\Marble.Mathematics\\src\\Mathematics.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Mathematics\\src\\Mathematics.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Mathematics/src/Mathematics.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Application.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Application.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Application.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Application.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Application.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Application.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Components\\ComponentData.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Components\\ComponentData.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Components\\ComponentData.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Components\\ComponentData.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Components/ComponentData.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Components\\Image.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Components\\Image.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Components\\Image.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Components\\Image.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Components/Image.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Components\\Panel.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Components\\Panel.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Components\\Panel.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Components\\Panel.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Components/Panel.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Components\\RectTransform.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Components\\RectTransform.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Components\\RectTransform.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Components\\RectTransform.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Components/RectTransform.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\CoreEngine.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\CoreEngine.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\CoreEngine.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\CoreEngine.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/CoreEngine.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Debug.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Debug.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Debug.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Debug.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Debug.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Debug.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\DsplMgmt.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\DsplMgmt.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\DsplMgmt.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\DsplMgmt.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/DsplMgmt.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\EntityComponentSystem\\CoreSystem.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\EntityComponentSystem\\CoreSystem.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\EntityComponentSystem\\CoreSystem.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\EntityComponentSystem\\CoreSystem.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/EntityComponentSystem/CoreSystem.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Exception.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Exception.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Exception.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Exception.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Exception.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Exception.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Input.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Input.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Input.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Input.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Input.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Input.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Objects\\Component.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Objects\\Component.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Objects\\Component.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Objects\\Component.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Objects/Component.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Objects\\Entity.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Objects\\Entity.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Objects\\Entity.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Objects\\Entity.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Objects/Entity.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Objects\\Object.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Objects\\Object.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Objects/Object.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\Objects\\Object.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\Objects\\Object.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/Objects/Object.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\PackageManager.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\PackageManager.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/PackageManager.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\PackageManager.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\PackageManager.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/PackageManager.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\SceneManagement.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\SceneManagement.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Core\\SceneManagement.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Core\\SceneManagement.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Extras\\Lock.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Extras\\Lock.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Extras/Lock.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Extras\\Lock.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Extras\\Lock.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Extras/Lock.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Rendering\\Core.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Rendering\\Core.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Rendering/Core.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Rendering\\Core.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Rendering\\Core.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Rendering/Core.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Rendering\\Renderer.cpp.obj -c D:\\Github\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Rendering\\Renderer.cpp",
+  "file": "D:/Github/Marble.Framework/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp"
 },
 {
-  "directory": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build",
-  "command": "C:\\Users\\Administrator\\Documents\\GitHub\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN_HANDLED @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Marble.Runtime.CoreLib.dir\\Marble.Runtime.CoreLib\\src\\Rendering\\Renderer.cpp.obj -c C:\\Users\\Administrator\\Documents\\GitHub\\Marble.Framework\\Marble.Runtime.CoreLib\\src\\Rendering\\Renderer.cpp",
-  "file": "C:/Users/Administrator/Documents/GitHub/Marble.Framework/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp"
+  "directory": "D:/Github/Marble.Framework/build",
+  "command": "D:\\Github\\CykaBlyat-Tools\\mingw32\\bin\\g++.exe -DBUILD_TYPE_DYNAMIC=1 -DSDL_MAIN_HANDLED @CMakeFiles/Sandbox.dir/includes_CXX.rsp  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g -o CMakeFiles\\Sandbox.dir\\Sandbox\\src\\App.cpp.obj -c D:\\Github\\Marble.Framework\\Sandbox\\src\\App.cpp",
+  "file": "D:/Github/Marble.Framework/Sandbox/src/App.cpp"
 }
 ]

@@ -93,8 +93,21 @@ int CoreEngine::execute(int argc, char* argv[])
         Debug::LogTrace("Started!\n");
 
         #pragma region SDL Initialisation
-        if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
-            Debug::LogInfo("SDL Initialisation Successful!\n");
+        if
+        (
+            SDL_Init
+            (
+                SDL_INIT_AUDIO |
+                SDL_INIT_EVENTS |
+                SDL_INIT_GAMECONTROLLER |
+                SDL_INIT_HAPTIC |
+                SDL_INIT_JOYSTICK |
+                SDL_INIT_NOPARACHUTE |
+                SDL_INIT_SENSOR
+            )
+            == 0
+        )
+        { Debug::LogInfo("SDL Initialisation Successful!\n"); }
         else
         {
             Debug::LogError("SDL Initialisation Failed! Error: ", SDL_GetError(), ".\n");
@@ -610,7 +623,6 @@ void CoreEngine::internalRenderLoop()
 
                 Renderer::rendererFlags = SDL_RENDERER_ACCELERATED;
                 CoreEngine::rend = SDL_CreateRenderer(wind, i, Renderer::rendererFlags);
-                Debug::LogInfo(CoreEngine::rend);
             }
             SDL_SetRenderDrawBlendMode(rend, SDL_BLENDMODE_BLEND);
         }
@@ -652,6 +664,8 @@ void CoreEngine::internalRenderLoop()
                 CoreEngine::rendererReset = false;
             }*/
 
+            if (!Renderer::pendingRenderJobsOffload.empty())
+                __debugbreak();
             for (auto it = Renderer::pendingRenderJobsOffload.begin(); it != Renderer::pendingRenderJobsOffload.end(); ++it)
             {
                 (*it)->execute();

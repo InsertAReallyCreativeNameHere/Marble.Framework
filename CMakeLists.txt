@@ -16,12 +16,6 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Begin modifiable options.
-
-set(CMAKE_BUILD_TYPE Debug)
-
-# End modifiable options.
-
 project(Marble.Mathematics)
 
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
@@ -110,25 +104,29 @@ if (${BUILD_PLATFORM} STREQUAL Win32)
         "${CMAKE_SOURCE_DIR}/Marble.Mathematics/src"
         "${CMAKE_SOURCE_DIR}/dependencies/ctti/include"
         "${CMAKE_SOURCE_DIR}/dependencies/stb"
+        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/include"
     )
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_include_directories(Marble.Runtime.CoreLib PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/SDL2-MinGW/include/SDL2")
     else()
         target_include_directories(Marble.Runtime.CoreLib PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/SDL2/include")
     endif()
-    target_link_libraries(Marble.Runtime.CoreLib PUBLIC Marble.Mathematics)
+    target_link_libraries(Marble.Runtime.CoreLib PUBLIC
+        Marble.Mathematics
+        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libbxRelease.a"
+        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libbimgRelease.a"
+        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libbgfxRelease.a"
+    )
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_link_libraries(Marble.Runtime.CoreLib PUBLIC 
             "${CMAKE_SOURCE_DIR}/dependencies/SDL2-MinGW/lib/libSDL2main.a"
             "${CMAKE_SOURCE_DIR}/dependencies/SDL2-MinGW/lib/libSDL2.dll.a"
         )
-    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+    else()
         target_link_libraries(Marble.Runtime.CoreLib PUBLIC 
             "${CMAKE_SOURCE_DIR}/dependencies/SDL2/lib/x86/SDL2main.lib"
             "${CMAKE_SOURCE_DIR}/dependencies/SDL2/lib/x86/SDL2.lib"
         )
-    else()
-        message(FATAL_ERROR "No supported compiler used.")
     endif()
 elseif (${BUILD_PLATFORM} STREQUAL Linux)
     target_link_libraries(Marble.Runtime.CoreLib PUBLIC
@@ -174,10 +172,8 @@ if (${BUILD_PLATFORM} STREQUAL Win32)
     )
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_include_directories(Sandbox PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/SDL2-MinGW/include/SDL2")
-    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-        target_include_directories(Sandbox PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/SDL2/include")
     else()
-        message(FATAL_ERROR "No supported compiler used.")
+        target_include_directories(Sandbox PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/SDL2/include")
     endif()
     add_custom_command(TARGET Sandbox POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -200,14 +196,12 @@ if (${BUILD_PLATFORM} STREQUAL Win32)
             "${PROJECT_SOURCE_DIR}/dependencies/SDL2-MinGW/bin/SDL2.dll"
             $<TARGET_FILE_DIR:Sandbox>
         )
-    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+    else()
         add_custom_command(TARGET Sandbox POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${PROJECT_SOURCE_DIR}/dependencies/SDL2/lib/${BUILD_ARCH}/SDL2.dll"
             $<TARGET_FILE_DIR:Sandbox>
         )
-    else()
-        message(FATAL_ERROR "No supported compiler used.")
     endif()
 elseif (${BUILD_PLATFORM} STREQUAL Linux)
     target_link_libraries(Sandbox PUBLIC

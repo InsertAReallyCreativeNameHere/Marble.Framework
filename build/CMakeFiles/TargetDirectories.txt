@@ -1,5 +1,5 @@
-C:/Users/Administrator/Documents/GitHub/Marble.Framework/build/CMakeFiles/Sandbox.dir
-C:/Users/Administrator/Documents/GitHub/Marble.Framework/build/CMakeFiles/Marble.Mathematics.dir
-C:/Users/Administrator/Documents/GitHub/Marble.Framework/build/CMakeFiles/Marble.Runtime.CoreLib.dir
-C:/Users/Administrator/Documents/GitHub/Marble.Framework/build/CMakeFiles/edit_cache.dir
-C:/Users/Administrator/Documents/GitHub/Marble.Framework/build/CMakeFiles/rebuild_cache.dir
+D:/Github/Marble.Framework/build/CMakeFiles/Sandbox.dir
+D:/Github/Marble.Framework/build/CMakeFiles/Marble.Mathematics.dir
+D:/Github/Marble.Framework/build/CMakeFiles/Marble.Runtime.CoreLib.dir
+D:/Github/Marble.Framework/build/CMakeFiles/edit_cache.dir
+D:/Github/Marble.Framework/build/CMakeFiles/rebuild_cache.dir

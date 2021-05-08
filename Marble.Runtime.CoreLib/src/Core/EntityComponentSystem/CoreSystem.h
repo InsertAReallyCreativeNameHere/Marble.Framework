@@ -28,5 +28,20 @@ namespace Marble
         static FuncPtrEvent<int> OnMouseUp;
 
         static FuncPtrEvent<> OnQuit;
+
+        /*static void (*OnInitialize)();
+        static void (*OnTick)();
+        static void (*OnPhysicsTick)();
+
+        static void (*OnAcquireFocus)();
+        static void (*OnLoseFocus)();
+
+        static void (*OnKeyDown)(SDL_Keycode);
+        static void (*OnKeyRepeat)(SDL_Keycode);
+        static void (*OnKeyUp)(SDL_Keycode);
+        static void (*OnMouseDown)(int);
+        static void (*OnMouseUp)(int);
+
+        static void (*OnQuit)();*/
     };
 }

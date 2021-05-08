@@ -8,7 +8,7 @@
 namespace Marble
 {
     template <typename... Args>
-    class coreapi Event
+    class Event
     {
         std::vector<skarupke::function<void(Args...)>> children;
     public:
@@ -54,7 +54,7 @@ namespace Marble
     };
     
     template <typename... Args>
-    class coreapi FuncPtrEvent
+    class FuncPtrEvent
     {
         std::vector<void (*)(Args...)> children;
     public:

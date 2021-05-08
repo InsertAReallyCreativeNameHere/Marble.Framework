@@ -1,4 +1,5 @@
 # Install script for directory: C:/Users/Administrator/Documents/GitHub/Marble.Framework
+# Install script for directory: D:/Github/Marble.Framework
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +35,7 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/Users/Administrator/Documents/GitHub/CykaBlyat-Tools/mingw32/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "D:/Github/CykaBlyat-Tools/mingw32/bin/objdump.exe")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -45,5 +46,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/Administrator/Documents/GitHub/Marble.Framework/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/Github/Marble.Framework/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
