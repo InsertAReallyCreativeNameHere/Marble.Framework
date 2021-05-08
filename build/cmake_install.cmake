@@ -1,4 +1,3 @@
-# Install script for directory: C:/Users/Administrator/Documents/GitHub/Marble.Framework
 # Install script for directory: D:/Github/Marble.Framework
 
 # Set the install prefix
