@@ -28,10 +28,10 @@ The CXX compiler identification is GNU, found in "D:/Github/Marble.Framework/bui
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: D:/Github/Marble.Framework/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe -f Makefile cmTC_e44fe/fast && D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_e44fe.dir\build.make CMakeFiles/cmTC_e44fe.dir/build
+Run Build Command(s):D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe -f Makefile cmTC_07772/fast && D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_07772.dir\build.make CMakeFiles/cmTC_07772.dir/build
 mingw32-make[1]: Entering directory 'D:/Github/Marble.Framework/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_e44fe.dir/CMakeCCompilerABI.c.obj
-D:\Github\CykaBlyat-Tools\mingw32\bin\gcc.exe   -v -o CMakeFiles\cmTC_e44fe.dir\CMakeCCompilerABI.c.obj -c D:\CMake\share\cmake-3.20\Modules\CMakeCCompilerABI.c
+Building C object CMakeFiles/cmTC_07772.dir/CMakeCCompilerABI.c.obj
+D:\Github\CykaBlyat-Tools\mingw32\bin\gcc.exe   -v -o CMakeFiles\cmTC_07772.dir\CMakeCCompilerABI.c.obj -c D:\CMake\share\cmake-3.20\Modules\CMakeCCompilerABI.c
 Using built-in specs.
 COLLECT_GCC=D:\Github\CykaBlyat-Tools\mingw32\bin\gcc.exe
 Target: i686-w64-mingw32
@@ -39,8 +39,8 @@ Configured with: ../configure --prefix=/R/winlibs32_stage/inst_gcc-10.3.0/share/
 Thread model: posix
 Supported LTO compression algorithms: zlib zstd
 gcc version 10.3.0 (MinGW-W64 i686-posix-dwarf, built by Brecht Sanders) 
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_e44fe.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro'
- d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/cc1.exe -quiet -v -iprefix d:\github\cykablyat-tools\mingw32\bin\../lib/gcc/i686-w64-mingw32/10.3.0/ -D_REENTRANT D:\CMake\share\cmake-3.20\Modules\CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=pentiumpro -auxbase-strip CMakeFiles\cmTC_e44fe.dir\CMakeCCompilerABI.c.obj -version -o C:\Users\Dragon\AppData\Local\Temp\ccswnNhe.s
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_07772.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro'
+ d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/cc1.exe -quiet -v -iprefix d:\github\cykablyat-tools\mingw32\bin\../lib/gcc/i686-w64-mingw32/10.3.0/ -D_REENTRANT D:\CMake\share\cmake-3.20\Modules\CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=pentiumpro -auxbase-strip CMakeFiles\cmTC_07772.dir\CMakeCCompilerABI.c.obj -version -o C:\Users\Dragon\AppData\Local\Temp\ccCpFMuW.s
 GNU C17 (MinGW-W64 i686-posix-dwarf, built by Brecht Sanders) version 10.3.0 (i686-w64-mingw32)
 	compiled by GNU C version 10.3.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.23-GMP
 
@@ -63,17 +63,17 @@ GNU C17 (MinGW-W64 i686-posix-dwarf, built by Brecht Sanders) version 10.3.0 (i6
 
 GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
 Compiler executable checksum: bfd07ed9a38e74ff66648239f3fd1e7b
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_e44fe.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro'
- d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/bin/as.exe -v -o CMakeFiles\cmTC_e44fe.dir\CMakeCCompilerABI.c.obj C:\Users\Dragon\AppData\Local\Temp\ccswnNhe.s
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_07772.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro'
+ d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/bin/as.exe -v -o CMakeFiles\cmTC_07772.dir\CMakeCCompilerABI.c.obj C:\Users\Dragon\AppData\Local\Temp\ccCpFMuW.s
 GNU assembler version 2.36.1 (i686-w64-mingw32) using BFD version (Binutils for MinGW-W64 i686, built by Brecht Sanders) 2.36.1
 COMPILER_PATH=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/;d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/bin/
 LIBRARY_PATH=d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_e44fe.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro'
-Linking C executable cmTC_e44fe.exe
-D:\CMake\bin\cmake.exe -E cmake_link_script CMakeFiles\cmTC_e44fe.dir\link.txt --verbose=1
-D:\CMake\bin\cmake.exe -E rm -f CMakeFiles\cmTC_e44fe.dir/objects.a
-D:\Github\CykaBlyat-Tools\mingw32\bin\ar.exe cr CMakeFiles\cmTC_e44fe.dir/objects.a @CMakeFiles\cmTC_e44fe.dir\objects1.rsp
-D:\Github\CykaBlyat-Tools\mingw32\bin\gcc.exe  -v -Wl,--whole-archive CMakeFiles\cmTC_e44fe.dir/objects.a -Wl,--no-whole-archive -o cmTC_e44fe.exe -Wl,--out-implib,libcmTC_e44fe.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_07772.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro'
+Linking C executable cmTC_07772.exe
+D:\CMake\bin\cmake.exe -E cmake_link_script CMakeFiles\cmTC_07772.dir\link.txt --verbose=1
+D:\CMake\bin\cmake.exe -E rm -f CMakeFiles\cmTC_07772.dir/objects.a
+D:\Github\CykaBlyat-Tools\mingw32\bin\ar.exe cr CMakeFiles\cmTC_07772.dir/objects.a @CMakeFiles\cmTC_07772.dir\objects1.rsp
+D:\Github\CykaBlyat-Tools\mingw32\bin\gcc.exe  -v -Wl,--whole-archive CMakeFiles\cmTC_07772.dir/objects.a -Wl,--no-whole-archive -o cmTC_07772.exe -Wl,--out-implib,libcmTC_07772.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
 Using built-in specs.
 COLLECT_GCC=D:\Github\CykaBlyat-Tools\mingw32\bin\gcc.exe
 COLLECT_LTO_WRAPPER=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/lto-wrapper.exe
@@ -84,9 +84,9 @@ Supported LTO compression algorithms: zlib zstd
 gcc version 10.3.0 (MinGW-W64 i686-posix-dwarf, built by Brecht Sanders) 
 COMPILER_PATH=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/;d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/bin/
 LIBRARY_PATH=d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_e44fe.exe' '-mtune=generic' '-march=pentiumpro'
- d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/collect2.exe -plugin d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/liblto_plugin-0.dll -plugin-opt=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\Dragon\AppData\Local\Temp\cci9yzSo.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -m i386pe -Bdynamic --large-address-aware -o cmTC_e44fe.exe d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/crt2.o d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtbegin.o -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0 -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../.. --whole-archive CMakeFiles\cmTC_e44fe.dir/objects.a --no-whole-archive --out-implib libcmTC_e44fe.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtend.o
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_e44fe.exe' '-mtune=generic' '-march=pentiumpro'
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_07772.exe' '-mtune=generic' '-march=pentiumpro'
+ d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/collect2.exe -plugin d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/liblto_plugin-0.dll -plugin-opt=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\Dragon\AppData\Local\Temp\ccy7jouh.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -m i386pe -Bdynamic --large-address-aware -o cmTC_07772.exe d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/crt2.o d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtbegin.o -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0 -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../.. --whole-archive CMakeFiles\cmTC_07772.dir/objects.a --no-whole-archive --out-implib libcmTC_07772.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtend.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_07772.exe' '-mtune=generic' '-march=pentiumpro'
 mingw32-make[1]: Leaving directory 'D:/Github/Marble.Framework/build/CMakeFiles/CMakeTmp'
 
 
@@ -110,10 +110,10 @@ Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: D:/Github/Marble.Framework/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command(s):D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe -f Makefile cmTC_e44fe/fast && D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_e44fe.dir\build.make CMakeFiles/cmTC_e44fe.dir/build]
+  ignore line: [Run Build Command(s):D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe -f Makefile cmTC_07772/fast && D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_07772.dir\build.make CMakeFiles/cmTC_07772.dir/build]
   ignore line: [mingw32-make[1]: Entering directory 'D:/Github/Marble.Framework/build/CMakeFiles/CMakeTmp']
-  ignore line: [Building C object CMakeFiles/cmTC_e44fe.dir/CMakeCCompilerABI.c.obj]
-  ignore line: [D:\Github\CykaBlyat-Tools\mingw32\bin\gcc.exe   -v -o CMakeFiles\cmTC_e44fe.dir\CMakeCCompilerABI.c.obj -c D:\CMake\share\cmake-3.20\Modules\CMakeCCompilerABI.c]
+  ignore line: [Building C object CMakeFiles/cmTC_07772.dir/CMakeCCompilerABI.c.obj]
+  ignore line: [D:\Github\CykaBlyat-Tools\mingw32\bin\gcc.exe   -v -o CMakeFiles\cmTC_07772.dir\CMakeCCompilerABI.c.obj -c D:\CMake\share\cmake-3.20\Modules\CMakeCCompilerABI.c]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=D:\Github\CykaBlyat-Tools\mingw32\bin\gcc.exe]
   ignore line: [Target: i686-w64-mingw32]
@@ -121,8 +121,8 @@ Parsed C implicit link information from above output:
   ignore line: [Thread model: posix]
   ignore line: [Supported LTO compression algorithms: zlib zstd]
   ignore line: [gcc version 10.3.0 (MinGW-W64 i686-posix-dwarf  built by Brecht Sanders) ]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_e44fe.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro']
-  ignore line: [ d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/cc1.exe -quiet -v -iprefix d:\github\cykablyat-tools\mingw32\bin\../lib/gcc/i686-w64-mingw32/10.3.0/ -D_REENTRANT D:\CMake\share\cmake-3.20\Modules\CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=pentiumpro -auxbase-strip CMakeFiles\cmTC_e44fe.dir\CMakeCCompilerABI.c.obj -version -o C:\Users\Dragon\AppData\Local\Temp\ccswnNhe.s]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_07772.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro']
+  ignore line: [ d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/cc1.exe -quiet -v -iprefix d:\github\cykablyat-tools\mingw32\bin\../lib/gcc/i686-w64-mingw32/10.3.0/ -D_REENTRANT D:\CMake\share\cmake-3.20\Modules\CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=pentiumpro -auxbase-strip CMakeFiles\cmTC_07772.dir\CMakeCCompilerABI.c.obj -version -o C:\Users\Dragon\AppData\Local\Temp\ccCpFMuW.s]
   ignore line: [GNU C17 (MinGW-W64 i686-posix-dwarf  built by Brecht Sanders) version 10.3.0 (i686-w64-mingw32)]
   ignore line: [	compiled by GNU C version 10.3.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.23-GMP]
   ignore line: []
@@ -145,8 +145,8 @@ Parsed C implicit link information from above output:
   ignore line: []
   ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
   ignore line: [Compiler executable checksum: bfd07ed9a38e74ff66648239f3fd1e7b]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_e44fe.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro']
-  ignore line: [ d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/bin/as.exe -v -o CMakeFiles\cmTC_e44fe.dir\CMakeCCompilerABI.c.obj C:\Users\Dragon\AppData\Local\Temp\ccswnNhe.s]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_07772.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro']
+  ignore line: [ d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/bin/as.exe -v -o CMakeFiles\cmTC_07772.dir\CMakeCCompilerABI.c.obj C:\Users\Dragon\AppData\Local\Temp\ccCpFMuW.s]
   ignore line: [GNU assembler version 2.36.1 (i686-w64-mingw32) using BFD version (Binutils for MinGW-W64 i686  built by Brecht Sanders) 2.36.1]
   ignore line: [COMPILER_PATH=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/]
   ignore line: [d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/]
@@ -157,12 +157,12 @@ Parsed C implicit link information from above output:
   ignore line: [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib/]
   ignore line: [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/]
   ignore line: [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_e44fe.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro']
-  ignore line: [Linking C executable cmTC_e44fe.exe]
-  ignore line: [D:\CMake\bin\cmake.exe -E cmake_link_script CMakeFiles\cmTC_e44fe.dir\link.txt --verbose=1]
-  ignore line: [D:\CMake\bin\cmake.exe -E rm -f CMakeFiles\cmTC_e44fe.dir/objects.a]
-  ignore line: [D:\Github\CykaBlyat-Tools\mingw32\bin\ar.exe cr CMakeFiles\cmTC_e44fe.dir/objects.a @CMakeFiles\cmTC_e44fe.dir\objects1.rsp]
-  ignore line: [D:\Github\CykaBlyat-Tools\mingw32\bin\gcc.exe  -v -Wl --whole-archive CMakeFiles\cmTC_e44fe.dir/objects.a -Wl --no-whole-archive -o cmTC_e44fe.exe -Wl --out-implib libcmTC_e44fe.dll.a -Wl --major-image-version 0 --minor-image-version 0 ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_07772.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=pentiumpro']
+  ignore line: [Linking C executable cmTC_07772.exe]
+  ignore line: [D:\CMake\bin\cmake.exe -E cmake_link_script CMakeFiles\cmTC_07772.dir\link.txt --verbose=1]
+  ignore line: [D:\CMake\bin\cmake.exe -E rm -f CMakeFiles\cmTC_07772.dir/objects.a]
+  ignore line: [D:\Github\CykaBlyat-Tools\mingw32\bin\ar.exe cr CMakeFiles\cmTC_07772.dir/objects.a @CMakeFiles\cmTC_07772.dir\objects1.rsp]
+  ignore line: [D:\Github\CykaBlyat-Tools\mingw32\bin\gcc.exe  -v -Wl --whole-archive CMakeFiles\cmTC_07772.dir/objects.a -Wl --no-whole-archive -o cmTC_07772.exe -Wl --out-implib libcmTC_07772.dll.a -Wl --major-image-version 0 --minor-image-version 0 ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=D:\Github\CykaBlyat-Tools\mingw32\bin\gcc.exe]
   ignore line: [COLLECT_LTO_WRAPPER=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/lto-wrapper.exe]
@@ -180,13 +180,13 @@ Parsed C implicit link information from above output:
   ignore line: [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib/]
   ignore line: [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/]
   ignore line: [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_e44fe.exe' '-mtune=generic' '-march=pentiumpro']
-  link line: [ d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/collect2.exe -plugin d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/liblto_plugin-0.dll -plugin-opt=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\Dragon\AppData\Local\Temp\cci9yzSo.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -m i386pe -Bdynamic --large-address-aware -o cmTC_e44fe.exe d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/crt2.o d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtbegin.o -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0 -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../.. --whole-archive CMakeFiles\cmTC_e44fe.dir/objects.a --no-whole-archive --out-implib libcmTC_e44fe.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtend.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_07772.exe' '-mtune=generic' '-march=pentiumpro']
+  link line: [ d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/collect2.exe -plugin d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/liblto_plugin-0.dll -plugin-opt=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\Dragon\AppData\Local\Temp\ccy7jouh.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -m i386pe -Bdynamic --large-address-aware -o cmTC_07772.exe d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/crt2.o d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtbegin.o -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0 -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../.. --whole-archive CMakeFiles\cmTC_07772.dir/objects.a --no-whole-archive --out-implib libcmTC_07772.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtend.o]
     arg [d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/collect2.exe] ==> ignore
     arg [-plugin] ==> ignore
     arg [d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/liblto_plugin-0.dll] ==> ignore
     arg [-plugin-opt=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/lto-wrapper.exe] ==> ignore
-    arg [-plugin-opt=-fresolution=C:\Users\Dragon\AppData\Local\Temp\cci9yzSo.res] ==> ignore
+    arg [-plugin-opt=-fresolution=C:\Users\Dragon\AppData\Local\Temp\ccy7jouh.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lmingw32] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_eh] ==> ignore
@@ -209,7 +209,7 @@ Parsed C implicit link information from above output:
     arg [-Bdynamic] ==> ignore
     arg [--large-address-aware] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_e44fe.exe] ==> ignore
+    arg [cmTC_07772.exe] ==> ignore
     arg [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/crt2.o] ==> obj [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/crt2.o]
     arg [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtbegin.o] ==> obj [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtbegin.o]
     arg [-Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0] ==> dir [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0]
@@ -219,10 +219,10 @@ Parsed C implicit link information from above output:
     arg [-Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib] ==> dir [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib]
     arg [-Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../..] ==> dir [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../..]
     arg [--whole-archive] ==> ignore
-    arg [CMakeFiles\cmTC_e44fe.dir/objects.a] ==> ignore
+    arg [CMakeFiles\cmTC_07772.dir/objects.a] ==> ignore
     arg [--no-whole-archive] ==> ignore
     arg [--out-implib] ==> ignore
-    arg [libcmTC_e44fe.dll.a] ==> ignore
+    arg [libcmTC_07772.dll.a] ==> ignore
     arg [--major-image-version] ==> ignore
     arg [0] ==> ignore
     arg [--minor-image-version] ==> ignore
@@ -267,10 +267,10 @@ Parsed C implicit link information from above output:
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: D:/Github/Marble.Framework/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe -f Makefile cmTC_c913f/fast && D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_c913f.dir\build.make CMakeFiles/cmTC_c913f.dir/build
+Run Build Command(s):D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe -f Makefile cmTC_9ab7d/fast && D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_9ab7d.dir\build.make CMakeFiles/cmTC_9ab7d.dir/build
 mingw32-make[1]: Entering directory 'D:/Github/Marble.Framework/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_c913f.dir/CMakeCXXCompilerABI.cpp.obj
-D:\Github\CykaBlyat-Tools\mingw32\bin\g++.exe   -v -o CMakeFiles\cmTC_c913f.dir\CMakeCXXCompilerABI.cpp.obj -c D:\CMake\share\cmake-3.20\Modules\CMakeCXXCompilerABI.cpp
+Building CXX object CMakeFiles/cmTC_9ab7d.dir/CMakeCXXCompilerABI.cpp.obj
+D:\Github\CykaBlyat-Tools\mingw32\bin\g++.exe   -v -o CMakeFiles\cmTC_9ab7d.dir\CMakeCXXCompilerABI.cpp.obj -c D:\CMake\share\cmake-3.20\Modules\CMakeCXXCompilerABI.cpp
 Using built-in specs.
 COLLECT_GCC=D:\Github\CykaBlyat-Tools\mingw32\bin\g++.exe
 Target: i686-w64-mingw32
@@ -278,8 +278,8 @@ Configured with: ../configure --prefix=/R/winlibs32_stage/inst_gcc-10.3.0/share/
 Thread model: posix
 Supported LTO compression algorithms: zlib zstd
 gcc version 10.3.0 (MinGW-W64 i686-posix-dwarf, built by Brecht Sanders) 
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_c913f.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro'
- d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/cc1plus.exe -quiet -v -iprefix d:\github\cykablyat-tools\mingw32\bin\../lib/gcc/i686-w64-mingw32/10.3.0/ -D_REENTRANT D:\CMake\share\cmake-3.20\Modules\CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=pentiumpro -auxbase-strip CMakeFiles\cmTC_c913f.dir\CMakeCXXCompilerABI.cpp.obj -version -o C:\Users\Dragon\AppData\Local\Temp\cccIcLUX.s
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_9ab7d.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro'
+ d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/cc1plus.exe -quiet -v -iprefix d:\github\cykablyat-tools\mingw32\bin\../lib/gcc/i686-w64-mingw32/10.3.0/ -D_REENTRANT D:\CMake\share\cmake-3.20\Modules\CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=pentiumpro -auxbase-strip CMakeFiles\cmTC_9ab7d.dir\CMakeCXXCompilerABI.cpp.obj -version -o C:\Users\Dragon\AppData\Local\Temp\ccSc23qw.s
 GNU C++14 (MinGW-W64 i686-posix-dwarf, built by Brecht Sanders) version 10.3.0 (i686-w64-mingw32)
 	compiled by GNU C version 10.3.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.23-GMP
 
@@ -308,17 +308,17 @@ GNU C++14 (MinGW-W64 i686-posix-dwarf, built by Brecht Sanders) version 10.3.0 (
 
 GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
 Compiler executable checksum: 79606b8639201463880b24d04df43074
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_c913f.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro'
- d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/bin/as.exe -v -o CMakeFiles\cmTC_c913f.dir\CMakeCXXCompilerABI.cpp.obj C:\Users\Dragon\AppData\Local\Temp\cccIcLUX.s
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_9ab7d.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro'
+ d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/bin/as.exe -v -o CMakeFiles\cmTC_9ab7d.dir\CMakeCXXCompilerABI.cpp.obj C:\Users\Dragon\AppData\Local\Temp\ccSc23qw.s
 GNU assembler version 2.36.1 (i686-w64-mingw32) using BFD version (Binutils for MinGW-W64 i686, built by Brecht Sanders) 2.36.1
 COMPILER_PATH=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/;d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/bin/
 LIBRARY_PATH=d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_c913f.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro'
-Linking CXX executable cmTC_c913f.exe
-D:\CMake\bin\cmake.exe -E cmake_link_script CMakeFiles\cmTC_c913f.dir\link.txt --verbose=1
-D:\CMake\bin\cmake.exe -E rm -f CMakeFiles\cmTC_c913f.dir/objects.a
-D:\Github\CykaBlyat-Tools\mingw32\bin\ar.exe cr CMakeFiles\cmTC_c913f.dir/objects.a @CMakeFiles\cmTC_c913f.dir\objects1.rsp
-D:\Github\CykaBlyat-Tools\mingw32\bin\g++.exe  -v -Wl,--whole-archive CMakeFiles\cmTC_c913f.dir/objects.a -Wl,--no-whole-archive -o cmTC_c913f.exe -Wl,--out-implib,libcmTC_c913f.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_9ab7d.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro'
+Linking CXX executable cmTC_9ab7d.exe
+D:\CMake\bin\cmake.exe -E cmake_link_script CMakeFiles\cmTC_9ab7d.dir\link.txt --verbose=1
+D:\CMake\bin\cmake.exe -E rm -f CMakeFiles\cmTC_9ab7d.dir/objects.a
+D:\Github\CykaBlyat-Tools\mingw32\bin\ar.exe cr CMakeFiles\cmTC_9ab7d.dir/objects.a @CMakeFiles\cmTC_9ab7d.dir\objects1.rsp
+D:\Github\CykaBlyat-Tools\mingw32\bin\g++.exe  -v -Wl,--whole-archive CMakeFiles\cmTC_9ab7d.dir/objects.a -Wl,--no-whole-archive -o cmTC_9ab7d.exe -Wl,--out-implib,libcmTC_9ab7d.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
 Using built-in specs.
 COLLECT_GCC=D:\Github\CykaBlyat-Tools\mingw32\bin\g++.exe
 COLLECT_LTO_WRAPPER=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/lto-wrapper.exe
@@ -329,9 +329,9 @@ Supported LTO compression algorithms: zlib zstd
 gcc version 10.3.0 (MinGW-W64 i686-posix-dwarf, built by Brecht Sanders) 
 COMPILER_PATH=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/;d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/bin/
 LIBRARY_PATH=d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/;d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c913f.exe' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro'
- d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/collect2.exe -plugin d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/liblto_plugin-0.dll -plugin-opt=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\Dragon\AppData\Local\Temp\cc03t9Nb.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -m i386pe -Bdynamic --large-address-aware -u ___register_frame_info -u ___deregister_frame_info -o cmTC_c913f.exe d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/crt2.o d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtbegin.o -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0 -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../.. --whole-archive CMakeFiles\cmTC_c913f.dir/objects.a --no-whole-archive --out-implib libcmTC_c913f.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtend.o
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c913f.exe' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro'
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_9ab7d.exe' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro'
+ d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/collect2.exe -plugin d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/liblto_plugin-0.dll -plugin-opt=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\Dragon\AppData\Local\Temp\cckHx2SO.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -m i386pe -Bdynamic --large-address-aware -u ___register_frame_info -u ___deregister_frame_info -o cmTC_9ab7d.exe d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/crt2.o d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtbegin.o -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0 -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../.. --whole-archive CMakeFiles\cmTC_9ab7d.dir/objects.a --no-whole-archive --out-implib libcmTC_9ab7d.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtend.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_9ab7d.exe' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro'
 mingw32-make[1]: Leaving directory 'D:/Github/Marble.Framework/build/CMakeFiles/CMakeTmp'
 
 
@@ -361,10 +361,10 @@ Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: D:/Github/Marble.Framework/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command(s):D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe -f Makefile cmTC_c913f/fast && D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_c913f.dir\build.make CMakeFiles/cmTC_c913f.dir/build]
+  ignore line: [Run Build Command(s):D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe -f Makefile cmTC_9ab7d/fast && D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_9ab7d.dir\build.make CMakeFiles/cmTC_9ab7d.dir/build]
   ignore line: [mingw32-make[1]: Entering directory 'D:/Github/Marble.Framework/build/CMakeFiles/CMakeTmp']
-  ignore line: [Building CXX object CMakeFiles/cmTC_c913f.dir/CMakeCXXCompilerABI.cpp.obj]
-  ignore line: [D:\Github\CykaBlyat-Tools\mingw32\bin\g++.exe   -v -o CMakeFiles\cmTC_c913f.dir\CMakeCXXCompilerABI.cpp.obj -c D:\CMake\share\cmake-3.20\Modules\CMakeCXXCompilerABI.cpp]
+  ignore line: [Building CXX object CMakeFiles/cmTC_9ab7d.dir/CMakeCXXCompilerABI.cpp.obj]
+  ignore line: [D:\Github\CykaBlyat-Tools\mingw32\bin\g++.exe   -v -o CMakeFiles\cmTC_9ab7d.dir\CMakeCXXCompilerABI.cpp.obj -c D:\CMake\share\cmake-3.20\Modules\CMakeCXXCompilerABI.cpp]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=D:\Github\CykaBlyat-Tools\mingw32\bin\g++.exe]
   ignore line: [Target: i686-w64-mingw32]
@@ -372,8 +372,8 @@ Parsed CXX implicit link information from above output:
   ignore line: [Thread model: posix]
   ignore line: [Supported LTO compression algorithms: zlib zstd]
   ignore line: [gcc version 10.3.0 (MinGW-W64 i686-posix-dwarf  built by Brecht Sanders) ]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_c913f.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro']
-  ignore line: [ d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/cc1plus.exe -quiet -v -iprefix d:\github\cykablyat-tools\mingw32\bin\../lib/gcc/i686-w64-mingw32/10.3.0/ -D_REENTRANT D:\CMake\share\cmake-3.20\Modules\CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=pentiumpro -auxbase-strip CMakeFiles\cmTC_c913f.dir\CMakeCXXCompilerABI.cpp.obj -version -o C:\Users\Dragon\AppData\Local\Temp\cccIcLUX.s]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_9ab7d.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro']
+  ignore line: [ d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/cc1plus.exe -quiet -v -iprefix d:\github\cykablyat-tools\mingw32\bin\../lib/gcc/i686-w64-mingw32/10.3.0/ -D_REENTRANT D:\CMake\share\cmake-3.20\Modules\CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=pentiumpro -auxbase-strip CMakeFiles\cmTC_9ab7d.dir\CMakeCXXCompilerABI.cpp.obj -version -o C:\Users\Dragon\AppData\Local\Temp\ccSc23qw.s]
   ignore line: [GNU C++14 (MinGW-W64 i686-posix-dwarf  built by Brecht Sanders) version 10.3.0 (i686-w64-mingw32)]
   ignore line: [	compiled by GNU C version 10.3.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.23-GMP]
   ignore line: []
@@ -402,8 +402,8 @@ Parsed CXX implicit link information from above output:
   ignore line: []
   ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
   ignore line: [Compiler executable checksum: 79606b8639201463880b24d04df43074]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_c913f.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro']
-  ignore line: [ d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/bin/as.exe -v -o CMakeFiles\cmTC_c913f.dir\CMakeCXXCompilerABI.cpp.obj C:\Users\Dragon\AppData\Local\Temp\cccIcLUX.s]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_9ab7d.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro']
+  ignore line: [ d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/bin/as.exe -v -o CMakeFiles\cmTC_9ab7d.dir\CMakeCXXCompilerABI.cpp.obj C:\Users\Dragon\AppData\Local\Temp\ccSc23qw.s]
   ignore line: [GNU assembler version 2.36.1 (i686-w64-mingw32) using BFD version (Binutils for MinGW-W64 i686  built by Brecht Sanders) 2.36.1]
   ignore line: [COMPILER_PATH=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/]
   ignore line: [d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/]
@@ -414,12 +414,12 @@ Parsed CXX implicit link information from above output:
   ignore line: [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib/]
   ignore line: [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/]
   ignore line: [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_c913f.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro']
-  ignore line: [Linking CXX executable cmTC_c913f.exe]
-  ignore line: [D:\CMake\bin\cmake.exe -E cmake_link_script CMakeFiles\cmTC_c913f.dir\link.txt --verbose=1]
-  ignore line: [D:\CMake\bin\cmake.exe -E rm -f CMakeFiles\cmTC_c913f.dir/objects.a]
-  ignore line: [D:\Github\CykaBlyat-Tools\mingw32\bin\ar.exe cr CMakeFiles\cmTC_c913f.dir/objects.a @CMakeFiles\cmTC_c913f.dir\objects1.rsp]
-  ignore line: [D:\Github\CykaBlyat-Tools\mingw32\bin\g++.exe  -v -Wl --whole-archive CMakeFiles\cmTC_c913f.dir/objects.a -Wl --no-whole-archive -o cmTC_c913f.exe -Wl --out-implib libcmTC_c913f.dll.a -Wl --major-image-version 0 --minor-image-version 0 ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_9ab7d.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro']
+  ignore line: [Linking CXX executable cmTC_9ab7d.exe]
+  ignore line: [D:\CMake\bin\cmake.exe -E cmake_link_script CMakeFiles\cmTC_9ab7d.dir\link.txt --verbose=1]
+  ignore line: [D:\CMake\bin\cmake.exe -E rm -f CMakeFiles\cmTC_9ab7d.dir/objects.a]
+  ignore line: [D:\Github\CykaBlyat-Tools\mingw32\bin\ar.exe cr CMakeFiles\cmTC_9ab7d.dir/objects.a @CMakeFiles\cmTC_9ab7d.dir\objects1.rsp]
+  ignore line: [D:\Github\CykaBlyat-Tools\mingw32\bin\g++.exe  -v -Wl --whole-archive CMakeFiles\cmTC_9ab7d.dir/objects.a -Wl --no-whole-archive -o cmTC_9ab7d.exe -Wl --out-implib libcmTC_9ab7d.dll.a -Wl --major-image-version 0 --minor-image-version 0 ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=D:\Github\CykaBlyat-Tools\mingw32\bin\g++.exe]
   ignore line: [COLLECT_LTO_WRAPPER=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/lto-wrapper.exe]
@@ -437,13 +437,13 @@ Parsed CXX implicit link information from above output:
   ignore line: [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib/]
   ignore line: [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/]
   ignore line: [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c913f.exe' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro']
-  link line: [ d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/collect2.exe -plugin d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/liblto_plugin-0.dll -plugin-opt=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\Dragon\AppData\Local\Temp\cc03t9Nb.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -m i386pe -Bdynamic --large-address-aware -u ___register_frame_info -u ___deregister_frame_info -o cmTC_c913f.exe d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/crt2.o d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtbegin.o -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0 -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../.. --whole-archive CMakeFiles\cmTC_c913f.dir/objects.a --no-whole-archive --out-implib libcmTC_c913f.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtend.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_9ab7d.exe' '-shared-libgcc' '-mtune=generic' '-march=pentiumpro']
+  link line: [ d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/collect2.exe -plugin d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/liblto_plugin-0.dll -plugin-opt=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\Dragon\AppData\Local\Temp\cckHx2SO.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -m i386pe -Bdynamic --large-address-aware -u ___register_frame_info -u ___deregister_frame_info -o cmTC_9ab7d.exe d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/crt2.o d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtbegin.o -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0 -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib -Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../.. --whole-archive CMakeFiles\cmTC_9ab7d.dir/objects.a --no-whole-archive --out-implib libcmTC_9ab7d.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtend.o]
     arg [d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/collect2.exe] ==> ignore
     arg [-plugin] ==> ignore
     arg [d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/liblto_plugin-0.dll] ==> ignore
     arg [-plugin-opt=d:/github/cykablyat-tools/mingw32/bin/../libexec/gcc/i686-w64-mingw32/10.3.0/lto-wrapper.exe] ==> ignore
-    arg [-plugin-opt=-fresolution=C:\Users\Dragon\AppData\Local\Temp\cc03t9Nb.res] ==> ignore
+    arg [-plugin-opt=-fresolution=C:\Users\Dragon\AppData\Local\Temp\cckHx2SO.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lmingw32] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
@@ -470,7 +470,7 @@ Parsed CXX implicit link information from above output:
     arg [-u] ==> ignore
     arg [___deregister_frame_info] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_c913f.exe] ==> ignore
+    arg [cmTC_9ab7d.exe] ==> ignore
     arg [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/crt2.o] ==> obj [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib/../lib/crt2.o]
     arg [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtbegin.o] ==> obj [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/crtbegin.o]
     arg [-Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0] ==> dir [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0]
@@ -480,10 +480,10 @@ Parsed CXX implicit link information from above output:
     arg [-Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib] ==> dir [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../../../i686-w64-mingw32/lib]
     arg [-Ld:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../..] ==> dir [d:/github/cykablyat-tools/mingw32/bin/../lib/gcc/i686-w64-mingw32/10.3.0/../../..]
     arg [--whole-archive] ==> ignore
-    arg [CMakeFiles\cmTC_c913f.dir/objects.a] ==> ignore
+    arg [CMakeFiles\cmTC_9ab7d.dir/objects.a] ==> ignore
     arg [--no-whole-archive] ==> ignore
     arg [--out-implib] ==> ignore
-    arg [libcmTC_c913f.dll.a] ==> ignore
+    arg [libcmTC_9ab7d.dll.a] ==> ignore
     arg [--major-image-version] ==> ignore
     arg [0] ==> ignore
     arg [--minor-image-version] ==> ignore

@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\JitFromScratch.dir/objects.a
-C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\ar.exe cr CMakeFiles\JitFromScratch.dir/objects.a @CMakeFiles\JitFromScratch.dir\objects1.rsp
-C:\Users\Administrator\Documents\GitHub\CykaBlyat-Tools\mingw32\bin\g++.exe  -std=c++14 -g -Wl,--whole-archive CMakeFiles\JitFromScratch.dir/objects.a -Wl,--no-whole-archive -o JitFromScratch.exe -Wl,--out-implib,libJitFromScratch.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\JitFromScratch.dir\linklibs.rsp

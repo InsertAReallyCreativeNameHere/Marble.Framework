@@ -245,10 +245,19 @@ Marble.Mathematics_SOURCE_DIR:STATIC=D:/Github/Marble.Framework
 Marble.Runtime.CoreLib_BINARY_DIR:STATIC=D:/Github/Marble.Framework/build
 
 //Dependencies for the target
-Marble.Runtime.CoreLib_LIB_DEPENDS:STATIC=general;Marble.Mathematics;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbxRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbimgRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbgfxRelease.a;general;D:/Github/Marble.Framework/dependencies/SDL2-MinGW/lib/libSDL2main.a;general;D:/Github/Marble.Framework/dependencies/SDL2-MinGW/lib/libSDL2.dll.a;
+Marble.Runtime.CoreLib_LIB_DEPENDS:STATIC=general;Marble.Mathematics;general;Marble.Runtime.GL;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbgfxRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbimgRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbxRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbimg_decodeRelease.a;general;psapi;general;D:/Github/Marble.Framework/dependencies/SDL2-MinGW/lib/libSDL2main.a;general;D:/Github/Marble.Framework/dependencies/SDL2-MinGW/lib/libSDL2.dll.a;
 
 //Value Computed by CMake
 Marble.Runtime.CoreLib_SOURCE_DIR:STATIC=D:/Github/Marble.Framework
+
+//Value Computed by CMake
+Marble.Runtime.GL_BINARY_DIR:STATIC=D:/Github/Marble.Framework/build
+
+//Dependencies for the target
+Marble.Runtime.GL_LIB_DEPENDS:STATIC=general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbgfxRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbimgRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbxRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbimg_decodeRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libfcppRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libglsl-optimizerRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libglslangRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libspirv-crossRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libspirv-optRelease.a;general;psapi;
+
+//Value Computed by CMake
+Marble.Runtime.GL_SOURCE_DIR:STATIC=D:/Github/Marble.Framework
 
 //Value Computed by CMake
 Sandbox_BINARY_DIR:STATIC=D:/Github/Marble.Framework/build

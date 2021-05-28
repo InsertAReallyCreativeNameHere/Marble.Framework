@@ -9,6 +9,7 @@
 #include <locale>
 #include <sstream>
 #include <thread>
+#include <mutex>
 
 #define WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT 1
 
@@ -51,6 +52,8 @@ namespace Marble
 			ss << std::put_time(&tm, format.data());
 			return ss.rdbuf()->str();
 		}
+
+		static std::mutex outputLock;
 	public:
 		static const wchar_t* ansiCodes[6];
 
@@ -71,6 +74,7 @@ namespace Marble
 			std::wostringstream logStr;
 			variadicToString(logStr, log...);
 			
+			Debug::outputLock.lock();
 			std::wcout <<
 			ansiCodes[DEBUG_COLOUR_BLUE] <<
 			L"[UTC: " <<
@@ -86,6 +90,7 @@ namespace Marble
 			L" [TRACE] | " <<
 			logStr.rdbuf()->str().c_str() <<
 			std::endl;
+			Debug::outputLock.unlock();
 		}
 		template <typename... T>
 		inline static void LogInfo(const T&... log)
@@ -93,6 +98,7 @@ namespace Marble
 			std::wostringstream logStr;
 			variadicToString(logStr, log...);
 			
+			Debug::outputLock.lock();
 			std::wcout <<
 			ansiCodes[DEBUG_COLOUR_BLUE] <<
 			L"[UTC: " <<
@@ -112,6 +118,7 @@ namespace Marble
 			logStr.rdbuf()->str().c_str() <<
 			ansiCodes[DEBUG_COLOUR_RESET] <<
 			std::endl;
+			Debug::outputLock.unlock();
 		}
 		template <typename... T>
 		inline static void LogWarn(const T&... log)
@@ -119,6 +126,7 @@ namespace Marble
 			std::wostringstream logStr;
 			variadicToString(logStr, log...);
 			
+			Debug::outputLock.lock();
 			std::wcout <<
 			ansiCodes[DEBUG_COLOUR_BLUE] <<
 			L"[UTC: " <<
@@ -138,6 +146,7 @@ namespace Marble
 			logStr.rdbuf()->str().c_str() <<
 			ansiCodes[DEBUG_COLOUR_RESET] <<
 			std::endl;
+			Debug::outputLock.unlock();
 		}
 		template <typename... T>
 		inline static void LogError(const T&... log)
@@ -145,6 +154,7 @@ namespace Marble
 			std::wostringstream logStr;
 			variadicToString(logStr, log...);
 			
+			Debug::outputLock.lock();
 			std::wcout <<
 			ansiCodes[DEBUG_COLOUR_BLUE] <<
 			L"[UTC: " <<
@@ -164,6 +174,7 @@ namespace Marble
 			logStr.rdbuf()->str().c_str() <<
 			ansiCodes[DEBUG_COLOUR_RESET] <<
 			std::endl;
+			Debug::outputLock.unlock();
 		}
 		template <typename... T>
 		inline static void LogFatalError(const T&... log)
@@ -171,6 +182,7 @@ namespace Marble
 			std::wostringstream logStr;
 			variadicToString(logStr, log...);
 			
+			Debug::outputLock.lock();
 			std::wcout <<
 			ansiCodes[DEBUG_COLOUR_BLUE] <<
 			L"[UTC: " <<
@@ -190,6 +202,7 @@ namespace Marble
 			logStr.rdbuf()->str().c_str() <<
 			ansiCodes[DEBUG_COLOUR_RESET] <<
 			std::endl;
+			Debug::outputLock.unlock();
 		}
 	};
 }

@@ -103,6 +103,9 @@
         "*.def": "cpp",
         "__bit_reference": "cpp",
         "__functional_base": "cpp",
-        "__node_handle": "cpp"
+        "__node_handle": "cpp",
+        "any": "cpp",
+        "typeindex": "cpp",
+        "format": "cpp"
     }
 }

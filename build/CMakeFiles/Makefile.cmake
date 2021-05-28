@@ -50,5 +50,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/Sandbox.dir/DependInfo.cmake"
   "CMakeFiles/Marble.Mathematics.dir/DependInfo.cmake"
+  "CMakeFiles/Marble.Runtime.GL.dir/DependInfo.cmake"
   "CMakeFiles/Marble.Runtime.CoreLib.dir/DependInfo.cmake"
   )

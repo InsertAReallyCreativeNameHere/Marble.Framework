@@ -94,9 +94,16 @@ Sandbox_EXTERNAL_OBJECTS =
 ../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: CMakeFiles/Sandbox.dir/build.make
 ../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../lib/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/libMarble.Runtime.CoreLib.dll.a
 ../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../lib/x86-MinGW-Debug-Win32/Marble.Mathematics/libMarble.Mathematics.dll.a
-../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../dependencies/bgfx/x86-mingw-win/lib/libbxRelease.a
-../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../dependencies/bgfx/x86-mingw-win/lib/libbimgRelease.a
+../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../lib/x86-MinGW-Debug-Win32/Marble.Runtime.GL/libMarble.Runtime.GL.dll.a
+../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../dependencies/bgfx/x86-mingw-win/lib/libfcppRelease.a
+../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../dependencies/bgfx/x86-mingw-win/lib/libglsl-optimizerRelease.a
+../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../dependencies/bgfx/x86-mingw-win/lib/libglslangRelease.a
+../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../dependencies/bgfx/x86-mingw-win/lib/libspirv-crossRelease.a
+../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../dependencies/bgfx/x86-mingw-win/lib/libspirv-optRelease.a
 ../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../dependencies/bgfx/x86-mingw-win/lib/libbgfxRelease.a
+../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../dependencies/bgfx/x86-mingw-win/lib/libbimgRelease.a
+../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../dependencies/bgfx/x86-mingw-win/lib/libbxRelease.a
+../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../dependencies/bgfx/x86-mingw-win/lib/libbimg_decodeRelease.a
 ../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../dependencies/SDL2-MinGW/lib/libSDL2main.a
 ../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: ../dependencies/SDL2-MinGW/lib/libSDL2.dll.a
 ../bin/x86-MinGW-Debug-Win32/Sandbox/Sandbox.exe: CMakeFiles/Sandbox.dir/linklibs.rsp
@@ -105,6 +112,7 @@ Sandbox_EXTERNAL_OBJECTS =
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=D:\Github\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ..\bin\x86-MinGW-Debug-Win32\Sandbox\Sandbox.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Sandbox.dir\link.txt --verbose=$(VERBOSE)
 	D:\CMake\bin\cmake.exe -E copy_if_different D:/Github/Marble.Framework/bin/x86-MinGW-Debug-Win32/Marble.Mathematics/Marble.Mathematics.dll D:/Github/Marble.Framework/bin/x86-MinGW-Debug-Win32/Sandbox
+	D:\CMake\bin\cmake.exe -E copy_if_different D:/Github/Marble.Framework/bin/x86-MinGW-Debug-Win32/Marble.Runtime.GL/Marble.Runtime.GL.dll D:/Github/Marble.Framework/bin/x86-MinGW-Debug-Win32/Sandbox
 	D:\CMake\bin\cmake.exe -E copy_if_different D:/Github/Marble.Framework/bin/x86-MinGW-Debug-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll D:/Github/Marble.Framework/bin/x86-MinGW-Debug-Win32/Sandbox
 	D:\CMake\bin\cmake.exe -E copy_directory D:/Github/Marble.Framework/runtime/C++ D:/Github/Marble.Framework/bin/x86-MinGW-Debug-Win32/Sandbox
 	D:\CMake\bin\cmake.exe -E copy_if_different D:/Github/Marble.Framework/dependencies/SDL2-MinGW/bin/SDL2.dll D:/Github/Marble.Framework/bin/x86-MinGW-Debug-Win32/Sandbox

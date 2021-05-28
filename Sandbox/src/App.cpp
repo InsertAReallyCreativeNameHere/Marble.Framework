@@ -27,7 +27,7 @@ bool quitted = false;
 
 int main(int argc, char* argv[])
 {
-	CoreSystem::OnInitialize += start;
+	/*CoreSystem::OnInitialize += start;
 	CoreSystem::OnTick += update;
 	CoreSystem::OnQuit += stop;
 
@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 		}
 	};
 
-	CoreSystem::OnKeyDown += onkeydown;
+	CoreSystem::OnKeyDown += onkeydown;*/
 
 	if (Application::execute(argc, argv) != 0)
 	{

@@ -142,6 +142,19 @@ Marble.Mathematics/fast:
 .PHONY : Marble.Mathematics/fast
 
 #=============================================================================
+# Target rules for targets named Marble.Runtime.GL
+
+# Build rule for target.
+Marble.Runtime.GL: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 Marble.Runtime.GL
+.PHONY : Marble.Runtime.GL
+
+# fast build rule for target.
+Marble.Runtime.GL/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/build
+.PHONY : Marble.Runtime.GL/fast
+
+#=============================================================================
 # Target rules for targets named Marble.Runtime.CoreLib
 
 # Build rule for target.
@@ -634,6 +647,30 @@ Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.CoreLib.dir\build.make CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.s
 .PHONY : Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.s
 
+Marble.Runtime.GL/src/ShaderCompiler.obj: Marble.Runtime.GL/src/ShaderCompiler.cpp.obj
+.PHONY : Marble.Runtime.GL/src/ShaderCompiler.obj
+
+# target to build an object file
+Marble.Runtime.GL/src/ShaderCompiler.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/Marble.Runtime.GL/src/ShaderCompiler.cpp.obj
+.PHONY : Marble.Runtime.GL/src/ShaderCompiler.cpp.obj
+
+Marble.Runtime.GL/src/ShaderCompiler.i: Marble.Runtime.GL/src/ShaderCompiler.cpp.i
+.PHONY : Marble.Runtime.GL/src/ShaderCompiler.i
+
+# target to preprocess a source file
+Marble.Runtime.GL/src/ShaderCompiler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/Marble.Runtime.GL/src/ShaderCompiler.cpp.i
+.PHONY : Marble.Runtime.GL/src/ShaderCompiler.cpp.i
+
+Marble.Runtime.GL/src/ShaderCompiler.s: Marble.Runtime.GL/src/ShaderCompiler.cpp.s
+.PHONY : Marble.Runtime.GL/src/ShaderCompiler.s
+
+# target to generate assembly for a file
+Marble.Runtime.GL/src/ShaderCompiler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/Marble.Runtime.GL/src/ShaderCompiler.cpp.s
+.PHONY : Marble.Runtime.GL/src/ShaderCompiler.cpp.s
+
 Sandbox/src/App.obj: Sandbox/src/App.cpp.obj
 .PHONY : Sandbox/src/App.obj
 
@@ -658,6 +695,150 @@ Sandbox/src/App.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Sandbox.dir\build.make CMakeFiles/Sandbox.dir/Sandbox/src/App.cpp.s
 .PHONY : Sandbox/src/App.cpp.s
 
+external/shaderc_modified/shaderc.obj: external/shaderc_modified/shaderc.cpp.obj
+.PHONY : external/shaderc_modified/shaderc.obj
+
+# target to build an object file
+external/shaderc_modified/shaderc.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc.cpp.obj
+.PHONY : external/shaderc_modified/shaderc.cpp.obj
+
+external/shaderc_modified/shaderc.i: external/shaderc_modified/shaderc.cpp.i
+.PHONY : external/shaderc_modified/shaderc.i
+
+# target to preprocess a source file
+external/shaderc_modified/shaderc.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc.cpp.i
+.PHONY : external/shaderc_modified/shaderc.cpp.i
+
+external/shaderc_modified/shaderc.s: external/shaderc_modified/shaderc.cpp.s
+.PHONY : external/shaderc_modified/shaderc.s
+
+# target to generate assembly for a file
+external/shaderc_modified/shaderc.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc.cpp.s
+.PHONY : external/shaderc_modified/shaderc.cpp.s
+
+external/shaderc_modified/shaderc_glsl.obj: external/shaderc_modified/shaderc_glsl.cpp.obj
+.PHONY : external/shaderc_modified/shaderc_glsl.obj
+
+# target to build an object file
+external/shaderc_modified/shaderc_glsl.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc_glsl.cpp.obj
+.PHONY : external/shaderc_modified/shaderc_glsl.cpp.obj
+
+external/shaderc_modified/shaderc_glsl.i: external/shaderc_modified/shaderc_glsl.cpp.i
+.PHONY : external/shaderc_modified/shaderc_glsl.i
+
+# target to preprocess a source file
+external/shaderc_modified/shaderc_glsl.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc_glsl.cpp.i
+.PHONY : external/shaderc_modified/shaderc_glsl.cpp.i
+
+external/shaderc_modified/shaderc_glsl.s: external/shaderc_modified/shaderc_glsl.cpp.s
+.PHONY : external/shaderc_modified/shaderc_glsl.s
+
+# target to generate assembly for a file
+external/shaderc_modified/shaderc_glsl.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc_glsl.cpp.s
+.PHONY : external/shaderc_modified/shaderc_glsl.cpp.s
+
+external/shaderc_modified/shaderc_hlsl.obj: external/shaderc_modified/shaderc_hlsl.cpp.obj
+.PHONY : external/shaderc_modified/shaderc_hlsl.obj
+
+# target to build an object file
+external/shaderc_modified/shaderc_hlsl.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc_hlsl.cpp.obj
+.PHONY : external/shaderc_modified/shaderc_hlsl.cpp.obj
+
+external/shaderc_modified/shaderc_hlsl.i: external/shaderc_modified/shaderc_hlsl.cpp.i
+.PHONY : external/shaderc_modified/shaderc_hlsl.i
+
+# target to preprocess a source file
+external/shaderc_modified/shaderc_hlsl.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc_hlsl.cpp.i
+.PHONY : external/shaderc_modified/shaderc_hlsl.cpp.i
+
+external/shaderc_modified/shaderc_hlsl.s: external/shaderc_modified/shaderc_hlsl.cpp.s
+.PHONY : external/shaderc_modified/shaderc_hlsl.s
+
+# target to generate assembly for a file
+external/shaderc_modified/shaderc_hlsl.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc_hlsl.cpp.s
+.PHONY : external/shaderc_modified/shaderc_hlsl.cpp.s
+
+external/shaderc_modified/shaderc_metal.obj: external/shaderc_modified/shaderc_metal.cpp.obj
+.PHONY : external/shaderc_modified/shaderc_metal.obj
+
+# target to build an object file
+external/shaderc_modified/shaderc_metal.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc_metal.cpp.obj
+.PHONY : external/shaderc_modified/shaderc_metal.cpp.obj
+
+external/shaderc_modified/shaderc_metal.i: external/shaderc_modified/shaderc_metal.cpp.i
+.PHONY : external/shaderc_modified/shaderc_metal.i
+
+# target to preprocess a source file
+external/shaderc_modified/shaderc_metal.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc_metal.cpp.i
+.PHONY : external/shaderc_modified/shaderc_metal.cpp.i
+
+external/shaderc_modified/shaderc_metal.s: external/shaderc_modified/shaderc_metal.cpp.s
+.PHONY : external/shaderc_modified/shaderc_metal.s
+
+# target to generate assembly for a file
+external/shaderc_modified/shaderc_metal.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc_metal.cpp.s
+.PHONY : external/shaderc_modified/shaderc_metal.cpp.s
+
+external/shaderc_modified/shaderc_pssl.obj: external/shaderc_modified/shaderc_pssl.cpp.obj
+.PHONY : external/shaderc_modified/shaderc_pssl.obj
+
+# target to build an object file
+external/shaderc_modified/shaderc_pssl.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc_pssl.cpp.obj
+.PHONY : external/shaderc_modified/shaderc_pssl.cpp.obj
+
+external/shaderc_modified/shaderc_pssl.i: external/shaderc_modified/shaderc_pssl.cpp.i
+.PHONY : external/shaderc_modified/shaderc_pssl.i
+
+# target to preprocess a source file
+external/shaderc_modified/shaderc_pssl.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc_pssl.cpp.i
+.PHONY : external/shaderc_modified/shaderc_pssl.cpp.i
+
+external/shaderc_modified/shaderc_pssl.s: external/shaderc_modified/shaderc_pssl.cpp.s
+.PHONY : external/shaderc_modified/shaderc_pssl.s
+
+# target to generate assembly for a file
+external/shaderc_modified/shaderc_pssl.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc_pssl.cpp.s
+.PHONY : external/shaderc_modified/shaderc_pssl.cpp.s
+
+external/shaderc_modified/shaderc_spirv.obj: external/shaderc_modified/shaderc_spirv.cpp.obj
+.PHONY : external/shaderc_modified/shaderc_spirv.obj
+
+# target to build an object file
+external/shaderc_modified/shaderc_spirv.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc_spirv.cpp.obj
+.PHONY : external/shaderc_modified/shaderc_spirv.cpp.obj
+
+external/shaderc_modified/shaderc_spirv.i: external/shaderc_modified/shaderc_spirv.cpp.i
+.PHONY : external/shaderc_modified/shaderc_spirv.i
+
+# target to preprocess a source file
+external/shaderc_modified/shaderc_spirv.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc_spirv.cpp.i
+.PHONY : external/shaderc_modified/shaderc_spirv.cpp.i
+
+external/shaderc_modified/shaderc_spirv.s: external/shaderc_modified/shaderc_spirv.cpp.s
+.PHONY : external/shaderc_modified/shaderc_spirv.s
+
+# target to generate assembly for a file
+external/shaderc_modified/shaderc_spirv.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/external/shaderc_modified/shaderc_spirv.cpp.s
+.PHONY : external/shaderc_modified/shaderc_spirv.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -668,6 +849,7 @@ help:
 	@echo ... rebuild_cache
 	@echo ... Marble.Mathematics
 	@echo ... Marble.Runtime.CoreLib
+	@echo ... Marble.Runtime.GL
 	@echo ... Sandbox
 	@echo ... Marble.Mathematics/src/Mathematics.obj
 	@echo ... Marble.Mathematics/src/Mathematics.i
@@ -729,9 +911,30 @@ help:
 	@echo ... Marble.Runtime.CoreLib/src/Rendering/Renderer.obj
 	@echo ... Marble.Runtime.CoreLib/src/Rendering/Renderer.i
 	@echo ... Marble.Runtime.CoreLib/src/Rendering/Renderer.s
+	@echo ... Marble.Runtime.GL/src/ShaderCompiler.obj
+	@echo ... Marble.Runtime.GL/src/ShaderCompiler.i
+	@echo ... Marble.Runtime.GL/src/ShaderCompiler.s
 	@echo ... Sandbox/src/App.obj
 	@echo ... Sandbox/src/App.i
 	@echo ... Sandbox/src/App.s
+	@echo ... external/shaderc_modified/shaderc.obj
+	@echo ... external/shaderc_modified/shaderc.i
+	@echo ... external/shaderc_modified/shaderc.s
+	@echo ... external/shaderc_modified/shaderc_glsl.obj
+	@echo ... external/shaderc_modified/shaderc_glsl.i
+	@echo ... external/shaderc_modified/shaderc_glsl.s
+	@echo ... external/shaderc_modified/shaderc_hlsl.obj
+	@echo ... external/shaderc_modified/shaderc_hlsl.i
+	@echo ... external/shaderc_modified/shaderc_hlsl.s
+	@echo ... external/shaderc_modified/shaderc_metal.obj
+	@echo ... external/shaderc_modified/shaderc_metal.i
+	@echo ... external/shaderc_modified/shaderc_metal.s
+	@echo ... external/shaderc_modified/shaderc_pssl.obj
+	@echo ... external/shaderc_modified/shaderc_pssl.i
+	@echo ... external/shaderc_modified/shaderc_pssl.s
+	@echo ... external/shaderc_modified/shaderc_spirv.obj
+	@echo ... external/shaderc_modified/shaderc_spirv.i
+	@echo ... external/shaderc_modified/shaderc_spirv.s
 .PHONY : help
 
 

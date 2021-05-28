@@ -17,7 +17,7 @@ color
     {
         this->_color = value;
         
-        Texture2D* data = this->data;
+        /*Texture2D* data = this->data;
         byte color[4] { this->_color.r, this->_color.g, this->_color.b, this->_color.a };
         Renderer::pendingRenderJobs.push_back
         (
@@ -29,13 +29,13 @@ color
                 },
                 true
             )
-        );
+        );*/
     }
 )
 {
     Texture2D* data = this->data;
     byte color[4] { this->_color.r, this->_color.g, this->_color.b, this->_color.a };
-    Renderer::pendingRenderJobs.push_back
+    /*Renderer::pendingRenderJobs.push_back
     (
         new FunctionRenderJob
         (
@@ -57,12 +57,12 @@ color
             },
             true
         )
-    );
+    );*/
 }
 Panel::~Panel()
 {
     Texture2D* data = this->data;
-    Renderer::pendingRenderJobs.push_back
+    /*Renderer::pendingRenderJobs.push_back
     (
         new FunctionRenderJob
         (
@@ -73,5 +73,5 @@ Panel::~Panel()
             },
             true
         )
-    );
+    );*/
 }

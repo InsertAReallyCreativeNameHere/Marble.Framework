@@ -6,5 +6,5 @@ CXX_DEFINES = -DBUILD_TYPE_DYNAMIC=1 -DMarble_Runtime_CoreLib_EXPORTS -DSDL_MAIN
 
 CXX_INCLUDES = @CMakeFiles/Marble.Runtime.CoreLib.dir/includes_CXX.rsp
 
-CXX_FLAGS =  -std=c++20 -fconcepts -flto -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g
+CXX_FLAGS =  -std=c++20 -fconcepts -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable -O0 -g
 

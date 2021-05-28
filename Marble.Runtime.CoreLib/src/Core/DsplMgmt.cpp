@@ -2,8 +2,8 @@
 
 using namespace Marble;
 
-int Window::width;
-int Window::height;
+std::atomic<int> Window::width;
+std::atomic<int> Window::height;
 std::atomic<bool> Window::resizing = false;
 
 int Screen::width;

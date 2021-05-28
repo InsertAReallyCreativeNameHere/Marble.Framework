@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef __SPINLOCK_H__
-#define __SPINLOCK_H__
-
 #include <inc.h>
 
 #include <atomic>
@@ -39,5 +36,3 @@ namespace Marble
         ~SoyBoyYieldingLockGuard();
     };
 }
-
-#endif

@@ -33,7 +33,7 @@ imageFile
             int h = file->height;
 
             Texture2D* texture = this->texture;
-            Renderer::pendingRenderJobs.push_back
+            /*Renderer::pendingRenderJobs.push_back
             (
                 new FunctionRenderJob
                 (
@@ -55,7 +55,7 @@ imageFile
                     },
                     true
                 )
-            );
+            );*/
         }
     }
 )

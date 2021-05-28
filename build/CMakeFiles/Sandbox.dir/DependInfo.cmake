@@ -15,6 +15,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
 set(CMAKE_TARGET_LINKED_INFO_FILES
   "D:/Github/Marble.Framework/build/CMakeFiles/Marble.Runtime.CoreLib.dir/DependInfo.cmake"
   "D:/Github/Marble.Framework/build/CMakeFiles/Marble.Mathematics.dir/DependInfo.cmake"
+  "D:/Github/Marble.Framework/build/CMakeFiles/Marble.Runtime.GL.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

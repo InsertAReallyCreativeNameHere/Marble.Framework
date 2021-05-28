@@ -14,8 +14,8 @@ namespace Marble
 
     class coreapi Window final
     {
-        static int width;
-        static int height;
+        static std::atomic<int> width;
+        static std::atomic<int> height;
 
         static std::atomic<bool> resizing;
     public:

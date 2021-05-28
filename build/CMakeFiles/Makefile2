@@ -64,6 +64,7 @@ CMAKE_BINARY_DIR = D:\Github\Marble.Framework\build
 # The main recursive "all" target.
 all: CMakeFiles/Sandbox.dir/all
 all: CMakeFiles/Marble.Mathematics.dir/all
+all: CMakeFiles/Marble.Runtime.GL.dir/all
 all: CMakeFiles/Marble.Runtime.CoreLib.dir/all
 .PHONY : all
 
@@ -74,6 +75,7 @@ preinstall:
 # The main recursive "clean" target.
 clean: CMakeFiles/Sandbox.dir/clean
 clean: CMakeFiles/Marble.Mathematics.dir/clean
+clean: CMakeFiles/Marble.Runtime.GL.dir/clean
 clean: CMakeFiles/Marble.Runtime.CoreLib.dir/clean
 .PHONY : clean
 
@@ -83,14 +85,15 @@ clean: CMakeFiles/Marble.Runtime.CoreLib.dir/clean
 # All Build rule for target.
 CMakeFiles/Sandbox.dir/all: CMakeFiles/Marble.Mathematics.dir/all
 CMakeFiles/Sandbox.dir/all: CMakeFiles/Marble.Runtime.CoreLib.dir/all
+CMakeFiles/Sandbox.dir/all: CMakeFiles/Marble.Runtime.GL.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Sandbox.dir\build.make CMakeFiles/Sandbox.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Sandbox.dir\build.make CMakeFiles/Sandbox.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=D:\Github\Marble.Framework\build\CMakeFiles --progress-num=23,24 "Built target Sandbox"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=D:\Github\Marble.Framework\build\CMakeFiles --progress-num=31,32 "Built target Sandbox"
 .PHONY : CMakeFiles/Sandbox.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Sandbox.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Github\Marble.Framework\build\CMakeFiles 24
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Github\Marble.Framework\build\CMakeFiles 32
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/Sandbox.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start D:\Github\Marble.Framework\build\CMakeFiles 0
 .PHONY : CMakeFiles/Sandbox.dir/rule
@@ -131,10 +134,37 @@ CMakeFiles/Marble.Mathematics.dir/clean:
 .PHONY : CMakeFiles/Marble.Mathematics.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/Marble.Runtime.GL.dir
+
+# All Build rule for target.
+CMakeFiles/Marble.Runtime.GL.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=D:\Github\Marble.Framework\build\CMakeFiles --progress-num=23,24,25,26,27,28,29,30 "Built target Marble.Runtime.GL"
+.PHONY : CMakeFiles/Marble.Runtime.GL.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/Marble.Runtime.GL.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Github\Marble.Framework\build\CMakeFiles 8
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/Marble.Runtime.GL.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Github\Marble.Framework\build\CMakeFiles 0
+.PHONY : CMakeFiles/Marble.Runtime.GL.dir/rule
+
+# Convenience name for target.
+Marble.Runtime.GL: CMakeFiles/Marble.Runtime.GL.dir/rule
+.PHONY : Marble.Runtime.GL
+
+# clean rule for target.
+CMakeFiles/Marble.Runtime.GL.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.GL.dir\build.make CMakeFiles/Marble.Runtime.GL.dir/clean
+.PHONY : CMakeFiles/Marble.Runtime.GL.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/Marble.Runtime.CoreLib.dir
 
 # All Build rule for target.
 CMakeFiles/Marble.Runtime.CoreLib.dir/all: CMakeFiles/Marble.Mathematics.dir/all
+CMakeFiles/Marble.Runtime.CoreLib.dir/all: CMakeFiles/Marble.Runtime.GL.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.CoreLib.dir\build.make CMakeFiles/Marble.Runtime.CoreLib.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Marble.Runtime.CoreLib.dir\build.make CMakeFiles/Marble.Runtime.CoreLib.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=D:\Github\Marble.Framework\build\CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 "Built target Marble.Runtime.CoreLib"
@@ -142,7 +172,7 @@ CMakeFiles/Marble.Runtime.CoreLib.dir/all: CMakeFiles/Marble.Mathematics.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Marble.Runtime.CoreLib.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Github\Marble.Framework\build\CMakeFiles 22
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\Github\Marble.Framework\build\CMakeFiles 30
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/Marble.Runtime.CoreLib.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start D:\Github\Marble.Framework\build\CMakeFiles 0
 .PHONY : CMakeFiles/Marble.Runtime.CoreLib.dir/rule

@@ -2,6 +2,8 @@
 
 using namespace Marble;
 
+std::mutex Debug::outputLock;
+
 //Don't change this array.
 const wchar_t* Debug::ansiCodes[6] =
 {
