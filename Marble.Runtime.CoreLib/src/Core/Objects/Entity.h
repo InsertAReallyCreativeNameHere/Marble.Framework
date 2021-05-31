@@ -12,8 +12,8 @@
 #include <Core/Debug.h>
 #include <Core/Components/RectTransform.h>
 #include <Core/Objects/Component.h>
-#include <Extras/ManagedArray.h>
-#include <Extras/Hash.h>
+#include <Utility/ManagedArray.h>
+#include <Utility/Hash.h>
 #include <Mathematics.h>
 
 namespace Marble

@@ -4,7 +4,7 @@
 
 #include <Core/PackageManager.h>
 #include <Core/Objects/Component.h>
-#include <Extras/Property.h>
+#include <Utility/Property.h>
 #include <Rendering/Core.h>
 #include <SDL.h>
 

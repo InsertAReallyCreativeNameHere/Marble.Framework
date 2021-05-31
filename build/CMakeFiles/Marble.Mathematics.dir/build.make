@@ -73,15 +73,15 @@ CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.obj: CM
 CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.obj: ../Marble.Mathematics/src/Mathematics.cpp
 CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.obj: CMakeFiles/Marble.Mathematics.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\Github\Marble.Framework\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.obj"
-	D:\Github\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.obj -MF CMakeFiles\Marble.Mathematics.dir\Marble.Mathematics\src\Mathematics.cpp.obj.d -o CMakeFiles\Marble.Mathematics.dir\Marble.Mathematics\src\Mathematics.cpp.obj -c D:\Github\Marble.Framework\Marble.Mathematics\src\Mathematics.cpp
+	d:\Github\Marble.Framework\..\CykaBlyat-Tools\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.obj -MF CMakeFiles\Marble.Mathematics.dir\Marble.Mathematics\src\Mathematics.cpp.obj.d -o CMakeFiles\Marble.Mathematics.dir\Marble.Mathematics\src\Mathematics.cpp.obj -c D:\Github\Marble.Framework\Marble.Mathematics\src\Mathematics.cpp
 
 CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.i"
-	D:\Github\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Github\Marble.Framework\Marble.Mathematics\src\Mathematics.cpp > CMakeFiles\Marble.Mathematics.dir\Marble.Mathematics\src\Mathematics.cpp.i
+	d:\Github\Marble.Framework\..\CykaBlyat-Tools\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Github\Marble.Framework\Marble.Mathematics\src\Mathematics.cpp > CMakeFiles\Marble.Mathematics.dir\Marble.Mathematics\src\Mathematics.cpp.i
 
 CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Marble.Mathematics.dir/Marble.Mathematics/src/Mathematics.cpp.s"
-	D:\Github\CykaBlyat-Tools\mingw32\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Github\Marble.Framework\Marble.Mathematics\src\Mathematics.cpp -o CMakeFiles\Marble.Mathematics.dir\Marble.Mathematics\src\Mathematics.cpp.s
+	d:\Github\Marble.Framework\..\CykaBlyat-Tools\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Github\Marble.Framework\Marble.Mathematics\src\Mathematics.cpp -o CMakeFiles\Marble.Mathematics.dir\Marble.Mathematics\src\Mathematics.cpp.s
 
 # Object files for target Marble.Mathematics
 Marble_Mathematics_OBJECTS = \

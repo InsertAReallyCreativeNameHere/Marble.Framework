@@ -3,7 +3,7 @@
 #include <inc.h>
 
 #include <Core/Objects/Object.h>
-#include <Extras/Lock.h>
+#include <Utility/Lock.h>
 
 namespace Marble
 {

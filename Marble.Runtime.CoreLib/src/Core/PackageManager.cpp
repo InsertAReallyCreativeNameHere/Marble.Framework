@@ -16,7 +16,7 @@ PackageFile::~PackageFile()
 {
 }
 
-BinaryPackageFile::BinaryPackageFile(const uint8_t* bytes, const size_t bytesSize, const fs::path& fileLocalPath) :
+BinaryPackageFile::BinaryPackageFile(const uint8_t* bytes, const unsigned bytesSize, const fs::path& fileLocalPath) :
 PackageFile(fileLocalPath, strhash(ctti::nameof<BinaryPackageFile>().begin())), loadedBytes(bytes), bytesSize(bytesSize)
 {
 }
@@ -41,12 +41,12 @@ void PackageManager::loadCorePackageIntoMemory(const fs::path& packagePath)
 {
     PackageManager::corePackageStream.open(packagePath, std::ios::binary);
     PackageManager::corePackageStream.seekg(0, std::ios::end);
-    size_t length = PackageManager::corePackageStream.tellg();
+    unsigned length = PackageManager::corePackageStream.tellg();
     PackageManager::corePackageStream.seekg(0, std::ios::beg);
 
     while (PackageManager::corePackageStream.tellg() < length)
     {
-        size_t filePathLength;
+        unsigned filePathLength;
         PackageManager::corePackageStream.read(reinterpret_cast<char*>(&filePathLength), sizeof(unsigned));
 
         std::wstring filePath;
@@ -55,7 +55,7 @@ void PackageManager::loadCorePackageIntoMemory(const fs::path& packagePath)
         PackageManager::normalizePath(filePath);
         Debug::LogTrace("Package File - ", filePath, ".");
 
-        size_t fileLen;
+        unsigned fileLen;
         PackageManager::corePackageStream.read(reinterpret_cast<char*>(&fileLen), sizeof(unsigned));
         Debug::LogTrace("Package File Size - ", fileLen, "B.");
 

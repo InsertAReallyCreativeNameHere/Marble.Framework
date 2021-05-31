@@ -5,7 +5,7 @@
 #include <list>
 #include <unordered_map>
 #include <ctti/nameof.hpp>
-#include <Extras/Hash.h>
+#include <Utility/Hash.h>
 
 #include <filesystem>
 
@@ -39,16 +39,16 @@ namespace Marble
         class coreapi BinaryPackageFile final : public PackageFile
         {
         public:
-            BinaryPackageFile(const uint8_t* bytes, size_t bytesSize, const std::filesystem::path& fileLocalPath);
+            BinaryPackageFile(const uint8_t* bytes, unsigned bytesSize, const std::filesystem::path& fileLocalPath);
             ~BinaryPackageFile() override;
             
             const uint8_t* loadedBytes;
-            const size_t bytesSize;
+            const unsigned bytesSize;
         };
 
         class coreapi PortableGraphicPackageFile final : public PackageFile
         {
-            const size_t imageBytesSize;
+            const unsigned imageBytesSize;
         public:
             PortableGraphicPackageFile(const uint8_t* imageBytes, int width, int height, const std::filesystem::path& fileLocalPath);
             ~PortableGraphicPackageFile() override;

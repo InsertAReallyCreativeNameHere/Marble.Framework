@@ -2,7 +2,7 @@
 
 #include <inc.h>
 #include <Core/Objects/Component.h>
-#include <Extras/Property.h>
+#include <Utility/Property.h>
 #include <Mathematics.h>
 
 namespace Marble

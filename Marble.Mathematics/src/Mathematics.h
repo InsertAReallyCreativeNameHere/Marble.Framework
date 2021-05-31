@@ -1,7 +1,7 @@
 #pragma once
 
 #include <inc.h>
-#include <Extras/ManagedArray.h>
+#include <Utility/ManagedArray.h>
 
 namespace Marble
 {
@@ -107,9 +107,8 @@ namespace Marble
 			float& operator[](uint const (&index)[2]);
 
 			template<typename Func>
-			void map(const Func&& func)
+			void map(const Func& func)
 			{
-				#pragma omp parallel for default(none) shared(func) num_threads(2)
 				for (int i = 0; i < this->values.length(); i++)
 					this->values[i] = func(this->values[i]);
 			}

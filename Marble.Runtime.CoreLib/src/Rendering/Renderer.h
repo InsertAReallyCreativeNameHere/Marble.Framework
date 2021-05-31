@@ -1,8 +1,8 @@
 #include <inc.h>
 
 #include <unordered_map>
-#include <Extras/Lock.h>
-#include <Extras/Function.h>
+#include <Utility/Lock.h>
+#include <Utility/Function.h>
 #include <SDL.h>
 
 namespace Marble

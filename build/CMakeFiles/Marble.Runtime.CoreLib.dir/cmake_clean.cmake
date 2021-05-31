@@ -35,12 +35,12 @@ file(REMOVE_RECURSE
   "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/PackageManager.cpp.obj.d"
   "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.obj"
   "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Core/SceneManagement.cpp.obj.d"
-  "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Extras/Lock.cpp.obj"
-  "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Extras/Lock.cpp.obj.d"
   "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Core.cpp.obj"
   "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Core.cpp.obj.d"
   "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.obj"
   "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Rendering/Renderer.cpp.obj.d"
+  "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Utility/Lock.cpp.obj"
+  "CMakeFiles/Marble.Runtime.CoreLib.dir/Marble.Runtime.CoreLib/src/Utility/Lock.cpp.obj.d"
 )
 
 # Per-language clean rules from dependency scanning.

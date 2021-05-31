@@ -14,11 +14,92 @@
 # EXTERNAL cache entries
 ########################
 
-//Path to a program.
-CMAKE_ADDR2LINE:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/addr2line.exe
+//Use 3Dnow! MMX assembly routines
+3DNOW:BOOL=ON
+
+//Support the ALSA audio API
+ALSA:BOOL=OFF
+
+//Use Altivec assembly routines
+ALTIVEC:BOOL=ON
+
+//use NEON assembly blitters on ARM
+ARMNEON:BOOL=OFF
+
+//use SIMD assembly blitters on ARM
+ARMSIMD:BOOL=OFF
+
+//Support the Analog Real Time Synthesizer
+ARTS:BOOL=OFF
+
+//Use AddressSanitizer to detect memory errors
+ASAN:BOOL=OFF
+
+//Enable assembly routines
+ASSEMBLY:BOOL=ON
+
+//Enable internal sanity checks (auto/disabled/release/enabled/paranoid)
+ASSERTIONS:STRING=auto
+
+//number to use for magic backgrounding signal or 'OFF'
+BACKGROUNDING_SIGNAL:STRING=OFF
+
+//Amalgamated bgfx build for faster compilation
+BGFX_AMALGAMATED:BOOL=ON
+
+//Build bgfx examples.
+BGFX_BUILD_EXAMPLES:BOOL=OFF
+
+//Build bgfx tools.
+BGFX_BUILD_TOOLS:BOOL=OFF
+
+//Enables debug configuration on all builds
+BGFX_CONFIG_DEBUG:BOOL=OFF
+
+//Enables the webgpu renderer
+BGFX_CONFIG_RENDERER_WEBGPU:BOOL=OFF
+
+//Include convenience custom targets.
+BGFX_CUSTOM_TARGETS:BOOL=ON
+
+//Location of bgfx.
+BGFX_DIR:STRING=D:/Github/Marble.Framework/external/bgfx.cmake/bgfx
+
+//Create installation target.
+BGFX_INSTALL:BOOL=ON
+
+//Install examples and their runtimes.
+BGFX_INSTALL_EXAMPLES:BOOL=OFF
+
+//Linking type for library
+BGFX_LIBRARY_TYPE:STRING=STATIC
+
+//Specify minimum OpenGL ES version
+BGFX_OPENGLES_VERSION:STRING=
+
+//Specify minimum opengl version
+BGFX_OPENGL_VERSION:STRING=
+
+//Build with OVR support.
+BGFX_USE_OVR:BOOL=OFF
+
+//Location of bimg.
+BIMG_DIR:STRING=D:/Github/Marble.Framework/external/bgfx.cmake/bimg
+
+//Amalgamated bx build for faster compilation
+BX_AMALGAMATED:BOOL=ON
+
+//Location of bx.
+BX_DIR:STRING=D:/Github/Marble.Framework/external/bgfx.cmake/bx
+
+//Use clock_gettime() instead of gettimeofday()
+CLOCK_GETTIME:BOOL=OFF
 
 //Path to a program.
-CMAKE_AR:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/ar.exe
+CMAKE_ADDR2LINE:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/addr2line.exe
+
+//Path to a program.
+CMAKE_AR:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/ar.exe
 
 //No help, variable specified on the command line.
 CMAKE_BUILD_TYPE:STRING=Debug
@@ -27,15 +108,15 @@ CMAKE_BUILD_TYPE:STRING=Debug
 CMAKE_COLOR_MAKEFILE:BOOL=ON
 
 //No help, variable specified on the command line.
-CMAKE_CXX_COMPILER:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/g++.exe
+CMAKE_CXX_COMPILER:FILEPATH=d:/Github/Marble.Framework/../CykaBlyat-Tools/msys64/mingw64/bin/g++.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_CXX_COMPILER_AR:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/gcc-ar.exe
+CMAKE_CXX_COMPILER_AR:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/gcc-ar.exe
 
 //A wrapper around 'ranlib' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_CXX_COMPILER_RANLIB:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/gcc-ranlib.exe
+CMAKE_CXX_COMPILER_RANLIB:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/gcc-ranlib.exe
 
 //Flags used by the CXX compiler during all build types.
 CMAKE_CXX_FLAGS:STRING=
@@ -56,15 +137,15 @@ CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 CMAKE_CXX_STANDARD_LIBRARIES:STRING=-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
 
 //No help, variable specified on the command line.
-CMAKE_C_COMPILER:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/gcc.exe
+CMAKE_C_COMPILER:FILEPATH=d:/Github/Marble.Framework/../CykaBlyat-Tools/msys64/mingw64/bin/gcc.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_C_COMPILER_AR:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/gcc-ar.exe
+CMAKE_C_COMPILER_AR:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/gcc-ar.exe
 
 //A wrapper around 'ranlib' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_C_COMPILER_RANLIB:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/gcc-ranlib.exe
+CMAKE_C_COMPILER_RANLIB:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/gcc-ranlib.exe
 
 //Flags used by the C compiler during all build types.
 CMAKE_C_FLAGS:STRING=
@@ -85,7 +166,7 @@ CMAKE_C_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 CMAKE_C_STANDARD_LIBRARIES:STRING=-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
 
 //Path to a program.
-CMAKE_DLLTOOL:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/dlltool.exe
+CMAKE_DLLTOOL:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/dlltool.exe
 
 //Flags used by the linker during all build types.
 CMAKE_EXE_LINKER_FLAGS:STRING=
@@ -108,14 +189,62 @@ CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE
 //Convert GNU import libraries to MS format (requires Visual Studio)
 CMAKE_GNUtoMS:BOOL=OFF
 
+//User executables (bin)
+CMAKE_INSTALL_BINDIR:PATH=bin
+
+//Read-only architecture-independent data (DATAROOTDIR)
+CMAKE_INSTALL_DATADIR:PATH=
+
+//Read-only architecture-independent data root (share)
+CMAKE_INSTALL_DATAROOTDIR:PATH=share
+
+//Documentation root (DATAROOTDIR/doc/PROJECT_NAME)
+CMAKE_INSTALL_DOCDIR:PATH=
+
+//C header files (include)
+CMAKE_INSTALL_INCLUDEDIR:PATH=include
+
+//Info documentation (DATAROOTDIR/info)
+CMAKE_INSTALL_INFODIR:PATH=
+
+//Object code libraries (lib)
+CMAKE_INSTALL_LIBDIR:PATH=lib
+
+//Program executables (libexec)
+CMAKE_INSTALL_LIBEXECDIR:PATH=libexec
+
+//Locale-dependent data (DATAROOTDIR/locale)
+CMAKE_INSTALL_LOCALEDIR:PATH=
+
+//Modifiable single-machine data (var)
+CMAKE_INSTALL_LOCALSTATEDIR:PATH=var
+
+//Man documentation (DATAROOTDIR/man)
+CMAKE_INSTALL_MANDIR:PATH=
+
+//C header files for non-gcc (/usr/include)
+CMAKE_INSTALL_OLDINCLUDEDIR:PATH=/usr/include
+
 //Install path prefix, prepended onto install directories.
 CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/Marble.Mathematics
 
-//Path to a program.
-CMAKE_LINKER:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/ld.exe
+//Run-time variable data (LOCALSTATEDIR/run)
+CMAKE_INSTALL_RUNSTATEDIR:PATH=
+
+//System admin executables (sbin)
+CMAKE_INSTALL_SBINDIR:PATH=sbin
+
+//Modifiable architecture-independent data (com)
+CMAKE_INSTALL_SHAREDSTATEDIR:PATH=com
+
+//Read-only single-machine data (etc)
+CMAKE_INSTALL_SYSCONFDIR:PATH=etc
 
 //Path to a program.
-CMAKE_MAKE_PROGRAM:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/mingw32-make.exe
+CMAKE_LINKER:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/ld.exe
+
+//Path to a program.
+CMAKE_MAKE_PROGRAM:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/mingw32-make.exe
 
 //Flags used by the linker during the creation of modules during
 // all build types.
@@ -138,13 +267,13 @@ CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=
 CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //Path to a program.
-CMAKE_NM:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/nm.exe
+CMAKE_NM:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/nm.exe
 
 //Path to a program.
-CMAKE_OBJCOPY:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/objcopy.exe
+CMAKE_OBJCOPY:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/objcopy.exe
 
 //Path to a program.
-CMAKE_OBJDUMP:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/objdump.exe
+CMAKE_OBJDUMP:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/objdump.exe
 
 //Value Computed by CMake
 CMAKE_PROJECT_DESCRIPTION:STATIC=
@@ -156,10 +285,10 @@ CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 CMAKE_PROJECT_NAME:STATIC=Sandbox
 
 //Path to a program.
-CMAKE_RANLIB:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/ranlib.exe
+CMAKE_RANLIB:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/ranlib.exe
 
 //RC compiler
-CMAKE_RC_COMPILER:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/windres.exe
+CMAKE_RC_COMPILER:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/windres.exe
 
 //Flags for Windows Resource Compiler during all build types.
 CMAKE_RC_FLAGS:STRING=
@@ -177,7 +306,7 @@ CMAKE_RC_FLAGS_RELEASE:STRING=
 CMAKE_RC_FLAGS_RELWITHDEBINFO:STRING=
 
 //Path to a program.
-CMAKE_READELF:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/readelf.exe
+CMAKE_READELF:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/readelf.exe
 
 //Flags used by the linker during the creation of shared libraries
 // during all build types.
@@ -227,13 +356,61 @@ CMAKE_STATIC_LINKER_FLAGS_RELEASE:STRING=
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //Path to a program.
-CMAKE_STRIP:FILEPATH=D:/Github/CykaBlyat-Tools/mingw32/bin/strip.exe
+CMAKE_STRIP:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/strip.exe
 
 //If this value is on, makefiles will be generated without the
 // .SILENT directive, and all commands will be echoed to the console
 // during the make.  This is useful for debugging only. With Visual
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
+
+//Use DirectX for Windows audio/video
+DIRECTX:BOOL=ON
+
+//Support the disk writer audio driver
+DISKAUDIO:BOOL=ON
+
+//Support the dummy audio driver
+DUMMYAUDIO:BOOL=ON
+
+//Support the Enlightened Sound Daemon
+ESD:BOOL=OFF
+
+//number to use for magic foregrounding signal or 'OFF'
+FOREGROUNDING_SIGNAL:STRING=OFF
+
+//Use FusionSound audio driver
+FUSIONSOUND:BOOL=OFF
+
+//Use gcc builtin atomics
+GCC_ATOMICS:BOOL=ON
+
+//Git command line client
+GIT_EXECUTABLE:FILEPATH=D:/Git/cmd/git.exe
+
+//Use HIDAPI for low level joystick drivers
+HIDAPI:BOOL=ON
+
+//Value Computed by CMake
+Init_BINARY_DIR:STATIC=D:/Github/Marble.Framework/build
+
+//Value Computed by CMake
+Init_SOURCE_DIR:STATIC=D:/Github/Marble.Framework
+
+//Support the JACK audio API
+JACK:BOOL=OFF
+
+//Enable the virtual-joystick driver
+JOYSTICK_VIRTUAL:BOOL=ON
+
+//Use the system C library
+LIBC:BOOL=ON
+
+//Use libsamplerate for audio rate conversion
+LIBSAMPLERATE:BOOL=OFF
+
+//Use MMX assembly routines
+MMX:BOOL=ON
 
 //Value Computed by CMake
 Marble.Mathematics_BINARY_DIR:STATIC=D:/Github/Marble.Framework/build
@@ -245,7 +422,7 @@ Marble.Mathematics_SOURCE_DIR:STATIC=D:/Github/Marble.Framework
 Marble.Runtime.CoreLib_BINARY_DIR:STATIC=D:/Github/Marble.Framework/build
 
 //Dependencies for the target
-Marble.Runtime.CoreLib_LIB_DEPENDS:STATIC=general;Marble.Mathematics;general;Marble.Runtime.GL;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbgfxRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbimgRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbxRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbimg_decodeRelease.a;general;psapi;general;D:/Github/Marble.Framework/dependencies/SDL2-MinGW/lib/libSDL2main.a;general;D:/Github/Marble.Framework/dependencies/SDL2-MinGW/lib/libSDL2.dll.a;
+Marble.Runtime.CoreLib_LIB_DEPENDS:STATIC=general;Marble.Mathematics;general;Marble.Runtime.GL;general;SDL2-static;general;SDL2main;general;psapi;
 
 //Value Computed by CMake
 Marble.Runtime.CoreLib_SOURCE_DIR:STATIC=D:/Github/Marble.Framework
@@ -254,10 +431,134 @@ Marble.Runtime.CoreLib_SOURCE_DIR:STATIC=D:/Github/Marble.Framework
 Marble.Runtime.GL_BINARY_DIR:STATIC=D:/Github/Marble.Framework/build
 
 //Dependencies for the target
-Marble.Runtime.GL_LIB_DEPENDS:STATIC=general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbgfxRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbimgRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbxRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libbimg_decodeRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libfcppRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libglsl-optimizerRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libglslangRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libspirv-crossRelease.a;general;D:/Github/Marble.Framework/dependencies/bgfx/x86-mingw-win/lib/libspirv-optRelease.a;general;psapi;
+Marble.Runtime.GL_LIB_DEPENDS:STATIC=general;bgfx;general;bx;general;bimg;general;fcpp;general;glsl-optimizer;general;glslang;general;spirv-tools;general;spirv-cross;general;psapi;
 
 //Value Computed by CMake
 Marble.Runtime.GL_SOURCE_DIR:STATIC=D:/Github/Marble.Framework
+
+//Support the NAS audio API
+NAS:BOOL=OFF
+
+//Dynamically load NAS audio API
+NAS_SHARED:BOOL=OFF
+
+//Use Pipewire audio
+PIPEWIRE:BOOL=OFF
+
+//pkg-config executable
+PKG_CONFIG_EXECUTABLE:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/pkg-config.exe
+
+//Use POSIX threads for multi-threading
+PTHREADS:BOOL=OFF
+
+//Use PulseAudio
+PULSEAUDIO:BOOL=OFF
+
+//Enable the Direct3D render driver
+RENDER_D3D:BOOL=ON
+
+//Enable the Metal render driver
+RENDER_METAL:BOOL=OFF
+
+//Use an rpath when linking SDL
+RPATH:BOOL=OFF
+
+//Dependencies for the target
+SDL2-static_LIB_DEPENDS:STATIC=general;m;general;user32;general;gdi32;general;winmm;general;imm32;general;ole32;general;oleaut32;general;version;general;uuid;general;advapi32;general;setupapi;general;shell32;general;dinput8;general;mingw32;general;-Wl,--no-undefined;general;-mwindows;
+
+//Value Computed by CMake
+SDL2_BINARY_DIR:STATIC=D:/Github/Marble.Framework/build/external/SDL
+
+//Dependencies for the target
+SDL2_LIB_DEPENDS:STATIC=general;m;general;user32;general;gdi32;general;winmm;general;imm32;general;ole32;general;oleaut32;general;version;general;uuid;general;advapi32;general;setupapi;general;shell32;general;dinput8;general;mingw32;general;-Wl,--no-undefined;general;-mwindows;
+
+//Value Computed by CMake
+SDL2_SOURCE_DIR:STATIC=D:/Github/Marble.Framework/external/SDL
+
+//Enable the Atomic subsystem
+SDL_ATOMIC:BOOL=ON
+
+//Enable the Audio subsystem
+SDL_AUDIO:BOOL=ON
+
+//Name suffix for debug builds
+SDL_CMAKE_DEBUG_POSTFIX:STRING=d
+
+//Enable the CPUinfo subsystem
+SDL_CPUINFO:BOOL=ON
+
+//Use dlopen for shared object loading
+SDL_DLOPEN:BOOL=ON
+
+//Enable the Events subsystem
+SDL_EVENTS:BOOL=ON
+
+//Enable the File subsystem
+SDL_FILE:BOOL=ON
+
+//Enable the Filesystem subsystem
+SDL_FILESYSTEM:BOOL=ON
+
+//Enable the Haptic subsystem
+SDL_HAPTIC:BOOL=ON
+
+//Enable the Joystick subsystem
+SDL_JOYSTICK:BOOL=ON
+
+//Enable the Loadso subsystem
+SDL_LOADSO:BOOL=ON
+
+//Enable the Locale subsystem
+SDL_LOCALE:BOOL=ON
+
+//Enable the Power subsystem
+SDL_POWER:BOOL=ON
+
+//Enable the Render subsystem
+SDL_RENDER:BOOL=ON
+
+//Enable the Sensor subsystem
+SDL_SENSOR:BOOL=ON
+
+//Build a shared version of the library
+SDL_SHARED:BOOL=ON
+
+//Build a static version of the library
+SDL_STATIC:BOOL=ON
+
+//Static version of the library should be built with Position Independent
+// Code
+SDL_STATIC_PIC:BOOL=OFF
+
+//Build the test directory
+SDL_TEST:BOOL=OFF
+
+//Enable the Threads subsystem
+SDL_THREADS:BOOL=ON
+
+//Enable the Timers subsystem
+SDL_TIMERS:BOOL=ON
+
+//Enable the Video subsystem
+SDL_VIDEO:BOOL=ON
+
+//Support the sndio audio API
+SNDIO:BOOL=OFF
+
+//Dynamically load the sndio audio API
+SNDIO_SHARED:BOOL=OFF
+
+//Use SSE assembly routines
+SSE:BOOL=ON
+
+//Use SSE2 assembly routines
+SSE2:BOOL=ON
+
+//Use SSE3 assembly routines
+SSE3:BOOL=ON
+
+//Allow GCC to use SSE floating point math
+SSEMATH:BOOL=ON
 
 //Value Computed by CMake
 Sandbox_BINARY_DIR:STATIC=D:/Github/Marble.Framework/build
@@ -265,11 +566,97 @@ Sandbox_BINARY_DIR:STATIC=D:/Github/Marble.Framework/build
 //Value Computed by CMake
 Sandbox_SOURCE_DIR:STATIC=D:/Github/Marble.Framework
 
+//Use Cocoa video driver
+VIDEO_COCOA:BOOL=OFF
+
+//Use DirectFB video driver
+VIDEO_DIRECTFB:BOOL=OFF
+
+//Use dummy video driver
+VIDEO_DUMMY:BOOL=ON
+
+//Use KMS DRM video driver
+VIDEO_KMSDRM:BOOL=OFF
+
+//Enable Metal support
+VIDEO_METAL:BOOL=OFF
+
+//Use offscreen video driver
+VIDEO_OFFSCREEN:BOOL=OFF
+
+//Include OpenGL support
+VIDEO_OPENGL:BOOL=ON
+
+//Include OpenGL ES support
+VIDEO_OPENGLES:BOOL=ON
+
+//Use Raspberry Pi video driver
+VIDEO_RPI:BOOL=OFF
+
+//Use Vivante EGL video driver
+VIDEO_VIVANTE:BOOL=OFF
+
+//Enable Vulkan support
+VIDEO_VULKAN:BOOL=ON
+
+//Use Wayland video driver
+VIDEO_WAYLAND:BOOL=OFF
+
+//Use X11 video driver
+VIDEO_X11:BOOL=OFF
+
+//Use the Windows WASAPI audio driver
+WASAPI:BOOL=ON
+
+//Path to a program.
+WINDRES:FILEPATH=D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/windres.exe
+
+//Use Xinput for Windows
+XINPUT:BOOL=ON
+
+//Value Computed by CMake
+bgfx_BINARY_DIR:STATIC=D:/Github/Marble.Framework/build/external/bgfx.cmake
+
+//Dependencies for the target
+bgfx_LIB_DEPENDS:STATIC=general;bx;general;bimg;
+
+//Value Computed by CMake
+bgfx_SOURCE_DIR:STATIC=D:/Github/Marble.Framework/external/bgfx.cmake
+
+//Value Computed by CMake
+bgfxdeps_BINARY_DIR:STATIC=D:/Github/Marble.Framework/build
+
+//Value Computed by CMake
+bgfxdeps_SOURCE_DIR:STATIC=D:/Github/Marble.Framework
+
+//Dependencies for the target
+bimg_LIB_DEPENDS:STATIC=general;bx;general;astc-codec;general;astc;general;edtaa3;general;etc1;general;etc2;general;iqa;general;squish;general;nvtt;general;pvrtc;
+
+//Dependencies for the target
+bx_LIB_DEPENDS:STATIC=general;psapi;
+
+//Dependencies for the target
+dear-imgui_LIB_DEPENDS:STATIC=general;bx;
+
+//Dependencies for the target
+etc2_LIB_DEPENDS:STATIC=general;bx;
+
+//Dependencies for the target
+example-common_LIB_DEPENDS:STATIC=general;bgfx;general;dear-imgui;general;meshoptimizer;
+
+//Dependencies for the target
+glsl-optimizer_LIB_DEPENDS:STATIC=general;glcpp;general;mesa;
+
+//Dependencies for the target
+nvtt_LIB_DEPENDS:STATIC=general;bx;
+
 
 ########################
 # INTERNAL cache entries
 ########################
 
+//STRINGS property for variable: BGFX_LIBRARY_TYPE
+BGFX_LIBRARY_TYPE-STRINGS:INTERNAL=STATIC;SHARED
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
@@ -355,6 +742,38 @@ CMAKE_GENERATOR_TOOLSET:INTERNAL=
 //Source directory with the top level CMakeLists.txt file for this
 // project
 CMAKE_HOME_DIRECTORY:INTERNAL=D:/Github/Marble.Framework
+//ADVANCED property for variable: CMAKE_INSTALL_BINDIR
+CMAKE_INSTALL_BINDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_DATADIR
+CMAKE_INSTALL_DATADIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_DATAROOTDIR
+CMAKE_INSTALL_DATAROOTDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_DOCDIR
+CMAKE_INSTALL_DOCDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_INCLUDEDIR
+CMAKE_INSTALL_INCLUDEDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_INFODIR
+CMAKE_INSTALL_INFODIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_LIBDIR
+CMAKE_INSTALL_LIBDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_LIBEXECDIR
+CMAKE_INSTALL_LIBEXECDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_LOCALEDIR
+CMAKE_INSTALL_LOCALEDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_LOCALSTATEDIR
+CMAKE_INSTALL_LOCALSTATEDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_MANDIR
+CMAKE_INSTALL_MANDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_OLDINCLUDEDIR
+CMAKE_INSTALL_OLDINCLUDEDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_RUNSTATEDIR
+CMAKE_INSTALL_RUNSTATEDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_SBINDIR
+CMAKE_INSTALL_SBINDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_SHAREDSTATEDIR
+CMAKE_INSTALL_SHAREDSTATEDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_SYSCONFDIR
+CMAKE_INSTALL_SYSCONFDIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_LINKER
 CMAKE_LINKER-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MAKE_PROGRAM
@@ -372,7 +791,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=3
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -426,4 +845,366 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 CMAKE_STRIP-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding PkgConfig
+FIND_PACKAGE_MESSAGE_DETAILS_PkgConfig:INTERNAL=[D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/pkg-config.exe][v1.7.4()]
+//ADVANCED property for variable: GIT_EXECUTABLE
+GIT_EXECUTABLE-ADVANCED:INTERNAL=1
+//Test HAVE_3DNOW
+HAVE_3DNOW:INTERNAL=1
+//Have symbol abs
+HAVE_ABS:INTERNAL=1
+//Have symbol acos
+HAVE_ACOS:INTERNAL=1
+//Have symbol acosf
+HAVE_ACOSF:INTERNAL=1
+//Have symbol alloca
+HAVE_ALLOCA1:INTERNAL=
+//Have symbol alloca
+HAVE_ALLOCA2:INTERNAL=1
+//Have symbol alloca
+HAVE_ALLOCA3:INTERNAL=1
+//Have include alloca.h
+HAVE_ALLOCA_H:INTERNAL=
+//Test HAVE_ALTIVEC
+HAVE_ALTIVEC:INTERNAL=
+//Test HAVE_ALTIVEC_H_HDR
+HAVE_ALTIVEC_H_HDR:INTERNAL=
+//Have symbol asin
+HAVE_ASIN:INTERNAL=1
+//Have symbol asinf
+HAVE_ASINF:INTERNAL=1
+//Have symbol atan
+HAVE_ATAN:INTERNAL=1
+//Have symbol atan2
+HAVE_ATAN2:INTERNAL=1
+//Have symbol atan2f
+HAVE_ATAN2F:INTERNAL=1
+//Have symbol atanf
+HAVE_ATANF:INTERNAL=1
+//Have symbol atof
+HAVE_ATOF:INTERNAL=1
+//Have symbol atoi
+HAVE_ATOI:INTERNAL=1
+//Have include audioclient.h
+HAVE_AUDIOCLIENT_H:INTERNAL=1
+//Have symbol bcopy
+HAVE_BCOPY:INTERNAL=
+//Have library c
+HAVE_BUILTIN_ICONV:INTERNAL=
+//Have symbol calloc
+HAVE_CALLOC:INTERNAL=1
+//Have symbol ceil
+HAVE_CEIL:INTERNAL=1
+//Have symbol ceilf
+HAVE_CEILF:INTERNAL=1
+//Have symbol copysign
+HAVE_COPYSIGN:INTERNAL=1
+//Have symbol copysignf
+HAVE_COPYSIGNF:INTERNAL=1
+//Have symbol cos
+HAVE_COS:INTERNAL=1
+//Have symbol cosf
+HAVE_COSF:INTERNAL=1
+//Have include ctype.h
+HAVE_CTYPE_H:INTERNAL=1
+//Have include d3d11_1.h
+HAVE_D3D11_H:INTERNAL=1
+//Have include d3d9.h
+HAVE_D3D_H:INTERNAL=1
+//Have include ddraw.h
+HAVE_DDRAW_H:INTERNAL=1
+//Have include dinput.h
+HAVE_DINPUT_H:INTERNAL=1
+//Have include dsound.h
+HAVE_DSOUND_H:INTERNAL=1
+//Have include dxgi.h
+HAVE_DXGI_H:INTERNAL=1
+//Have symbol elf_aux_info
+HAVE_ELF_AUX_INFO:INTERNAL=
+//Have symbol exp
+HAVE_EXP:INTERNAL=1
+//Have symbol expf
+HAVE_EXPF:INTERNAL=1
+//Have symbol fabs
+HAVE_FABS:INTERNAL=1
+//Have symbol fabsf
+HAVE_FABSF:INTERNAL=1
+//Have symbol floor
+HAVE_FLOOR:INTERNAL=1
+//Have symbol floorf
+HAVE_FLOORF:INTERNAL=1
+//Have symbol fmod
+HAVE_FMOD:INTERNAL=1
+//Have symbol fmodf
+HAVE_FMODF:INTERNAL=1
+//Have symbol fopen64
+HAVE_FOPEN64:INTERNAL=1
+//Have symbol free
+HAVE_FREE:INTERNAL=1
+//Have symbol fseeko
+HAVE_FSEEKO:INTERNAL=1
+//Have symbol fseeko64
+HAVE_FSEEKO64:INTERNAL=1
+//Test HAVE_GCC_ATOMICS
+HAVE_GCC_ATOMICS:INTERNAL=1
+//Test HAVE_GCC_FVISIBILITY
+HAVE_GCC_FVISIBILITY:INTERNAL=1
+//Test HAVE_GCC_NO_STRICT_ALIASING
+HAVE_GCC_NO_STRICT_ALIASING:INTERNAL=1
+//Test HAVE_GCC_PREFERRED_STACK_BOUNDARY
+HAVE_GCC_PREFERRED_STACK_BOUNDARY:INTERNAL=
+//Test HAVE_GCC_WALL
+HAVE_GCC_WALL:INTERNAL=1
+//Test HAVE_GCC_WDECLARATION_AFTER_STATEMENT
+HAVE_GCC_WDECLARATION_AFTER_STATEMENT:INTERNAL=1
+//Test HAVE_GCC_WERROR_DECLARATION_AFTER_STATEMENT
+HAVE_GCC_WERROR_DECLARATION_AFTER_STATEMENT:INTERNAL=1
+//Test HAVE_GCC_WSHADOW
+HAVE_GCC_WSHADOW:INTERNAL=1
+//Have symbol getauxval
+HAVE_GETAUXVAL:INTERNAL=
+//Have symbol getenv
+HAVE_GETENV:INTERNAL=1
+//Have include iconv.h
+HAVE_ICONV_H:INTERNAL=1
+//Have include immintrin.h
+HAVE_IMMINTRIN_H:INTERNAL=1
+//Have symbol index
+HAVE_INDEX:INTERNAL=
+//Have include inttypes.h
+HAVE_INTTYPES_H:INTERNAL=1
+//Have symbol itoa
+HAVE_ITOA:INTERNAL=1
+//Have library iconv
+HAVE_LIBICONV:INTERNAL=
+//Have library m
+HAVE_LIBM:INTERNAL=1
+//Have include libunwind.h
+HAVE_LIBUNWIND_H:INTERNAL=
+//Have include limits.h
+HAVE_LIMITS_H:INTERNAL=1
+//Have symbol log
+HAVE_LOG:INTERNAL=1
+//Have symbol log10
+HAVE_LOG10:INTERNAL=1
+//Have symbol log10f
+HAVE_LOG10F:INTERNAL=1
+//Have symbol logf
+HAVE_LOGF:INTERNAL=1
+//Have symbol lround
+HAVE_LROUND:INTERNAL=1
+//Have symbol lroundf
+HAVE_LROUNDF:INTERNAL=1
+//Have symbol malloc
+HAVE_MALLOC:INTERNAL=1
+//Have include malloc.h
+HAVE_MALLOC_H:INTERNAL=1
+//Have include math.h
+HAVE_MATH_H:INTERNAL=1
+//Have symbol memcmp
+HAVE_MEMCMP:INTERNAL=1
+//Have symbol memcpy
+HAVE_MEMCPY:INTERNAL=1
+//Have symbol memmove
+HAVE_MEMMOVE:INTERNAL=1
+//Have include memory.h
+HAVE_MEMORY_H:INTERNAL=1
+//Have symbol memset
+HAVE_MEMSET:INTERNAL=1
+//Have include mmdeviceapi.h
+HAVE_MMDEVICEAPI_H:INTERNAL=1
+//Test HAVE_MMX
+HAVE_MMX:INTERNAL=1
+//Test HAVE_MPROTECT
+HAVE_MPROTECT:INTERNAL=
+//Have symbol M_PI
+HAVE_M_PI:INTERNAL=1
+//Have symbol nanosleep
+HAVE_NANOSLEEP:INTERNAL=1
+//Test HAVE_NO_UNDEFINED
+HAVE_NO_UNDEFINED:INTERNAL=1
+//Have symbol poll
+HAVE_POLL:INTERNAL=
+//Have symbol pow
+HAVE_POW:INTERNAL=1
+//Have symbol powf
+HAVE_POWF:INTERNAL=1
+//Have symbol putenv
+HAVE_PUTENV:INTERNAL=1
+//Have symbol qsort
+HAVE_QSORT:INTERNAL=1
+//Have symbol realloc
+HAVE_REALLOC:INTERNAL=1
+//Have symbol rindex
+HAVE_RINDEX:INTERNAL=
+//Have symbol round
+HAVE_ROUND:INTERNAL=1
+//Have symbol roundf
+HAVE_ROUNDF:INTERNAL=1
+//Test HAVE_SA_SIGACTION
+HAVE_SA_SIGACTION:INTERNAL=
+//Have symbol scalbn
+HAVE_SCALBN:INTERNAL=1
+//Have symbol scalbnf
+HAVE_SCALBNF:INTERNAL=1
+//Have include sensorsapi.h
+HAVE_SENSORSAPI_H:INTERNAL=1
+//Have symbol setenv
+HAVE_SETENV:INTERNAL=
+//Have symbol setjmp
+HAVE_SETJMP:INTERNAL=1
+//Have symbol sigaction
+HAVE_SIGACTION:INTERNAL=
+//Have include signal.h
+HAVE_SIGNAL_H:INTERNAL=1
+//Have symbol sin
+HAVE_SIN:INTERNAL=1
+//Have symbol sinf
+HAVE_SINF:INTERNAL=1
+//Result of TRY_COMPILE
+HAVE_SIZEOF_SIZE_T:INTERNAL=TRUE
+//Have symbol sqrt
+HAVE_SQRT:INTERNAL=1
+//Have symbol sqrtf
+HAVE_SQRTF:INTERNAL=1
+//Have symbol sscanf
+HAVE_SSCANF:INTERNAL=1
+//Test HAVE_SSE
+HAVE_SSE:INTERNAL=1
+//Test HAVE_SSE2
+HAVE_SSE2:INTERNAL=1
+//Test HAVE_SSE3
+HAVE_SSE3:INTERNAL=1
+//Have include stdarg.h
+HAVE_STDARG_H:INTERNAL=1
+//Have include stddef.h
+HAVE_STDDEF_H:INTERNAL=1
+//Have include stdint.h
+HAVE_STDINT_H:INTERNAL=1
+//Have include stdio.h
+HAVE_STDIO_H:INTERNAL=1
+//Have include stdlib.h
+HAVE_STDLIB_H:INTERNAL=1
+//Have symbol strcasecmp
+HAVE_STRCASECMP:INTERNAL=1
+//Have symbol strchr
+HAVE_STRCHR:INTERNAL=1
+//Have symbol strcmp
+HAVE_STRCMP:INTERNAL=1
+//Have include strings.h
+HAVE_STRINGS_H:INTERNAL=1
+//Have include string.h
+HAVE_STRING_H:INTERNAL=1
+//Have symbol strlcat
+HAVE_STRLCAT:INTERNAL=
+//Have symbol strlcpy
+HAVE_STRLCPY:INTERNAL=
+//Have symbol strlen
+HAVE_STRLEN:INTERNAL=1
+//Have symbol strncasecmp
+HAVE_STRNCASECMP:INTERNAL=1
+//Have symbol strncmp
+HAVE_STRNCMP:INTERNAL=1
+//Have symbol strrchr
+HAVE_STRRCHR:INTERNAL=1
+//Have symbol strstr
+HAVE_STRSTR:INTERNAL=1
+//Have symbol strtod
+HAVE_STRTOD:INTERNAL=1
+//Have symbol strtok_r
+HAVE_STRTOK_R:INTERNAL=1
+//Have symbol strtol
+HAVE_STRTOL:INTERNAL=1
+//Have symbol strtoll
+HAVE_STRTOLL:INTERNAL=1
+//Have symbol strtoul
+HAVE_STRTOUL:INTERNAL=1
+//Have symbol strtoull
+HAVE_STRTOULL:INTERNAL=1
+//Have symbol sysconf
+HAVE_SYSCONF:INTERNAL=
+//Have symbol sysctlbyname
+HAVE_SYSCTLBYNAME:INTERNAL=
+//Have include sys/types.h
+HAVE_SYS_TYPES_H:INTERNAL=1
+//Have symbol tan
+HAVE_TAN:INTERNAL=1
+//Have symbol tanf
+HAVE_TANF:INTERNAL=1
+//Have symbol trunc
+HAVE_TRUNC:INTERNAL=1
+//Have symbol truncf
+HAVE_TRUNCF:INTERNAL=1
+//Have symbol unsetenv
+HAVE_UNSETENV:INTERNAL=
+//Have symbol vsnprintf
+HAVE_VSNPRINTF:INTERNAL=1
+//Have symbol vsscanf
+HAVE_VSSCANF:INTERNAL=1
+//Have include wchar.h
+HAVE_WCHAR_H:INTERNAL=1
+//Have symbol wcscasecmp
+HAVE_WCSCASECMP:INTERNAL=
+//Have symbol wcscmp
+HAVE_WCSCMP:INTERNAL=1
+//Have symbol wcsdup
+HAVE_WCSDUP:INTERNAL=1
+//Have symbol wcslcat
+HAVE_WCSLCAT:INTERNAL=
+//Have symbol wcslcpy
+HAVE_WCSLCPY:INTERNAL=
+//Have symbol wcslen
+HAVE_WCSLEN:INTERNAL=1
+//Have symbol wcsncasecmp
+HAVE_WCSNCASECMP:INTERNAL=
+//Have symbol wcsncmp
+HAVE_WCSNCMP:INTERNAL=1
+//Have symbol wcsstr
+HAVE_WCSSTR:INTERNAL=1
+//Test HAVE_WIN32_CC
+HAVE_WIN32_CC:INTERNAL=1
+//Test HAVE_XINPUT_GAMEPAD_EX
+HAVE_XINPUT_GAMEPAD_EX:INTERNAL=
+//Test HAVE_XINPUT_H
+HAVE_XINPUT_H:INTERNAL=1
+//Test HAVE_XINPUT_STATE_EX
+HAVE_XINPUT_STATE_EX:INTERNAL=
+//Have symbol _Exit
+HAVE__EXIT:INTERNAL=1
+//Have symbol _i64toa
+HAVE__I64TOA:INTERNAL=1
+//Have symbol _ltoa
+HAVE__LTOA:INTERNAL=1
+//Have symbol _stricmp
+HAVE__STRICMP:INTERNAL=1
+//Have symbol _strlwr
+HAVE__STRLWR:INTERNAL=1
+//Have symbol _strnicmp
+HAVE__STRNICMP:INTERNAL=1
+//Have symbol _strrev
+HAVE__STRREV:INTERNAL=1
+//Have symbol _strupr
+HAVE__STRUPR:INTERNAL=1
+//Have symbol _ui64toa
+HAVE__UI64TOA:INTERNAL=1
+//Have symbol _uitoa
+HAVE__UITOA:INTERNAL=
+//Have symbol _ultoa
+HAVE__ULTOA:INTERNAL=1
+//Have symbol _wcsdup
+HAVE__WCSDUP:INTERNAL=1
+//Have symbol _wcsicmp
+HAVE__WCSICMP:INTERNAL=1
+//Have symbol _wcsnicmp
+HAVE__WCSNICMP:INTERNAL=1
+//ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
+PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: SDL_CMAKE_DEBUG_POSTFIX
+SDL_CMAKE_DEBUG_POSTFIX-ADVANCED:INTERNAL=1
+//CHECK_TYPE_SIZE: sizeof(size_t)
+SIZEOF_SIZE_T:INTERNAL=8
+//Have include stddef.h;stdarg.h;stdlib.h;string.h;stdio.h;wchar.h;float.h
+STDC_HEADERS:INTERNAL=1
+//CMAKE_INSTALL_PREFIX during last run
+_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/Marble.Mathematics
 

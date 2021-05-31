@@ -5,8 +5,8 @@
 #include <atomic>
 #include <SDL.h>
 #include <SDL_syswm.h>
-#include <Extras/ConcurrentQueue.h>
-#include <Extras/Function.h>
+#include <Utility/ConcurrentQueue.h>
+#include <Utility/Function.h>
 
 namespace Marble
 {

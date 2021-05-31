@@ -24,7 +24,7 @@
 #include <Core/Objects/Entity.h>
 #include <Core/PackageManager.h>
 #include <Core/SceneManagement.h>
-#include <Extras/Hash.h>
+#include <Utility/Hash.h>
 #include <Mathematics.h>
 #include <Rendering/Core.h>
 #include <Rendering/Renderer.h>

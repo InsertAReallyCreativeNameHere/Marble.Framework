@@ -106,6 +106,9 @@
         "__node_handle": "cpp",
         "any": "cpp",
         "typeindex": "cpp",
-        "format": "cpp"
-    }
+        "format": "cpp",
+        "numbers": "cpp",
+        "semaphore": "cpp"
+    },
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 }

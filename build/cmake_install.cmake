@@ -34,7 +34,14 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "D:/Github/CykaBlyat-Tools/mingw32/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "D:/Github/CykaBlyat-Tools/msys64/mingw64/bin/objdump.exe")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for each subdirectory.
+  include("D:/Github/Marble.Framework/build/external/SDL/cmake_install.cmake")
+  include("D:/Github/Marble.Framework/build/external/bgfx.cmake/cmake_install.cmake")
+
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)

@@ -16,12 +16,12 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-project(Marble.Mathematics)
+project(Init)
 
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -fconcepts -Wall -Wextra -pedantic-errors -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -fconcepts -Wall -Wextra -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable")
     if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
     else()
@@ -52,9 +52,22 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
     endif()
     set(COMPILER "Clang")
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 else()
     message(FATAL_ERROR "No supported compiler used.")
 endif()
+
+set(SDL_SHARED OFF)
+add_subdirectory("${CMAKE_SOURCE_DIR}/external/SDL")
+
+add_subdirectory("${CMAKE_SOURCE_DIR}/external/bgfx.cmake")
+include("${CMAKE_SOURCE_DIR}/external/bgfx.cmake/cmake/3rdparty/glslang.cmake")
+include("${CMAKE_SOURCE_DIR}/external/bgfx.cmake/cmake/3rdparty/glsl-optimizer.cmake")
+include("${CMAKE_SOURCE_DIR}/external/bgfx.cmake/cmake/3rdparty/fcpp.cmake")
+include("${CMAKE_SOURCE_DIR}/external/bgfx.cmake/cmake/3rdparty/spirv-tools.cmake")
+include("${CMAKE_SOURCE_DIR}/external/bgfx.cmake/cmake/3rdparty/spirv-cross.cmake")
+
+project(Marble.Mathematics)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Mathematics)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Mathematics)
@@ -107,26 +120,25 @@ if (${BUILD_PLATFORM} STREQUAL Win32)
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.GL/src"
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
         "${CMAKE_SOURCE_DIR}/dependencies/bgfx/include"
-        "${CMAKE_SOURCE_DIR}/external/bgfx/3rdparty/fcpp"
-        "${CMAKE_SOURCE_DIR}/external/bgfx/3rdparty/glsl-optimizer/src"
-        "${CMAKE_SOURCE_DIR}/external/bgfx/3rdparty/glslang/glslang/Public"
-        "${CMAKE_SOURCE_DIR}/external/bgfx/3rdparty/glslang/glslang/Include"
-        "${CMAKE_SOURCE_DIR}/external/bgfx/3rdparty/glslang"
-        "${CMAKE_SOURCE_DIR}/external/bgfx/3rdparty/spirv-tools/include"
-        "${CMAKE_SOURCE_DIR}/external/bgfx/3rdparty/spirv-cross"
-        "${CMAKE_SOURCE_DIR}/external/bgfx/3rdparty/webgpu/include"
+        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/fcpp"
+        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/glsl-optimizer/src/glsl"
+        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/glslang/glslang/Public"
+        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/glslang/glslang/Include"
+        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/glslang"
+        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/spirv-tools/include"
+        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/spirv-cross"
+        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/webgpu/include"
         "${CMAKE_SOURCE_DIR}/external/shaderc_modified"
     )
     target_link_libraries(Marble.Runtime.GL PUBLIC
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libbgfxRelease.a"
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libbimgRelease.a"
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libbxRelease.a"
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libbimg_decodeRelease.a"
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libfcppRelease.a"
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libglsl-optimizerRelease.a"
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libglslangRelease.a"
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libspirv-crossRelease.a"
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libspirv-optRelease.a"
+        bgfx
+        bx
+        bimg
+        fcpp
+        glsl-optimizer
+        glslang
+        spirv-tools
+        spirv-cross
         psapi
     )
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -156,57 +168,39 @@ file(GLOB_RECURSE ENGINESRCS configure_depends
 add_library(Marble.Runtime.CoreLib SHARED ${ENGINESRCS})
 target_compile_definitions(Marble.Runtime.CoreLib PUBLIC SDL_MAIN_HANDLED BUILD_TYPE_DYNAMIC=1)
 
+target_include_directories(Marble.Runtime.CoreLib PUBLIC
+    "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
+    "${CMAKE_SOURCE_DIR}/Marble.Runtime.GL/src"
+    "${CMAKE_SOURCE_DIR}/Marble.Mathematics/src"
+    "${CMAKE_SOURCE_DIR}/dependencies/ctti/include"
+    "${CMAKE_SOURCE_DIR}/dependencies/stb"
+    "${CMAKE_SOURCE_DIR}/dependencies/bgfx/include"
+    "${CMAKE_SOURCE_DIR}/external/SDL2/include"
+)
+target_link_libraries(Marble.Runtime.CoreLib PUBLIC
+    Marble.Mathematics
+    Marble.Runtime.GL
+    SDL2-static
+    SDL2main
+)
 if (${BUILD_PLATFORM} STREQUAL Win32)
     target_include_directories(Marble.Runtime.CoreLib PUBLIC
-        "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
-        "${CMAKE_SOURCE_DIR}/Marble.Runtime.GL/src"
-        "${CMAKE_SOURCE_DIR}/Marble.Mathematics/src"
-        "${CMAKE_SOURCE_DIR}/dependencies/ctti/include"
-        "${CMAKE_SOURCE_DIR}/dependencies/stb"
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/include"
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/include/common"
     )
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_include_directories(Marble.Runtime.CoreLib PUBLIC
-            "${CMAKE_SOURCE_DIR}/dependencies/SDL2-MinGW/include/SDL2"
             "${CMAKE_SOURCE_DIR}/dependencies/bgfx/include/compat/mingw"
         )
     else()
-        target_include_directories(Marble.Runtime.CoreLib PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/SDL2/include")
     endif()
     target_link_libraries(Marble.Runtime.CoreLib PUBLIC
-        Marble.Mathematics
-        Marble.Runtime.GL
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libbgfxRelease.a"
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libbimgRelease.a"
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libbxRelease.a"
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/${BUILD_ARCH}-mingw-win/lib/libbimg_decodeRelease.a"
         psapi
     )
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        target_link_libraries(Marble.Runtime.CoreLib PUBLIC 
-            "${CMAKE_SOURCE_DIR}/dependencies/SDL2-MinGW/lib/libSDL2main.a"
-            "${CMAKE_SOURCE_DIR}/dependencies/SDL2-MinGW/lib/libSDL2.dll.a"
-        )
-    else()
-        target_link_libraries(Marble.Runtime.CoreLib PUBLIC 
-            "${CMAKE_SOURCE_DIR}/dependencies/SDL2/lib/x86/SDL2main.lib"
-            "${CMAKE_SOURCE_DIR}/dependencies/SDL2/lib/x86/SDL2.lib"
-        )
-    endif()
 elseif (${BUILD_PLATFORM} STREQUAL Linux)
     target_link_libraries(Marble.Runtime.CoreLib PUBLIC
-        "${CMAKE_SOURCE_DIR}/dependencies/SDL2-Linux/lib/libSDL2.a"
-        "${CMAKE_SOURCE_DIR}/dependencies/SDL2-Linux/lib/libSDL2main.a"
-        "${CMAKE_SOURCE_DIR}/lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/ImGui/libImGui.a"
-        "${CMAKE_SOURCE_DIR}/lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/gl3w/libgl3w.a"
         ${CMAKE_DL_LIBS}
     )
     target_include_directories(Marble.Runtime.CoreLib PUBLIC
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
-        "${CMAKE_SOURCE_DIR}/gl3w/include"
-        "${CMAKE_SOURCE_DIR}/ImGUI"
-        "${CMAKE_SOURCE_DIR}/dependencies/SDL2-Linux/include/SDL2"
     )
 endif()
 
@@ -231,16 +225,13 @@ if (${BUILD_PLATFORM} STREQUAL Win32)
         Marble.Runtime.CoreLib
     )
     target_include_directories(Sandbox PUBLIC
-        "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src/include"
+        "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/include"
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
         "${CMAKE_SOURCE_DIR}/Marble.Mathematics/src"
         "${CMAKE_SOURCE_DIR}/dependencies/ctti/include"
+        "${CMAKE_SOURCE_DIR}/external/SDL/include"
     )
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        target_include_directories(Sandbox PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/SDL2-MinGW/include/SDL2")
-    else()
-        target_include_directories(Sandbox PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/SDL2/include")
-    endif()
+
     add_custom_command(TARGET Sandbox POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${PROJECT_SOURCE_DIR}/bin/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-Win32/Marble.Mathematics/Marble.Mathematics.dll"
@@ -256,33 +247,9 @@ if (${BUILD_PLATFORM} STREQUAL Win32)
         "${PROJECT_SOURCE_DIR}/bin/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-Win32/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.dll"
         $<TARGET_FILE_DIR:Sandbox>
     )
-    add_custom_command(TARGET Sandbox POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${PROJECT_SOURCE_DIR}/runtime/C++"
-        $<TARGET_FILE_DIR:Sandbox>
-    )
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        add_custom_command(TARGET Sandbox POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${PROJECT_SOURCE_DIR}/dependencies/SDL2-MinGW/bin/SDL2.dll"
-            $<TARGET_FILE_DIR:Sandbox>
-        )
-    else()
-        add_custom_command(TARGET Sandbox POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${PROJECT_SOURCE_DIR}/dependencies/SDL2/lib/${BUILD_ARCH}/SDL2.dll"
-            $<TARGET_FILE_DIR:Sandbox>
-        )
-    endif()
 elseif (${BUILD_PLATFORM} STREQUAL Linux)
     target_link_libraries(Sandbox PUBLIC
-        "${CMAKE_SOURCE_DIR}/lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Runtime.CoreLib/Marble.Runtime.CoreLib.so"
     )
     target_include_directories(Sandbox PUBLIC
-        "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src/include"
-        "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
-        "${CMAKE_SOURCE_DIR}/GLAD/include"
-        "${CMAKE_SOURCE_DIR}/ImGUI"
-        "${CMAKE_SOURCE_DIR}/dependencies/SDL2-Linux/include/SDL2"
     )
 endif()

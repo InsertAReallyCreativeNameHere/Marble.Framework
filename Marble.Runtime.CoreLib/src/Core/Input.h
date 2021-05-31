@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <SDL.h>
-#include <Extras/ConcurrentQueue.h>
+#include <Utility/ConcurrentQueue.h>
 #include <Mathematics.h>
 
 namespace Marble

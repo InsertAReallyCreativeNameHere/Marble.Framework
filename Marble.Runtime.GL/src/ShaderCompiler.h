@@ -16,7 +16,7 @@ namespace Marble
 
     class ShaderCompiler;
 
-    struct ShaderCompileOptions
+    struct coreapi ShaderCompileOptions final
     {
         ShaderCompileOptions(ShaderType type);
 

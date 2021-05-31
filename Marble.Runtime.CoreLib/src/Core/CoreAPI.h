@@ -7,5 +7,5 @@
 		#define coreapi __declspec(dllimport)
 	#endif
 #else
-	#error Marble is only supported on Windows at the moment.
+	#define coreapi 
 #endif
