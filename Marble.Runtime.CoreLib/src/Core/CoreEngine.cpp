@@ -59,9 +59,8 @@ moodycamel::ConcurrentQueue<skarupke::function<void()>> CoreEngine::pendingPostT
 float CoreEngine::mspf = 16.6666666666f;
 float CoreEngine::msprf = 16.666666666666f;
 
-std::atomic<bool> CoreEngine::isRendering = false;
-std::atomic<bool> CoreEngine::isEventPolling = false;
-std::atomic<bool> CoreEngine::isEventFiltering = false;
+static std::atomic<bool> renderResizeFlag = true;
+static std::atomic<bool> isRendering = false;
 
 //#define USE_DRIVER_ID 0 // Debugging only. Don't ship with this.
 //#undef USE_DRIVER_ID
@@ -77,17 +76,17 @@ int CoreEngine::execute(int argc, char* argv[])
         std::wcout << "init() thread ID: " << std::this_thread::get_id() << ".\n" << std::endl;
 
         #pragma region Color Coding Code Support Modifications
-            #if _WIN32 && WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
-                // Windows is doo-doo. *nix allows color coding out of the box, windows 10 forces me to set it myself.
-                HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-                DWORD dwMode(0);
-                GetConsoleMode(hOut, &dwMode);
-                if (!(dwMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING))
-                {
-                    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-                    SetConsoleMode(hOut, dwMode);
-                }
-            #endif
+        #if _WIN32 && WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
+        // Windows is doo-doo. *nix allows color coding out of the box, windows 10 forces me to set it myself.
+        HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+        DWORD dwMode(0);
+        GetConsoleMode(hOut, &dwMode);
+        if (!(dwMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING))
+        {
+            dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+            SetConsoleMode(hOut, dwMode);
+        }
+        #endif
         #pragma endregion
 
         Debug::LogInfo("Ready!");
@@ -171,8 +170,6 @@ void CoreEngine::exit()
 
     std::wstring dir = Application::currentWorkingDirectory + L"/RuntimeInternal";
     fs::remove_all(dir);
-
-    bgfx::shutdown();
 
     SDL_Quit();
 }
@@ -402,11 +399,9 @@ void CoreEngine::internalWindowLoop()
             {
                 Window::resizing = true;
 
-                CoreEngine::isEventFiltering = true;
-
-                
-
-                CoreEngine::isEventFiltering = false;
+                renderResizeFlag.store(true);
+                while (isRendering.load() == true);
+                renderResizeFlag.store(false);
             }
 
             return 1;
@@ -427,150 +422,141 @@ void CoreEngine::internalWindowLoop()
     SDL_Event ev;
     while (readyToExit.load(std::memory_order_relaxed) == false)
     {
-        CoreEngine::isEventPolling = true;
-        if (!Window::resizing.load() || !CoreEngine::isRendering.load())
+        while (SDL_PollEvent(&ev))
         {
-            Debug::LogInfo("Event poll begin.");
-
-            while (SDL_PollEvent(&ev))
+            switch (ev.type)
             {
-                switch (ev.type)
+            case SDL_QUIT:
+                CoreEngine::readyToExit = true;
+                CoreEngine::currentState = CoreEngine::state::exiting;
+                break;
+            case SDL_RENDER_DEVICE_RESET:
+                Debug::LogInfo("Render device reset.");
+                break;
+            case SDL_WINDOWEVENT:
+                switch (ev.window.event)
                 {
-                case SDL_QUIT:
-                    CoreEngine::readyToExit = true;
-                    CoreEngine::currentState = CoreEngine::state::exiting;
-                    break;
-                case SDL_RENDER_DEVICE_RESET:
-                    Debug::LogInfo("Render device reset.");
-                    break;
-                case SDL_WINDOWEVENT:
-                    switch (ev.window.event)
-                    {
-                    case SDL_WINDOWEVENT_RESIZED:
-                        /*if (Renderer::driverName != "direct3d")
-                        {*/
-                            //CoreEngine::canEventFilterRender = true;
-                            //while (CoreEngine::shouldBeRendering.load());
-                            //CoreEngine::canEventFilterRender = false;
-                        /*}
-                        else
-                        {
-                            CoreEngine::canEventFilterRender = true;
-                            while (!CoreEngine::shouldBeRendering.load()); // Something about d3d9 handles differently...
-                        }*/
-                        //CoreEngine::rendererReset = true;
-                        Window::resizing = false; // This line is very important.
-                        break;
-                    case SDL_WINDOWEVENT_MOVED:
-                        break;
-                    case SDL_WINDOWEVENT_CLOSE:
-                        break;
-                    }
-                    break;
-                #pragma region Mouse Events
-                case SDL_MOUSEMOTION:
-                    mousePosition.x = ev.motion.x;
-                    mousePosition.y = ev.motion.y;
-                    mouseMotion.x = ev.motion.xrel;
-                    mouseMotion.y = ev.motion.yrel;
-                    Input::internalMousePosition = mousePosition;
-                    break;
-                case SDL_MOUSEWHEEL:
-                    break;
-                case SDL_MOUSEBUTTONDOWN:
-                    CoreEngine::pendingPreTickEvents.enqueue
-                    (
-                        [=]
-                        {
-                            Input::currentHeldMouseButtons.push_back(ev.button.button);
-                            CoreSystem::OnMouseDown(ev.button.button);
-                        }
-                    );
-                    break;
-                case SDL_MOUSEBUTTONUP:
-                    CoreEngine::pendingPreTickEvents.enqueue
-                    (
-                        [=]
-                        {
-                            CoreEngine::pendingPostTickEvents.enqueue
-                            (
-                                [=]
-                                {
-                                    for (auto it = Input::currentHeldMouseButtons.begin(); it != Input::currentHeldMouseButtons.end(); ++it)
-                                    {
-                                        if (*it == ev.button.button)
-                                        {
-                                            Input::currentHeldMouseButtons.erase(it);
-                                            break;
-                                        }
-                                    }
-                                }
-                            );
-                            CoreSystem::OnMouseUp(ev.button.button);
-                        }
-                    );
-                    break;
-                #pragma endregion
-                #pragma region Key Events
-                case SDL_KEYDOWN:
-                    if (ev.key.repeat)
-                    {
-                        CoreEngine::pendingPreTickEvents.enqueue
-                        (
-                            [=]
-                            {
-                                CoreSystem::OnKeyRepeat(ev.key.keysym.sym);
-                            }
-                        );
-                    }
+                case SDL_WINDOWEVENT_RESIZED:
+                    /*if (Renderer::driverName != "direct3d")
+                    {*/
+                        //CoreEngine::canEventFilterRender = true;
+                        //while (CoreEngine::shouldBeRendering.load());
+                        //CoreEngine::canEventFilterRender = false;
+                    /*}
                     else
                     {
-                        CoreEngine::pendingPreTickEvents.enqueue
+                        CoreEngine::canEventFilterRender = true;
+                        while (!CoreEngine::shouldBeRendering.load()); // Something about d3d9 handles differently...
+                    }*/
+                    //CoreEngine::rendererReset = true;
+                    Window::resizing = false; // This line is very important.
+                    renderResizeFlag = true;
+                    break;
+                case SDL_WINDOWEVENT_MOVED:
+                    break;
+                case SDL_WINDOWEVENT_CLOSE:
+                    break;
+                }
+                break;
+            #pragma region Mouse Events
+            case SDL_MOUSEMOTION:
+                mousePosition.x = ev.motion.x;
+                mousePosition.y = ev.motion.y;
+                mouseMotion.x = ev.motion.xrel;
+                mouseMotion.y = ev.motion.yrel;
+                Input::internalMousePosition = mousePosition;
+                break;
+            case SDL_MOUSEWHEEL:
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                CoreEngine::pendingPreTickEvents.enqueue
+                (
+                    [=]
+                    {
+                        Input::currentHeldMouseButtons.push_back(ev.button.button);
+                        CoreSystem::OnMouseDown(ev.button.button);
+                    }
+                );
+                break;
+            case SDL_MOUSEBUTTONUP:
+                CoreEngine::pendingPreTickEvents.enqueue
+                (
+                    [=]
+                    {
+                        CoreEngine::pendingPostTickEvents.enqueue
                         (
                             [=]
                             {
-                                Input::currentHeldKeys.push_back(ev.key.keysym.sym);
-                                CoreSystem::OnKeyDown(ev.key.keysym.sym);
+                                for (auto it = Input::currentHeldMouseButtons.begin(); it != Input::currentHeldMouseButtons.end(); ++it)
+                                {
+                                    if (*it == ev.button.button)
+                                    {
+                                        Input::currentHeldMouseButtons.erase(it);
+                                        break;
+                                    }
+                                }
                             }
                         );
+                        CoreSystem::OnMouseUp(ev.button.button);
                     }
-                    break;
-                case SDL_KEYUP:
+                );
+                break;
+            #pragma endregion
+            #pragma region Key Events
+            case SDL_KEYDOWN:
+                if (ev.key.repeat)
+                {
                     CoreEngine::pendingPreTickEvents.enqueue
                     (
                         [=]
                         {
-                            CoreEngine::pendingPostTickEvents.enqueue
-                            (
-                                [=]
-                                {
-                                    for (auto it = Input::currentHeldKeys.begin(); it != Input::currentHeldKeys.end(); ++it)
-                                    {
-                                        if (*it == ev.key.keysym.sym)
-                                        {
-                                            Input::currentHeldKeys.erase(it);
-                                            break;
-                                        }
-                                    }
-                                }
-                            );
-                            CoreSystem::OnKeyUp(ev.key.keysym.sym);
+                            CoreSystem::OnKeyRepeat(ev.key.keysym.sym);
                         }
                     );
-                    break;
-                #pragma endregion
                 }
+                else
+                {
+                    CoreEngine::pendingPreTickEvents.enqueue
+                    (
+                        [=]
+                        {
+                            Input::currentHeldKeys.push_back(ev.key.keysym.sym);
+                            CoreSystem::OnKeyDown(ev.key.keysym.sym);
+                        }
+                    );
+                }
+                break;
+            case SDL_KEYUP:
+                CoreEngine::pendingPreTickEvents.enqueue
+                (
+                    [=]
+                    {
+                        CoreEngine::pendingPostTickEvents.enqueue
+                        (
+                            [=]
+                            {
+                                for (auto it = Input::currentHeldKeys.begin(); it != Input::currentHeldKeys.end(); ++it)
+                                {
+                                    if (*it == ev.key.keysym.sym)
+                                    {
+                                        Input::currentHeldKeys.erase(it);
+                                        break;
+                                    }
+                                }
+                            }
+                        );
+                        CoreSystem::OnKeyUp(ev.key.keysym.sym);
+                    }
+                );
+                break;
+            #pragma endregion
             }
-            
-            static int w, h;
-            SDL_GetWindowSize(wind, &w, &h);
-            Window::width = w;
-            Window::height = h;
-
-            Debug::LogInfo("Event poll end.");
-            
         }
-        CoreEngine::isEventPolling = false;
+        
+        static int w, h;
+        SDL_GetWindowSize(wind, &w, &h);
+        Window::width = w;
+        Window::height = h;
     }
 
     while (!CoreEngine::threadsFinished_2.load());
@@ -698,7 +684,7 @@ void CoreEngine::internalRenderLoop()
     bgfx::setPlatformData(pd);
 
 	bgfx::Init init;
-    init.type = bgfx::RendererType::Vulkan;
+    init.type = bgfx::RendererType::Direct3D11;
     init.vendorId = BGFX_PCI_ID_NONE;
     init.resolution.width = Renderer::renderWidth;
     init.resolution.height = Renderer::renderHeight;
@@ -711,15 +697,15 @@ void CoreEngine::internalRenderLoop()
     const bx::Vec3 at  = { 0.0f, 0.0f, 0.0f };
     const bx::Vec3 eye = { 0.0f, 0.0f, -35.0f };
 
-    bgfx::ShaderHandle comp = bgfx::createShader(ShaderCompiler::compileShader("test.sc", ShaderCompileOptions(ShaderType::Fragment)));
-    bgfx::ProgramHandle prog = bgfx::createProgram(comp, true);
+    //bgfx::ShaderHandle comp = bgfx::createShader(ShaderCompiler::compileShader("test.sc", ShaderCompileOptions(ShaderType::Fragment)));
+    //bgfx::ProgramHandle prog = bgfx::createProgram(comp, true);
 
     auto nextFrame = std::chrono::high_resolution_clock::now() + std::chrono::nanoseconds(static_cast<ullong>(CoreEngine::msprf * 1000000));
     while (readyToExit.load(std::memory_order_relaxed) == false)
     {
         if (!Renderer::pendingRenderJobsOffload_flag.test_and_set())
         {
-            CoreEngine::isRendering = true;
+            isRendering = true;
 
             //Debug::LogWarn("shouldBeRendering = true");
             /*if (Renderer::driverName != "software" && CoreEngine::rendererReset)
@@ -737,40 +723,38 @@ void CoreEngine::internalRenderLoop()
 
             Debug::LogWarn("Render begin.");
 
-            static int w, h;
+            static int w = Window::width, h = Window::height;
             static int prevW, prevH;
-
             prevW = w;
             prevH = h;
             w = Window::width;
             h = Window::height;
-            Debug::LogInfo("{ ", w, ", ", h, " }");
-
-            if (Window::resizing)
-                while (CoreEngine::isEventPolling.load())
-                    std::this_thread::yield();
-
+            
+            while (renderResizeFlag.load() == false);
             if (prevW != w || prevH != h)
                 bgfx::reset(w, h, BGFX_RESET_NONE);
+            if (!Window::resizing.load())
+            {
+                static float view[16];
+                static float proj[16];
+                //bx::mtxLookAt(view, eye, at);
+                //bx::mtxProj(proj, 60.0f, Renderer::renderWidth / Renderer::renderHeight, 0.1f, 1000.0f, bgfx::getCaps()->homogeneousDepth);
+                bgfx::setViewTransform(0, view, proj);
 
-            static float view[16];
-            static float proj[16];
-            //bx::mtxLookAt(view, eye, at);
-            //bx::mtxProj(proj, 60.0f, Renderer::renderWidth / Renderer::renderHeight, 0.1f, 1000.0f, bgfx::getCaps()->homogeneousDepth);
-            bgfx::setViewTransform(0, view, proj);
+                bgfx::setViewRect(0, 0, 0, w, h);
+                bgfx::touch(0);
+                
+                bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
 
-            bgfx::setViewRect(0, 0, 0, w, h);
-            bgfx::touch(0);
+
+
+                bgfx::frame();
+
+            }
             
-            bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
-
-
-
-            bgfx::frame();
-
             Debug::LogWarn("Render end.");
-            
-            CoreEngine::isRendering = false;
+
+            isRendering = false;
 
             Renderer::pendingRenderJobsOffload_flag.clear();
             
@@ -780,6 +764,8 @@ void CoreEngine::internalRenderLoop()
             nextFrame += std::chrono::nanoseconds(static_cast<ullong>(CoreEngine::msprf * 1000000));
         }
     }
+
+    bgfx::shutdown();
 
     //SDL_DestroyRenderer(rend);
     CoreEngine::threadsFinished_2 = true;

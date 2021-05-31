@@ -48,10 +48,6 @@ namespace Marble
 			static int WNDW;
 			static int WNDH;
 
-			static std::atomic<bool> isRendering;
-			static std::atomic<bool> isEventPolling;
-			static std::atomic<bool> isEventFiltering;
-
 			static float mspf;
 			static float msprf;
 		public:

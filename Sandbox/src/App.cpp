@@ -4,6 +4,7 @@
 #include <iostream>
 #include <thread>
 #include <SDL.h>
+#include <SDL_main.h>
 
 #include <Core/Application.h>
 #include <Core/EntityComponentSystem/CoreSystem.h>
@@ -25,6 +26,7 @@ void onkeydown(SDL_Keycode);
 
 bool quitted = false;
 
+#undef main
 int main(int argc, char* argv[])
 {
 	/*CoreSystem::OnInitialize += start;

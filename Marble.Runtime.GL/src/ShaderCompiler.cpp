@@ -1,7 +1,7 @@
 #include "ShaderCompiler.h"
 
 #include <fstream>
-#include <shaderc.h>
+//#include <shaderc.h>
 
 using namespace Marble;
 
@@ -70,7 +70,7 @@ const bgfx::Memory* ShaderCompiler::compileShader(const std::string_view& fileNa
         args.push_back(options.defines.c_str());
     }
 
-    bgfx::compileShader(1, args.data());
+    //bgfx::compileShader(1, args.data());
 
     std::ifstream shaderFile(outputPath, std::ios::binary);
     shaderFile.ignore(std::numeric_limits<std::streamsize>::max());

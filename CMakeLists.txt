@@ -14,60 +14,42 @@ else()
     set(BUILD_ARCH x86)
 endif()
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+project(Marble.Framework)
 
-project(Init)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
 
+set(CMAKE_CXX_STANDARD 20)
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -fconcepts -Wall -Wextra -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-but-set-variable")
-    if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
-    else()
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-    endif()
     if (CMAKE_SHARED_LIBRARY_SUFFIX STREQUAL ".dll")
         set(COMPILER "MinGW")
     else()
         set(COMPILER "gcc")
     endif()
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=lld -std=c++20w -pthread")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Wno-unknown-pragmas -Wno-sign-compare -Wno-reserved-id-macro")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-comma -Wno-undef -Wno-source-uses-openmp")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-global-constructors -Wno-exit-time-destructors -Wno-float-equal -Wno-shadow-field-in-constructor")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-newline-eof -Wno-implicit-fallthrough -Wno-padded -Wno-sign-conversion")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-old-style-cast -Wno-mismatched-tags -Wno-shadow -Wno-double-promotion -Wno-reorder-ctor")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-weak-vtables -Wno-unused-template -Wno-zero-as-null-pointer-constant -Wno-cast-qual")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-disabled-macro-expansion -Wno-cast-align -Wno-implicit-int-conversion -Wno-overloaded-virtual")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-extra-semi-stmt -Wno-implicit-int-float-conversion -Wno-used-but-marked-unused")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-suggest-destructor-override -Wno-shadow-field -Wno-shorten-64-to-32 -Wno-unused-variable")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ")
-    if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
-    else()
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-    endif()
     set(COMPILER "Clang")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(COMPILER "MSVC")
 else()
-    message(FATAL_ERROR "No supported compiler used.")
+    set(COMPILER ${CMAKE_CXX_COMPILER_ID})
 endif()
 
 set(SDL_SHARED OFF)
 add_subdirectory("${CMAKE_SOURCE_DIR}/external/SDL")
+target_compile_definitions(SDL2-static PUBLIC SDL_RENDER_DISABLED=1)
 
-add_subdirectory("${CMAKE_SOURCE_DIR}/external/bgfx.cmake")
-include("${CMAKE_SOURCE_DIR}/external/bgfx.cmake/cmake/3rdparty/glslang.cmake")
-include("${CMAKE_SOURCE_DIR}/external/bgfx.cmake/cmake/3rdparty/glsl-optimizer.cmake")
-include("${CMAKE_SOURCE_DIR}/external/bgfx.cmake/cmake/3rdparty/fcpp.cmake")
-include("${CMAKE_SOURCE_DIR}/external/bgfx.cmake/cmake/3rdparty/spirv-tools.cmake")
-include("${CMAKE_SOURCE_DIR}/external/bgfx.cmake/cmake/3rdparty/spirv-cross.cmake")
+# It builds faster this way
+set(PREV_BUILD_TYPE ${CMAKE_BUILD_TYPE})
+set(CMAKE_BUILD_TYPE "Release")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../libglbuild)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../libglbuild)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../libglbuild)
+add_subdirectory("${CMAKE_SOURCE_DIR}/external/libgl")
+target_compile_definitions(bgfx PUBLIC BGFX_CONFIG_MULTITHREADED=0)
+set(CMAKE_BUILD_TYPE ${PREV_BUILD_TYPE})
 
-project(Marble.Mathematics)
+# Marble.Mathematics
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Mathematics)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Mathematics)
@@ -97,7 +79,7 @@ elseif (${BUILD_PLATFORM} STREQUAL Linux)
     )
 endif()
 
-project(Marble.Runtime.GL)
+# Marble.Runtime.GL
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Runtime.GL)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Runtime.GL)
@@ -107,43 +89,24 @@ file(GLOB_RECURSE GLSRCS configure_depends
     "${CMAKE_SOURCE_DIR}/Marble.Runtime.GL/*.h"
     "${CMAKE_SOURCE_DIR}/Marble.Runtime.GL/*.cpp"
 )
-file(GLOB_RECURSE SHADERC configure_depends
-    "${CMAKE_SOURCE_DIR}/external/shaderc_modified/*.h"
-    "${CMAKE_SOURCE_DIR}/external/shaderc_modified/*.cpp"
-)
 
-add_library(Marble.Runtime.GL SHARED ${GLSRCS} ${SHADERC})
+add_library(Marble.Runtime.GL SHARED ${GLSRCS})
 target_compile_definitions(Marble.Runtime.GL PUBLIC BUILD_TYPE_DYNAMIC=1)
 
 if (${BUILD_PLATFORM} STREQUAL Win32)
     target_include_directories(Marble.Runtime.GL PUBLIC
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.GL/src"
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
-        "${CMAKE_SOURCE_DIR}/dependencies/bgfx/include"
-        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/fcpp"
-        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/glsl-optimizer/src/glsl"
-        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/glslang/glslang/Public"
-        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/glslang/glslang/Include"
-        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/glslang"
-        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/spirv-tools/include"
-        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/spirv-cross"
-        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/webgpu/include"
-        "${CMAKE_SOURCE_DIR}/external/shaderc_modified"
+        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/include"
+        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bx/include"
+        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bimg/include"
     )
     target_link_libraries(Marble.Runtime.GL PUBLIC
-        bgfx
-        bx
-        bimg
-        fcpp
-        glsl-optimizer
-        glslang
-        spirv-tools
-        spirv-cross
-        psapi
+        gl
     )
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_include_directories(Marble.Runtime.GL PUBLIC
-            "${CMAKE_SOURCE_DIR}/dependencies/bgfx/include/compat/mingw"
+            "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bx/include/compat/mingw"
         )
     else()
     endif()
@@ -154,7 +117,7 @@ elseif (${BUILD_PLATFORM} STREQUAL Linux)
     )
 endif()
 
-project(Marble.Runtime.CoreLib)
+# Marble.Runtime.CoreLib
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Runtime.CoreLib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Marble.Runtime.CoreLib)
@@ -174,7 +137,9 @@ target_include_directories(Marble.Runtime.CoreLib PUBLIC
     "${CMAKE_SOURCE_DIR}/Marble.Mathematics/src"
     "${CMAKE_SOURCE_DIR}/dependencies/ctti/include"
     "${CMAKE_SOURCE_DIR}/dependencies/stb"
-    "${CMAKE_SOURCE_DIR}/dependencies/bgfx/include"
+    "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/include"
+    "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bx/include"
+    "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bimg/include"
     "${CMAKE_SOURCE_DIR}/external/SDL2/include"
 )
 target_link_libraries(Marble.Runtime.CoreLib PUBLIC
@@ -204,7 +169,7 @@ elseif (${BUILD_PLATFORM} STREQUAL Linux)
     )
 endif()
 
-project(Sandbox)
+# Sandbox
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Sandbox)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${CMAKE_BUILD_TYPE}-${BUILD_PLATFORM}/Sandbox)
@@ -216,8 +181,8 @@ file(GLOB_RECURSE SANDBOXSRCS configure_depends
 )
 
 add_executable(Sandbox ${SANDBOXSRCS})
-add_dependencies(Sandbox Marble.Runtime.CoreLib)
 target_compile_definitions(Sandbox PUBLIC SDL_MAIN_HANDLED)
+message(STATUS ${CMAKE_EXE_LINKER_FLAGS})
 
 if (${BUILD_PLATFORM} STREQUAL Win32)
     target_link_libraries(Sandbox PUBLIC
