@@ -1,5 +1,6 @@
 #include "PackageManager.h"
 
+#include <cctype>
 #include <cmath>
 #include <fstream>
 #include <stb_image.h>
@@ -103,7 +104,7 @@ void PackageManager::normalizePath(std::wstring& path)
 }
 PackageFile* PackageManager::getCorePackageFileByPath(const std::wstring_view& path)
 {
-    std::wstring filePath = path.begin();
+    std::wstring filePath = path.data();
     PackageManager::normalizePath(filePath);
     for (auto it = PackageManager::loadedCorePackage.begin(); it != PackageManager::loadedCorePackage.end(); ++it)
     {

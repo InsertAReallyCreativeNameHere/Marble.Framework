@@ -41,7 +41,7 @@ RectFloat::RectFloat(const float& top, const float& right, const float& bottom, 
 
 RectTransform::RectTransform() :
 rect
-(
+({
     [this]() -> const RectFloat&
     {
         return this->_rect;
@@ -50,9 +50,9 @@ rect
     {
         this->_rect = value;
     }
-),
+}),
 rectAnchor
-(
+({
     [this]() -> const RectFloat&
     {
         return this->_anchor;
@@ -61,9 +61,9 @@ rectAnchor
     {
         this->_anchor = value;
     }
-),
+}),
 position
-(
+({
     [this]() -> const Vector2&
     {
         return this->_position;
@@ -72,7 +72,7 @@ position
     {
         Vector2 delta = value - this->_position;
         this->_position = value;
-        
+
         auto setChildrenPositionRecursive = [&](auto& recurseFunc, RectTransform* rectTransform) -> void
         {
             for (auto it = rectTransform->_children.begin(); it != rectTransform->_children.end(); ++it)
@@ -83,9 +83,9 @@ position
         };
         setChildrenPositionRecursive(setChildrenPositionRecursive, this);
     }
-),
+}),
 rotation
-(
+({
     [this]() -> float
     {
         return this->_rotation;
@@ -94,7 +94,7 @@ rotation
     {
         float delta = value - this->_rotation;
         this->_rotation = value;
-        
+
         auto setChildrenRotationRecursive = [&, this](auto& recurseFunc, RectTransform* rectTransform) -> void
         {
             for (auto it = rectTransform->_children.begin(); it != rectTransform->_children.end(); ++it)
@@ -106,9 +106,9 @@ rotation
         };
         setChildrenRotationRecursive(setChildrenRotationRecursive, this);
     }
-),
+}),
 scale
-(
+({
     [this]() -> const Vector2&
     {
         return this->_scale;
@@ -117,7 +117,7 @@ scale
     {
         Vector2 delta = value / this->_scale;
         this->_scale = value;
-        
+
         auto setChildrenScaleRecursive = [&, this](auto& recurseFunc, RectTransform* rectTransform) -> void
         {
             for (auto it = rectTransform->_children.begin(); it != rectTransform->_children.end(); ++it)
@@ -129,9 +129,9 @@ scale
         };
         setChildrenScaleRecursive(setChildrenScaleRecursive, this);
     }
-),
+}),
 localPosition
-(
+({
     [this]() -> Vector2
     {
         if (this->_parent != nullptr)
@@ -163,9 +163,9 @@ localPosition
         };
         setChildrenScaleRecursive(setChildrenScaleRecursive, this);
     }
-),
+}),
 localRotation
-(
+({
     [this]() -> float
     {
         if (this->_parent != nullptr)
@@ -191,9 +191,9 @@ localRotation
         };
         setChildrenRotationRecursive(setChildrenRotationRecursive, this);
     }
-),
+}),
 localScale
-(
+({
     [this]() -> Vector2
     {
         if (this->_parent != nullptr)
@@ -219,9 +219,9 @@ localScale
         };
         setChildrenScaleRecursive(setChildrenScaleRecursive, this);
     }
-),
+}),
 parent
-(
+({
     [this]() -> const RectTransform*
     {
         return this->_parent;
@@ -243,7 +243,7 @@ parent
         if (this->_parent != nullptr)
             this->_parent->_children.push_back(this);
     }
-)
+})
 {
 }
 RectTransform::~RectTransform()

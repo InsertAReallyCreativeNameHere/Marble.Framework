@@ -15,7 +15,7 @@ std::unordered_map<PortableGraphicPackageFile*, Texture2D> Image::textures;
 
 Image::Image() :
 imageFile
-(
+({
     []
     {
         return nullptr;
@@ -58,6 +58,6 @@ imageFile
             );*/
         }
     }
-)
+})
 {
 }

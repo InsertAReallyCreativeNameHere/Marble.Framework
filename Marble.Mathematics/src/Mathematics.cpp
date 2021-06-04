@@ -70,13 +70,17 @@ Vector2& Vector2::operator/= (const Vector2& rhs)
 	return *this;
 }
 
-Vector2::operator Vector2Int() const
-{
-    return { static_cast<int>(this->x), static_cast<int>(this->y) };
-}
 Vector2::operator std::string() const
 {
-    return static_cast<std::ostringstream&>(std::ostringstream() << "{ " << this->x << ", " << this->y << " }").rdbuf()->str();
+    return
+    #ifndef MSC_VER
+    ((std::ostringstream&)
+    #endif
+    (std::ostringstream() << "{ " << this->x << ", " << this->y << " }")
+    #ifndef MSC_VER
+    )
+    #endif
+    .rdbuf()->str();
 }
 
 Vector2Int::Vector2Int() : x(0), y(0)
@@ -127,13 +131,17 @@ Vector2Int& Vector2Int::operator-= (const Vector2Int& rhs)
 	return *this;
 }
 
-Vector2Int::operator Vector2() const
-{
-    return { static_cast<float>(this->x), static_cast<float>(this->y) };
-}
 Vector2Int::operator std::string() const
 {
-    return static_cast<std::ostringstream&>(std::ostringstream() << "{ " << this->x << ", " << this->y << " }").rdbuf()->str();
+    return
+    #ifndef MSC_VER
+    ((std::ostringstream&)
+    #endif
+    (std::ostringstream() << "{ " << this->x << ", " << this->y << " }")
+    #ifndef MSC_VER
+    )
+    #endif
+    .rdbuf()->str();
 }
 #pragma endregion
 

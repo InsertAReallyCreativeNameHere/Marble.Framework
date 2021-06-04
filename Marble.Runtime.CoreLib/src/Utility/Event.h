@@ -18,11 +18,11 @@ namespace Marble
         Event(const Event<Args...>&) = delete;
         Event(Event<Args...>&&) = delete;
 
-        void operator+=(const auto& func)
+        void operator+=(const skarupke::function<void(Args...)>& func)
         {
             this->children.push_back(func);
         }
-        void operator+=(auto&& func)
+        void operator+=(skarupke::function<void(Args...)>&& func)
         {
             this->children.push_back(func);
         }

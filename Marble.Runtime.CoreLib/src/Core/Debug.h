@@ -11,7 +11,7 @@
 #include <thread>
 #include <mutex>
 
-#define WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT 1
+#define WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT 0
 
 namespace Marble
 {

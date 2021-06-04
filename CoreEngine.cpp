@@ -5,7 +5,6 @@
 #include <bx/math.h>
 #include <cmath>
 #include <fcntl.h>
-#include <fstream>
 #include <io.h>
 #include <SDL_video.h>
 #include <SDL_pixels.h>
@@ -66,80 +65,78 @@ static std::atomic<bool> isRendering = false;
 //#define USE_DRIVER_ID 0 // Debugging only. Don't ship with this.
 //#undef USE_DRIVER_ID
 
-#define RENDER_WHILE_RESIZED
-
 int CoreEngine::execute(int argc, char* argv[])
 {
     (void)argc;
     (void)argv;
     
     #pragma region Initialization
-    //_setmode(_fileno(stdout), _O_U8TEXT);
+        _setmode(_fileno(stdout), _O_U8TEXT);
 
-    std::wcout << "init() thread ID: " << std::this_thread::get_id() << ".\n" << std::endl;
+        std::wcout << "init() thread ID: " << std::this_thread::get_id() << ".\n" << std::endl;
 
-    #pragma region Color Coding Code Support Modifications
-    #if _WIN32 && WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
-    // Windows is doo-doo. *nix allows color coding out of the box, windows 10 forces me to set it myself.
-    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    DWORD dwMode(0);
-    GetConsoleMode(hOut, &dwMode);
-    if (!(dwMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING))
-    {
-        dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-        SetConsoleMode(hOut, dwMode);
-    }
-    #endif
-    #pragma endregion
+        #pragma region Color Coding Code Support Modifications
+        #if _WIN32 && WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
+        // Windows is doo-doo. *nix allows color coding out of the box, windows 10 forces me to set it myself.
+        HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+        DWORD dwMode(0);
+        GetConsoleMode(hOut, &dwMode);
+        if (!(dwMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING))
+        {
+            dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+            SetConsoleMode(hOut, dwMode);
+        }
+        #endif
+        #pragma endregion
 
-    Debug::LogInfo("Ready!");
-    
-    currentState = CoreEngine::state::playing;
+        Debug::LogInfo("Ready!");
+        
+        currentState = CoreEngine::state::playing;
 
-    Debug::LogTrace("Started!\n");
+        Debug::LogTrace("Started!\n");
 
-    #pragma region SDL Initialisation
-    if
-    (
-        SDL_Init
+        #pragma region SDL Initialisation
+        if
         (
-            SDL_INIT_AUDIO |
-            SDL_INIT_EVENTS |
-            SDL_INIT_GAMECONTROLLER |
-            SDL_INIT_HAPTIC |
-            SDL_INIT_JOYSTICK |
-            SDL_INIT_NOPARACHUTE |
-            SDL_INIT_SENSOR
+            SDL_Init
+            (
+                SDL_INIT_AUDIO |
+                SDL_INIT_EVENTS |
+                SDL_INIT_GAMECONTROLLER |
+                SDL_INIT_HAPTIC |
+                SDL_INIT_JOYSTICK |
+                SDL_INIT_NOPARACHUTE |
+                SDL_INIT_SENSOR
+            )
+            == 0
         )
-        == 0
-    )
-    { Debug::LogInfo("SDL Initialisation Successful!\n"); }
-    else
-    {
-        Debug::LogError("SDL Initialisation Failed! Error: ", SDL_GetError(), ".\n");
-        return EXIT_FAILURE;
-    }
-    #pragma endregion
+        { Debug::LogInfo("SDL Initialisation Successful!\n"); }
+        else
+        {
+            Debug::LogError("SDL Initialisation Failed! Error: ", SDL_GetError(), ".\n");
+            return EXIT_FAILURE;
+        }
+        #pragma endregion
 
-    #pragma region Other
-    Application::currentWorkingDirectory = fs::current_path().wstring();
-    std::wstring dir = Application::currentWorkingDirectory.wstring() + L"/RuntimeInternal";
-    if (!fs::exists(dir))
-        fs::create_directory(dir);
-    #pragma endregion
+        #pragma region Other
+        Application::currentWorkingDirectory = fs::current_path().wstring();
+        std::wstring dir = Application::currentWorkingDirectory + L"/RuntimeInternal";
+        if (!fs::exists(dir))
+            fs::create_directory(dir);
+        #pragma endregion
 
-    #pragma region Package Loading
-    fs::path corePackagePath(fs::current_path());
-    corePackagePath.append("Runtime");
-    corePackagePath.append("CorePackage.marble.pkg");
-    if (fs::exists(corePackagePath))
-    {
-        Debug::LogInfo("Loading CorePackage...");
-        PackageManager::loadCorePackageIntoMemory(corePackagePath);
-        Debug::LogInfo("CorePackage loaded!\n");
-    }
-    else Debug::LogError("The CorePackage could not be found in the Runtime folder. Did you accidentally delete it?\n");
-    #pragma endregion
+        #pragma region Package Loading
+        fs::path corePackagePath(fs::current_path());
+        corePackagePath.append("Runtime");
+        corePackagePath.append("CorePackage.marble.pkg");
+        if (fs::exists(corePackagePath))
+        {
+            Debug::LogInfo("Loading CorePackage...");
+            PackageManager::loadCorePackageIntoMemory(corePackagePath);
+            Debug::LogInfo("CorePackage loaded!\n");
+        }
+        else Debug::LogError("The CorePackage could not be found in the Runtime folder. Did you accidentally delete it?\n");
+        #pragma endregion
     #pragma endregion
 
     std::thread(internalWindowLoop).detach();
@@ -171,7 +168,7 @@ void CoreEngine::exit()
 
     PackageManager::freeCorePackageInMemory();
 
-    std::wstring dir = Application::currentWorkingDirectory.wstring() + L"/RuntimeInternal";
+    std::wstring dir = Application::currentWorkingDirectory + L"/RuntimeInternal";
     fs::remove_all(dir);
 
     SDL_Quit();
@@ -401,26 +398,12 @@ void CoreEngine::internalWindowLoop()
             if (event->type == SDL_WINDOWEVENT && event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
             {
                 Window::resizing = true;
-
-                static int w, h;
-                SDL_GetWindowSize(CoreEngine::wind, &w, &h);
-                Window::width = w;
-                Window::height = h;
-
-                renderResizeFlag.store(true, std::memory_order_relaxed);
-                while (isRendering.load());
-                renderResizeFlag.store(false, std::memory_order_relaxed);
             }
 
             return 1;
         },
         nullptr
     );
-        
-    static int w, h;
-    SDL_GetWindowSize(wind, &w, &h);
-    Window::width = w;
-    Window::height = h;
 
     initIndex++;
     while (initIndex.load(std::memory_order_relaxed) != 2);
@@ -566,6 +549,7 @@ void CoreEngine::internalWindowLoop()
             }
         }
         
+        static int w, h;
         SDL_GetWindowSize(wind, &w, &h);
         Window::width = w;
         Window::height = h;
@@ -703,87 +687,14 @@ void CoreEngine::internalRenderLoop()
     init.resolution.reset = BGFX_RESET_NONE;
     bgfx::init(init);
 
-    #if _DEBUG || __GNUC__
+    // Enable debug text.
     bgfx::setDebug(BGFX_DEBUG_PROFILER | BGFX_DEBUG_STATS | BGFX_DEBUG_TEXT);
-    #endif
 
-    static int w = Window::width, h = Window::height;
-    bgfx::setViewRect(0, 0, 0, w, h);
+    const bx::Vec3 at  = { 0.0f, 0.0f, 0.0f };
+    const bx::Vec3 eye = { 0.0f, 0.0f, -35.0f };
 
-    auto prog = bgfx::createProgram
-    (
-        bgfx::createShader([]() { auto shad = ShaderCompiler::compileShader("vs_test.sc", ShaderCompileOptions(ShaderType::Vertex)); return bgfx::copy(shad.data(), shad.size()); } ()),
-        bgfx::createShader([]() { auto shad = ShaderCompiler::compileShader("fs_test.sc", ShaderCompileOptions(ShaderType::Fragment)); return bgfx::copy(shad.data(), shad.size()); } ()),
-        true
-    );
-
-    struct PosColorVertex
-    {
-        float m_x;
-        float m_y;
-        float m_z;
-        uint32_t m_abgr;
-    };
-
-    bgfx::VertexLayout ms_layout;
-    ms_layout.begin()
-			.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-			.add(bgfx::Attrib::Color0,   4, bgfx::AttribType::Uint8, true)
-			.end();
-
-    static PosColorVertex s_cubeVertices[] =
-    {
-        {-1.0f,  1.0f,  1.0f, 0xff000000 },
-        { 1.0f,  1.0f,  1.0f, 0xff0000ff },
-        {-1.0f, -1.0f,  1.0f, 0xff00ff00 },
-        { 1.0f, -1.0f,  1.0f, 0xff00ffff },
-        {-1.0f,  1.0f, -1.0f, 0xffff0000 },
-        { 1.0f,  1.0f, -1.0f, 0xffff00ff },
-        {-1.0f, -1.0f, -1.0f, 0xffffff00 },
-        { 1.0f, -1.0f, -1.0f, 0xffffffff },
-    };
-
-    static const uint16_t s_cubeTriList[] =
-    {
-        0, 1, 2, // 0
-        1, 3, 2,
-        4, 6, 5, // 2
-        5, 6, 7,
-        0, 2, 4, // 4
-        4, 2, 6,
-        1, 5, 3, // 6
-        5, 7, 3,
-        0, 4, 1, // 8
-        4, 5, 1,
-        2, 3, 6, // 10
-        6, 3, 7,
-    };
-
-    // Create static vertex buffer.
-    auto m_vbh = bgfx::createVertexBuffer(
-        // Static data can be passed with bgfx::makeRef
-            bgfx::makeRef(s_cubeVertices, sizeof(s_cubeVertices) )
-        , ms_layout
-        );
-
-    // Create static index buffer for triangle list rendering.
-    auto m_ibh = bgfx::createIndexBuffer(
-        // Static data can be passed with bgfx::makeRef
-        bgfx::makeRef(s_cubeTriList, sizeof(s_cubeTriList) )
-        );
-
-    uint64_t state = 0
-				| BGFX_STATE_WRITE_R
-				| BGFX_STATE_WRITE_G
-				| BGFX_STATE_WRITE_B
-				| BGFX_STATE_WRITE_A
-				| BGFX_STATE_WRITE_Z
-				| BGFX_STATE_DEPTH_TEST_LESS
-				| BGFX_STATE_CULL_CW
-				| BGFX_STATE_MSAA
-				;
-
-    bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
+    //bgfx::ShaderHandle comp = bgfx::createShader(ShaderCompiler::compileShader("test.sc", ShaderCompileOptions(ShaderType::Fragment)));
+    //bgfx::ProgramHandle prog = bgfx::createProgram(comp, true);
 
     auto nextFrame = std::chrono::high_resolution_clock::now() + std::chrono::nanoseconds(static_cast<ullong>(CoreEngine::msprf * 1000000));
     while (readyToExit.load(std::memory_order_relaxed) == false)
@@ -804,59 +715,40 @@ void CoreEngine::internalRenderLoop()
             }*/
             //Renderer::pendingRenderJobsOffload.clear();
 
-            isRendering.store(true, std::memory_order_relaxed);
-
             Debug::LogWarn("Render begin.");
 
+            static int w = Window::width, h = Window::height;
             static int prevW, prevH;
             prevW = w;
             prevH = h;
-
-            while (!renderResizeFlag.load(std::memory_order_relaxed));
-
             w = Window::width;
             h = Window::height;
             
-            if (prevW != w || prevH != h)
+            if (!Window::resizing.load())
             {
-                bgfx::reset(w, h, BGFX_RESET_NONE);
+                if (prevW != w || prevH != h)
+                    bgfx::reset(w, h, BGFX_RESET_NONE);
+                
+                static float view[16];
+                static float proj[16];
+                //bx::mtxLookAt(view, eye, at);
+                //bx::mtxProj(proj, 60.0f, Renderer::renderWidth / Renderer::renderHeight, 0.1f, 1000.0f, bgfx::getCaps()->homogeneousDepth);
+                bgfx::setViewTransform(0, view, proj);
+
                 bgfx::setViewRect(0, 0, 0, w, h);
+                bgfx::touch(0);
+                
+                bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
+
+
+
+                bgfx::frame();
+
             }
-            
-            //bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030ff, 1.0f, 0);
-
-            bgfx::touch(0);
-            
-			const bx::Vec3 at  = { 0.0f, 0.0f,   0.0f };
-			const bx::Vec3 eye = { 0.0f, 0.0f, -35.0f };
-
-			// Set view and projection matrix for view 0.
-			{
-				float view[16];
-				bx::mtxLookAt(view, eye, at);
-
-				float proj[16];
-				bx::mtxProj(proj, 60.0f, float(w)/float(h), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
-				bgfx::setViewTransform(0, view, proj);
-
-				// Set view 0 default viewport.
-				bgfx::setViewRect(0, 0, 0, uint16_t(w), uint16_t(h) );
-			}
-
-            bgfx::setVertexBuffer(0, m_vbh);
-            bgfx::setIndexBuffer(m_ibh);
-
-            // Set render states.
-            bgfx::setState(state);
-
-            // Submit primitive for rendering to view 0.
-            bgfx::submit(0, prog);
-
-            bgfx::frame();
             
             Debug::LogWarn("Render end.");
 
-            isRendering.store(false, std::memory_order_relaxed);
+            isRendering = false;
 
             Renderer::pendingRenderJobsOffload_flag.clear();
             

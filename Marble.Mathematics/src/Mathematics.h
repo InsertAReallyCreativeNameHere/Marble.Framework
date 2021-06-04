@@ -32,7 +32,6 @@ namespace Marble
 			Vector2& operator*= (const Vector2& rhs);
 			Vector2& operator/= (const Vector2& rhs);
 
-			operator Vector2Int () const;
 			operator std::string () const;
 			inline friend std::ostream& operator<<(std::ostream& stream, const Vector2& rhs)
 			{
@@ -60,7 +59,6 @@ namespace Marble
 			Vector2Int& operator+= (const Vector2Int& rhs);
 			Vector2Int& operator-= (const Vector2Int& rhs);
 
-			operator Vector2 () const;
 			operator std::string () const;
 			inline friend std::ostream& operator<<(std::ostream& stream, const Vector2Int& rhs)
 			{

@@ -8,7 +8,7 @@ using namespace Marble::Internal;
 Panel::Panel() :
 data(new Texture2D()),
 color
-(
+({
     [this]() -> const Color&
     {
         return this->_color;
@@ -16,7 +16,7 @@ color
     [this](const Color& value)
     {
         this->_color = value;
-        
+
         /*Texture2D* data = this->data;
         byte color[4] { this->_color.r, this->_color.g, this->_color.b, this->_color.a };
         Renderer::pendingRenderJobs.push_back
@@ -31,7 +31,7 @@ color
             )
         );*/
     }
-)
+})
 {
     Texture2D* data = this->data;
     byte color[4] { this->_color.r, this->_color.g, this->_color.b, this->_color.a };

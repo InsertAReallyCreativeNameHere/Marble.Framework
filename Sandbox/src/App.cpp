@@ -17,6 +17,7 @@
 using namespace Marble;
 using namespace Marble::Internal;
 using namespace Marble::PackageSystem;
+using namespace Marble::Mathematics;
 
 void start();
 void update();
@@ -54,7 +55,6 @@ int main(int argc, char* argv[])
 	#if _WIN32
 		system("pause");
 	#elif (__linux__ && !__ANDROID__) || __APPLE__
-		// system("rest");
 		// Damn I can't remember the console command.
 	#endif
 
@@ -75,65 +75,8 @@ static Color c(0, 0, 0);
 
 void start()
 {
-	Scene* scene = new Scene;
-	SceneManager::setSceneActive(scene);
-
-    ent2 = new Entity();
-    ent2->addComponent<Image>();
-    Image* image = ent2->getFirstComponent<Image>();
-	PortableGraphicPackageFile* file = file_cast<PortableGraphicPackageFile>(PackageManager::getCorePackageFileByPath(L"Assets\\GarbageCollectionてすと.png"));
-    image->imageFile = file;
-    ent2->rectTransform()->rect = { (float)(file->height) / 2, (float)(file->width) / 2, (float)(-file->height) / 2, (float)(-file->width) / 2 };
-    ent2->rectTransform()->position = { 0, 0 };
-    ent2->rectTransform()->rotation = -20.0f;
-    ent2->rectTransform()->scale = { 1.0f, 1.0f };
-
-	parent = new Entity();
-    parent->rectTransform()->rect = { 50, 50, -50, -50 };
-    parent->rectTransform()->rotation = 45;
-    parent->addComponent<Panel>()->color = { 255u, 0, 0, 255u };
-	
-    _ent2 = new Entity();
-    _ent2->rectTransform()->rect = { 50, 50, -50, -50 };
-    _ent2->rectTransform()->rotation = 90;
-    _ent2->addComponent<Panel>()->color = { 0, 255u, 0, 255u };
-
-    _ent = new Entity();
-    _ent->rectTransform()->rect = { 50, 50, -50, -50 };
-    _ent->rectTransform()->rotation = 135;
-    _ent->addComponent<Panel>()->color = { 0, 0, 255u, 255u };
-
-	trackparent = new Entity();
-    trackparent->rectTransform()->rect = { 2, 2, -2, -2 };
-    trackparent->rectTransform()->position = { 0, 0 };
-    trackparent->rectTransform()->rotation = 0.0f;
-    trackparent->addComponent<Panel>()->color = { 0u, 0u, 0u, 255u };
-	
-    _trackent2 = new Entity();
-    _trackent2->rectTransform()->rect = { 2, 2, -2, -2 };
-    _trackent2->rectTransform()->position = { 0, 0 };
-    _trackent2->rectTransform()->rotation = 0.0f;
-    _trackent2->addComponent<Panel>()->color = { 0u, 0u, 0u, 255u };
-
-    _trackent = new Entity();
-    _trackent->rectTransform()->rect = { 2, 2, -2, -2 };
-    _trackent->rectTransform()->position = { 0, 0 };
-    _trackent->rectTransform()->rotation = 0.0f;
-    _trackent->addComponent<Panel>()->color = { 0u, 0u, 0u, 255u };
-
-	_ent->rectTransform()->parent = _ent2->rectTransform();
-	_ent2->rectTransform()->parent = parent->rectTransform();
-
-    parent->rectTransform()->scale = { .5f, .5f }; // .5
-    _ent2->rectTransform()->scale = { .25f, .25f }; // .25
-    _ent->rectTransform()->scale = { .125f, .125f }; // .125
-    parent->rectTransform()->position = { 0, 0 };
-    _ent2->rectTransform()->position = { -40, 0 };
-    _ent->rectTransform()->position = { -80, 0 };
-
-	Debug::LogTrace("Parent Position: ", parent->rectTransform()->position(), ".");
-	Debug::LogTrace("Child Position: ", _ent2->rectTransform()->position(), ".");
-	Debug::LogTrace("Most Child Position: ", _ent->rectTransform()->position(), ".");
+	Property<Vector2, Vector2> test({ [] { return Vector2 { 0, 0 }; }, [](Vector2 vec) {} });
+	test = { 3.0f, 2.0f };
 }
 void update()
 {

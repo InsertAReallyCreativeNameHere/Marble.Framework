@@ -1048,7 +1048,7 @@ namespace bgfx
 		return word;
 	}
 
-	bool compileShader(const char* _varying, const char* _comment, char* _shader, uint32_t _shaderLen, Options& _options, bx::FileWriter* _writer)
+	bool compileShader(const char* _varying, const char* _comment, char* _shader, uint32_t _shaderLen, Options& _options, bx::WriterI* _writer)
 	{
 		uint32_t profile_id = 0;
 
@@ -1584,7 +1584,7 @@ namespace bgfx
 					if (_options.preprocessOnly)
 					{
 						bx::write(_writer, preprocessor.m_preprocessed.c_str(), (int32_t)preprocessor.m_preprocessed.size() );
-
+						
 						return true;
 					}
 
@@ -2541,7 +2541,7 @@ namespace bgfx
 		return compiled;
 	}
 
-	int compileShader(int _argc, const char* _argv[])
+	std::vector<uint8_t> compileShader(int _argc, const char* _argv[])
 	{
 		bx::CommandLine cmdLine(_argc, _argv);
 
@@ -2553,13 +2553,13 @@ namespace bgfx
 				, BGFX_SHADERC_VERSION_MINOR
 				, BGFX_API_VERSION
 				);
-			return bx::kExitSuccess;
+			return std::vector<uint8_t>();
 		}
 
 		if (cmdLine.hasArg('h', "help") )
 		{
 			help();
-			return bx::kExitFailure;
+			return std::vector<uint8_t>();
 		}
 
 		g_verbose = cmdLine.hasArg("verbose");
@@ -2568,21 +2568,21 @@ namespace bgfx
 		if (NULL == filePath)
 		{
 			help("Shader file name must be specified.");
-			return bx::kExitFailure;
+			return std::vector<uint8_t>();
 		}
 
 		const char* outFilePath = cmdLine.findOption('o');
 		if (NULL == outFilePath)
 		{
 			help("Output file name must be specified.");
-			return bx::kExitFailure;
+			return std::vector<uint8_t>();
 		}
 
 		const char* type = cmdLine.findOption('\0', "type");
 		if (NULL == type)
 		{
 			help("Must specify shader type.");
-			return bx::kExitFailure;
+			return std::vector<uint8_t>();
 		}
 
 		Options options;
@@ -2703,7 +2703,14 @@ namespace bgfx
 		}
 		commandLineComment += "\n\n";
 
-		bool compiled = false;
+		struct : public bx::WriterI {
+			std::vector<uint8_t> internalBuffer;
+			int32_t write(const void* _data, int32_t _size, bx::Error* _err) override
+			{
+				internalBuffer.insert(internalBuffer.end(), (uint8_t*)_data, (uint8_t*)_data + _size);
+				return _size;
+			}
+		} memWriter;
 
 		bx::FileReader reader;
 		if (!bx::open(&reader, filePath) )
@@ -2751,38 +2758,12 @@ namespace bgfx
 			bx::memSet(&data[size+1], 0, padding);
 			bx::close(&reader);
 
-			bx::FileWriter* writer = NULL;
-
-			if (!bin2c.isEmpty() )
-			{
-				writer = new Bin2cWriter(bin2c);
-			}
-			else
-			{
-				writer = new bx::FileWriter;
-			}
-
-			if (!bx::open(writer, outFilePath) )
-			{
-				bx::printf("Unable to open output file '%s'.\n", outFilePath);
-				return bx::kExitFailure;
-			}
-
-			compiled = compileShader(varying, commandLineComment.c_str(), data, size, options, writer);
-
-			bx::close(writer);
-			delete writer;
+			if (compileShader(varying, commandLineComment.c_str(), data, size, options, &memWriter))
+				return std::move(memWriter.internalBuffer);
 		}
-
-		if (compiled)
-		{
-			return bx::kExitSuccess;
-		}
-
-		bx::remove(outFilePath);
 
 		bx::printf("Failed to build shader.\n");
-		return bx::kExitFailure;
+		return std::vector<uint8_t>();
 	}
 
 } // namespace bgfx

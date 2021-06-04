@@ -1,15 +1,14 @@
 #include "Application.h"
 
-#include <filesystem>
 #include <Core/CoreEngine.h>
 
 using namespace Marble;
 using namespace Marble::Internal;
 namespace fs = std::filesystem;
 
-std::wstring Application::currentWorkingDirectory;
+fs::path Application::currentWorkingDirectory;
 
-const std::wstring& Application::currentDirectory()
+const fs::path& Application::currentDirectory()
 {
     return Application::currentWorkingDirectory;
 }
@@ -20,6 +19,6 @@ int Application::execute(int argc, char* argv[])
 }
 void Application::quit()
 {
-    CoreEngine::readyToExit = true;
     CoreEngine::currentState = CoreEngine::state::exiting;
+    CoreEngine::readyToExit = true;
 }

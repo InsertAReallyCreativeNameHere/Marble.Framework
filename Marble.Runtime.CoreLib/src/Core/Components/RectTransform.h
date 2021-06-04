@@ -44,7 +44,7 @@ namespace Marble
         
         Property<Mathematics::Vector2, Mathematics::Vector2> localPosition;
         Property<float, float> localRotation;
-        Property<Mathematics::Vector2, Mathematics::Vector2> localScale;
+        Property<Mathematics::Vector2, const Mathematics::Vector2&> localScale;
 
         Property<const RectTransform*, RectTransform*> parent;
         inline const std::list<RectTransform*>& children()

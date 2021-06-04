@@ -10,30 +10,23 @@ namespace Marble
         typename GetterReturnType,
         typename SetterInputType
     >
-    struct coreapi Property
+    struct Property
     {
-        explicit Property(const auto& getter, const auto& setter) :
-        getter(getter), setter(setter)
+        explicit Property(const std::tuple<skarupke::function<GetterReturnType()>, skarupke::function<void(SetterInputType)>>&& constructor) :
+        getter(std::move(std::get<0>(constructor))), setter(std::move(std::get<1>(constructor)))
         {
         }
-        explicit Property(const Property<GetterReturnType, SetterInputType>& other)
-        {
-            this->setter(other.getter());
-        }
-        Property(Property<GetterReturnType, SetterInputType>&& property) = delete;
-        
-        auto operator=(const Property<GetterReturnType, SetterInputType>& rhs)
-        {
-            this->setter(rhs.getter());
-            return this->getter();
-        }
-        auto operator=(Property<GetterReturnType, SetterInputType>&&) = delete;
+        Property(const Property<GetterReturnType, SetterInputType>& other) = delete;
+        Property(Property<GetterReturnType, SetterInputType>&& other) = delete;
+
         auto operator=(SetterInputType value)
         {
             this->setter(value);
             return this->getter();
         }
-        
+        auto operator=(const Property<GetterReturnType, SetterInputType>& rhs) = delete;
+        auto operator=(Property<GetterReturnType, SetterInputType>&&) = delete;
+
         #pragma region Arithmetic
         auto operator+(SetterInputType rhs)
         {
@@ -139,7 +132,7 @@ namespace Marble
         {
             return this->getter();
         }
-    protected:
+    private:
         skarupke::function<GetterReturnType()> getter = nullptr;
         skarupke::function<void(SetterInputType)> setter = nullptr;
     };
