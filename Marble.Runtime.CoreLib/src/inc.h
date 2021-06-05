@@ -41,4 +41,6 @@ typedef unsigned long long int ullong;
 
 #define null NULL
 
+#define deg2RadF(degrees) 3.14159265358979323846264338327950288f / 180 * degrees
+
 #endif

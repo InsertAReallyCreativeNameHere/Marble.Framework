@@ -1,13 +1,12 @@
 #pragma once
 
-#include <inc.h>
+#include "inc.h"
 
-#include <bgfx/bgfx.h>
-#include <string_view>
+#include <filesystem>
 
 namespace Marble
 {
-    namespace Internal
+    namespace GL
     {
         enum class ShaderType : char
         {
@@ -25,7 +24,7 @@ namespace Marble
             ShaderCompileOptions& withIncludeDirs(const std::vector<std::string>& includeDirs);
             ShaderCompileOptions& withDefines(const std::vector<std::string>& defines);
 
-            friend class Marble::Internal::ShaderCompiler;
+            friend class Marble::GL::ShaderCompiler;
         private:
             std::vector<std::string> includeDirs;
             std::vector<std::string> defines;
@@ -34,12 +33,10 @@ namespace Marble
 
         class coreapi ShaderCompiler final
         {
-            static struct Initializer final {
-                Initializer();
-            } init;
         public:
-            static std::vector<uint8_t> callInternalMain(int argc, const char* argv[]);
-            static std::vector<uint8_t> compileShader(const std::string_view& fileName, const ShaderCompileOptions& options);
+            ShaderCompiler() = delete;
+
+            static std::vector<uint8_t> compileShader(const std::string& shaderData, const ShaderCompileOptions& options);
         };
     }
 }

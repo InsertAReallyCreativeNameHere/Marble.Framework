@@ -2541,9 +2541,9 @@ namespace bgfx
 		return compiled;
 	}
 
-	std::vector<uint8_t> compileShader(int _argc, const char* _argv[])
+	std::vector<uint8_t> compileShader(const char* shaderData, uint32_t shaderDataSize, const char* varyingDefData, const std::vector<const char*>& args)
 	{
-		bx::CommandLine cmdLine(_argc, _argv);
+		bx::CommandLine cmdLine(args.size(), args.data());
 
 		if (cmdLine.hasArg('v', "version") )
 		{
@@ -2565,17 +2565,15 @@ namespace bgfx
 		g_verbose = cmdLine.hasArg("verbose");
 
 		const char* filePath = cmdLine.findOption('f');
-		if (NULL == filePath)
+		if (NULL != filePath)
 		{
-			help("Shader file name must be specified.");
-			return std::vector<uint8_t>();
+			bx::printf("Input file path argument has no effect with JIT compiling!");
 		}
 
 		const char* outFilePath = cmdLine.findOption('o');
-		if (NULL == outFilePath)
+		if (NULL != outFilePath)
 		{
-			help("Output file name must be specified.");
-			return std::vector<uint8_t>();
+			bx::printf("Output file path argument has no effect with JIT compiling!");
 		}
 
 		const char* type = cmdLine.findOption('\0', "type");
@@ -2586,8 +2584,8 @@ namespace bgfx
 		}
 
 		Options options;
-		options.inputFilePath = filePath;
-		options.outputFilePath = outFilePath;
+		options.inputFilePath = "[JIT Compiled Shader]";
+		options.outputFilePath = "[JIT Compiled Shader]";
 		options.shaderType = bx::toLower(type[0]);
 
 		options.disasm = cmdLine.hasArg('\0', "disasm");
@@ -2712,55 +2710,38 @@ namespace bgfx
 			}
 		} memWriter;
 
-		bx::FileReader reader;
-		if (!bx::open(&reader, filePath) )
+		if ('c' != options.shaderType)
 		{
-			bx::printf("Unable to open file '%s'.\n", filePath);
+			if (NULL     != varyingDefData
+			&&  *varyingDefData != '\0')
+			{
+				options.dependencies.push_back("varying.def.sc");
+			}
+			else
+			{
+				bx::printf("ERROR: Invalid varying def data! No input/output semantics will be generated in the code!\n");
+			}
 		}
-		else
+
+		char* data = new char[shaderDataSize + 16384];
+		uint32_t size = shaderDataSize + 16384;
+		bx::memCopy(data, shaderData, shaderDataSize);
+
+		if (data[0] == '\xef'
+		&&  data[1] == '\xbb'
+		&&  data[2] == '\xbf')
 		{
-			const char* varying = NULL;
-			File attribdef;
-
-			if ('c' != options.shaderType)
-			{
-				std::string defaultVarying = dir + "varying.def.sc";
-				const char* varyingdef = cmdLine.findOption("varyingdef", defaultVarying.c_str() );
-				attribdef.load(varyingdef);
-				varying = attribdef.getData();
-				if (NULL     != varying
-				&&  *varying != '\0')
-				{
-					options.dependencies.push_back(varyingdef);
-				}
-				else
-				{
-					bx::printf("ERROR: Failed to parse varying def file: \"%s\" No input/output semantics will be generated in the code!\n", varyingdef);
-				}
-			}
-
-			const size_t padding    = 16384;
-			uint32_t size = (uint32_t)bx::getSize(&reader);
-			char* data = new char[size+padding+1];
-			size = (uint32_t)bx::read(&reader, data, size);
-
-			if (data[0] == '\xef'
-			&&  data[1] == '\xbb'
-			&&  data[2] == '\xbf')
-			{
-				bx::memMove(data, &data[3], size-3);
-				size -= 3;
-			}
-
-			// Compiler generates "error X3000: syntax error: unexpected end of file"
-			// if input doesn't have empty line at EOF.
-			data[size] = '\n';
-			bx::memSet(&data[size+1], 0, padding);
-			bx::close(&reader);
-
-			if (compileShader(varying, commandLineComment.c_str(), data, size, options, &memWriter))
-				return std::move(memWriter.internalBuffer);
+			bx::memMove(data, &data[3], shaderDataSize - 3);
+			size -= 3;
 		}
+
+		// Compiler generates "error X3000: syntax error: unexpected end of file"
+		// if input doesn't have empty line at EOF.
+		data[shaderDataSize] = '\n';
+		bx::memSet(&data[shaderDataSize + 1], 0, 16383);
+
+		if (compileShader(varyingDefData, commandLineComment.c_str(), data, size, options, &memWriter))
+			return std::move(memWriter.internalBuffer);
 
 		bx::printf("Failed to build shader.\n");
 		return std::vector<uint8_t>();

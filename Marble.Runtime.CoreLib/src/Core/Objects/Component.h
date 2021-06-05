@@ -17,13 +17,13 @@ namespace Marble
         class coreapi Component : public Object
         {
             void (*onDestroy)(Component*);
+            
+            Entity* attachedEntity;
+            RectTransform* attachedRectTransform;
         protected:
             Component();
             virtual ~Component() override = 0;
         public:
-            Entity* attachedEntity;
-            RectTransform* attachedRectTransform;
-
             Entity* entity();
             RectTransform* rectTransform();
 

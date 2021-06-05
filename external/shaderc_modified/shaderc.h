@@ -109,7 +109,7 @@ namespace bgfx
 
 	const char* getPsslPreamble();
 
-	std::vector<uint8_t> compileShader(int _argc, const char* _argv[]);
+	std::vector<uint8_t> compileShader(const char* shaderData, uint32_t shaderDataSize, const char* varyingDefData, const std::vector<const char*>& args);
 	bool compileShader(const char* _varying, const char* _comment, char* _shader, uint32_t _shaderLen, Options& _options, bx::WriterI* _writer);
 
 } // namespace bgfx

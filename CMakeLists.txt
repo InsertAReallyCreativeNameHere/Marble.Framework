@@ -147,16 +147,13 @@ target_include_directories(Marble.Runtime.CoreLib PRIVATE
     "${CMAKE_SOURCE_DIR}/Marble.Mathematics/src"
     "${CMAKE_SOURCE_DIR}/dependencies/ctti/include"
     "${CMAKE_SOURCE_DIR}/dependencies/stb"
-    "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/include"
     "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bx/include"
-    "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bimg/include"
     "${CMAKE_SOURCE_DIR}/external/SDL2/include"
 )
 target_link_libraries(Marble.Runtime.CoreLib PRIVATE
     Marble.Mathematics
     Marble.Runtime.GL
     SDL2-static
-    gl
 )
 if (${BUILD_PLATFORM} STREQUAL Win32)
     target_include_directories(Marble.Runtime.CoreLib PRIVATE

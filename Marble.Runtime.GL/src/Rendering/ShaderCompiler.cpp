@@ -5,10 +5,24 @@
 #include <shaderc.h>
 
 using namespace Marble;
-using namespace Marble::Internal;
+using namespace Marble::GL;
 namespace fs = std::filesystem;
 
 static std::string curPath(fs::current_path().string());
+
+static const char* varyingdefDefault =
+R"(
+vec4 v_color0    : COLOR0    = vec4(1.0, 0.0, 0.0, 1.0);
+vec4 v_color1    : COLOR1    = vec4(0.0, 1.0, 0.0, 1.0);
+vec2 v_texcoord0 : TEXCOORD0 = vec2(0.0, 0.0);
+vec3 v_normal    : TEXCOORD1 = vec3(0.0, 1.0, 0.0);
+
+vec3 a_position  : POSITION;
+vec3 a_normal    : NORMAL0;
+vec4 a_color0    : COLOR0;
+vec4 a_color1    : COLOR1;
+vec2 a_texcoord0 : TEXCOORD0;
+)";
 
 ShaderCompileOptions::ShaderCompileOptions(ShaderType type)
 {
@@ -28,27 +42,8 @@ ShaderCompileOptions& ShaderCompileOptions::withDefines(const std::vector<std::s
     return *this;
 }
 
-std::vector<uint8_t> ShaderCompiler::callInternalMain(int argc, const char* argv[])
+std::vector<uint8_t> ShaderCompiler::compileShader(const std::string& shaderData, const ShaderCompileOptions& options)
 {
-    return bgfx::compileShader(argc, argv);
-}
-
-ShaderCompiler::Initializer::Initializer()
-{
-    bgfx::g_verbose = true;
-}
-
-std::vector<uint8_t> ShaderCompiler::compileShader(const std::string_view& fileName, const ShaderCompileOptions& options)
-{
-    std::string inputFilePath;
-    inputFilePath.reserve(curPath.size() + fileName.size() + 1);
-    inputFilePath.append(curPath);
-    inputFilePath.append("/");
-    inputFilePath.append(fileName);
-
-    std::string outputFilePath(inputFilePath);
-    outputFilePath.append(".bin");
-
     char shaderType[2] { 0 };
     shaderType[0] = (char)options.shaderType;
 
@@ -57,8 +52,6 @@ std::vector<uint8_t> ShaderCompiler::compileShader(const std::string_view& fileN
 
     std::vector<const char*> args
     {
-        "-f", inputFilePath.c_str(),
-        "-o", outputFilePath.c_str(),
         #if BX_PLATFORM_LINUX
         "--platform", "linux",
         #elif BX_PLATFORM_WINDOWS
@@ -73,8 +66,6 @@ std::vector<uint8_t> ShaderCompiler::compileShader(const std::string_view& fileN
         "--platform", "osx",
         #endif
         "--type", shaderType,
-        "-i", fs::path(fileName.data()).parent_path().string().c_str(),
-        "--varyingdef", varyingPath.c_str(),
         "-p"
     };
     args.push_back("spirv");
@@ -85,6 +76,8 @@ std::vector<uint8_t> ShaderCompiler::compileShader(const std::string_view& fileN
         args.push_back("-i");
         args.push_back(it->c_str());
     }
+    args.push_back("-i");
+    args.push_back(curPath.c_str());
     
     if (options.defines.size() > 0)
     {
@@ -99,15 +92,5 @@ std::vector<uint8_t> ShaderCompiler::compileShader(const std::string_view& fileN
         args.push_back(defines.c_str());
     }
 
-    std::ifstream shaderFile(inputFilePath, std::ios::binary);
-    shaderFile.ignore(std::numeric_limits<std::streamsize>::max());
-    std::streamsize length = shaderFile.gcount();
-    shaderFile.clear();
-    shaderFile.seekg(0, std::ios::beg);
-    char* shaderBytes = new char[length];
-    shaderFile.read(shaderBytes, length);
-    
-    return bgfx::compileShader(args.size(), args.data());
-
-    // writer = new bx::MemoryWriter(new bx::MemoryBlock(new bx::DefaultAllocator));
+    return bgfx::compileShader(shaderData.data(), shaderData.size(), varyingdefDefault, args);
 }

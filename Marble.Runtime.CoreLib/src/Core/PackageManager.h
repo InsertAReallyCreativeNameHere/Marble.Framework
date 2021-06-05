@@ -18,7 +18,6 @@ namespace Marble
     namespace Internal
     {
         class CoreEngine;
-        class Renderer;
     }
 
     namespace PackageSystem
@@ -85,7 +84,6 @@ namespace Marble
         static PackageSystem::PackageFile* getCorePackageFileByPath(const std::wstring_view& path);
 
         friend class Marble::Image;
-        friend class Marble::Internal::Renderer;
         friend class Marble::Internal::CoreEngine;
     };
 }

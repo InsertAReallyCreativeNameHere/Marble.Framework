@@ -13,7 +13,6 @@ namespace Marble
     namespace Internal
     {
         class CoreEngine;
-        class Renderer;
     }
 
     class coreapi Image final : public Internal::Component
@@ -26,7 +25,6 @@ namespace Marble
 
         Property<PackageSystem::PortableGraphicPackageFile*, PackageSystem::PortableGraphicPackageFile*> imageFile;
 
-        friend class Marble::Internal::Renderer;
         friend class Marble::Internal::CoreEngine;
     };
 }

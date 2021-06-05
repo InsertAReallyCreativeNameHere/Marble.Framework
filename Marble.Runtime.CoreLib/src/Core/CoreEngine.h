@@ -3,6 +3,7 @@
 #include <inc.h>
 
 #include <atomic>
+#include <list>
 #include <SDL.h>
 #include <SDL_syswm.h>
 #include <Utility/ConcurrentQueue.h>
@@ -11,6 +12,8 @@
 namespace Marble
 {
 	class Application;
+
+	class Panel;
 
 	namespace Internal
 	{
@@ -40,6 +43,7 @@ namespace Marble
 
 			static moodycamel::ConcurrentQueue<skarupke::function<void()>> pendingPreTickEvents;
 			static moodycamel::ConcurrentQueue<skarupke::function<void()>> pendingPostTickEvents;
+			static moodycamel::ConcurrentQueue<std::list<skarupke::function<void()>>> pendingRenderJobBatches;
 
 			static void internalLoop();
 			static void internalWindowLoop();
@@ -49,11 +53,11 @@ namespace Marble
 			static int WNDH;
 
 			static float mspf;
-			static float msprf;
 		public:
 			static int execute(int argc, char* argv[]);
 			static void exit();
 
+			friend class Marble::Panel;
 			friend class Marble::Application;
 		};
 	}

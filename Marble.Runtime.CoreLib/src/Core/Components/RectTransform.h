@@ -7,6 +7,11 @@
 
 namespace Marble
 {
+    namespace Internal
+    {
+        class CoreEngine;
+    }
+
     struct coreapi Rect final
     {
         int top, right, bottom, left;
@@ -53,5 +58,6 @@ namespace Marble
         }
 
         friend class Marble::Entity;
+        friend class Marble::Internal::CoreEngine;
     };
 }
