@@ -9,6 +9,8 @@
 
 #include <filesystem>
 
+void start();
+
 namespace Marble
 {
     class Image;
@@ -49,11 +51,11 @@ namespace Marble
         {
             const unsigned imageBytesSize;
         public:
-            PortableGraphicPackageFile(const uint8_t* imageBytes, int width, int height, const std::filesystem::path& fileLocalPath);
+            PortableGraphicPackageFile(uint8_t* imageBytes, int width, int height, const std::filesystem::path& fileLocalPath);
             ~PortableGraphicPackageFile() override;
 
-            const uint8_t* loadedImage;
-            const int width, height;
+            uint8_t* loadedImage;
+            int width, height;
             
             friend class Marble::Image;
         };
@@ -81,9 +83,11 @@ namespace Marble
     public:
         PackageManager() = delete;
 
-        static PackageSystem::PackageFile* getCorePackageFileByPath(const std::wstring_view& path);
+        static PackageSystem::PackageFile* getCorePackageFileByPath(std::wstring filePath);
 
         friend class Marble::Image;
         friend class Marble::Internal::CoreEngine;
+
+        friend void ::start();
     };
 }

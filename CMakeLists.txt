@@ -34,8 +34,6 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(COMPILER "MSVC")
     set(BUILD_TYPE "")
-    #set(CMAKE_SYSTEM_VERSION 7.0 CACHE TYPE INTERNAL FORCE)
-    #set(CMAKE_VS_PLATFORM_TOOLSET "v141_xp" CACHE TYPE INTERNAL FORCE)
 else()
     set(COMPILER ${CMAKE_CXX_COMPILER_ID})
 endif()
@@ -45,7 +43,7 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/external/SDL")
 target_compile_definitions(SDL2-static PRIVATE HAVE_LIBC=1)
 
 set(_CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE})
-set(CMAKE_BUILD_TYPE "Release")
+set(CMAKE_BUILD_TYPE "Release") # Builds faster for MinGW/GCC this way.
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../libglbuild)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../libglbuild)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../libglbuild)
@@ -96,8 +94,8 @@ file(GLOB_RECURSE GLSRCS configure_depends
     "${CMAKE_SOURCE_DIR}/Marble.Runtime.GL/*.cpp"
 )
 file(GLOB_RECURSE SHADERC configure_depends
-    "${CMAKE_SOURCE_DIR}/external/shaderc_modified/*.h"
-    "${CMAKE_SOURCE_DIR}/external/shaderc_modified/*.cpp"
+    "${CMAKE_SOURCE_DIR}/external/libglcompilers/*.h"
+    "${CMAKE_SOURCE_DIR}/external/libglcompilers/*.cpp"
 )
 
 add_library(Marble.Runtime.GL SHARED ${GLSRCS} ${SHADERC})
@@ -147,6 +145,7 @@ target_include_directories(Marble.Runtime.CoreLib PRIVATE
     "${CMAKE_SOURCE_DIR}/Marble.Mathematics/src"
     "${CMAKE_SOURCE_DIR}/dependencies/ctti/include"
     "${CMAKE_SOURCE_DIR}/dependencies/stb"
+    "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/include" # Do not attempt to use bgfx in Marble.Runtime.CoreLib, this exists as a dependency of other headers.
     "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bx/include"
     "${CMAKE_SOURCE_DIR}/external/SDL2/include"
 )
@@ -199,8 +198,10 @@ if (${BUILD_PLATFORM} STREQUAL Win32)
     target_include_directories(Sandbox PRIVATE
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/include"
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
+        "${CMAKE_SOURCE_DIR}/Marble.Runtime.GL/src"
         "${CMAKE_SOURCE_DIR}/Marble.Mathematics/src"
         "${CMAKE_SOURCE_DIR}/dependencies/ctti/include"
+        "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/include" # Do not attempt to use bgfx in Marble.Runtime.CoreLib, this exists as a dependency of other headers.
         "${CMAKE_SOURCE_DIR}/external/SDL/include"
     )
 

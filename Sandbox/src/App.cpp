@@ -76,16 +76,6 @@ void start()
 	Scene* scene = new Scene;
 	SceneManager::setSceneActive(scene);
 
-    /*ent2 = new Entity();
-    ent2->addComponent<Image>();
-    Image* image = ent2->getFirstComponent<Image>();
-	PortableGraphicPackageFile* file = file_cast<PortableGraphicPackageFile>(PackageManager::getCorePackageFileByPath(L"Assets\\GarbageCollectionてすと.png"));
-    image->imageFile = file;
-    ent2->rectTransform()->rect = { (float)(file->height) / 2, (float)(file->width) / 2, (float)(-file->height) / 2, (float)(-file->width) / 2 };
-    ent2->rectTransform()->position = { 0, 0 };
-    ent2->rectTransform()->rotation = -20.0f;
-    ent2->rectTransform()->scale = { 1.0f, 1.0f };*/
-
 	parent = new Entity();
     parent->rectTransform()->rect = { 50, 50, -50, -50 };
     parent->rectTransform()->rotation = 45;
@@ -128,6 +118,16 @@ void start()
     parent->rectTransform()->position = { 0, 0 };
     _ent2->rectTransform()->position = { -40, 0 };
     _ent->rectTransform()->position = { -80, 0 };
+
+	ent2 = new Entity();
+	ent2->addComponent<Image>();
+	Image* image = ent2->getFirstComponent<Image>();
+	PortableGraphicPackageFile* file = file_cast<PortableGraphicPackageFile>(PackageManager::loadedCorePackage.front());
+	image->imageFile = file;
+	ent2->rectTransform()->rect = { (float)(file->height) / 2, (float)(file->width) / 2, (float)(-file->height) / 2, (float)(-file->width) / 2 };
+	ent2->rectTransform()->position = { 0, 0 };
+	ent2->rectTransform()->rotation = -20.0f;
+	ent2->rectTransform()->scale = { 1.0f, 1.0f };
 
 	Debug::LogTrace("Parent Position: ", parent->rectTransform()->position(), ".");
 	Debug::LogTrace("Child Position: ", _ent2->rectTransform()->position(), ".");

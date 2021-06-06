@@ -2,8 +2,10 @@
 
 #include <inc.h>
 
-#include <Core/PackageManager.h>
+#include <Core/CoreEngine.h>
 #include <Core/Objects/Component.h>
+#include <Core/PackageManager.h>
+#include <Rendering/Core/Texture.h>
 #include <Utility/Property.h>
 #include <Rendering/Core.h>
 #include <SDL.h>
@@ -17,11 +19,14 @@ namespace Marble
 
     class coreapi Image final : public Internal::Component
     {
-        static std::unordered_map<PackageSystem::PortableGraphicPackageFile*, Internal::Texture2D> textures;
-
-        Internal::Texture2D* texture = nullptr;
+        struct RenderData
+        {
+            GL::Texture2D* internalTexture = nullptr;
+        };
+        RenderData* data;
     public:
         Image();
+        ~Image();
 
         Property<PackageSystem::PortableGraphicPackageFile*, PackageSystem::PortableGraphicPackageFile*> imageFile;
 

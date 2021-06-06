@@ -24,16 +24,4 @@ namespace Marble
         bool operator==(const Color& rhs);
         bool operator!=(const Color& rhs);
     };
-
-    namespace Internal
-    {
-        // Modify on render thread only!
-        struct coreapi Texture2D final
-        {
-            SDL_Texture* internalTexture = nullptr;
-
-            Texture2D() = default;
-            ~Texture2D() = default;
-        };
-    }
 }

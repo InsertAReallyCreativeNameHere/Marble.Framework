@@ -1,4 +1,4 @@
-#include "ShaderCompiler.h"
+#include "ShaderUtility.h"
 
 #include <filesystem>
 #include <fstream>
@@ -42,7 +42,7 @@ ShaderCompileOptions& ShaderCompileOptions::withDefines(const std::vector<std::s
     return *this;
 }
 
-std::vector<uint8_t> ShaderCompiler::compileShader(const std::string& shaderData, const ShaderCompileOptions& options)
+std::vector<char> ShaderUtility::compileShader(const std::string& shaderData, const ShaderCompileOptions& options)
 {
     char shaderType[2] { 0 };
     shaderType[0] = (char)options.shaderType;

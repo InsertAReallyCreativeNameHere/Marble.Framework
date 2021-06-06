@@ -12,7 +12,7 @@ namespace Marble
 
     namespace Internal
     {
-        class ShaderCompiler;
+        class ShaderUtility;
         class CoreEngine;
     }
 
@@ -27,7 +27,7 @@ namespace Marble
 
         friend class Marble::Image;
         friend class Marble::PackageManager;
-        friend class Marble::Internal::ShaderCompiler;
+        friend class Marble::Internal::ShaderUtility;
         friend class Marble::Internal::CoreEngine;
     };
 }

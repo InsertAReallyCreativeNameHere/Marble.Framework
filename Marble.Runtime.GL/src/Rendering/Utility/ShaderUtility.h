@@ -15,8 +15,7 @@ namespace Marble
             Compute = 'c'
         };
 
-        class ShaderCompiler;
-
+        class ShaderUtility;
         struct coreapi ShaderCompileOptions final
         {
             ShaderCompileOptions(ShaderType type);
@@ -24,19 +23,19 @@ namespace Marble
             ShaderCompileOptions& withIncludeDirs(const std::vector<std::string>& includeDirs);
             ShaderCompileOptions& withDefines(const std::vector<std::string>& defines);
 
-            friend class Marble::GL::ShaderCompiler;
+            friend class Marble::GL::ShaderUtility;
         private:
             std::vector<std::string> includeDirs;
             std::vector<std::string> defines;
             ShaderType shaderType;
         };
 
-        class coreapi ShaderCompiler final
+        class coreapi ShaderUtility final
         {
         public:
-            ShaderCompiler() = delete;
+            ShaderUtility() = delete;
 
-            static std::vector<uint8_t> compileShader(const std::string& shaderData, const ShaderCompileOptions& options);
+            static std::vector<char> compileShader(const std::string& shaderData, const ShaderCompileOptions& options);
         };
     }
 }

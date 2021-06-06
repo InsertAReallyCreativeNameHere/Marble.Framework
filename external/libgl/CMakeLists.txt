@@ -22,7 +22,7 @@ target_include_directories(gl PUBLIC
     "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/spirv-tools/include"
     "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/spirv-cross"
     "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/webgpu/include"
-    "${CMAKE_SOURCE_DIR}/external/shaderc_modified"
+    "${CMAKE_SOURCE_DIR}/external/libglcompilers"
 )
 target_link_libraries(gl PUBLIC
     bgfx

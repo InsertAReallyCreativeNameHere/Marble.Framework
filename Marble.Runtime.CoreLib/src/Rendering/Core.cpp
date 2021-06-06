@@ -1,9 +1,8 @@
 #include "Core.h"
 
-#include <Rendering/Renderer.h>
+#include <Rendering/Core/Renderer.h>
 
 using namespace Marble;
-using namespace Marble::Internal;
 
 Color::Color() :
 r(0), g(0), b(0), a(0)

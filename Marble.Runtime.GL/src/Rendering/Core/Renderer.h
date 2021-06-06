@@ -2,12 +2,19 @@
 
 #include "inc.h"
 
+#include <list>
+#include <Rendering/Core/Texture.h>
+#include <Utility/Function.h>
+
 namespace Marble
 {
     namespace GL
     {
+        struct Texture2D;
+
         class coreapi Renderer final
         {
+            static std::list<skarupke::function<void()>> finalizers;
         public:
             Renderer() = delete;
 
@@ -18,12 +25,13 @@ namespace Marble
             static void setViewArea(uint32_t left, uint32_t top, uint32_t width, uint32_t height);
             static void setClear(uint32_t rgbaColor);
 
-            static void begin();
-            static void end();
+            static void beginFrame();
+            static void endFrame();
 
             static void drawRectangle(uint32_t abgrColor, float posX, float posY, float top, float right, float bottom, float left, float rotRadians = 0);
-            static void drawImage(uint32_t abgrColor, float posX, float posY, float top, float right, float bottom, float left, float rotRadians = 0);
-            static void test();
+            static void drawImage(Texture2D* imageTexture, float posX, float posY, float top, float right, float bottom, float left, float rotRadians = 0);
+
+            friend struct Texture2D;
         };
     }
 }

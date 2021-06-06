@@ -14,6 +14,7 @@ namespace Marble
 	class Application;
 
 	class Panel;
+	class Image;
 
 	namespace Internal
 	{
@@ -58,6 +59,7 @@ namespace Marble
 			static void exit();
 
 			friend class Marble::Panel;
+			friend class Marble::Image;
 			friend class Marble::Application;
 		};
 	}

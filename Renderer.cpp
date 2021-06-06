@@ -3,7 +3,7 @@
 #include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
 #include <bx/math.h>
-#include <Rendering/ShaderCompiler.h>
+#include <Rendering/Utility/ShaderUtility.h>
 #include <shaderc.h>
 #include <Utility/ManagedArray.h>
 
@@ -66,14 +66,14 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
 
         program2DRectangle = bgfx::createProgram
         (
-            bgfx::createShader([]() { auto shad = ShaderCompiler::compileShader("vs_rect.sc", ShaderCompileOptions(ShaderType::Vertex)); return bgfx::copy(shad.data(), shad.size()); } ()),
-            bgfx::createShader([]() { auto shad = ShaderCompiler::compileShader("fs_rect.sc", ShaderCompileOptions(ShaderType::Fragment)); return bgfx::copy(shad.data(), shad.size()); } ()),
+            bgfx::createShader([]() { auto shad = ShaderUtility::compileShader("vs_rect.sc", ShaderCompileOptions(ShaderType::Vertex)); return bgfx::copy(shad.data(), shad.size()); } ()),
+            bgfx::createShader([]() { auto shad = ShaderUtility::compileShader("fs_rect.sc", ShaderCompileOptions(ShaderType::Fragment)); return bgfx::copy(shad.data(), shad.size()); } ()),
             true
         );
         program2DTest = bgfx::createProgram
         (
-            bgfx::createShader([]() { auto shad = ShaderCompiler::compileShader("vs_test.sc", ShaderCompileOptions(ShaderType::Vertex)); return bgfx::copy(shad.data(), shad.size()); } ()),
-            bgfx::createShader([]() { auto shad = ShaderCompiler::compileShader("fs_test.sc", ShaderCompileOptions(ShaderType::Fragment)); return bgfx::copy(shad.data(), shad.size()); } ()),
+            bgfx::createShader([]() { auto shad = ShaderUtility::compileShader("vs_test.sc", ShaderCompileOptions(ShaderType::Vertex)); return bgfx::copy(shad.data(), shad.size()); } ()),
+            bgfx::createShader([]() { auto shad = ShaderUtility::compileShader("fs_test.sc", ShaderCompileOptions(ShaderType::Fragment)); return bgfx::copy(shad.data(), shad.size()); } ()),
             true
         );
         
@@ -330,8 +330,8 @@ void Renderer::test()
 
     auto prog = bgfx::createProgram
     (
-        bgfx::createShader([]() { auto shad = ShaderCompiler::compileShader("vs_test.sc", ShaderCompileOptions(ShaderType::Vertex)); return bgfx::copy(shad.data(), shad.size()); } ()),
-        bgfx::createShader([]() { auto shad = ShaderCompiler::compileShader("fs_test.sc", ShaderCompileOptions(ShaderType::Fragment)); return bgfx::copy(shad.data(), shad.size()); } ()),
+        bgfx::createShader([]() { auto shad = ShaderUtility::compileShader("vs_test.sc", ShaderCompileOptions(ShaderType::Vertex)); return bgfx::copy(shad.data(), shad.size()); } ()),
+        bgfx::createShader([]() { auto shad = ShaderUtility::compileShader("fs_test.sc", ShaderCompileOptions(ShaderType::Fragment)); return bgfx::copy(shad.data(), shad.size()); } ()),
         true
     );
 

@@ -26,7 +26,7 @@ BinaryPackageFile::~BinaryPackageFile()
     delete[] this->loadedBytes;
 }
 
-PortableGraphicPackageFile::PortableGraphicPackageFile(const stbi_uc* imageBytes, int width, int height, const fs::path& fileLocalPath) :
+PortableGraphicPackageFile::PortableGraphicPackageFile(stbi_uc* imageBytes, int width, int height, const fs::path& fileLocalPath) :
 PackageFile(fileLocalPath, strhash(ctti::nameof<PortableGraphicPackageFile>().begin())), imageBytesSize(width * height), loadedImage(imageBytes), width(width), height(height)
 {
 }
@@ -54,7 +54,7 @@ void PackageManager::loadCorePackageIntoMemory(const fs::path& packagePath)
         filePath.resize(filePathLength);
         PackageManager::corePackageStream.read(reinterpret_cast<char*>(&filePath[0]), sizeof(wchar_t) * filePathLength);
         PackageManager::normalizePath(filePath);
-        Debug::LogTrace("Package File - ", filePath, ".");
+        //Debug::LogTrace("Package File - ", filePath, ".");
 
         unsigned fileLen;
         PackageManager::corePackageStream.read(reinterpret_cast<char*>(&fileLen), sizeof(unsigned));
@@ -102,9 +102,8 @@ void PackageManager::normalizePath(std::wstring& path)
             *it = std::tolower(*it);
     }
 }
-PackageFile* PackageManager::getCorePackageFileByPath(const std::wstring_view& path)
+PackageFile* PackageManager::getCorePackageFileByPath(std::wstring filePath)
 {
-    std::wstring filePath = path.data();
     PackageManager::normalizePath(filePath);
     for (auto it = PackageManager::loadedCorePackage.begin(); it != PackageManager::loadedCorePackage.end(); ++it)
     {

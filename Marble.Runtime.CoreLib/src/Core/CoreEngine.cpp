@@ -26,8 +26,8 @@
 #include <Utility/Hash.h>
 #include <Mathematics.h>
 #include <Rendering/Core.h>
-#include <Rendering/Renderer.h>
-#include <Rendering/ShaderCompiler.h>
+#include <Rendering/Core/Renderer.h>
+#include <Rendering/Utility/ShaderUtility.h>
 
 #include <filesystem>
 namespace fs = std::filesystem;
@@ -59,7 +59,6 @@ moodycamel::ConcurrentQueue<skarupke::function<void()>> CoreEngine::pendingPostT
 moodycamel::ConcurrentQueue<std::list<skarupke::function<void()>>> CoreEngine::pendingRenderJobBatches;
 
 float CoreEngine::mspf = 16.6666666666f;
-static float performanceFreq = (float)SDL_GetPerformanceFrequency();
 
 static std::atomic<bool> renderResizeFlag = true;
 static std::atomic<bool> isRendering = false;
@@ -224,7 +223,7 @@ void CoreEngine::internalLoop()
         
         #pragma region Render Offload
         std::list<skarupke::function<void()>> batch;
-        batch.push_back([]() { Renderer::begin(); });
+        batch.push_back(&Renderer::beginFrame);
         for
         (
             auto it1 = SceneManager::existingScenes.begin();
@@ -278,8 +277,25 @@ void CoreEngine::internalLoop()
                         case strhash(ctti::nameof<Image>().begin()):
                             {
                                 Image* img = static_cast<Image*>(it3->first);
-                                Texture2D* data = img->texture;
 
+                                Vector2 pos = img->attachedRectTransform->_position;
+                                Vector2 scale = img->attachedRectTransform->_scale;
+                                RectFloat rect = img->attachedRectTransform->_rect;
+                                float rot = img->attachedRectTransform->_rotation;
+                                batch.push_back
+                                (
+                                    [=]()
+                                    {
+                                        Renderer::drawImage
+                                        (
+                                            img->data->internalTexture,
+                                            pos.x, pos.y,
+                                            rect.top * scale.y, rect.right * scale.x,
+                                            rect.bottom * scale.y, rect.left * scale.x,
+                                            deg2RadF(rot)
+                                        );
+                                    }
+                                );
                                 /*if (data != nullptr && data->internalTexture != nullptr)
                                 {
                                     Renderer::pendingRenderJobsOffload.push_back
@@ -314,11 +330,11 @@ void CoreEngine::internalLoop()
                 }
             }
         }
-        batch.push_back([]() { Renderer::end(); });
+        batch.push_back(&Renderer::endFrame);
         CoreEngine::pendingRenderJobBatches.enqueue(std::move(batch));
         #pragma endregion
 
-        do deltaTime = (float)((SDL_GetPerformanceCounter() - frameBegin) * 1000) / performanceFreq;
+        do deltaTime = (float)((SDL_GetPerformanceCounter() - frameBegin) * 1000) / SDL_GetPerformanceFrequency();
         while (deltaTime < mspf);
         Debug::LogInfo("Update() frame time: ", deltaTime, ".");
     }

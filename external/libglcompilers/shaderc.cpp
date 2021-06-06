@@ -2541,7 +2541,7 @@ namespace bgfx
 		return compiled;
 	}
 
-	std::vector<uint8_t> compileShader(const char* shaderData, uint32_t shaderDataSize, const char* varyingDefData, const std::vector<const char*>& args)
+	std::vector<char> compileShader(const char* shaderData, uint32_t shaderDataSize, const char* varyingDefData, const std::vector<const char*>& args)
 	{
 		bx::CommandLine cmdLine(args.size(), args.data());
 
@@ -2553,13 +2553,13 @@ namespace bgfx
 				, BGFX_SHADERC_VERSION_MINOR
 				, BGFX_API_VERSION
 				);
-			return std::vector<uint8_t>();
+			return std::vector<char>();
 		}
 
 		if (cmdLine.hasArg('h', "help") )
 		{
 			help();
-			return std::vector<uint8_t>();
+			return std::vector<char>();
 		}
 
 		g_verbose = cmdLine.hasArg("verbose");
@@ -2567,20 +2567,20 @@ namespace bgfx
 		const char* filePath = cmdLine.findOption('f');
 		if (NULL != filePath)
 		{
-			bx::printf("Input file path argument has no effect with JIT compiling!");
+			bx::printf("Input file path argument has no effect when JIT compiling!\n");
 		}
 
 		const char* outFilePath = cmdLine.findOption('o');
 		if (NULL != outFilePath)
 		{
-			bx::printf("Output file path argument has no effect with JIT compiling!");
+			bx::printf("Output file path argument has no effect when JIT compiling!\n");
 		}
 
 		const char* type = cmdLine.findOption('\0', "type");
 		if (NULL == type)
 		{
 			help("Must specify shader type.");
-			return std::vector<uint8_t>();
+			return std::vector<char>();
 		}
 
 		Options options;
@@ -2702,10 +2702,10 @@ namespace bgfx
 		commandLineComment += "\n\n";
 
 		struct : public bx::WriterI {
-			std::vector<uint8_t> internalBuffer;
+			std::vector<char> internalBuffer;
 			int32_t write(const void* _data, int32_t _size, bx::Error* _err) override
 			{
-				internalBuffer.insert(internalBuffer.end(), (uint8_t*)_data, (uint8_t*)_data + _size);
+				internalBuffer.insert(internalBuffer.end(), (char*)_data, (char*)_data + _size);
 				return _size;
 			}
 		} memWriter;
@@ -2744,7 +2744,7 @@ namespace bgfx
 			return std::move(memWriter.internalBuffer);
 
 		bx::printf("Failed to build shader.\n");
-		return std::vector<uint8_t>();
+		return std::vector<char>();
 	}
 
 } // namespace bgfx
