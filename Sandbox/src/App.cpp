@@ -27,9 +27,9 @@ bool quitted = false;
 
 int main(int argc, char* argv[])
 {
-	CoreSystem::OnInitialize += start;
-	CoreSystem::OnTick += update;
-	CoreSystem::OnQuit += stop;
+	CoreSystem::OnInitialize += &start;
+	CoreSystem::OnTick += &update;
+	CoreSystem::OnQuit += &stop;
 
 	CoreSystem::OnMouseDown += [](int mouseButton)
 	{
@@ -124,6 +124,8 @@ void start()
 	Image* image = ent2->getFirstComponent<Image>();
 	PortableGraphicPackageFile* file = file_cast<PortableGraphicPackageFile>(PackageManager::loadedCorePackage.front());
 	image->imageFile = file;
+	image->imageFile = nullptr;
+	image->imageFile = file;
 	ent2->rectTransform()->rect = { (float)(file->height) / 2, (float)(file->width) / 2, (float)(-file->height) / 2, (float)(-file->width) / 2 };
 	ent2->rectTransform()->position = { 0, 0 };
 	ent2->rectTransform()->rotation = -20.0f;
@@ -162,10 +164,16 @@ void update()
 }
 void stop()
 {
+	ent2->getFirstComponent<Image>()->imageFile = nullptr;
+
 	delete _ent;
 	delete _ent2;
 	delete parent;
 	delete ent2;
+
+	delete trackparent;
+	delete _trackent;
+	delete _trackent2;
 }
 
 void thing(SDL_Keycode c)

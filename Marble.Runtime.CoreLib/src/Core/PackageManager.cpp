@@ -54,7 +54,7 @@ void PackageManager::loadCorePackageIntoMemory(const fs::path& packagePath)
         filePath.resize(filePathLength);
         PackageManager::corePackageStream.read(reinterpret_cast<char*>(&filePath[0]), sizeof(wchar_t) * filePathLength);
         PackageManager::normalizePath(filePath);
-        //Debug::LogTrace("Package File - ", filePath, ".");
+        Debug::LogTrace("Package File - ", filePath, ".");
 
         unsigned fileLen;
         PackageManager::corePackageStream.read(reinterpret_cast<char*>(&fileLen), sizeof(unsigned));
@@ -82,6 +82,8 @@ void PackageManager::loadCorePackageIntoMemory(const fs::path& packagePath)
 void PackageManager::freeCorePackageInMemory()
 {
     PackageManager::corePackageStream.close();
+    for (auto it = PackageManager::loadedCorePackage.begin(); it != PackageManager::loadedCorePackage.end(); ++it)
+        delete *it;
 }
 
 void PackageManager::normalizePath(std::wstring& path)

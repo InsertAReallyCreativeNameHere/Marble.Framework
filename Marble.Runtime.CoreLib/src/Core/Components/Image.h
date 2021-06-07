@@ -19,10 +19,14 @@ namespace Marble
 
     class coreapi Image final : public Internal::Component
     {
-        struct RenderData
+        struct coreapi RenderData final
         {
-            GL::Texture2D* internalTexture = nullptr;
+            uint32_t accessCount;
+            GL::Texture2D* internalTexture;
+            PackageSystem::PortableGraphicPackageFile* file;
         };
+
+        static std::unordered_map<PackageSystem::PortableGraphicPackageFile*, RenderData*> imageTextures;
         RenderData* data;
     public:
         Image();

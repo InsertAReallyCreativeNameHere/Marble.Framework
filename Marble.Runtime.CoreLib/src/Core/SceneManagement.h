@@ -30,6 +30,9 @@ namespace Marble
         friend class Marble::SceneManager;
         friend class Marble::Entity;
     private:
+        std::list<Scene*>::iterator it;
+        bool eraseIteratorOnDestroy = true;
+
         bool active = false;
         std::list<Entity*> entities;
         std::string sceneName = "Untitled";
@@ -37,7 +40,7 @@ namespace Marble
 
     class coreapi SceneManager final
     {
-        static std::vector<Scene*> existingScenes;
+        static std::list<Scene*> existingScenes;
     public:
         SceneManager() = delete;
 
@@ -45,10 +48,10 @@ namespace Marble
         static void setSceneInactive(Scene* scene);
         static void setMainScene(Scene* scene);
 
-        static std::vector<Scene*> getScenesByName(const std::string_view& name);
+        static std::list<Scene*> getScenesByName(const std::string_view& name);
 
         friend class Marble::Internal::CoreEngine;
-        friend class Marble::Scene;
+        friend struct Marble::Scene;
         friend class Marble::Entity;
     };
 }

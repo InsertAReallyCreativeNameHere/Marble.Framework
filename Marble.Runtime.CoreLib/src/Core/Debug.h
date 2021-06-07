@@ -11,7 +11,7 @@
 #include <thread>
 #include <mutex>
 
-#define WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT 0
+#define WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT 1
 
 namespace Marble
 {
@@ -89,7 +89,7 @@ namespace Marble
 			ansiCodes[DEBUG_COLOUR_RESET] <<
 			L" [TRACE] | " <<
 			logStr.rdbuf()->str().c_str() <<
-			std::endl;
+			"\n";
 			Debug::outputLock.unlock();
 		}
 		template <typename... T>
@@ -117,7 +117,7 @@ namespace Marble
 			ansiCodes[DEBUG_COLOUR_GREEN] <<
 			logStr.rdbuf()->str().c_str() <<
 			ansiCodes[DEBUG_COLOUR_RESET] <<
-			std::endl;
+			"\n";
 			Debug::outputLock.unlock();
 		}
 		template <typename... T>
@@ -145,7 +145,7 @@ namespace Marble
 			ansiCodes[DEBUG_COLOUR_YELLOW] <<
 			logStr.rdbuf()->str().c_str() <<
 			ansiCodes[DEBUG_COLOUR_RESET] <<
-			std::endl;
+			"\n";
 			Debug::outputLock.unlock();
 		}
 		template <typename... T>
@@ -173,7 +173,7 @@ namespace Marble
 			ansiCodes[DEBUG_COLOUR_RED] <<
 			logStr.rdbuf()->str().c_str() <<
 			ansiCodes[DEBUG_COLOUR_RESET] <<
-			std::endl;
+			"\n";
 			Debug::outputLock.unlock();
 		}
 		template <typename... T>
@@ -201,7 +201,7 @@ namespace Marble
 			ansiCodes[DEBUG_COLOUR_RED] <<
 			logStr.rdbuf()->str().c_str() <<
 			ansiCodes[DEBUG_COLOUR_RESET] <<
-			std::endl;
+			"\n";
 			Debug::outputLock.unlock();
 		}
 	};

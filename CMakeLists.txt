@@ -38,6 +38,10 @@ else()
     set(COMPILER ${CMAKE_CXX_COMPILER_ID})
 endif()
 
+if (DEFINED CMAKE_BUILD_TYPE AND CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(-D_DEBUG=1)
+endif()
+
 set(SDL_SHARED OFF CACHE BOOL "Build SDL2 shared library." FORCE)
 add_subdirectory("${CMAKE_SOURCE_DIR}/external/SDL")
 target_compile_definitions(SDL2-static PRIVATE HAVE_LIBC=1)

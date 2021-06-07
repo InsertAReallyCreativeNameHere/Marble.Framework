@@ -6,8 +6,8 @@
 #include <list>
 #include <SDL.h>
 #include <SDL_syswm.h>
-#include <Utility/ConcurrentQueue.h>
 #include <Utility/Function.h>
+#include <Utility/Lock.h>
 
 namespace Marble
 {
@@ -42,9 +42,13 @@ namespace Marble
 
 			static void displayModeStuff();
 
-			static moodycamel::ConcurrentQueue<skarupke::function<void()>> pendingPreTickEvents;
-			static moodycamel::ConcurrentQueue<skarupke::function<void()>> pendingPostTickEvents;
-			static moodycamel::ConcurrentQueue<std::list<skarupke::function<void()>>> pendingRenderJobBatches;
+			static SpinLock pendingPreTickEventsSync;
+			static std::list<skarupke::function<void()>> pendingPreTickEvents;
+			static SpinLock pendingPostTickEventsSync;
+			static std::list<skarupke::function<void()>> pendingPostTickEvents;
+			static std::list<skarupke::function<void()>> pendingRenderJobBatchesOffload;
+			static SpinLock pendingRenderJobBatchesSync;
+			static std::list<std::list<skarupke::function<void()>>> pendingRenderJobBatches;
 
 			static void internalLoop();
 			static void internalWindowLoop();

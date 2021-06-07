@@ -12,6 +12,8 @@ using namespace Marble::PackageSystem;
 using namespace Marble::GL;
 namespace fs = std::filesystem;
 
+std::unordered_map<PackageSystem::PortableGraphicPackageFile*, Image::RenderData*> Image::imageTextures;
+
 Image::Image() :
 imageFile
 ({
@@ -21,30 +23,64 @@ imageFile
     },
     [this](PortableGraphicPackageFile* file)
     {
-        std::string lowerCaseExtension = file->fileLocalPath.extension().string();
-    
-        RenderData* data = this->data;
-        CoreEngine::pendingRenderJobBatches.enqueue
-        (
+        if (this->data != nullptr)
+        {
+            --this->data->accessCount;
+            if (this->data->accessCount == 0)
             {
-                [=]
-                {
-                    if (data->internalTexture != nullptr)
+                Image::imageTextures.erase(this->data->file);
+                RenderData* data = this->data;
+                CoreEngine::pendingRenderJobBatchesOffload.push_back
+                (
+                    [=]
+                    {
                         delete data->internalTexture;
-                    if (file != nullptr)
-                        data->internalTexture = new Texture2D(file->loadedImage, file->width, file->height);
-                }
+                        delete data;
+                    }
+                );
             }
-        );
+        }
+        if (file != nullptr)
+        {
+            auto set = Image::imageTextures.find(file);
+            if (set != Image::imageTextures.end())
+            {
+                this->data = set->second;
+                ++this->data->accessCount;
+            }
+            else
+            {
+                auto& set = Image::imageTextures[file];
+                set = new RenderData { 0, nullptr, file };
+                this->data = set;
+
+                uint32_t width = file->width, height = file->height;
+                uint32_t imageDataSize = width * height * 4;
+                uint8_t* imageData = new uint8_t[imageDataSize];
+                for (uint32_t i = 0; i < imageDataSize; i++)
+                    imageData[i] = file->loadedImage[i];
+                
+                RenderData* data = this->data;
+                CoreEngine::pendingRenderJobBatchesOffload.push_back
+                (
+                    [=]
+                    {
+                        data->internalTexture = new Texture2D(imageData, width, height);
+                        delete[] imageData;
+                    }
+                );
+            }
+        }
+        else this->data = nullptr;
     }
-})
+}),
+data(nullptr)
 {
-    this->data = new RenderData;
 }
 Image::~Image()
 {
     RenderData* data = this->data;
-    CoreEngine::pendingRenderJobBatches.enqueue
+    CoreEngine::pendingRenderJobBatchesOffload.push_back
     (
         {
             [=]

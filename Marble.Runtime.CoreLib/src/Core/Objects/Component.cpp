@@ -3,23 +3,13 @@
 using namespace Marble;
 using namespace Marble::Internal;
 
-Component::Component() :
-onDestroy
-(
-    [](Component* _this)
-    {
-        for (auto it = _this->attachedEntity->components.begin(); it != _this->attachedEntity->components.end(); ++it)
-        {
-            _this->attachedEntity->components.erase(it);
-            break;
-        }
-    }
-)
+Component::Component()
 {
 }
 Component::~Component()
 {
-    this->onDestroy(this);
+    if (this->eraseIteratorOnDestroy)
+        this->attachedEntity->components.erase(this->it);
 }
 
 Entity* Component::entity()

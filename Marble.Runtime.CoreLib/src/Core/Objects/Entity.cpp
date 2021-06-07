@@ -9,85 +9,32 @@ using namespace Marble::Mathematics;
 
 #define thisRect this->attachedRectTransform
 
-Entity::Entity() :
-onDestroy
-(
-    [](Entity* _this)
-    {
-        for
-        (
-            auto it = _this->attachedScene->entities.begin();
-            it != _this->attachedScene->entities.end();
-            ++it
-        )
-        {
-            if (*it == _this)
-            {
-                _this->attachedScene->entities.erase(it);
-                break;
-            }
-        }
-    }
-)
+Entity::Entity()
 {
     this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
     this->attachedRectTransform->attachedRectTransform = this->attachedRectTransform;
+    this->attachedRectTransform->eraseIteratorOnDestroy = false;
 
     auto mainScene = SceneManager::existingScenes.front();
     mainScene->entities.push_back(this);
+    this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;
 }
-Entity::Entity(RectTransform* parent) :
-onDestroy
-(
-    [](Entity* _this)
-    {
-        for
-        (
-            auto it = _this->attachedScene->entities.begin();
-            it != _this->attachedScene->entities.end();
-            ++it
-        )
-        {
-            if (*it == _this)
-            {
-                _this->attachedScene->entities.erase(it);
-                break;
-            }
-        }
-    }
-)
+Entity::Entity(RectTransform* parent)
 {
     this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
     this->attachedRectTransform->attachedRectTransform = this->attachedRectTransform;
     this->attachedRectTransform->parent = parent;
+    this->attachedRectTransform->eraseIteratorOnDestroy = false;
 
     auto mainScene = SceneManager::existingScenes.front();
     mainScene->entities.push_back(this);
+    this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;
 }
-Entity::Entity(const Vector2& localPosition, const float& localRotation, RectTransform* parent = nullptr) :
-onDestroy
-(
-    [](Entity* _this)
-    {
-        for
-        (
-            auto it = _this->attachedScene->entities.begin();
-            it != _this->attachedScene->entities.end();
-            ++it
-        )
-        {
-            if (*it == _this)
-            {
-                _this->attachedScene->entities.erase(it);
-                break;
-            }
-        }
-    }
-)
+Entity::Entity(const Vector2& localPosition, const float& localRotation, RectTransform* parent = nullptr)
 {
     this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
@@ -95,31 +42,14 @@ onDestroy
     thisRect->parent = parent;
     thisRect->localPosition = localPosition;
     thisRect->localRotation = localRotation;
+    thisRect->eraseIteratorOnDestroy = false;
 
     auto mainScene = SceneManager::existingScenes.front();
     mainScene->entities.push_back(this);
+    this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;
 }
-Entity::Entity(const Vector2& localPosition, const float& localRotation, const Vector2& scale, RectTransform* parent = nullptr) :
-onDestroy
-(
-    [](Entity* _this)
-    {
-        for
-        (
-            auto it = _this->attachedScene->entities.begin();
-            it != _this->attachedScene->entities.end();
-            ++it
-        )
-        {
-            if (*it == _this)
-            {
-                _this->attachedScene->entities.erase(it);
-                break;
-            }
-        }
-    }
-)
+Entity::Entity(const Vector2& localPosition, const float& localRotation, const Vector2& scale, RectTransform* parent = nullptr)
 {
     this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
@@ -128,20 +58,24 @@ onDestroy
     thisRect->localPosition = localPosition;
     thisRect->localRotation = localRotation;
     thisRect->scale = scale;
+    thisRect->eraseIteratorOnDestroy = false;
 
     auto mainScene = SceneManager::existingScenes.front();
     mainScene->entities.push_back(this);
+    this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;
 }
 Entity::~Entity()
 {
     for (auto it = this->components.begin(); it != this->components.end(); ++it)
     {
-        it->first->onDestroy = [](Component*) {  };
-        delete it->first;
+        (*it)->eraseIteratorOnDestroy = false;
+        delete *it;
     }
+    delete this->attachedRectTransform;
 
-    this->onDestroy(this);
+    if (this->eraseIteratorOnDestroy)
+        this->attachedScene->entities.erase(this->it);
 }
 
 Entity* Entity::entity()

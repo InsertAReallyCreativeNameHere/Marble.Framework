@@ -16,7 +16,12 @@ namespace Marble
         
         class coreapi Component : public Object
         {
-            void (*onDestroy)(Component*);
+            struct coreapi Reflection final {
+                uint64_t typeID;
+            } reflection;
+
+            std::list<Component*>::iterator it;
+            bool eraseIteratorOnDestroy = true;
             
             Entity* attachedEntity;
             RectTransform* attachedRectTransform;

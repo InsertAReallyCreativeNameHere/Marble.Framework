@@ -31,12 +31,13 @@ namespace Marble
 
     class coreapi Entity final : public Internal::Object
     {
-        void (*onDestroy)(Entity*);
+        std::list<Entity*>::iterator it;
+        bool eraseIteratorOnDestroy = true;
 
         Scene* attachedScene;
-
         RectTransform* attachedRectTransform;
-        std::list<std::pair<Internal::Component*, ullong>> components = {  };
+
+        std::list<Internal::Component*> components {  };
         
         void removeComponentInternal(Internal::Component* component);
     public:
@@ -58,7 +59,9 @@ namespace Marble
             T* ret = new T();
             ret->attachedEntity = this;
             ret->attachedRectTransform = this->attachedRectTransform;
-            this->components.push_back(std::make_pair(ret, strhash(ctti::nameof<T>().begin())));
+            ret->reflection.typeID = strhash(ctti::nameof<T>().begin());
+            this->components.push_back(ret);
+            ret->it = --this->components.end();
             return ret;
         }
         template <typename T>
@@ -74,9 +77,9 @@ namespace Marble
 
                 for (auto it = this->components.begin(); it != this->components.end(); ++it)
                 {
-                    if (it->second == strhash(ctti::nameof<T>().begin()))
+                    if ((*it)->reflection.typeID == strhash(ctti::nameof<T>().begin()))
                     {
-                        return static_cast<T*>(it->first);
+                        return static_cast<T*>(*it);
                     }
                 }
 

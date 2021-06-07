@@ -54,19 +54,18 @@ SDL_Renderer* CoreEngine::rend = nullptr;
 SDL_DisplayMode CoreEngine::displMd;
 SDL_SysWMinfo CoreEngine::wmInfo;
 
-moodycamel::ConcurrentQueue<skarupke::function<void()>> CoreEngine::pendingPreTickEvents;
-moodycamel::ConcurrentQueue<skarupke::function<void()>> CoreEngine::pendingPostTickEvents;
-moodycamel::ConcurrentQueue<std::list<skarupke::function<void()>>> CoreEngine::pendingRenderJobBatches;
+SpinLock CoreEngine::pendingPreTickEventsSync;
+std::list<skarupke::function<void()>> CoreEngine::pendingPreTickEvents;
+SpinLock CoreEngine::pendingPostTickEventsSync;
+std::list<skarupke::function<void()>> CoreEngine::pendingPostTickEvents;
+std::list<skarupke::function<void()>> CoreEngine::pendingRenderJobBatchesOffload;
+SpinLock CoreEngine::pendingRenderJobBatchesSync;
+std::list<std::list<skarupke::function<void()>>> CoreEngine::pendingRenderJobBatches;
 
 float CoreEngine::mspf = 16.6666666666f;
 
 static std::atomic<bool> renderResizeFlag = true;
 static std::atomic<bool> isRendering = false;
-
-//#define USE_DRIVER_ID 0 // Debugging only. Don't ship with this.
-//#undef USE_DRIVER_ID
-
-#define RENDER_WHILE_RESIZED
 
 int CoreEngine::execute(int argc, char* argv[])
 {
@@ -74,9 +73,11 @@ int CoreEngine::execute(int argc, char* argv[])
     (void)argv;
     
     #pragma region Initialization
-    //_setmode(_fileno(stdout), _O_U8TEXT);
+    #if _WIN32
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    #endif
 
-    std::wcout << "init() thread ID: " << std::this_thread::get_id() << ".\n" << std::endl;
+    std::wcout << "init() thread ID: " << std::this_thread::get_id() << ".\n\n";
 
     #pragma region Color Coding Code Support Modifications
     #if _WIN32 && WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
@@ -153,24 +154,15 @@ int CoreEngine::execute(int argc, char* argv[])
 }
 void CoreEngine::exit()
 {
-    while
-    (
-        CoreEngine::threadsFinished_0.load(std::memory_order_seq_cst) == false ||
-        CoreEngine::threadsFinished_1.load(std::memory_order_seq_cst) == false
-    )
-    std::this_thread::yield();
+    while (CoreEngine::threadsFinished_1.load(std::memory_order_seq_cst) == false)
+        std::this_thread::yield();
 
-    fputs("Cleaning up...\n", stdout);
+    std::wcout << L"Cleaning up...\n";
+    // Cleanup here is done for stuff created in CoreEngine::execute, thread-specific cleanup is done per-thread, at the end of their lifetime.
 
-    Input::currentHeldKeys.clear();
-    Input::currentHeldMouseButtons.clear();
-
-    //for (auto it = Renderer::pendingRenderJobsOffload.begin(); it != Renderer::pendingRenderJobsOffload.end(); ++it)
-    //    delete *it;
-    //Renderer::pendingRenderJobsOffload.clear();
+    Application::currentWorkingDirectory.clear();
 
     PackageManager::freeCorePackageInMemory();
-
     std::wstring dir = Application::currentWorkingDirectory.wstring() + L"/RuntimeInternal";
     fs::remove_all(dir);
 
@@ -206,15 +198,21 @@ void CoreEngine::internalLoop()
         static skarupke::function<void()> tickEvent;
 
         #pragma region Pre-Tick
-        while (CoreEngine::pendingPreTickEvents.try_dequeue(tickEvent))
-            tickEvent();
+        CoreEngine::pendingPreTickEventsSync.lock();
+        for (auto it = CoreEngine::pendingPreTickEvents.begin(); it != CoreEngine::pendingPreTickEvents.end(); ++it)
+            (*it)();
+        CoreEngine::pendingPreTickEvents.clear();
+        CoreEngine::pendingPreTickEventsSync.unlock();
         #pragma endregion
 
         CoreSystem::OnTick();
 
         #pragma region Post-Tick
-        while (CoreEngine::pendingPostTickEvents.try_dequeue(tickEvent))
-            tickEvent();
+        CoreEngine::pendingPostTickEventsSync.lock();
+        for (auto it = CoreEngine::pendingPostTickEvents.begin(); it != CoreEngine::pendingPostTickEvents.end(); ++it)
+            (*it)();
+        CoreEngine::pendingPostTickEvents.clear();
+        CoreEngine::pendingPostTickEventsSync.unlock();
         #pragma endregion
 
         #pragma region Loop End
@@ -222,8 +220,7 @@ void CoreEngine::internalLoop()
         #pragma endregion
         
         #pragma region Render Offload
-        std::list<skarupke::function<void()>> batch;
-        batch.push_back(&Renderer::beginFrame);
+        CoreEngine::pendingRenderJobBatchesOffload.push_back(&Renderer::beginFrame);
         for
         (
             auto it1 = SceneManager::existingScenes.begin();
@@ -247,18 +244,18 @@ void CoreEngine::internalLoop()
                         ++it3
                     )
                     {
-                        switch (it3->second)
+                        switch ((*it3)->reflection.typeID)
                         {
                         case strhash(ctti::nameof<Panel>().begin()):
                             {
-                                Panel* p = static_cast<Panel*>(it3->first);
+                                Panel* p = static_cast<Panel*>(*it3);
 
                                 uint8_t rgbaColor[4] = { p->_color.r, p->_color.g, p->_color.b, p->_color.a };
                                 Vector2 pos = p->attachedRectTransform->_position;
                                 Vector2 scale = p->attachedRectTransform->_scale;
                                 RectFloat rect = p->attachedRectTransform->_rect;
                                 float rot = p->attachedRectTransform->_rotation;
-                                batch.push_back
+                                CoreEngine::pendingRenderJobBatchesOffload.push_back
                                 (
                                     [=]()
                                     {
@@ -276,13 +273,13 @@ void CoreEngine::internalLoop()
                             break;
                         case strhash(ctti::nameof<Image>().begin()):
                             {
-                                Image* img = static_cast<Image*>(it3->first);
+                                Image* img = static_cast<Image*>(*it3);
 
                                 Vector2 pos = img->attachedRectTransform->_position;
                                 Vector2 scale = img->attachedRectTransform->_scale;
                                 RectFloat rect = img->attachedRectTransform->_rect;
                                 float rot = img->attachedRectTransform->_rotation;
-                                batch.push_back
+                                CoreEngine::pendingRenderJobBatchesOffload.push_back
                                 (
                                     [=]()
                                     {
@@ -296,33 +293,6 @@ void CoreEngine::internalLoop()
                                         );
                                     }
                                 );
-                                /*if (data != nullptr && data->internalTexture != nullptr)
-                                {
-                                    Renderer::pendingRenderJobsOffload.push_back
-                                    (
-                                        new RenderCopyRenderJob
-                                        (
-                                            CoreEngine::rend,
-                                            data->internalTexture,
-                                            {
-                                                Window::width / 2 + static_cast<int>(img->attachedRectTransform->position().x) + 
-                                                static_cast<int>(img->attachedRectTransform->rect().left * img->attachedRectTransform->scale().x),
-                                                Window::height / 2 - static_cast<int>(img->attachedRectTransform->position().y) -
-                                                static_cast<int>(img->attachedRectTransform->rect().top * img->attachedRectTransform->scale().y),
-
-                                                static_cast<int>(img->attachedRectTransform->rect().right * img->attachedRectTransform->scale().x) -
-                                                static_cast<int>(img->attachedRectTransform->rect().left * img->attachedRectTransform->scale().x),
-                                                static_cast<int>(img->attachedRectTransform->rect().top * img->attachedRectTransform->scale().y) -
-                                                static_cast<int>(img->attachedRectTransform->rect().bottom * img->attachedRectTransform->scale().y)
-                                            },
-                                            {
-                                                -static_cast<int>(img->attachedRectTransform->rect().left * img->attachedRectTransform->scale().x),
-                                                static_cast<int>(img->attachedRectTransform->rect().top * img->attachedRectTransform->scale().y)
-                                            },
-                                            img->attachedRectTransform->rotation()
-                                        )
-                                    );
-                                }*/
                             }
                             break;
                         }
@@ -330,8 +300,10 @@ void CoreEngine::internalLoop()
                 }
             }
         }
-        batch.push_back(&Renderer::endFrame);
-        CoreEngine::pendingRenderJobBatches.enqueue(std::move(batch));
+        CoreEngine::pendingRenderJobBatchesOffload.push_back(&Renderer::endFrame);
+        CoreEngine::pendingRenderJobBatchesSync.lock();
+        CoreEngine::pendingRenderJobBatches.push_back(std::move(CoreEngine::pendingRenderJobBatchesOffload));
+        CoreEngine::pendingRenderJobBatchesSync.unlock();
         #pragma endregion
 
         do deltaTime = (float)((SDL_GetPerformanceCounter() - frameBegin) * 1000) / SDL_GetPerformanceFrequency();
@@ -340,7 +312,28 @@ void CoreEngine::internalLoop()
     }
     
     CoreSystem::OnQuit();
-        
+
+    CoreSystem::OnInitialize.clear();
+    CoreSystem::OnTick.clear();
+    CoreSystem::OnPhysicsTick.clear();
+    CoreSystem::OnAcquireFocus.clear();
+    CoreSystem::OnLoseFocus.clear();
+    CoreSystem::OnKeyDown.clear();
+    CoreSystem::OnKeyRepeat.clear();
+    CoreSystem::OnKeyUp.clear();
+    CoreSystem::OnMouseDown.clear();
+    CoreSystem::OnMouseUp.clear();
+    CoreSystem::OnQuit.clear();
+
+    CoreEngine::pendingRenderJobBatchesOffload.clear();
+
+    for (auto it = SceneManager::existingScenes.begin(); it != SceneManager::existingScenes.end(); ++it)
+    {
+        (*it)->eraseIteratorOnDestroy = false;
+        delete* it;
+    }
+    SceneManager::existingScenes.clear();
+
     CoreEngine::threadsFinished_0 = true;
 }
 
@@ -443,7 +436,8 @@ void CoreEngine::internalWindowLoop()
             case SDL_MOUSEWHEEL:
                 break;
             case SDL_MOUSEBUTTONDOWN:
-                CoreEngine::pendingPreTickEvents.enqueue
+                CoreEngine::pendingPreTickEventsSync.lock();
+                CoreEngine::pendingPreTickEvents.push_back
                 (
                     [=]
                     {
@@ -451,13 +445,16 @@ void CoreEngine::internalWindowLoop()
                         CoreSystem::OnMouseDown(ev.button.button);
                     }
                 );
+                CoreEngine::pendingPreTickEventsSync.lock();
                 break;
             case SDL_MOUSEBUTTONUP:
-                CoreEngine::pendingPreTickEvents.enqueue
+                CoreEngine::pendingPreTickEventsSync.lock();
+                CoreEngine::pendingPreTickEvents.push_back
                 (
                     [=]
                     {
-                        CoreEngine::pendingPostTickEvents.enqueue
+                        CoreEngine::pendingPostTickEventsSync.lock();
+                        CoreEngine::pendingPostTickEvents.push_back
                         (
                             [=]
                             {
@@ -471,26 +468,31 @@ void CoreEngine::internalWindowLoop()
                                 }
                             }
                         );
+                        CoreEngine::pendingPostTickEventsSync.unlock();
                         CoreSystem::OnMouseUp(ev.button.button);
                     }
                 );
+                CoreEngine::pendingPreTickEventsSync.unlock();
                 break;
             #pragma endregion
             #pragma region Key Events
             case SDL_KEYDOWN:
                 if (ev.key.repeat)
                 {
-                    CoreEngine::pendingPreTickEvents.enqueue
+                    CoreEngine::pendingPreTickEventsSync.lock();
+                    CoreEngine::pendingPreTickEvents.push_back
                     (
                         [=]
                         {
                             CoreSystem::OnKeyRepeat(ev.key.keysym.sym);
                         }
                     );
+                    CoreEngine::pendingPreTickEventsSync.unlock();
                 }
                 else
                 {
-                    CoreEngine::pendingPreTickEvents.enqueue
+                    CoreEngine::pendingPreTickEventsSync.lock();
+                    CoreEngine::pendingPreTickEvents.push_back
                     (
                         [=]
                         {
@@ -498,14 +500,17 @@ void CoreEngine::internalWindowLoop()
                             CoreSystem::OnKeyDown(ev.key.keysym.sym);
                         }
                     );
+                    CoreEngine::pendingPreTickEventsSync.unlock();
                 }
                 break;
             case SDL_KEYUP:
-                CoreEngine::pendingPreTickEvents.enqueue
+                CoreEngine::pendingPreTickEventsSync.lock();
+                CoreEngine::pendingPreTickEvents.push_back
                 (
                     [=]
                     {
-                        CoreEngine::pendingPostTickEvents.enqueue
+                        CoreEngine::pendingPostTickEventsSync.lock();
+                        CoreEngine::pendingPostTickEvents.push_back
                         (
                             [=]
                             {
@@ -519,9 +524,11 @@ void CoreEngine::internalWindowLoop()
                                 }
                             }
                         );
+                        CoreEngine::pendingPostTickEventsSync.unlock();
                         CoreSystem::OnKeyUp(ev.key.keysym.sym);
                     }
                 );
+                CoreEngine::pendingPreTickEventsSync.unlock();
                 break;
             #pragma endregion
             }
@@ -531,6 +538,13 @@ void CoreEngine::internalWindowLoop()
         Window::width = w;
         Window::height = h;
     }
+
+    CoreEngine::pendingPreTickEvents.clear();
+    CoreEngine::pendingPostTickEvents.clear();
+    Input::currentHeldKeys.clear();
+    Input::currentHeldKeys.shrink_to_fit();
+    Input::currentHeldMouseButtons.clear();
+    Input::currentHeldMouseButtons.shrink_to_fit();
 
     while (!CoreEngine::threadsFinished_2.load());
 
@@ -598,16 +612,28 @@ void CoreEngine::internalRenderLoop()
             Renderer::setViewArea(0, 0, w, h);
         }
 
-        static std::list<skarupke::function<void()>> batch;
-        while (CoreEngine::pendingRenderJobBatches.try_dequeue(batch))
-            for (auto it = batch.begin(); it != batch.end(); ++it)
-                (*it)();
+        CoreEngine::pendingRenderJobBatchesSync.lock();
+        for (auto it1 = CoreEngine::pendingRenderJobBatches.begin(); it1 != CoreEngine::pendingRenderJobBatches.end(); ++it1)
+            for (auto it2 = it1->begin(); it2 != it1->end(); ++it2)
+                (*it2)();
+        CoreEngine::pendingRenderJobBatches.clear();
+        CoreEngine::pendingRenderJobBatchesSync.unlock();
 
         isRendering.store(false);
         std::this_thread::yield();
     }
 
+    while (!CoreEngine::threadsFinished_0.load());
+
+    for (auto it = Image::imageTextures.begin(); it != Image::imageTextures.end(); ++it)
+    {
+        delete it->second->internalTexture;
+        delete it->second;
+    }
+
     Renderer::shutdown();
+
+    CoreEngine::pendingRenderJobBatches.clear();
 
     CoreEngine::threadsFinished_2 = true;
 }

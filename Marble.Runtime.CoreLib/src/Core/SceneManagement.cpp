@@ -2,28 +2,24 @@
 
 using namespace Marble;
 
-std::vector<Scene*> SceneManager::existingScenes;
+std::list<Scene*> SceneManager::existingScenes;
 
 Scene::Scene()
 {
     SceneManager::existingScenes.push_back(this);
+    this->it = --SceneManager::existingScenes.end();
 }
 Scene::~Scene()
 {
     for (auto it = this->entities.begin(); it != this->entities.end(); ++it)
     {
-        (*it)->onDestroy = [](Entity*) {  };
+        (*it)->eraseIteratorOnDestroy = false;
         delete *it;
     }
+    this->entities.clear();
 
-    for (auto it = SceneManager::existingScenes.begin(); it != SceneManager::existingScenes.end(); ++it)
-    {
-        if (*it == this)
-        {
-            SceneManager::existingScenes.erase(it);
-            break;
-        }
-    }
+    if (this->eraseIteratorOnDestroy)
+        SceneManager::existingScenes.erase(this->it);
 }
 
 size_t Scene::index()

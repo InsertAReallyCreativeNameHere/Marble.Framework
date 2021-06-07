@@ -99,7 +99,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
     
     if (ret)
     {
-        #if _DEBUG || __GNUC__
+        #if _DEBUG
         bgfx::setDebug(BGFX_DEBUG_PROFILER | BGFX_DEBUG_STATS | BGFX_DEBUG_TEXT);
         #endif
 
@@ -258,6 +258,10 @@ void main()
 }
 void Renderer::shutdown()
 {
+    for (auto it = finalizers.begin(); it != finalizers.end(); ++it)
+        (*it)();
+    finalizers.clear();
+    
     bgfx::destroy(quadIndexBuffer);
     
     bgfx::destroy(program2DRectangle);
@@ -296,8 +300,10 @@ void Renderer::beginFrame()
 }
 void Renderer::endFrame()
 {
-    bgfx::allocTransientVertexBuffer(&vertexBufferRect, vertexBufferRectSize, layoutRect);
-    bgfx::allocTransientVertexBuffer(&vertexBufferImage, vertexBufferImageSize, layoutImage);
+    if (vertexBufferRectSize != 0)
+        bgfx::allocTransientVertexBuffer(&vertexBufferRect, vertexBufferRectSize, layoutRect);
+    if (vertexBufferImageSize != 0)
+        bgfx::allocTransientVertexBuffer(&vertexBufferImage, vertexBufferImageSize, layoutImage);
 
     for (auto it = renderTasks.begin(); it != renderTasks.end(); ++it)
         (*it)();
