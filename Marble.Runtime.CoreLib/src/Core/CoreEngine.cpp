@@ -180,18 +180,18 @@ void CoreEngine::displayModeStuff()
 
 void CoreEngine::internalLoop()
 {
-    while (initIndex.load(std::memory_order_relaxed) != 4);
+    while (initIndex.load() != 3);
 
     Debug::LogInfo("Internal loop started.\n");
 
     CoreSystem::OnInitialize();
 
-    Uint64 frameBegin;
+    Uint64 frameBegin = SDL_GetPerformanceCounter();
+    Uint64 perfFreq = SDL_GetPerformanceFrequency();
+    float targetDeltaTime = CoreEngine::mspf;
     float deltaTime;
     while (readyToExit.load(std::memory_order_seq_cst) == false)
     {
-        frameBegin = SDL_GetPerformanceCounter();
-        
         #pragma region Loop Begin
         #pragma endregion
 
@@ -306,8 +306,12 @@ void CoreEngine::internalLoop()
         CoreEngine::pendingRenderJobBatchesSync.unlock();
         #pragma endregion
 
-        do deltaTime = (float)((SDL_GetPerformanceCounter() - frameBegin) * 1000) / SDL_GetPerformanceFrequency();
-        while (deltaTime < mspf);
+        do deltaTime = (float)(SDL_GetPerformanceCounter() - frameBegin) * 1000.0f / (float)perfFreq;
+        while (deltaTime < targetDeltaTime);
+        frameBegin = SDL_GetPerformanceCounter();
+        targetDeltaTime -= deltaTime - targetDeltaTime;
+        if (targetDeltaTime <= 0)
+            targetDeltaTime = 0;
         Debug::LogInfo("Update() frame time: ", deltaTime, ".");
     }
     
@@ -342,7 +346,7 @@ void CoreEngine::internalWindowLoop()
     Debug::LogInfo("Window initialisation began."); 
 
     #pragma region SDL Window Initialisation
-    wind = SDL_CreateWindow("Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WNDW, WNDH, SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE);
+    wind = SDL_CreateWindow("Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WNDW, WNDH, SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
     if (wind == nullptr)
     {
         Debug::LogError("Could not create window: ", SDL_GetError(), ".");
@@ -389,12 +393,14 @@ void CoreEngine::internalWindowLoop()
     Window::height = h;
 
     initIndex++;
-    while (initIndex.load(std::memory_order_relaxed) != 2);
+    while (initIndex.load() != 2);
 
     Debug::LogInfo("Internal event loop started.");
 
     Vector2Int mousePosition;
     Vector2Int mouseMotion;
+
+    SDL_SetWindowResizable(CoreEngine::wind, SDL_TRUE);
 
     initIndex++;
     
@@ -408,9 +414,6 @@ void CoreEngine::internalWindowLoop()
             case SDL_QUIT:
                 CoreEngine::readyToExit = true;
                 CoreEngine::currentState = CoreEngine::state::exiting;
-                break;
-            case SDL_RENDER_DEVICE_RESET:
-                Debug::LogInfo("Render device reset.");
                 break;
             case SDL_WINDOWEVENT:
                 switch (ev.window.event)
@@ -445,7 +448,7 @@ void CoreEngine::internalWindowLoop()
                         CoreSystem::OnMouseDown(ev.button.button);
                     }
                 );
-                CoreEngine::pendingPreTickEventsSync.lock();
+                CoreEngine::pendingPreTickEventsSync.unlock();
                 break;
             case SDL_MOUSEBUTTONUP:
                 CoreEngine::pendingPreTickEventsSync.lock();
@@ -554,13 +557,9 @@ void CoreEngine::internalWindowLoop()
 
 void CoreEngine::internalRenderLoop()
 {
-    while (initIndex.load(std::memory_order_relaxed) != 1);
+    while (initIndex.load() != 1);
 
-    Debug::LogInfo("Internal render loop started.\n");
-    initIndex++;
-
-    while (CoreEngine::initIndex.load() != 3);
-    initIndex++;
+    Debug::LogInfo("Internal render loop started.");
 
     Renderer::initialize
     (
@@ -592,6 +591,12 @@ void CoreEngine::internalRenderLoop()
     static int w = Window::width, h = Window::height;
     Renderer::setViewArea(0, 0, w, h);
     Renderer::setClear(0x323232ff);
+
+    // Empty draw call to set up window.
+    Renderer::beginFrame();
+    Renderer::endFrame();
+
+    initIndex++;
 
     while (readyToExit.load(std::memory_order_relaxed) == false)
     {

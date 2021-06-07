@@ -62,7 +62,7 @@ static bgfx::TransientVertexBuffer vertexBufferRect;
 static uint32_t vertexBufferRectSize;
 #pragma endregion
 
-#pragma region Image
+#pragma region Texture2D
 struct TexturedVertex3D final
 {
     float x;
@@ -72,11 +72,11 @@ struct TexturedVertex3D final
     float v;
     uint32_t abgr;
 };
-static bgfx::VertexLayout layoutImage;
-static bgfx::ProgramHandle program2DImage;
+static bgfx::VertexLayout layoutTex;
+static bgfx::ProgramHandle program2DTex;
 static bgfx::UniformHandle textureColor;
-static bgfx::TransientVertexBuffer vertexBufferImage;
-static uint32_t vertexBufferImageSize;
+static bgfx::TransientVertexBuffer vertexBufferTex;
+static uint32_t vertexBufferTexSize;
 #pragma endregion
 
 bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t initHeight)
@@ -115,8 +115,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
         BGFX_STATE_WRITE_B |
         BGFX_STATE_WRITE_A |
         BGFX_STATE_WRITE_Z |
-        BGFX_STATE_DEPTH_TEST_LESS |
-        BGFX_STATE_CULL_CW;
+        BGFX_STATE_DEPTH_TEST_LESS;
         bgfx::setState(state);
         
         bx::mtxLookAt(view2D, eye, at);
@@ -187,8 +186,8 @@ void main()
         .end();
         #pragma endregion
 
-        #pragma region Image
-        program2DImage = bgfx::createProgram
+        #pragma region Texture2D
+        program2DTex = bgfx::createProgram
         (
             bgfx::createShader
             (
@@ -243,7 +242,7 @@ void main()
             true
         );
         
-        layoutImage
+        layoutTex
         .begin()
         .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
@@ -266,7 +265,7 @@ void Renderer::shutdown()
     
     bgfx::destroy(program2DRectangle);
 
-    bgfx::destroy(program2DImage);
+    bgfx::destroy(program2DTex);
     bgfx::destroy(textureColor);
 
     bgfx::shutdown();
@@ -295,15 +294,15 @@ void Renderer::setClear(uint32_t rgbaColor)
 void Renderer::beginFrame()
 {
     vertexBufferRectSize = 0;
-    vertexBufferImageSize = 0;
+    vertexBufferTexSize = 0;
     bgfx::touch(0);
 }
 void Renderer::endFrame()
 {
     if (vertexBufferRectSize != 0)
         bgfx::allocTransientVertexBuffer(&vertexBufferRect, vertexBufferRectSize, layoutRect);
-    if (vertexBufferImageSize != 0)
-        bgfx::allocTransientVertexBuffer(&vertexBufferImage, vertexBufferImageSize, layoutImage);
+    if (vertexBufferTexSize != 0)
+        bgfx::allocTransientVertexBuffer(&vertexBufferTex, vertexBufferTexSize, layoutTex);
 
     for (auto it = renderTasks.begin(); it != renderTasks.end(); ++it)
         (*it)();
@@ -353,7 +352,7 @@ void Renderer::drawRectangle(uint32_t abgrColor, float posX, float posY, float t
 
 void Renderer::drawImage(Texture2D* imageTexture, float posX, float posY, float top, float right, float bottom, float left, float rotRadians)
 {
-    uint32_t currentIndex = vertexBufferImageSize;
+    uint32_t currentIndex = vertexBufferTexSize;
     renderTasks.push_back
     (
         [=]
@@ -371,18 +370,18 @@ void Renderer::drawImage(Texture2D* imageTexture, float posX, float posY, float 
             rotB[0] = 0; rotB[1] = bottom;
             rotatePointAroundOrigin(rotB, rotRadians);
 
-            TexturedVertex3D* data = (TexturedVertex3D*)vertexBufferImage.data + currentIndex;
+            TexturedVertex3D* data = (TexturedVertex3D*)vertexBufferTex.data + currentIndex;
             data[0] = { posX + rotL[0] + rotT[0], posY + rotL[1] + rotT[1], 0, 0, 0, 0xffffffff }; // TL
             data[1] = { posX + rotR[0] + rotT[0], posY + rotR[1] + rotT[1], 0, 1, 0, 0xffffffff }; // TR
             data[2] = { posX + rotL[0] + rotB[0], posY + rotL[1] + rotB[1], 0, 0, 1, 0xffffffff }; // BL
             data[3] = { posX + rotR[0] + rotB[0], posY + rotR[1] + rotB[1], 0, 1, 1, 0xffffffff }; // BR
 
-            bgfx::setVertexBuffer(0, &vertexBufferImage, currentIndex, 4);
+            bgfx::setVertexBuffer(0, &vertexBufferTex, currentIndex, 4);
             bgfx::setIndexBuffer(quadIndexBuffer);
 
             bgfx::setTexture(0, textureColor, imageTexture->texture);
-            bgfx::submit(0, program2DImage);
+            bgfx::submit(0, program2DTex);
         }
     );
-    vertexBufferImageSize += 4;
+    vertexBufferTexSize += 4;
 }

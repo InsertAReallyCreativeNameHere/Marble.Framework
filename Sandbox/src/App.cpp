@@ -76,6 +76,24 @@ void start()
 	Scene* scene = new Scene;
 	SceneManager::setSceneActive(scene);
 
+	trackparent = new Entity();
+	trackparent->rectTransform()->rect = { 2, 2, -2, -2 };
+	trackparent->rectTransform()->position = { 0, 0 };
+	trackparent->rectTransform()->rotation = 0.0f;
+	trackparent->addComponent<Panel>()->color = { 0u, 0u, 0u, 255u };
+
+	_trackent2 = new Entity();
+	_trackent2->rectTransform()->rect = { 2, 2, -2, -2 };
+	_trackent2->rectTransform()->position = { 0, 0 };
+	_trackent2->rectTransform()->rotation = 0.0f;
+	_trackent2->addComponent<Panel>()->color = { 0u, 0u, 0u, 255u };
+
+	_trackent = new Entity();
+	_trackent->rectTransform()->rect = { 2, 2, -2, -2 };
+	_trackent->rectTransform()->position = { 0, 0 };
+	_trackent->rectTransform()->rotation = 0.0f;
+	_trackent->addComponent<Panel>()->color = { 0u, 0u, 0u, 255u };
+
 	parent = new Entity();
     parent->rectTransform()->rect = { 50, 50, -50, -50 };
     parent->rectTransform()->rotation = 45;
@@ -90,24 +108,6 @@ void start()
     _ent->rectTransform()->rect = { 50, 50, -50, -50 };
     _ent->rectTransform()->rotation = 135;
     _ent->addComponent<Panel>()->color = { 0, 0, 255u, 255u };
-
-	trackparent = new Entity();
-    trackparent->rectTransform()->rect = { 2, 2, -2, -2 };
-    trackparent->rectTransform()->position = { 0, 0 };
-    trackparent->rectTransform()->rotation = 0.0f;
-    trackparent->addComponent<Panel>()->color = { 0u, 0u, 0u, 255u };
-	
-    _trackent2 = new Entity();
-    _trackent2->rectTransform()->rect = { 2, 2, -2, -2 };
-    _trackent2->rectTransform()->position = { 0, 0 };
-    _trackent2->rectTransform()->rotation = 0.0f;
-    _trackent2->addComponent<Panel>()->color = { 0u, 0u, 0u, 255u };
-
-    _trackent = new Entity();
-    _trackent->rectTransform()->rect = { 2, 2, -2, -2 };
-    _trackent->rectTransform()->position = { 0, 0 };
-    _trackent->rectTransform()->rotation = 0.0f;
-    _trackent->addComponent<Panel>()->color = { 0u, 0u, 0u, 255u };
 
 	_ent->rectTransform()->parent = _ent2->rectTransform();
 	_ent2->rectTransform()->parent = parent->rectTransform();
