@@ -1,6 +1,8 @@
 #include <Marble.h>
 
 #include <cmath>
+#include <chrono>
+#include <fstream>
 #include <iostream>
 #include <thread>
 #include <SDL.h>
@@ -25,8 +27,35 @@ void onkeydown(SDL_Keycode);
 
 bool quitted = false;
 
+#define STB_TRUETYPE_IMPLEMENTATION
+#include <stb_truetype.h>
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb_image_write.h>
+#include <Font/Font.h>
+
 int main(int argc, char* argv[])
 {
+	std::ifstream in("ComicSansMS3.ttf", std::ios::binary);
+	in.ignore(std::numeric_limits<std::streamsize>::max());
+	std::streamsize len = in.gcount();
+	in.seekg(0, std::ios::beg);
+
+	unsigned char* data = new unsigned char[len];
+	in.read((char*)data, len);
+
+	stbtt_fontinfo info;
+	stbtt_InitFont(&info, data, 0);
+	//stbtt_ScaleForPixelHeight(&info, height);
+
+	char word[] = "abcdefghijklmnopqrstuvwxyz|-+_=1234567890!@#$%^&*()`~;:'\",.<>/\\?";
+
+	Typography::TrueTypeFontAtlas atlas(data, [](unsigned char* bytes) { delete[] bytes; }, 1920, 1080);
+	std::chrono::high_resolution_clock::time_point begin = std::chrono::high_resolution_clock::now();
+	atlas.loadCharsErasingFirstIfOutOfMemory(word, 0.1f);
+	std::cout << "Took: " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - begin).count() << "\n";
+
+    stbi_write_png("out.png", atlas.getAtlas().getPixelData().width, atlas.getAtlas().getPixelData().height, 4, atlas.getAtlas().getPixelData().rgbaData, atlas.getAtlas().getPixelData().width * 4);
+
 	CoreSystem::OnInitialize += &start;
 	CoreSystem::OnTick += &update;
 	CoreSystem::OnQuit += &stop;

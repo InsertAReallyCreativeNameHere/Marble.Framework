@@ -87,6 +87,28 @@ elseif (${BUILD_PLATFORM} STREQUAL Linux)
     )
 endif()
 
+# Marble.Typography
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${BUILD_TYPE}${BUILD_PLATFORM}/Marble.Typography)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${BUILD_TYPE}${BUILD_PLATFORM}/Marble.Typography)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin/${BUILD_ARCH}-${COMPILER}-${BUILD_TYPE}${BUILD_PLATFORM}/Marble.Typography)
+
+file(GLOB_RECURSE FONTSRCS configure_depends
+    "${CMAKE_SOURCE_DIR}/Marble.Typography/*.h"
+    "${CMAKE_SOURCE_DIR}/Marble.Typography/*.cpp"
+)
+
+add_library(Marble.Typography SHARED ${FONTSRCS})
+target_compile_definitions(Marble.Typography PRIVATE BUILD_TYPE_DYNAMIC=1)
+
+target_link_libraries(Marble.Typography PRIVATE
+)
+target_include_directories(Marble.Typography PRIVATE
+    "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
+    "${CMAKE_SOURCE_DIR}/Marble.Typography/src"
+    "${CMAKE_SOURCE_DIR}/dependencies/stb"
+)
+
 # Marble.Runtime.GL
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../lib/${BUILD_ARCH}-${COMPILER}-${BUILD_TYPE}${BUILD_PLATFORM}/Marble.Runtime.GL)
@@ -197,14 +219,17 @@ target_compile_definitions(Sandbox PRIVATE SDL_MAIN_HANDLED BUILD_TYPE_DYNAMIC=0
 if (${BUILD_PLATFORM} STREQUAL Win32)
     target_link_libraries(Sandbox PRIVATE
         Marble.Mathematics
+        Marble.Typography
         Marble.Runtime.CoreLib
     )
     target_include_directories(Sandbox PRIVATE
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/include"
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
         "${CMAKE_SOURCE_DIR}/Marble.Runtime.GL/src"
+        "${CMAKE_SOURCE_DIR}/Marble.Typography/src"
         "${CMAKE_SOURCE_DIR}/Marble.Mathematics/src"
         "${CMAKE_SOURCE_DIR}/dependencies/ctti/include"
+        "${CMAKE_SOURCE_DIR}/dependencies/stb"
         "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/include" # Do not attempt to use bgfx in Marble.Runtime.CoreLib, this exists as a dependency of other headers.
         "${CMAKE_SOURCE_DIR}/external/SDL/include"
     )
@@ -212,6 +237,11 @@ if (${BUILD_PLATFORM} STREQUAL Win32)
     add_custom_command(TARGET Sandbox POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         $<TARGET_FILE:Marble.Mathematics>
+        $<TARGET_FILE_DIR:Sandbox>
+    )
+    add_custom_command(TARGET Sandbox POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:Marble.Typography>
         $<TARGET_FILE_DIR:Sandbox>
     )
     add_custom_command(TARGET Sandbox POST_BUILD
