@@ -8,12 +8,15 @@ namespace Marble
 {
     class Image;
 
-    class PackageManager;
-
     namespace Internal
     {
         class ShaderUtility;
         class CoreEngine;
+    }
+
+    namespace PackageSystem
+    {
+        class PackageManager;
     }
 
     class coreapi Application final
@@ -26,7 +29,7 @@ namespace Marble
         static void quit();
 
         friend class Marble::Image;
-        friend class Marble::PackageManager;
+        friend class Marble::PackageSystem::PackageManager;
         friend class Marble::Internal::ShaderUtility;
         friend class Marble::Internal::CoreEngine;
     };

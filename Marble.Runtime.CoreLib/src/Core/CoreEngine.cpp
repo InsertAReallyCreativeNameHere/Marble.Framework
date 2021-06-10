@@ -36,6 +36,7 @@ using namespace Marble;
 using namespace Marble::GL;
 using namespace Marble::Internal;
 using namespace Marble::Mathematics;
+using namespace Marble::PackageSystem;
 
 int CoreEngine::WNDW = 1280;
 int CoreEngine::WNDH = 720;
@@ -130,6 +131,11 @@ int CoreEngine::execute(int argc, char* argv[])
     #pragma endregion
 
     #pragma region Package Loading
+    uint16_t word = 0x0001;
+    if (((uint8_t*)&word)[0])
+        PackageManager::endianness = Endianness::Little;
+    else PackageManager::endianness = Endianness::Big;
+        
     fs::path corePackagePath(fs::current_path());
     corePackagePath.append("Runtime");
     corePackagePath.append("CorePackage.marble.pkg");

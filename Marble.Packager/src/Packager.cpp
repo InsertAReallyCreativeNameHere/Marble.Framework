@@ -54,8 +54,6 @@ void Packager::packageFolder(const std::wstring_view& folder)
             {
                 fputws(L"Writing 1048576 bytes.\n", stdout);
                 infile.read(buffer, 1048576);
-                for (size_t j = 0; j < 1048576; j++)
-                    buffer[j] = 255u - buffer[j];
                 package.write(buffer, sizeof(char) * 1048576);
                 fputws(L"Written 1048576 bytes.\n", stdout);
             }
@@ -65,8 +63,6 @@ void Packager::packageFolder(const std::wstring_view& folder)
             {
                 wprintf(L"Writing %u remaining bytes.\n", rem);
                 infile.read(buffer, rem);
-                for (size_t j = 0; j < rem; j++)
-                    buffer[j] = 255u - buffer[j];
                 package.write(buffer, sizeof(char) * rem);
                 wprintf(L"Written %u remaining bytes.\n", rem);
             }

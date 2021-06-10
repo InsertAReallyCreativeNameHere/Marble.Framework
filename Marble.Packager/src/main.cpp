@@ -197,8 +197,6 @@ LR"(Commands:
                             {
                                 fputws(L"Writing 1048576 bytes.\n", stdout);
                                 package.read(buffer, 1048576);
-                                for (uint32_t j = 0; j < 1048576; j++)
-                                    buffer[j] = 255u - buffer[j];
                                 outFile.write(buffer, sizeof(char) * 1048576);
                                 fputws(L"Written 1048576 bytes.\n", stdout);
                             }
@@ -208,8 +206,6 @@ LR"(Commands:
                             {
                                 wprintf(L"Writing %u remaining bytes.\n", rem);
                                 package.read(buffer, rem);
-                                for (uint32_t j = 0; j < rem; j++)
-                                    buffer[j] = 255u - buffer[j];
                                 outFile.write(buffer, sizeof(char) * rem);
                                 wprintf(L"Written %u remaining bytes.\n", rem);
                             }
