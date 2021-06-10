@@ -42,10 +42,15 @@ if (DEFINED CMAKE_BUILD_TYPE AND CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_definitions(-D_DEBUG=1)
 endif()
 
+# Marble.Packager
+add_subdirectory("${CMAKE_SOURCE_DIR}/Marble.Packager")
+
+# SDL2
 set(SDL_SHARED OFF CACHE BOOL "Build SDL2 shared library." FORCE)
 add_subdirectory("${CMAKE_SOURCE_DIR}/external/SDL")
 target_compile_definitions(SDL2-static PRIVATE HAVE_LIBC=1)
 
+# bgfx + Dependencies
 set(_CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE})
 set(CMAKE_BUILD_TYPE "Release") # Builds faster for MinGW/GCC this way.
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../libglbuild)

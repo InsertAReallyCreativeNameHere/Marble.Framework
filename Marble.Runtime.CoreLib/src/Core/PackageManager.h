@@ -26,8 +26,11 @@ namespace Marble
     {
         struct coreapi PackageFile
         {
+            struct Reflection {
+                uint64_t typeID;
+            } reflection;
+
             const std::filesystem::path fileLocalPath;
-            const uint64_t fileType;
 
             friend class Marble::Image;
             friend class Marble::PackageManager;
@@ -41,7 +44,7 @@ namespace Marble
         {
         public:
             BinaryPackageFile(const uint8_t* bytes, unsigned bytesSize, const std::filesystem::path& fileLocalPath);
-            ~BinaryPackageFile() override;
+            virtual ~BinaryPackageFile();
             
             const uint8_t* loadedBytes;
             const unsigned bytesSize;
@@ -52,7 +55,7 @@ namespace Marble
             const unsigned imageBytesSize;
         public:
             PortableGraphicPackageFile(uint8_t* imageBytes, int width, int height, const std::filesystem::path& fileLocalPath);
-            ~PortableGraphicPackageFile() override;
+            virtual ~PortableGraphicPackageFile();
 
             uint8_t* loadedImage;
             int width, height;
@@ -65,7 +68,7 @@ namespace Marble
         {
             static_assert(std::is_base_of<PackageFile, T>::value, "File cast can only work on type \"PackageFile\"!");
 
-            if (file->fileType == strhash(ctti::nameof<T>().begin()))
+            if (file->reflection.typeID == strhash(ctti::nameof<T>().begin()))
                 return static_cast<T*>(file);
             else return nullptr;
         }
