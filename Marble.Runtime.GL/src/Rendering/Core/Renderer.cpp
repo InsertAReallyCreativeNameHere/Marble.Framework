@@ -4,6 +4,7 @@
 #include <bgfx/platform.h>
 #include <bimg/bimg.h>
 #include <bx/math.h>
+#include <cmath>
 #include <Rendering/Utility/ShaderUtility.h>
 #include <shaderc.h>
 #include <utility>
@@ -94,7 +95,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
     init.vendorId = BGFX_PCI_ID_NONE;
     init.resolution.width = initWidth;
     init.resolution.height = initHeight;
-    init.resolution.reset = BGFX_RESET_NONE;
+    init.resolution.reset = BGFX_RESET_HIDPI | BGFX_RESET_VSYNC;
     bool ret = bgfx::init(init);
     
     if (ret)
@@ -108,19 +109,17 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
         renderWidth = initWidth;
         renderHeight = initHeight;
 
+        bx::mtxLookAt(view2D, eye, at);
+        bx::mtxOrtho(proj2D, -(float)renderWidth / 2, (float)renderWidth / 2, -(float)renderHeight / 2, (float)renderHeight / 2, 0, 100, 0, bgfx::getCaps()->homogeneousDepth);
+        bgfx::setViewTransform(0, view2D, proj2D);
+
         constexpr uint64_t state =
         0 |
-        BGFX_STATE_WRITE_R |
-        BGFX_STATE_WRITE_G |
-        BGFX_STATE_WRITE_B |
+        BGFX_STATE_WRITE_RGB |
         BGFX_STATE_WRITE_A |
         BGFX_STATE_WRITE_Z |
         BGFX_STATE_DEPTH_TEST_LESS;
         bgfx::setState(state);
-        
-        bx::mtxLookAt(view2D, eye, at);
-        bx::mtxOrtho(proj2D, -(float)renderWidth / 2, (float)renderWidth / 2, -(float)renderHeight / 2, (float)renderHeight / 2, 0, 100, 0, bgfx::getCaps()->homogeneousDepth);
-        bgfx::setViewTransform(0, view2D, proj2D);
 
         #pragma region 2D
         quadIndexBuffer = bgfx::createIndexBuffer(bgfx::makeRef(quadTris, sizeof(quadTris)));
@@ -163,7 +162,6 @@ R"(
 $input v_color0
 
 #include <Runtime/bgfx_shader.sh>
-#include <Runtime/shaderlib.sh>
 
 void main()
 {
@@ -264,7 +262,6 @@ void Renderer::shutdown()
     bgfx::destroy(quadIndexBuffer);
     
     bgfx::destroy(program2DRectangle);
-
     bgfx::destroy(program2DTex);
     bgfx::destroy(textureColor);
 

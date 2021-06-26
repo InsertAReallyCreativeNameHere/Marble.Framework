@@ -315,9 +315,7 @@ void CoreEngine::internalLoop()
         do deltaTime = (float)(SDL_GetPerformanceCounter() - frameBegin) * 1000.0f / (float)perfFreq;
         while (deltaTime < targetDeltaTime);
         frameBegin = SDL_GetPerformanceCounter();
-        targetDeltaTime -= deltaTime - targetDeltaTime;
-        if (targetDeltaTime <= 0)
-            targetDeltaTime = 0;
+        targetDeltaTime = CoreEngine::mspf - (deltaTime - targetDeltaTime);
         Debug::LogInfo("Update() frame time: ", deltaTime, ".");
     }
     

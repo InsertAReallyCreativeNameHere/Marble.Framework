@@ -101,9 +101,9 @@ namespace Marble
                 std::vector<T*> components;
                 for (auto it = this->components.begin(); it != this->components.end(); ++it)
                 {
-                    if (it->second == strhash(ctti::nameof<T>().begin()))
+                    if ((*it)->reflection.typeID == strhash(ctti::nameof<T>().begin()))
                     {
-                        components.push_back(static_cast<T*>(it->first));
+                        components.push_back(static_cast<T*>(*it));
                     }
                 }
 
@@ -120,10 +120,10 @@ namespace Marble
             
             for (auto it = this->components.begin(); it != this->components.end(); ++it)
             {
-                if (it->second == strhash(ctti::nameof<T>().begin()))
+                if ((*it)->reflection.typeID == strhash(ctti::nameof<T>().begin()))
                 {
-                    it->first->onDestroy = [](Internal::Component*) {  };
-                    delete it->first;
+                    (*it)->eraseIteratorOnDestroy = false;
+                    delete *it;
                     this->components.erase(it);
                     return;
                 }
@@ -139,10 +139,10 @@ namespace Marble
             bool throwWarn = true;
             for (auto it = this->components.begin(); it != this->components.end();)
             {
-                if (it->second == strhash(ctti::nameof<T>().begin()))
+                if ((*it)->reflection.typeID == strhash(ctti::nameof<T>().begin()))
                 {
-                    it->first->onDestroy = [](Internal::Component*) {  };
-                    delete it->first;
+                    (*it)->eraseIteratorOnDestroy = false;
+                    delete *it;
                     it = this->components.erase(it);
                     throwWarn = false;
                 }
