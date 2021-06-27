@@ -1,14 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(Marble.Framework)
-
-if (WIN32 OR WIN64)
-    set(BUILD_PLATFORM Win32)
-elseif (UNIX AND NOT APPLE)
-    set(BUILD_PLATFORM Linux)
-else()
-    set(BUILD_PLATFORM MacOS)
-endif()
+project(Marble.RuntimeCompiler)
 
 if (CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(BUILD_ARCH x64)
@@ -16,9 +8,22 @@ else()
     set(BUILD_ARCH x86)
 endif()
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+if ((NOT DEFINED CMAKE_BUILD_TYPE) OR (CMAKE_BUILD_TYPE STREQUAL ""))
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(-D_DEBUG=1)
+endif()
 
-set(CMAKE_SHARED_LIBRARY_PREFIX "")
+if (WIN32 OR WIN64)
+    set(BUILD_PLATFORM Win32)
+elseif (UNIX AND NOT APPLE)
+    set(BUILD_PLATFORM Linux)
+elseif (APPLE)
+    set(BUILD_PLATFORM MacOS)
+else()
+    set(BUILD_PLATFORM "UnknownPlatform")
+endif()
 
 set(CMAKE_CXX_STANDARD 20)
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -27,23 +32,30 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     else()
         set(COMPILER "gcc")
     endif()
-    set(BUILD_TYPE "${CMAKE_BUILD_TYPE}-" CACHE STRING "Configuration string in output dir." FORCE)
+    set(BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE INTERNAL "Configuration string in output dir." FORCE)
+    set(OUTNAME "${BUILD_ARCH}-${COMPILER}-${BUILD_TYPE}-${BUILD_PLATFORM}")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
     set(COMPILER "Clang")
-    set(BUILD_TYPE "${CMAKE_BUILD_TYPE}-" CACHE STRING "Configuration string in output dir." FORCE)
+    set(BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE INTERNAL "Configuration string in output dir." FORCE)
+    set(OUTNAME "${BUILD_ARCH}-${COMPILER}-${BUILD_TYPE}-${BUILD_PLATFORM}")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(COMPILER "MSVC")
-    set(BUILD_TYPE "")
+    set(BUILD_TYPE "UnknownBuildType")
+    set(OUTNAME "${BUILD_ARCH}-${COMPILER}-${BUILD_PLATFORM}")
 else()
     set(COMPILER ${CMAKE_CXX_COMPILER_ID})
+    set(BUILD_TYPE "UnknownBuildType")
+    set(OUTNAME "${BUILD_ARCH}-Unknown-${BUILD_PLATFORM}")
 endif()
 
-if (DEFINED CMAKE_BUILD_TYPE AND CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_definitions(-D_DEBUG=1)
-endif()
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_SHARED_LIBRARY_PREFIX "")
 
 # Marble.Packager
 add_subdirectory("${CMAKE_SOURCE_DIR}/Marble.Packager")
+
+# libschrift
+add_subdirectory("${CMAKE_SOURCE_DIR}/external/libschrift")
 
 # SDL2
 set(SDL_SHARED OFF CACHE BOOL "Build SDL2 shared library." FORCE)
@@ -112,6 +124,7 @@ target_include_directories(Marble.Typography PRIVATE
     "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
     "${CMAKE_SOURCE_DIR}/Marble.Typography/src"
     "${CMAKE_SOURCE_DIR}/dependencies/stb"
+    "${CMAKE_SOURCE_DIR}/external/libschrift"
 )
 
 # Marble.Runtime.GL

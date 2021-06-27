@@ -1,7 +1,5 @@
-cmake_minimum_required( VERSION 3.0 )
+cmake_minimum_required(VERSION 3.0)
 
-set(_CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE})
-set(CMAKE_BUILD_TYPE "Release")
 set(BGFX_LIBRARY_TYPE "STATIC")
 add_subdirectory("${CMAKE_SOURCE_DIR}/external/bgfx.cmake" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 include("${CMAKE_SOURCE_DIR}/external/bgfx.cmake/cmake/3rdparty/glslang.cmake")
@@ -9,7 +7,6 @@ include("${CMAKE_SOURCE_DIR}/external/bgfx.cmake/cmake/3rdparty/glsl-optimizer.c
 include("${CMAKE_SOURCE_DIR}/external/bgfx.cmake/cmake/3rdparty/fcpp.cmake")
 include("${CMAKE_SOURCE_DIR}/external/bgfx.cmake/cmake/3rdparty/spirv-tools.cmake")
 include("${CMAKE_SOURCE_DIR}/external/bgfx.cmake/cmake/3rdparty/spirv-cross.cmake")
-set(CMAKE_BUILD_TYPE ${_CMAKE_BUILD_TYPE})
 
 project(gl)
 add_library(gl "src.cpp")
@@ -24,7 +21,7 @@ target_include_directories(gl PUBLIC
     "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/3rdparty/webgpu/include"
     "${CMAKE_SOURCE_DIR}/external/libglcompilers"
 )
-target_link_libraries(gl PUBLIC
+target_link_libraries(gl PRIVATE
     bgfx
     bx
     bimg

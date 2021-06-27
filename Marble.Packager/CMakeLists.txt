@@ -11,5 +11,5 @@ file(GLOB_RECURSE PKGSRCS configure_depends
     "${CMAKE_SOURCE_DIR}/Marble.Packager/src/*.cpp"
 )
 add_executable(Marble.Packager ${PKGSRCS})
-target_compile_definitions(Marble.Packager PUBLIC BUILD_TYPE_DYNAMIC=1)
-target_include_directories(Marble.Packager PUBLIC "${CMAKE_SOURCE_DIR}/Marble.Packager/src")
+target_compile_definitions(Marble.Packager PRIVATE BUILD_TYPE_DYNAMIC=1)
+target_include_directories(Marble.Packager PRIVATE "${CMAKE_SOURCE_DIR}/Marble.Packager/src")
