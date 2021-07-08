@@ -141,10 +141,10 @@ void start()
 	Text* t = te->getFirstComponent<Text>();
 	TrueTypeFontPackageFile* _f = file_cast<TrueTypeFontPackageFile>(PackageManager::getCorePackageFileByPath(L"Assets/ComicSansMS3.ttf"));
 	t->font = _f;
-	t->text = U"\x00A9";
+	t->text = U"help\x2122i";
 	te->rectTransform()->position = { 0, 0 };
 	te->rectTransform()->rotation = -20.0f;
-	te->rectTransform()->scale = { 0.2f, 0.2f };
+	te->rectTransform()->scale = { 0.05f, 0.05f };
 
 	//Debug::LogTrace("Parent Position: ", parent->rectTransform()->position(), ".");
 	//Debug::LogTrace("Child Position: ", _ent2->rectTransform()->position(), ".");

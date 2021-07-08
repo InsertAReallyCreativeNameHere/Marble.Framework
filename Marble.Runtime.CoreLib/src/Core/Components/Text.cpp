@@ -131,6 +131,15 @@ text
                     std::vector<std::vector<std::vector<std::array<float, 2>>>> points { { { ringBegin } } };
                     std::vector<std::vector<uint16_t>> indexes;
 
+                    size_t firstClockwiseLoopIndex = SIZE_MAX;
+                    size_t ringSize = 1;
+                    while (glyph.verts[0].x != glyph.verts[ringSize].x || glyph.verts[0].y != glyph.verts[ringSize].y)
+                        ++ringSize;
+                    ++ringSize;
+                    
+                    if (pointsAreClockwise(glyph.verts, ringSize))
+                        firstClockwiseLoopIndex = 0;
+                    
                     uint16_t indexOffset = 0;
                     for (int j = 1; j < glyph.vertsSize; j++)
                     {
@@ -140,13 +149,26 @@ text
                         {
                         [[unlikely]] case STBTT_vmove:
                             {
-                                size_t ringSize = j + 1;
+                                ringSize = j + 1;
                                 while (glyph.verts[j].x != glyph.verts[ringSize].x || glyph.verts[j].y != glyph.verts[ringSize].y)
                                     ++ringSize;
                                 ringSize -= j - 1;
 
                                 if (pointsAreClockwise(glyph.verts + j, ringSize))
                                 {
+                                    switch (firstClockwiseLoopIndex)
+                                    {
+                                    case 0:
+                                        break;
+                                    case SIZE_MAX:
+                                        firstClockwiseLoopIndex = points.back().size();
+                                        goto IgnoreClockwise;
+                                        break;
+                                    default: // What a hack, no ranged cases needed. Switch statements ftw.
+                                        std::iter_swap(points.back().begin(), points.back().begin() + firstClockwiseLoopIndex);
+                                        firstClockwiseLoopIndex = 0;
+                                    }
+
                                     auto polyIndexes = mapbox::earcut<uint16_t>(points.back());
                                     for (auto it = polyIndexes.begin(); it != polyIndexes.end(); ++it)
                                         *it += indexOffset;
@@ -157,6 +179,7 @@ text
 
                                     points.push_back({ });
                                 }
+                                IgnoreClockwise:
 
                                 points.back().push_back({ });
                                 ringBegin = { (float)glyph.verts[j].x, (float)glyph.verts[j].y };
@@ -198,11 +221,18 @@ text
                             break;
                         }
                     }
+
+                    if (firstClockwiseLoopIndex != 0)
+                    {
+                        std::iter_swap(points.back().begin(), points.back().begin() + firstClockwiseLoopIndex);
+                        firstClockwiseLoopIndex = 0;
+                    }
+
                     auto polyIndexes = mapbox::earcut<uint16_t>(points.back());
                     for (auto it = polyIndexes.begin(); it != polyIndexes.end(); ++it)
                         *it += indexOffset;
                     indexes.push_back(std::move(polyIndexes));
-                    
+
                     std::vector<std::array<float, 2>> pointsFlattened;
                     size_t reserveSize = 0;
                     for (auto it1 = points.begin(); it1 != points.end(); ++it1)
