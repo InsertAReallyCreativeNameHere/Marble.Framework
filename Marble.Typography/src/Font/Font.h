@@ -10,50 +10,40 @@ namespace Marble
 {
     namespace Typography
     {
-        typedef struct {
-            uint32_t x, y, width, height;
-        } FontGlyph;
-        typedef struct {
-            uint8_t* rgbaData;
-            uint32_t width, height;
-        } FontAtlasPixelData;
+        struct GlyphOutline;
+        struct GlyphMetrics;
 
-        class TrueTypeFontAtlas;
-
-        class coreapi FontAtlas final
+        class coreapi Font final
         {
-            FontAtlasPixelData data;
-            std::map<char, FontGlyph> glyphs;
+            stbtt_fontinfo fontInfo;
         public:
-            FontAtlas(uint32_t width, uint32_t height);
-            ~FontAtlas();
+            int ascent, descent, lineGap;
 
-            const FontAtlasPixelData& getPixelData() const;
-            const std::map<char, FontGlyph>& getGlyphMap() const;
+            Font(unsigned char* fontData);
+            Font(const Font&) = delete;
+            Font(Font&&) = delete;
 
-            // This is very slow, only pushGlyph once ideally.
-            bool pushGlyph(char c, uint8_t* rgbaData, uint32_t width, uint32_t height);
-            void removeGlyph(char c);
-
-            friend class Marble::Typography::TrueTypeFontAtlas;
+            friend struct Marble::Typography::GlyphOutline;
+            friend struct Marble::Typography::GlyphMetrics;
         };
 
-        class coreapi TrueTypeFontAtlas final
+        struct coreapi GlyphOutline final
         {
-            FontAtlas atlas;
+            Font& font;
+            stbtt_vertex* verts;
+            int vertsSize;
 
-            stbtt_fontinfo ttInfo;
-            void (*freeTtfData)(uint8_t*);
-        public:
-            TrueTypeFontAtlas(uint8_t* ttfData, void (*freeTtfData)(uint8_t*), uint32_t width, uint32_t height);
-            ~TrueTypeFontAtlas();
+            GlyphOutline(Font& font, char32_t codepoint);
+            GlyphOutline(GlyphOutline&& other);
+            ~GlyphOutline();
+        };
+        struct coreapi GlyphMetrics final
+        {
+            int advanceWidth, leftSideBearing;
 
-            const FontAtlas& getAtlas() const;
-
-            bool loadCharsErasingFirstIfOutOfMemory(const char* chars, float scale);
-            void loadCharErasingFirstIfOutOfMemory(char c, float scale);
-            void loadCharsIgnoreIfOutOfMemory(const char* chars, float scale);
-            void loadCharIgnoreIfOutOfMemory(char c, float scale);
+            GlyphMetrics(Font& font, char32_t codepoint);
+            GlyphMetrics(GlyphMetrics&& other);
+            ~GlyphMetrics();
         };
     }
 }

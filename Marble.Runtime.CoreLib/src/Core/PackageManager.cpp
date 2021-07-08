@@ -35,7 +35,16 @@ PortableGraphicPackageFile::~PortableGraphicPackageFile()
     stbi_image_free(const_cast<stbi_uc*>(this->loadedImage));
 }
 
-constexpr auto toEndianness = [](auto intType, Endianness from, Endianness to) -> decltype(intType)
+TrueTypeFontPackageFile::TrueTypeFontPackageFile(uint8_t* fontData, const std::filesystem::path& fileLocalPath) :
+PackageFile(fileLocalPath, strhash(ctti::nameof<TrueTypeFontPackageFile>().begin())), font((unsigned char*)fontData), fontData(fontData)
+{
+}
+TrueTypeFontPackageFile::~TrueTypeFontPackageFile()
+{
+    delete[] this->fontData;
+}
+
+constexpr auto toEndianness = [](auto intType, Endianness from, Endianness to) constexpr -> decltype(intType)
 {
     if (from == to)
         return intType;
@@ -91,6 +100,11 @@ void PackageManager::loadCorePackageIntoMemory(const fs::path& packagePath)
                 PackageManager::loadedCorePackage.push_back(new PortableGraphicPackageFile(loadedImage, w, h, filePath));
             }
             break;
+        case wstrhash(L".ttf"):
+            {
+                PackageManager::loadedCorePackage.push_back(new TrueTypeFontPackageFile(fileBytes, filePath));
+            }
+            break;
         default:
             PackageManager::loadedCorePackage.push_back(new BinaryPackageFile(fileBytes, fileLen, filePath));
         }
@@ -126,7 +140,6 @@ PackageFile* PackageManager::getCorePackageFileByPath(std::wstring filePath)
     PackageManager::normalizePath(filePath);
     for (auto it = PackageManager::loadedCorePackage.begin(); it != PackageManager::loadedCorePackage.end(); ++it)
     {
-        Debug::LogInfo((*it)->fileLocalPath, "  ", filePath);
         if ((*it)->fileLocalPath == filePath)
             return *it;
     }

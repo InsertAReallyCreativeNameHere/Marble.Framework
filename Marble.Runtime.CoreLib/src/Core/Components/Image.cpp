@@ -1,5 +1,6 @@
 #include "Image.h"
 
+#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 #include <fstream>
 #include <Core/Application.h>
@@ -29,10 +30,9 @@ imageFile
             if (this->data->accessCount == 0)
             {
                 Image::imageTextures.erase(this->data->file);
-                RenderData* data = this->data;
                 CoreEngine::pendingRenderJobBatchesOffload.push_back
                 (
-                    [=]
+                    [data = this->data]
                     {
                         delete data->internalTexture;
                         delete data;
@@ -51,7 +51,7 @@ imageFile
             else
             {
                 auto& set = Image::imageTextures[file];
-                set = new RenderData { 0, nullptr, file };
+                set = new RenderData { 1, nullptr, file };
                 this->data = set;
 
                 uint32_t width = file->width, height = file->height;
@@ -60,10 +60,9 @@ imageFile
                 for (uint32_t i = 0; i < imageDataSize; i++)
                     imageData[i] = file->loadedImage[i];
                 
-                RenderData* data = this->data;
                 CoreEngine::pendingRenderJobBatchesOffload.push_back
                 (
-                    [=]
+                    [=, data = this->data]
                     {
                         data->internalTexture = new Texture2D(imageData, width, height);
                         delete[] imageData;
@@ -80,15 +79,20 @@ data(nullptr)
 Image::~Image()
 {
     RenderData* data = this->data;
-    CoreEngine::pendingRenderJobBatchesOffload.push_back
-    (
+    if (data != nullptr)
+    {
+        --data->accessCount;
+        if (data->accessCount == 0)
         {
-            [=]
-            {
-                if (data->internalTexture != nullptr)
+            Image::imageTextures.erase(data->file);
+            CoreEngine::pendingRenderJobBatchesOffload.push_back
+            (
+                [=]
+                {
                     delete data->internalTexture;
-                delete data;
-            }
+                    delete data;
+                }
+            );
         }
-    );
+    }
 }

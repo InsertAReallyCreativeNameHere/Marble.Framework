@@ -1,14 +1,17 @@
 #pragma once
 
 #include <inc.h>
-#include <SDL.h>
 
-#include <Core/CoreEngine.h>
 #include <Core/Objects/Component.h>
 #include <Rendering/Core.h>
 
 namespace Marble
 {
+    namespace Internal
+    {
+        class CoreEngine;
+    }
+
     class coreapi Panel final : public Internal::Component
     {
         Color _color { 0, 0, 0, 255 };

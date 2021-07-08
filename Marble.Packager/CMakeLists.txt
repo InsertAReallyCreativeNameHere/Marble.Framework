@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.10)
 
 project(Marble.Packager)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../../lib/${BUILD_ARCH}-${COMPILER}-${BUILD_TYPE}${BUILD_PLATFORM}/Marble.Packager)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../../lib/${BUILD_ARCH}-${COMPILER}-${BUILD_TYPE}${BUILD_PLATFORM}/Marble.Packager)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../bin/${BUILD_ARCH}-${COMPILER}-${BUILD_TYPE}${BUILD_PLATFORM}/Marble.Packager)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../../lib/${OUTNAME}/Marble.Packager)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../../lib/${OUTNAME}/Marble.Packager)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../bin/${OUTNAME}/Marble.Packager)
 
 file(GLOB_RECURSE PKGSRCS configure_depends
     "${CMAKE_SOURCE_DIR}/Marble.Packager/src/*.h"

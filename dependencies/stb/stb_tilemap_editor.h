@@ -738,9 +738,9 @@ static unsigned char stbte__state_to_index[2][2][2][2] =
 #define STBTE__INDEX_FOR_STATE(disable,select,down,over) stbte__state_to_index[disable][select][down][over]
 #define STBTE__INDEX_FOR_ID(id,disable,select) STBTE__INDEX_FOR_STATE(disable,select,STBTE__IS_ACTIVE(id),STBTE__IS_HOT(id))
 
-#define STBTE__FONT_HEIGHT    9
-static short stbte__font_offset[95+16];
-static short stbte__fontdata[769] =
+#define STBTEFont_HEIGHT    9
+static short stbteFont_offset[95+16];
+static short stbteFontdata[769] =
 {
    4,9,6,9,9,9,9,8,9,8,4,9,7,7,7,7,4,2,6,8,6,6,7,3,4,4,8,6,3,6,2,6,6,6,6,6,6,
    6,6,6,6,6,2,3,5,4,5,6,6,6,6,6,6,6,6,6,6,6,6,7,6,7,7,7,6,7,6,6,6,6,7,7,6,6,
@@ -919,8 +919,8 @@ static stbte__ui_t stbte__ui = { STBTE__tool_brush, 0 };
 #define STBTE__IS_ACTIVE(id)  (stbte__ui.active_id == (id))
 #define STBTE__IS_HOT(id)     (stbte__ui.hot_id    == (id))
 
-#define STBTE__BUTTON_HEIGHT            (STBTE__FONT_HEIGHT + 2 * STBTE__BUTTON_INTERNAL_SPACING)
-#define STBTE__BUTTON_INTERNAL_SPACING  (2 + (STBTE__FONT_HEIGHT>>4))
+#define STBTE__BUTTON_HEIGHT            (STBTEFont_HEIGHT + 2 * STBTE__BUTTON_INTERNAL_SPACING)
+#define STBTE__BUTTON_INTERNAL_SPACING  (2 + (STBTEFont_HEIGHT>>4))
 
 typedef struct
 {
@@ -996,8 +996,8 @@ static void stbte__init_gui(void)
    // init font
    n=95+16;
    for (i=0; i < 95+16; ++i) {
-      stbte__font_offset[i] = n;
-      n += stbte__fontdata[i];
+      stbteFont_offset[i] = n;
+      n += stbteFontdata[i];
    }
 }
 
@@ -1678,12 +1678,12 @@ static void stbte__draw_frame(int x0, int y0, int x1, int y1, unsigned int color
 
 static int stbte__get_char_width(int ch)
 {
-   return stbte__fontdata[ch-16];
+   return stbteFontdata[ch-16];
 }
 
 static short *stbte__get_char_bitmap(int ch)
 {
-   return stbte__fontdata + stbte__font_offset[ch-16];
+   return stbteFontdata + stbteFont_offset[ch-16];
 }
 
 static void stbte__draw_bitmask_as_columns(int x, int y, short bitmask, int color)

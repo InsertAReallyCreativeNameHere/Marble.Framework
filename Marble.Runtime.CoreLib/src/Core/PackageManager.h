@@ -1,20 +1,20 @@
 #pragma once
 
-#include <inc.h>
+#include "inc.h"
 
 #include <ctti/nameof.hpp>
 #include <filesystem>
+#include <Font/Font.h>
 #include <list>
 #undef STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 #include <unordered_map>
 #include <Utility/Hash.h>
 
-void start();
-
 namespace Marble
 {
     class Image;
+    class Text;
 
     namespace Internal
     {
@@ -45,23 +45,42 @@ namespace Marble
         {
             uint8_t* loadedBytes;
             uint32_t bytesSize;
-        public:
+            
             BinaryPackageFile(uint8_t* bytes, uint32_t bytesSize, const std::filesystem::path& fileLocalPath);
             ~BinaryPackageFile() override;
+        public:
+            friend class Marble::PackageSystem::PackageManager;
         };
         class coreapi PortableGraphicPackageFile final : public PackageFile
         {
             stbi_uc* loadedImage;
             int width, height;
-        public:
+            
             PortableGraphicPackageFile(stbi_uc* imageBytes, int width, int height, const std::filesystem::path& fileLocalPath);
             ~PortableGraphicPackageFile() override;
-
+        public:
             inline int imageWidth() { return this->width; };
             inline int imageHeight() { return this->height; };
             inline uint8_t* imageRGBAData() { return this->loadedImage; };
 
             friend class Marble::Image;
+            friend class Marble::PackageSystem::PackageManager;
+        };
+        class coreapi TrueTypeFontPackageFile final : public PackageFile
+        {
+            Typography::Font font;
+            uint8_t* fontData;
+            
+            TrueTypeFontPackageFile(uint8_t* fontData, const std::filesystem::path& fileLocalPath);
+            ~TrueTypeFontPackageFile() override;
+        public:
+            inline Typography::Font& fontHandle()
+            {
+                return this->font;
+            }
+
+            friend class Marble::Text;
+            friend class Marble::PackageSystem::PackageManager;
         };
 
         template <typename T>
@@ -74,12 +93,11 @@ namespace Marble
             else return nullptr;
         }
         
-        enum class Endianness : int16_t
+        enum class Endianness : uint_fast8_t
         {
             Big = 0,
             Little = 1
         };
-
         class coreapi PackageManager final
         {
             static Endianness endianness;

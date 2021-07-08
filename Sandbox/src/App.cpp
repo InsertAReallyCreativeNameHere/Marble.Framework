@@ -11,6 +11,7 @@
 #include <Core/EntityComponentSystem/CoreSystem.h>
 #include <Core/Components/Panel.h>
 #include <Core/Components/Image.h>
+#include <Core/Components/Text.h>
 #include <Core/Input.h>
 #include <Core/PackageManager.h>
 #include <Core/SceneManagement.h>
@@ -27,10 +28,6 @@ void onkeydown(SDL_Keycode);
 
 bool quitted = false;
 
-#define STB_TRUETYPE_IMPLEMENTATION
-#include <stb_truetype.h>
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <stb_image_write.h>
 #include <Font/Font.h>
 
 int main(int argc, char* argv[])
@@ -39,7 +36,7 @@ int main(int argc, char* argv[])
 	CoreSystem::OnTick += &update;
 	CoreSystem::OnQuit += &stop;
 
-	CoreSystem::OnMouseDown += [](int mouseButton)
+	/*CoreSystem::OnMouseDown += [](int mouseButton)
 	{
 		if (mouseButton == SDL_BUTTON_LEFT)
 			Debug::LogError("Left button");
@@ -47,7 +44,7 @@ int main(int argc, char* argv[])
 		{
 			Application::quit();
 		}
-	};
+	};*/
 
 	CoreSystem::OnKeyDown += onkeydown;
 
@@ -84,7 +81,7 @@ void start()
 	Scene* scene = new Scene;
 	SceneManager::setSceneActive(scene);
 
-	trackparent = new Entity();
+	/*trackparent = new Entity();
 	trackparent->rectTransform()->rect = { 2, 2, -2, -2 };
 	trackparent->rectTransform()->position = { 0, 0 };
 	trackparent->rectTransform()->rotation = 0.0f;
@@ -137,15 +134,25 @@ void start()
 	ent2->rectTransform()->rect = { (float)(file->imageHeight()) / 2, (float)(file->imageWidth()) / 2, (float)(-file->imageHeight()) / 2, (float)(-file->imageWidth()) / 2 };
 	ent2->rectTransform()->position = { 0, 0 };
 	ent2->rectTransform()->rotation = -20.0f;
-	ent2->rectTransform()->scale = { 1.0f, 1.0f };
+	ent2->rectTransform()->scale = { 1.0f, 1.0f };*/
 
-	Debug::LogTrace("Parent Position: ", parent->rectTransform()->position(), ".");
-	Debug::LogTrace("Child Position: ", _ent2->rectTransform()->position(), ".");
-	Debug::LogTrace("Most Child Position: ", _ent->rectTransform()->position(), ".");
+	Entity* te = new Entity();
+	te->addComponent<Text>();
+	Text* t = te->getFirstComponent<Text>();
+	TrueTypeFontPackageFile* _f = file_cast<TrueTypeFontPackageFile>(PackageManager::getCorePackageFileByPath(L"Assets/ComicSansMS3.ttf"));
+	t->font = _f;
+	t->text = U"i_";
+	te->rectTransform()->position = { 0, 0 };
+	te->rectTransform()->rotation = -20.0f;
+	te->rectTransform()->scale = { 0.02f, 0.02f };
+
+	//Debug::LogTrace("Parent Position: ", parent->rectTransform()->position(), ".");
+	//Debug::LogTrace("Child Position: ", _ent2->rectTransform()->position(), ".");
+	//Debug::LogTrace("Most Child Position: ", _ent->rectTransform()->position(), ".");
 }
 void update()
 {
-	static bool test = 0;
+	/*static bool test = 0;
 	if (test == 0)
 	{
 		if (c.b == 255)
@@ -168,11 +175,11 @@ void update()
 
 	trackparent->rectTransform()->position = parent->rectTransform()->position();
 	_trackent2->rectTransform()->position = _ent2->rectTransform()->position();
-	_trackent->rectTransform()->position = _ent->rectTransform()->position();
+	_trackent->rectTransform()->position = _ent->rectTransform()->position();*/
 }
 void stop()
 {
-	ent2->getFirstComponent<Image>()->imageFile = nullptr;
+	/*ent2->getFirstComponent<Image>()->imageFile = nullptr;
 
 	delete _ent;
 	delete _ent2;
@@ -181,26 +188,91 @@ void stop()
 
 	delete trackparent;
 	delete _trackent;
-	delete _trackent2;
+	delete _trackent2;*/
 }
 
 void thing(SDL_Keycode c)
 {
 	(void)c;
 
-	parent->rectTransform()->localRotation += 2;
+	/*parent->rectTransform()->localRotation += 2;
 	_ent2->rectTransform()->localRotation += 2;
-	_ent->rectTransform()->localRotation += 2;
+	_ent->rectTransform()->localRotation += 2;*/
 
 	//_ent2->getFirstComponent<Panel>()->rectTransform()->localRotation += 1.0f;
 	//_ent->getFirstComponent<Panel>()->rectTransform()->localRotation += 1.0f;
 
 	//Debug::LogInfo(_ent2->getFirstComponent<Panel>()->rectTransform()->localPosition());
 }
+
+static constexpr std::array<float, 2> operator+(const std::array<float, 2>& lhs, const std::array<float, 2>& rhs)
+{
+    return { lhs[0] + rhs[0], lhs[1] + rhs[1] };
+}
+static constexpr std::array<float, 2> operator-(const std::array<float, 2>& lhs, const std::array<float, 2>& rhs)
+{
+    return { lhs[0] - rhs[0], lhs[1] - rhs[1] };
+}
+static constexpr std::array<float, 2> operator*(const std::array<float, 2>& lhs, const std::array<float, 2>& rhs)
+{
+    return { lhs[0] * rhs[0], lhs[1] * rhs[1] };
+}
+static constexpr std::array<float, 2> operator/(const std::array<float, 2>& lhs, const std::array<float, 2>& rhs)
+{
+    return { lhs[0] / rhs[0], lhs[1] / rhs[1] };
+}
+static constexpr std::array<float, 2> operator+(const std::array<float, 2>& lhs, float rhs)
+{
+    return { lhs[0] + rhs, lhs[1] + rhs };
+}
+static constexpr std::array<float, 2> operator-(const std::array<float, 2>& lhs, float rhs)
+{
+    return { lhs[0] - rhs, lhs[1] - rhs };
+}
+static constexpr std::array<float, 2> operator*(const std::array<float, 2>& lhs, float rhs)
+{
+    return { lhs[0] * rhs, lhs[1] * rhs };
+}
+static constexpr std::array<float, 2> operator/(const std::array<float, 2>& lhs, float rhs)
+{
+    return { lhs[0] / rhs, lhs[1] / rhs };
+}
+
+size_t __i = 0;
 void onkeydown(SDL_Keycode c)
 {
-	if (c == SDLK_a)
+	auto glyph = Typography::GlyphOutline(file_cast<TrueTypeFontPackageFile>(PackageManager::getCorePackageFileByPath(L"Assets/ComicSansMS3.ttf"))->fontHandle(), U'e');
+
+	if (__i < glyph.vertsSize)
 	{
-		Debug::LogInfo("wow");
+		auto _ = new Entity();
+		_->rectTransform()->rect = { 2, 2, -2, -2 };
+		_->rectTransform()->position = { float((glyph.verts[__i]).x) / 4 - 150, float((glyph.verts[__i]).y) / 4 - 150 };
+		_->addComponent<Panel>()->color = { 255u, 0u, 0u, 255u };
+	/*if (__i < glyph.vertsSize)
+	{
+		auto _ = new Entity();
+		_->rectTransform()->rect = { 2, 2, -2, -2 };
+		_->rectTransform()->position = { (float)glyph.verts[__i].x / 4 - 150, (float)glyph.verts[__i].y / 4 - 150 };
+		_->addComponent<Panel>()->color = { 255u, 0u, 0u, 255u };
+		
+		auto c = new Entity();
+		c->rectTransform()->rect = { 2, 2, -2, -2 };
+		c->rectTransform()->position = { (float)glyph.verts[__i].cx / 4 - 150, (float)glyph.verts[__i].cy / 4 - 150 };
+		c->addComponent<Panel>()->color = { 0u, 255u, 0u, 255u };
+		
+		auto c1 = new Entity();
+		c1->rectTransform()->rect = { 2, 2, -2, -2 };
+		c1->rectTransform()->position = { (float)glyph.verts[__i].cx1 / 4 - 150, (float)glyph.verts[__i].cy1 / 4 - 150 };
+		c1->addComponent<Panel>()->color = { 0u, 255u, 0u, 255u };
+
+		Debug::LogInfo
+		(
+			"{ .x = ", (float)glyph.verts[__i].x, ", .y = ", (float)glyph.verts[__i].y, " }, ",
+			"{ .cx = ", (float)glyph.verts[__i].cx, ", .cy = ", (float)glyph.verts[__i].cy, " }, ",
+			"{ .cx1 = ", (float)glyph.verts[__i].cx1, ", .cy1 = ", (float)glyph.verts[__i].cy1, " }."
+		);*/
+
+		++__i;
 	}
 }

@@ -9,13 +9,15 @@
 #include <SDL_video.h>
 #include <SDL_pixels.h>
 
-#define STB_IMAGE_IMPLEMENTATION
+#undef STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
-#include <stb_image_resize.h>
+#undef STB_TRUETYPE_IMPLEMENTATION
+#include <stb_truetype.h>
 
 #include <Core/Application.h>
 #include <Core/Components/Panel.h>
 #include <Core/Components/Image.h>
+#include <Core/Components/Text.h>
 #include <Core/EntityComponentSystem/CoreSystem.h>
 #include <Core/Debug.h>
 #include <Core/DsplMgmt.h>
@@ -37,6 +39,7 @@ using namespace Marble::GL;
 using namespace Marble::Internal;
 using namespace Marble::Mathematics;
 using namespace Marble::PackageSystem;
+using namespace Marble::Typography;
 
 int CoreEngine::WNDW = 1280;
 int CoreEngine::WNDH = 720;
@@ -75,7 +78,7 @@ int CoreEngine::execute(int argc, char* argv[])
     
     #pragma region Initialization
     #if _WIN32
-    _setmode(_fileno(stdout), _O_U16TEXT);
+    _setmode(_fileno(stdout), _O_U8TEXT);
     #endif
 
     std::wcout << "init() thread ID: " << std::this_thread::get_id() << ".\n\n";
@@ -250,6 +253,18 @@ void CoreEngine::internalLoop()
                         ++it3
                     )
                     {
+                        constexpr auto rotatePointAroundOrigin = [](float (&point)[2], float angle) -> void
+                        {
+                            float s = sinf(-angle);
+                            float c = cosf(-angle);
+
+                            float x = point[0];
+                            float y = point[1];
+
+                            point[0] = x * c - y * s;
+                            point[1] = x * s + y * c;
+                        };
+
                         switch ((*it3)->reflection.typeID)
                         {
                         case strhash(ctti::nameof<Panel>().begin()):
@@ -257,21 +272,37 @@ void CoreEngine::internalLoop()
                                 Panel* p = static_cast<Panel*>(*it3);
 
                                 uint8_t rgbaColor[4] = { p->_color.r, p->_color.g, p->_color.b, p->_color.a };
-                                Vector2 pos = p->attachedRectTransform->_position;
-                                Vector2 scale = p->attachedRectTransform->_scale;
-                                RectFloat rect = p->attachedRectTransform->_rect;
-                                float rot = p->attachedRectTransform->_rotation;
+                                Vector2& pos = p->attachedRectTransform->_position;
+                                Vector2& scale = p->attachedRectTransform->_scale;
+                                RectFloat& rect = p->attachedRectTransform->_rect;
+                                float rot = deg2RadF(p->attachedRectTransform->_rotation);
+                                
+                                float rotL[2];
+                                rotL[0] = rect.left * scale.x; rotL[1] = 0;
+                                rotatePointAroundOrigin(rotL, rot);
+                                float rotT[2];
+                                rotT[0] = 0; rotT[1] = rect.top * scale.y;
+                                rotatePointAroundOrigin(rotT, rot);
+                                float rotR[2];
+                                rotR[0] = rect.right * scale.x; rotR[1] = 0;
+                                rotatePointAroundOrigin(rotR, rot);
+                                float rotB[2];
+                                rotB[0] = 0; rotB[1] = rect.bottom * scale.y;
+                                rotatePointAroundOrigin(rotB, rot);
+
+                                float p1[2] = { pos.x + rotL[0] + rotT[0], pos.y + rotL[1] + rotT[1] }; // TL
+                                float p2[2] = { pos.x + rotR[0] + rotT[0], pos.y + rotR[1] + rotT[1] }; // TR
+                                float p3[2] = { pos.x + rotL[0] + rotB[0], pos.y + rotL[1] + rotB[1] }; // BL
+                                float p4[2] = { pos.x + rotR[0] + rotB[0], pos.y + rotR[1] + rotB[1] }; // BR
+
                                 CoreEngine::pendingRenderJobBatchesOffload.push_back
                                 (
                                     [=]()
                                     {
-                                        Renderer::drawRectangle
+                                        Renderer::drawQuadrilateral
                                         (
                                             (uint32_t&)rgbaColor,
-                                            pos.x, pos.y,
-                                            rect.top * scale.y, rect.right * scale.x,
-                                            rect.bottom * scale.y, rect.left * scale.x,
-                                            deg2RadF(rot)
+                                            p1, p2, p3, p4
                                         );
                                     }
                                 );
@@ -281,24 +312,55 @@ void CoreEngine::internalLoop()
                             {
                                 Image* img = static_cast<Image*>(*it3);
 
-                                Vector2 pos = img->attachedRectTransform->_position;
-                                Vector2 scale = img->attachedRectTransform->_scale;
-                                RectFloat rect = img->attachedRectTransform->_rect;
-                                float rot = img->attachedRectTransform->_rotation;
-                                CoreEngine::pendingRenderJobBatchesOffload.push_back
-                                (
-                                    [=]()
-                                    {
-                                        Renderer::drawImage
-                                        (
-                                            img->data->internalTexture,
-                                            pos.x, pos.y,
-                                            rect.top * scale.y, rect.right * scale.x,
-                                            rect.bottom * scale.y, rect.left * scale.x,
-                                            deg2RadF(rot)
-                                        );
-                                    }
-                                );
+                                if (img->data != nullptr)
+                                {
+                                    CoreEngine::pendingRenderJobBatchesOffload.push_back
+                                    (
+                                        [
+                                            =,
+                                            pos = img->attachedRectTransform->_position,
+                                            scale = img->attachedRectTransform->_scale,
+                                            rect = img->attachedRectTransform->_rect,
+                                            rot = img->attachedRectTransform->_rotation
+                                        ]
+                                        {
+                                            Renderer::drawImage
+                                            (
+                                                img->data->internalTexture,
+                                                pos.x, pos.y,
+                                                rect.top * scale.y, rect.right * scale.x,
+                                                rect.bottom * scale.y, rect.left * scale.x,
+                                                deg2RadF(rot)
+                                            );
+                                        }
+                                    );
+                                }
+                            }
+                            break;
+                        case strhash(ctti::nameof<Text>().begin()):
+                            {
+                                Text* text = static_cast<Text*>(*it3);
+
+                                Vector2 pos = text->attachedRectTransform->_position;
+                                Vector2 scale = text->attachedRectTransform->_scale;
+                                float rot = deg2RadF(text->attachedRectTransform->_rotation);
+                                float accAdvance = 0;
+                                for (auto it = text->_text.begin(); it != text->_text.end(); ++it)
+                                {
+                                    GlyphMetrics metrics(text->data->file->fontHandle(), *it);
+
+                                    float accAdvOffset[2] { accAdvance, 0 };
+                                    rotatePointAroundOrigin(accAdvOffset, rot);
+
+                                    ColoredTransformHandle transform;
+                                    transform.setPosition(pos.x + accAdvOffset[0], pos.y + accAdvOffset[1]);
+                                    transform.setScale(scale.x, scale.y);
+                                    transform.setRotation(rot);
+                                    transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+                                    CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = text->data->characters[*it]] { Renderer::drawPolygon(data->polygon, transform); });
+
+                                    accAdvance += metrics.advanceWidth * scale.x;
+                                }
                             }
                             break;
                         }
@@ -316,7 +378,7 @@ void CoreEngine::internalLoop()
         while (deltaTime < targetDeltaTime);
         frameBegin = SDL_GetPerformanceCounter();
         targetDeltaTime = CoreEngine::mspf - (deltaTime - targetDeltaTime);
-        Debug::LogInfo("Update() frame time: ", deltaTime, ".");
+        //Debug::LogInfo("Update() frame time: ", deltaTime, ".");
     }
     
     CoreSystem::OnQuit();

@@ -15,6 +15,7 @@ namespace Marble
 
 	class Panel;
 	class Image;
+	class Text;
 
 	namespace Internal
 	{
@@ -64,6 +65,7 @@ namespace Marble
 
 			friend class Marble::Panel;
 			friend class Marble::Image;
+			friend class Marble::Text;
 			friend class Marble::Application;
 		};
 	}
