@@ -141,10 +141,10 @@ void start()
 	Text* t = te->getFirstComponent<Text>();
 	TrueTypeFontPackageFile* _f = file_cast<TrueTypeFontPackageFile>(PackageManager::getCorePackageFileByPath(L"Assets/ComicSansMS3.ttf"));
 	t->font = _f;
-	t->text = U"he_ _lp";
-	te->rectTransform()->position = { 110, 110 };
+	t->text = U"\x00A9";
+	te->rectTransform()->position = { 0, 0 };
 	te->rectTransform()->rotation = -20.0f;
-	te->rectTransform()->scale = { 0.02f, 0.02f };
+	te->rectTransform()->scale = { 0.2f, 0.2f };
 
 	//Debug::LogTrace("Parent Position: ", parent->rectTransform()->position(), ".");
 	//Debug::LogTrace("Child Position: ", _ent2->rectTransform()->position(), ".");
@@ -241,7 +241,7 @@ static constexpr std::array<float, 2> operator/(const std::array<float, 2>& lhs,
 size_t __i = 0;
 void onkeydown(SDL_Keycode c)
 {
-	auto glyph = Typography::GlyphOutline(file_cast<TrueTypeFontPackageFile>(PackageManager::getCorePackageFileByPath(L"Assets/ComicSansMS3.ttf"))->fontHandle(), U'e');
+	auto glyph = Typography::GlyphOutline(file_cast<TrueTypeFontPackageFile>(PackageManager::getCorePackageFileByPath(L"Assets/ComicSansMS3.ttf"))->fontHandle(), U'\x00A9');
 
 	if (__i < glyph.vertsSize)
 	{

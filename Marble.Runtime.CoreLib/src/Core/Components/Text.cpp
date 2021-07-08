@@ -48,13 +48,10 @@ static constexpr std::array<float, 2> operator/(const std::array<float, 2>& lhs,
 static bool pointsAreClockwise(stbtt_vertex* points, size_t pointsSize)
 {
     int32_t sign = 0;
-    for (size_t i = 0; i < pointsSize; i++)
-    {
-        size_t j = (i + 1) % pointsSize;
-        sign += points[i].x * points[j].y;
-        sign -= points[j].x * points[i].y;
-    }
-    return sign < 0;
+    for (size_t i = 0; i < pointsSize - 1; i++)
+        sign += (points[i + 1].x - points[i].x) * (points[i + 1].y + points[i].y);
+    sign += (points[pointsSize - 1].x - points[0].x) * (points[pointsSize - 1].y + points[0].y);
+    return sign >= 0;
 }
 
 std::unordered_map<PackageSystem::TrueTypeFontPackageFile*, Text::RenderData*> Text::textFonts;
@@ -143,10 +140,12 @@ text
                         {
                         [[unlikely]] case STBTT_vmove:
                             {
-                                stbtt_vertex* vertsEnd;
-                                for (vertsEnd = glyph.verts + j + 1; vertsEnd->type != STBTT_vmove && vertsEnd < glyph.verts + glyph.vertsSize; ++vertsEnd);
+                                size_t ringSize = j + 1;
+                                while (glyph.verts[j].x != glyph.verts[ringSize].x || glyph.verts[j].y != glyph.verts[ringSize].y)
+                                    ++ringSize;
+                                ringSize -= j - 1;
 
-                                if (pointsAreClockwise(glyph.verts + j, vertsEnd - (glyph.verts + j) + 1))
+                                if (pointsAreClockwise(glyph.verts + j, ringSize))
                                 {
                                     auto polyIndexes = mapbox::earcut<uint16_t>(points.back());
                                     for (auto it = polyIndexes.begin(); it != polyIndexes.end(); ++it)

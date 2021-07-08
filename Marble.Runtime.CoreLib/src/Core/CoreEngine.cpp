@@ -363,7 +363,7 @@ void CoreEngine::internalLoop()
                                         CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = c->second] { Renderer::drawPolygon(data->polygon, transform); });
                                     }
 
-                                    accAdvance += metrics.advanceWidth * scale.x;
+                                    accAdvance += float(metrics.advanceWidth) * scale.x;
                                 }
                             }
                             break;

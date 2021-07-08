@@ -158,7 +158,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
         return false;
     
     #if _DEBUG
-    bgfx::setDebug(BGFX_DEBUG_PROFILER | BGFX_DEBUG_STATS | BGFX_DEBUG_TEXT);
+    bgfx::setDebug(BGFX_DEBUG_PROFILER | BGFX_DEBUG_STATS | BGFX_DEBUG_TEXT | BGFX_DEBUG_WIREFRAME);
     #endif
 
     bgfx::g_verbose = true;
