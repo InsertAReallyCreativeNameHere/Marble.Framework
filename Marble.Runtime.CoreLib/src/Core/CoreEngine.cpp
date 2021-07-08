@@ -349,15 +349,19 @@ void CoreEngine::internalLoop()
                                 {
                                     GlyphMetrics metrics(text->data->file->fontHandle(), *it);
 
-                                    float accAdvOffset[2] { accAdvance, 0 };
-                                    rotatePointAroundOrigin(accAdvOffset, rot);
+                                    auto c = text->data->characters.find(*it);
+                                    if (c != text->data->characters.end())
+                                    {
+                                        float accAdvOffset[2] { accAdvance, 0 };
+                                        rotatePointAroundOrigin(accAdvOffset, rot);
 
-                                    ColoredTransformHandle transform;
-                                    transform.setPosition(pos.x + accAdvOffset[0], pos.y + accAdvOffset[1]);
-                                    transform.setScale(scale.x, scale.y);
-                                    transform.setRotation(rot);
-                                    transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-                                    CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = text->data->characters[*it]] { Renderer::drawPolygon(data->polygon, transform); });
+                                        ColoredTransformHandle transform;
+                                        transform.setPosition(pos.x + accAdvOffset[0], pos.y + accAdvOffset[1]);
+                                        transform.setScale(scale.x, scale.y);
+                                        transform.setRotation(rot);
+                                        transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+                                        CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = c->second] { Renderer::drawPolygon(data->polygon, transform); });
+                                    }
 
                                     accAdvance += metrics.advanceWidth * scale.x;
                                 }

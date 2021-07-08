@@ -107,9 +107,13 @@ text
         std::map<char32_t, bool> needToErase;
         for (auto it = this->_text.begin(); it != this->_text.end(); ++it)
         {
-            --this->data->characters[*it]->accessCount;
-            if (this->data->characters[*it]->accessCount == 0)
-                needToErase[*it] = true;
+            auto c = this->data->characters.find(*it);
+            if (c != this->data->characters.end())
+            {
+                --c->second->accessCount;
+                if (c->second->accessCount == 0)
+                    needToErase[*it] = true;
+            }
         }
         for (auto it = str.begin(); it != str.end(); ++it)
         {
@@ -124,143 +128,109 @@ text
             {
                 GlyphOutline glyph(this->data->file->fontHandle(), *it);
 
-                std::array<float, 2> ringBegin { glyph.verts[0].x, glyph.verts[0].y };
-                std::vector<std::vector<std::vector<std::array<float, 2>>>> points { { { ringBegin } } };
-                std::vector<std::vector<uint16_t>> indexes;
-
-                uint16_t indexOffset = 0;
-                for (int j = 1; j < glyph.vertsSize; j++)
+                if (glyph.verts != nullptr) [[likely]]
                 {
-                    auto& p = glyph.verts[j];
+                    std::array<float, 2> ringBegin { glyph.verts[0].x, glyph.verts[0].y };
+                    std::vector<std::vector<std::vector<std::array<float, 2>>>> points { { { ringBegin } } };
+                    std::vector<std::vector<uint16_t>> indexes;
 
-                    switch (p.type)
+                    uint16_t indexOffset = 0;
+                    for (int j = 1; j < glyph.vertsSize; j++)
                     {
-                    case STBTT_vcubic: // Can't be stuffed converting cubic beziers to their quadratic approximations right now.
-                    case STBTT_vline:
+                        auto& p = glyph.verts[j];
+
+                        switch (p.type)
                         {
-                            if (p.x == ringBegin[0] && p.y == ringBegin[1]) [[unlikely]]
+                        [[unlikely]] case STBTT_vmove:
                             {
-                                ++j;
-                                if (j < glyph.vertsSize) [[likely]]
+                                stbtt_vertex* vertsEnd;
+                                for (vertsEnd = glyph.verts + j + 1; vertsEnd->type != STBTT_vmove && vertsEnd < glyph.verts + glyph.vertsSize; ++vertsEnd);
+
+                                if (pointsAreClockwise(glyph.verts + j, vertsEnd - (glyph.verts + j) + 1))
                                 {
-                                    stbtt_vertex* vertsEnd;
-                                    for (vertsEnd = glyph.verts + j + 1; vertsEnd->x != (glyph.verts + j)->x || vertsEnd->y != (glyph.verts + j)->y; ++vertsEnd);
+                                    auto polyIndexes = mapbox::earcut<uint16_t>(points.back());
+                                    for (auto it = polyIndexes.begin(); it != polyIndexes.end(); ++it)
+                                        *it += indexOffset;
+                                    indexes.push_back(std::move(polyIndexes));
 
-                                    if (pointsAreClockwise(glyph.verts + j, vertsEnd - (glyph.verts + j) + 1))
-                                    {
-                                        auto polyIndexes = mapbox::earcut<uint16_t>(points.back());
-                                        for (auto it = polyIndexes.begin(); it != polyIndexes.end(); ++it)
-                                            *it += indexOffset;
-                                        indexes.push_back(std::move(polyIndexes));
+                                    for (auto it = points.back().begin(); it != points.back().end(); ++it)
+                                        indexOffset += it->size();
 
-                                        for (auto it = points.back().begin(); it != points.back().end(); ++it)
-                                            indexOffset += it->size();
-
-                                        points.push_back({ });
-                                    }
-
-                                    points.back().push_back({ });
-                                    ringBegin = { (float)glyph.verts[j].x, (float)glyph.verts[j].y };
-                                    points.back().back().push_back(ringBegin);
+                                    points.push_back({ });
                                 }
-                                else break; // Quick exit.
-                                continue;
-                            }
 
+                                points.back().push_back({ });
+                                ringBegin = { (float)glyph.verts[j].x, (float)glyph.verts[j].y };
+                                points.back().back().push_back(ringBegin);
+                            }
+                            break;
+                        case STBTT_vcurve:
+                            {
+                                std::array<float, 2> begin { glyph.verts[j - 1].x, glyph.verts[j - 1].y };
+                                std::array<float, 2> control { p.cx, p.cy };
+                                std::array<float, 2> end { p.x, p.y };
+
+                                constexpr auto approxQuadBezierLen =
+                                [](const std::array<float, 2>& begin, const std::array<float, 2>& control, const std::array<float, 2>& end) -> float
+                                {
+                                    float d1 = std::fabsf(begin[0] - control[0]) + std::fabsf(control[0] - end[0]) + std::fabsf(begin[0] - end[0]);
+                                    float d2 = std::fabsf(begin[1] - control[1]) + std::fabsf(control[1] - end[1]) + std::fabsf(begin[1] - end[1]);
+                                    return std::sqrtf((d1 * d1) + (d2 * d2));
+                                };
+
+                                #define QUADRATIC_BEZIER_SEGMENT_LENGTH 32
+                                float segments = float(size_t((approxQuadBezierLen(begin, control, end) / float(QUADRATIC_BEZIER_SEGMENT_LENGTH)) + 0.5f));
+                                for (float k = 1; k < segments; k++)
+                                {
+                                    std::array<float, 2> p =
+                                    (begin + (control - begin) / segments * k) +
+                                    ((end + (control - end) / segments * (segments - k)) -
+                                    (begin + (control - begin) / segments * k)) /
+                                    segments * k;
+                                    points.back().back().push_back(std::move(p));
+                                }
+                            }
+                        [[fallthrough]];
+                        case STBTT_vcubic: // Can't be stuffed converting cubic beziers to their quadratic approximations right now.
+                        case STBTT_vline:
+                            if (p.x == ringBegin[0] && p.y == ringBegin[1]) [[unlikely]]
+                                continue;
                             points.back().back().push_back(std::array<float, 2> { float(p.x), float(p.y) });
+                            break;
                         }
-                        break;
-                    case STBTT_vcurve:
+                    }
+                    auto polyIndexes = mapbox::earcut<uint16_t>(points.back());
+                    for (auto it = polyIndexes.begin(); it != polyIndexes.end(); ++it)
+                        *it += indexOffset;
+                    indexes.push_back(std::move(polyIndexes));
+                    
+                    std::vector<std::array<float, 2>> pointsFlattened;
+                    size_t reserveSize = 0;
+                    for (auto it1 = points.begin(); it1 != points.end(); ++it1)
+                        for (auto it2 = it1->begin(); it2 != it1->end(); ++it2)
+                            reserveSize += it2->size();
+                    pointsFlattened.reserve(reserveSize);
+                    for (auto it1 = points.begin(); it1 != points.end(); ++it1)
+                        for (auto it2 = it1->begin(); it2 != it1->end(); ++it2)
+                            pointsFlattened.insert(pointsFlattened.end(), std::make_move_iterator(it2->begin()), std::make_move_iterator(it2->end()));
+
+                    std::vector<uint16_t> indexesFlattened;
+                    reserveSize = 0;
+                    for (auto it = indexes.begin(); it != indexes.end(); ++it)
+                        reserveSize += it->size();
+                    indexesFlattened.reserve(reserveSize);
+                    for (auto it = indexes.begin(); it != indexes.end(); ++it)
+                        indexesFlattened.insert(indexesFlattened.end(), std::make_move_iterator(it->begin()), std::make_move_iterator(it->end()));
+
+                    this->data->characters[*it] = new CharacterRenderData { 1, { } };
+                    CoreEngine::pendingRenderJobBatchesOffload.push_back
+                    (
+                        [=, pointsFlattened = std::move(pointsFlattened), indexesFlattened = std::move(indexesFlattened), data = this->data->characters[*it]]
                         {
-                            std::array<float, 2> begin { glyph.verts[j - 1].x, glyph.verts[j - 1].y };
-                            std::array<float, 2> control { p.cx, p.cy };
-                            std::array<float, 2> end { p.x, p.y };
-
-                            constexpr auto approxQuadBezierLen =
-                            [](const std::array<float, 2>& begin, const std::array<float, 2>& control, const std::array<float, 2>& end) -> float
-                            {
-                                float d1 = std::fabsf(begin[0] - control[0]) + std::fabsf(control[0] - end[0]) + std::fabsf(begin[0] - end[0]);
-                                float d2 = std::fabsf(begin[1] - control[1]) + std::fabsf(control[1] - end[1]) + std::fabsf(begin[1] - end[1]);
-                                return std::sqrtf((d1 * d1) + (d2 * d2));
-                            };
-
-                            #define QUADRATIC_BEZIER_SEGMENT_LENGTH 4
-                            float segments = float(size_t((approxQuadBezierLen(begin, control, end) / float(QUADRATIC_BEZIER_SEGMENT_LENGTH)) + 0.5f));
-                            for (float k = 1; k < segments; k++)
-                            {
-                                std::array<float, 2> p =
-                                (begin + (control - begin) / segments * k) +
-                                ((end + (control - end) / segments * (segments - k)) -
-                                (begin + (control - begin) / segments * k)) /
-                                segments * k;
-                                points.back().back().push_back(std::move(p));
-                            }
-
-                            if (p.x == ringBegin[0] && p.y == ringBegin[1]) [[unlikely]]
-                            {
-                                ++j;
-                                if (j < glyph.vertsSize) [[likely]]
-                                {
-                                    stbtt_vertex* vertsEnd;
-                                    for (vertsEnd = glyph.verts + j + 1; vertsEnd->x != (glyph.verts + j)->x || vertsEnd->y != (glyph.verts + j)->y; ++vertsEnd);
-
-                                    if (pointsAreClockwise(glyph.verts + j, vertsEnd - (glyph.verts + j) + 1))
-                                    {
-                                        auto polyIndexes = mapbox::earcut<uint16_t>(points.back());
-                                        for (auto it = polyIndexes.begin(); it != polyIndexes.end(); ++it)
-                                            *it += indexOffset;
-                                        indexes.push_back(std::move(polyIndexes));
-
-                                        for (auto it = points.back().begin(); it != points.back().end(); ++it)
-                                            indexOffset += it->size();
-
-                                        points.push_back({ });
-                                    }
-
-                                    points.back().push_back({ });
-                                    ringBegin = { (float)glyph.verts[j].x, (float)glyph.verts[j].y };
-                                    points.back().back().push_back(ringBegin);
-                                }
-                                else break; // Quick exit.
-                                continue;
-                            }
-
-                            points.back().back().push_back(std::move(end));
+                            data->polygon.create(pointsFlattened.data(), pointsFlattened.size(), indexesFlattened.data(), indexesFlattened.size(), 0xffffffffu);
                         }
-                        break;
-                    }
+                    );
                 }
-                auto polyIndexes = mapbox::earcut<uint16_t>(points.back());
-                for (auto it = polyIndexes.begin(); it != polyIndexes.end(); ++it)
-                    *it += indexOffset;
-                indexes.push_back(std::move(polyIndexes));
-                
-                std::vector<std::array<float, 2>> pointsFlattened;
-                size_t reserveSize = 0;
-                for (auto it1 = points.begin(); it1 != points.end(); ++it1)
-                    for (auto it2 = it1->begin(); it2 != it1->end(); ++it2)
-                        reserveSize += it2->size();
-                pointsFlattened.reserve(reserveSize);
-                for (auto it1 = points.begin(); it1 != points.end(); ++it1)
-                    for (auto it2 = it1->begin(); it2 != it1->end(); ++it2)
-                        pointsFlattened.insert(pointsFlattened.end(), std::make_move_iterator(it2->begin()), std::make_move_iterator(it2->end()));
-
-                std::vector<uint16_t> indexesFlattened;
-                reserveSize = 0;
-                for (auto it = indexes.begin(); it != indexes.end(); ++it)
-                    reserveSize += it->size();
-                indexesFlattened.reserve(reserveSize);
-                for (auto it = indexes.begin(); it != indexes.end(); ++it)
-                    indexesFlattened.insert(indexesFlattened.end(), std::make_move_iterator(it->begin()), std::make_move_iterator(it->end()));
-
-                this->data->characters[*it] = new CharacterRenderData { 1, { } };
-                CoreEngine::pendingRenderJobBatchesOffload.push_back
-                (
-                    [=, data = this->data, c = *it]
-                    {
-                        data->characters[c]->polygon.create(pointsFlattened.data(), pointsFlattened.size(), indexesFlattened.data(), indexesFlattened.size(), 0xffffffffu);
-                    }
-                );
             }
         }
         for (auto it = needToErase.begin(); it != needToErase.end(); ++it)
@@ -283,10 +253,14 @@ Text::~Text()
 {
     for (auto it = this->_text.begin(); it != this->_text.end(); ++it)
     {
-        --this->data->characters[*it]->accessCount;
-        if (this->data->characters[*it]->accessCount == 0)
-            CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = this->data->characters[*it]] { data->polygon.destroy(); delete data; });
-        this->data->characters.erase(*it);
+        decltype(this->data->characters)::iterator c;
+        if ((c = this->data->characters.find(*it)) != this->data->characters.end())
+        {
+            --this->data->characters[*it]->accessCount;
+            if (this->data->characters[*it]->accessCount == 0)
+                CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = this->data->characters[*it]] { data->polygon.destroy(); delete data; });
+            this->data->characters.erase(*it);
+        }
     }
     --this->data->accessCount;
     if (this->data->accessCount == 0)

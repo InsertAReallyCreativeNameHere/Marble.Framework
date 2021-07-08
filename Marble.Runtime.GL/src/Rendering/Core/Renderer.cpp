@@ -426,6 +426,7 @@ void Renderer::beginFrame()
 {
     vertexBufferRectSize = 0;
     vertexBufferTexSize = 0;
+    bgfx::touch(0);
 }
 void Renderer::endFrame()
 {
