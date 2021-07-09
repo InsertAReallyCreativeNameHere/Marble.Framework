@@ -98,11 +98,11 @@ namespace Marble
 		#pragma region Matrix
 		struct coreapi Matrix final
 		{
-			Matrix(const uint& rows, const uint& columns, const float& value = 0);
+			Matrix(const size_t& rows, const size_t& columns, const float& value = 0);
 			Matrix(const std::initializer_list<std::initializer_list<float>>& matrix);
 
-			float& operator()(const uint& row, const uint& column);
-			float& operator[](uint const (&index)[2]);
+			float& operator()(const size_t& row, const size_t& column);
+			float& operator[](size_t const (&index)[2]);
 
 			template<typename Func>
 			void map(const Func& func)
@@ -122,11 +122,11 @@ namespace Marble
 			Matrix operator*(const float& rhs);
 			Matrix operator*(Matrix rhs);
 
-			uint rowsCount();
-			uint columnsCount();
+			size_t rowsCount();
+			size_t columnsCount();
 		private:
-			uint rows;
-			uint columns;
+			size_t rows;
+			size_t columns;
 			ManagedArray<float> values;
 		};
 

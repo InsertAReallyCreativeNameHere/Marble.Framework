@@ -166,23 +166,23 @@ Vector4::Vector4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w)
 #pragma region Matrix
 Matrix::Matrix
 (
-    const uint& rows,
-    const uint& columns,
+    const size_t& rows,
+    const size_t& columns,
 	const float& value
 )
 : rows(rows), columns(columns), values(rows * columns)
 {
     #pragma omp parallel for default(none) shared(rows, columns, value) num_threads(2)
-    for (uint i = 0; i < rows; i++) // Don't collapse loop unless you can ensure its actually faster. (No collapse(2)).
-        for (uint j = 0; j < columns; j++)
+    for (size_t i = 0; i < rows; i++) // Don't collapse loop unless you can ensure its actually faster. (No collapse(2)).
+        for (size_t j = 0; j < columns; j++)
             this->values[i * this->columns + j] = value;
 }
 Matrix::Matrix(const std::initializer_list<std::initializer_list<float>>& matrix) : rows(matrix.size()), columns(matrix.begin()->size())
 {
-    uint clmCt = matrix.begin()->size();
+    size_t clmCt = matrix.begin()->size();
     this->values = ManagedArray<float>(this->rows * clmCt);
 
-    uint _i = 0;
+    size_t _i = 0;
     for (std::initializer_list<std::initializer_list<float>>::iterator i = matrix.begin(); i != matrix.end(); ++i)
     {
         if (i->size() != clmCt)
@@ -191,7 +191,7 @@ Matrix::Matrix(const std::initializer_list<std::initializer_list<float>>& matrix
             *this = Matrix(0, 0);
             return;
         }
-        uint _j = 0;
+        size_t _j = 0;
         for (std::initializer_list<float>::iterator j = i->begin(); j != i->end(); ++j)
         {
             this->values[_i * this->columns + _j] = *j;
@@ -202,11 +202,11 @@ Matrix::Matrix(const std::initializer_list<std::initializer_list<float>>& matrix
 
 }
 
-float& Matrix::operator()(const uint& row, const uint& column)
+float& Matrix::operator()(const size_t& row, const size_t& column)
 {
     return values[row * this->columns + column];
 }
-float& Matrix::operator[](uint const (&index)[2])
+float& Matrix::operator[](size_t const (&index)[2])
 {
     return values[index[0] * this->columns + index[1]];
 }
@@ -215,8 +215,8 @@ Matrix Matrix::transpose()
 {
     Matrix m(this->columns, this->rows);
     #pragma omp parallel for default(none) shared(m)
-    for (uint i = 0; i < this->rows; i++)
-        for (uint j = 0; j < this->columns; j++)
+    for (size_t i = 0; i < this->rows; i++)
+        for (size_t j = 0; j < this->columns; j++)
             m(j, i) = this->operator()(i, j);
     return m;
 }
@@ -225,8 +225,8 @@ Matrix Matrix::operator+(const float& rhs)
 {
     Matrix m = Matrix(this->rows, this->columns);
     #pragma omp parallel for default(none) shared(rhs, m)
-    for (uint i = 0; i < this->rows; i++)
-        for (uint j = 0; j < this->columns; j++)
+    for (size_t i = 0; i < this->rows; i++)
+        for (size_t j = 0; j < this->columns; j++)
             m(i, j) = this->operator()(i, j) + rhs;
     return m;
 }
@@ -239,8 +239,8 @@ Matrix Matrix::operator+(Matrix rhs)
     }
 
     #pragma omp parallel for default(none) shared(rhs)
-    for (uint i = 0; i < this->rows; i++)
-        for (uint j = 0; j < this->columns; j++)
+    for (size_t i = 0; i < this->rows; i++)
+        for (size_t j = 0; j < this->columns; j++)
             rhs(i, j) = this->operator()(i, j) + rhs(i, j);
     return rhs;
 }
@@ -249,8 +249,8 @@ Matrix Matrix::operator-(const float& rhs)
 {
     Matrix m = Matrix(this->rows, this->columns);
     #pragma omp parallel for default(none) shared(rhs, m)
-    for (uint i = 0; i < this->rows; i++)
-        for (uint j = 0; j < this->columns; j++)
+    for (size_t i = 0; i < this->rows; i++)
+        for (size_t j = 0; j < this->columns; j++)
             m(i, j) = this->operator()(i, j) - rhs;
     return m;
 }
@@ -263,8 +263,8 @@ Matrix Matrix::operator-(Matrix rhs)
     }
 
     #pragma omp parallel for default(none) shared(rhs)
-    for (uint i = 0; i < this->rows; i++)
-        for (uint j = 0; j < this->columns; j++)
+    for (size_t i = 0; i < this->rows; i++)
+        for (size_t j = 0; j < this->columns; j++)
             rhs(i, j) = this->operator()(i, j) - rhs(i, j);
     return rhs;
 }
@@ -273,8 +273,8 @@ Matrix Matrix::operator*(const float& rhs)
 {
     Matrix m = Matrix(this->rows, this->columns);
     #pragma omp parallel for default(none) shared(rhs, m)
-    for (uint i = 0; i < this->columns; i++)
-        for (uint j = 0; j < this->rows; j++)
+    for (size_t i = 0; i < this->columns; i++)
+        for (size_t j = 0; j < this->rows; j++)
             m(j, i) = this->operator()(j, i) * rhs;
     return m;
 }
@@ -288,18 +288,18 @@ Matrix Matrix::operator*(Matrix rhs)
 
     Matrix m = Matrix(this->rows, rhs.columns);
     #pragma omp parallel for default(none) shared(rhs, m) schedule(dynamic) collapse(2)
-    for (uint i = 0; i < this->rows; i++)
-        for (uint j = 0; j < rhs.columns; j++)
-            for (uint k = 0; k < rhs.rows; k++)
+    for (size_t i = 0; i < this->rows; i++)
+        for (size_t j = 0; j < rhs.columns; j++)
+            for (size_t k = 0; k < rhs.rows; k++)
                 m(i, j) += this->operator()(i, j) * rhs(k, j);
     return m;
 }
 
-uint Matrix::rowsCount()
+size_t Matrix::rowsCount()
 {
     return this->rows;
 }
-uint Matrix::columnsCount()
+size_t Matrix::columnsCount()
 {
     return this->columns;
 }

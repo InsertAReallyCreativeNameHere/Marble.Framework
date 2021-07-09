@@ -7,15 +7,15 @@ namespace Marble
 {
     struct coreapi Color final
     {
-        byte r;
-        byte g;
-        byte b;
-        byte a;
+        uint8_t r;
+        uint8_t g;
+        uint8_t b;
+        uint8_t a;
 
         Color();
-        Color(byte const (&color)[3]);
-        Color(byte const (&color)[4]);
-        Color(byte r, byte g, byte b, byte a = 255);
+        Color(uint8_t const (&color)[3]);
+        Color(uint8_t const (&color)[4]);
+        Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
         Color(const Color& other);
         Color(const SDL_Color& color);
 

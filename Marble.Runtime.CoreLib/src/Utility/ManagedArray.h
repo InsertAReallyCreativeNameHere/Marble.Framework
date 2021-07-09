@@ -8,83 +8,96 @@ namespace Marble
     template<typename T>
     struct coreapi ManagedArray final
     {
-        ManagedArray(const uint& length = 0)
+        ManagedArray(size_t length = 0) : array(new T[length]), arrlen(length)
         {
-            this->array = new T[length];
-            this->arrlen = new uint;
-            *this->arrlen = length;
         }
-        ManagedArray(const uint& length, const T& fill)
+        ManagedArray(size_t length, const T& fill) : array(new T[length]), arrlen(length)
         {
-            this->array = new T[length];
-            this->arrlen = new uint;
-            *this->arrlen = length;
-
-            std::fill(this->array, this->array + *this->arrlen, fill);
+            std::fill(this->array, this->array + this->arrlen, fill);
         }
-        ManagedArray(const ManagedArray<T>& copyconstr)
+        ManagedArray(const ManagedArray<T>& other) : array(new T[other.arrlen]), arrlen(other.arrlen)
         {
-            this->arrlen = new uint;
-            *this->arrlen = *copyconstr.arrlen;
-            this->array = new T[*this->arrlen];
-            for (uint i = 0; i < *this->arrlen; i++)
-                this->array[i] = copyconstr.array[i];
+            for (size_t i = 0; i < this->arrlen; i++)
+                this->array[i] = other.array[i];
         }
-        ManagedArray<T>& operator=(const ManagedArray<T>& rhs)
+        ManagedArray(ManagedArray<T>&& other) : array(other.array), arrlen(other.arrlen)
+        {
+            other.array = nullptr;
+            other.arrlen = 0;
+        }
+        ManagedArray<T>& operator=(const ManagedArray<T>& other)
         {
             delete[] this->array;
-            *this->arrlen = *rhs.arrlen;
-            this->array = new T[*this->arrlen];
-            for (uint i = 0; i < *this->arrlen; i++)
-                this->array[i] = rhs.array[i];
+            this->arrlen = other.arrlen;
+            this->array = new T[this->arrlen];
+            for (size_t i = 0; i < this->arrlen; i++)
+                this->array[i] = other.array[i];
+            return *this;
+        }
+        ManagedArray<T>& operator=(ManagedArray<T>&& other)
+        {
+            delete[] this->array;
+
+            this->arrlen = other.arrlen;
+            this->array = other.array;
+            for (size_t i = 0; i < this->arrlen; i++)
+                this->array[i] = other.array[i];
+
+            other.array = nullptr;
+            other.arrlen = 0;
+
             return *this;
         }
         ~ManagedArray()
         {
             delete[] this->array;
-            delete this->arrlen;
         }
 
-        T& operator[](const uint& index)
+        inline T& operator[](size_t index)
         {
             return this->array[index];
         }
-        uint length() const
+        inline size_t length() const
         {
-            return *this->arrlen;
+            return this->arrlen;
         }
 
-        T* data()
+        inline T* data()
         {
             return this->array;
         }
-        void reset(const uint& length)
+        inline void reset(size_t length)
         {
             delete[] this->array;
-            *this->arrlen = length;
-            this->array = new T[*this->arrlen];
+            this->arrlen = length;
+            this->array = new T[this->arrlen];
         }
-        void reset(const uint& length, const T& fill)
+        inline void reset(size_t length, const T& fill)
         {
             delete[] this->array;
-            *this->arrlen = length;
-            this->array = new T[*this->arrlen];
-            
-            #pragma omp parallel for default(shared) num_threads(2)
-            for (uint i = 0; i < *this->arrlen; i++)
-                this->array[i] = fill;
+            this->arrlen = length;
+            this->array = new T[this->arrlen];
+            std::fill(this->array, this->array + this->arrlen, fill);
         }
 
-        T* begin()
+        inline T* begin()
         {
             return this->array;
         }
-        T* end()
+        inline T* end()
         {
-            return this->array[this->arrlen] + 1;
+            return this->array + this->arrlen;
+        }
+        inline const T* cbegin() const
+        {
+            return this->array;
+        }
+        inline const T* cend() const
+        {
+            return this->array + this->arrlen;
         }
     private:
         T* array = nullptr;
-        uint* arrlen = nullptr;
+        size_t arrlen;
     };
 }
