@@ -6,7 +6,6 @@
 #include <list>
 #include <SDL.h>
 #include <SDL_syswm.h>
-#include <moodycamel/readerwriterqueue.h>
 #include <moodycamel/concurrentqueue.h>
 #include <Utility/Function.h>
 #include <Utility/Lock.h>
@@ -36,7 +35,7 @@ namespace Marble
 			};
 			static std::atomic<state> currentState;
 
-			static std::atomic<uint> initIndex;
+			static std::atomic<uint8_t> initIndex;
 			static std::atomic<bool> readyToExit;
 
 			static std::atomic<bool> threadsFinished_0;
@@ -45,13 +44,10 @@ namespace Marble
 
 			static void displayModeStuff();
 
-			static SpinLock pendingPreTickEventsSync;
-			static std::list<skarupke::function<void()>> pendingPreTickEvents;
-			static SpinLock pendingPostTickEventsSync;
-			static std::list<skarupke::function<void()>> pendingPostTickEvents;
-			static std::list<skarupke::function<void()>> pendingRenderJobBatchesOffload;
-			static SpinLock pendingRenderJobBatchesSync;
-			static std::list<std::list<skarupke::function<void()>>> pendingRenderJobBatches;
+			static moodycamel::ConcurrentQueue<skarupke::function<void()>> pendingPreTickEvents;
+			static moodycamel::ConcurrentQueue<skarupke::function<void()>> pendingPostTickEvents;
+			static std::vector<skarupke::function<void()>> pendingRenderJobBatchesOffload;
+			static moodycamel::ConcurrentQueue<std::vector<skarupke::function<void()>>> pendingRenderJobBatches;
 
 			static void internalLoop();
 			static void internalWindowLoop();

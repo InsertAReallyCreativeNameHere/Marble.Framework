@@ -46,7 +46,7 @@ int CoreEngine::WNDH = 720;
 
 std::atomic<CoreEngine::state> CoreEngine::currentState;
 
-std::atomic<uint> CoreEngine::initIndex = 0;
+std::atomic<uint8_t> CoreEngine::initIndex = 0;
 std::atomic<bool> CoreEngine::readyToExit = false;
 
 std::atomic<bool> CoreEngine::threadsFinished_0 = false;
@@ -58,13 +58,10 @@ SDL_Renderer* CoreEngine::rend = nullptr;
 SDL_DisplayMode CoreEngine::displMd;
 SDL_SysWMinfo CoreEngine::wmInfo;
 
-SpinLock CoreEngine::pendingPreTickEventsSync;
-std::list<skarupke::function<void()>> CoreEngine::pendingPreTickEvents;
-SpinLock CoreEngine::pendingPostTickEventsSync;
-std::list<skarupke::function<void()>> CoreEngine::pendingPostTickEvents;
-std::list<skarupke::function<void()>> CoreEngine::pendingRenderJobBatchesOffload;
-SpinLock CoreEngine::pendingRenderJobBatchesSync;
-std::list<std::list<skarupke::function<void()>>> CoreEngine::pendingRenderJobBatches;
+moodycamel::ConcurrentQueue<skarupke::function<void()>> CoreEngine::pendingPreTickEvents;
+moodycamel::ConcurrentQueue<skarupke::function<void()>> CoreEngine::pendingPostTickEvents;
+std::vector<skarupke::function<void()>> CoreEngine::pendingRenderJobBatchesOffload;
+moodycamel::ConcurrentQueue<std::vector<skarupke::function<void()>>> CoreEngine::pendingRenderJobBatches;
 
 float CoreEngine::mspf = 16.6666666666f;
 
@@ -152,8 +149,10 @@ int CoreEngine::execute(int argc, char* argv[])
     #pragma endregion
     #pragma endregion
 
+    // Force strict memory ordering here, but only needed here.
     renderResizeFlag.test_and_set();
     isRendering.clear();
+
     std::thread(internalWindowLoop).detach();
     std::thread(internalRenderLoop).detach();
     
@@ -209,21 +208,15 @@ void CoreEngine::internalLoop()
         static skarupke::function<void()> tickEvent;
 
         #pragma region Pre-Tick
-        CoreEngine::pendingPreTickEventsSync.lock();
-        for (auto it = CoreEngine::pendingPreTickEvents.begin(); it != CoreEngine::pendingPreTickEvents.end(); ++it)
-            (*it)();
-        CoreEngine::pendingPreTickEvents.clear();
-        CoreEngine::pendingPreTickEventsSync.unlock();
+        while (CoreEngine::pendingPreTickEvents.try_dequeue(tickEvent))
+            tickEvent();
         #pragma endregion
 
         CoreSystem::OnTick();
 
         #pragma region Post-Tick
-        CoreEngine::pendingPostTickEventsSync.lock();
-        for (auto it = CoreEngine::pendingPostTickEvents.begin(); it != CoreEngine::pendingPostTickEvents.end(); ++it)
-            (*it)();
-        CoreEngine::pendingPostTickEvents.clear();
-        CoreEngine::pendingPostTickEventsSync.unlock();
+        while (CoreEngine::pendingPostTickEvents.try_dequeue(tickEvent))
+            tickEvent();
         #pragma endregion
 
         #pragma region Loop End
@@ -231,7 +224,6 @@ void CoreEngine::internalLoop()
         #pragma endregion
         
         #pragma region Render Offload
-        CoreEngine::pendingRenderJobBatchesOffload.push_back(&Renderer::beginFrame);
         for
         (
             auto it1 = SceneManager::existingScenes.begin();
@@ -374,10 +366,7 @@ void CoreEngine::internalLoop()
                 }
             }
         }
-        CoreEngine::pendingRenderJobBatchesOffload.push_back(&Renderer::endFrame);
-        CoreEngine::pendingRenderJobBatchesSync.lock();
-        CoreEngine::pendingRenderJobBatches.push_back(std::move(CoreEngine::pendingRenderJobBatchesOffload));
-        CoreEngine::pendingRenderJobBatchesSync.unlock();
+        CoreEngine::pendingRenderJobBatches.enqueue(std::move(CoreEngine::pendingRenderJobBatchesOffload));
         #pragma endregion
 
         do deltaTime = (float)(SDL_GetPerformanceCounter() - frameBegin) * 1000.0f / (float)perfFreq;
@@ -511,8 +500,7 @@ void CoreEngine::internalWindowLoop()
             case SDL_MOUSEWHEEL:
                 break;
             case SDL_MOUSEBUTTONDOWN:
-                CoreEngine::pendingPreTickEventsSync.lock();
-                CoreEngine::pendingPreTickEvents.push_back
+                CoreEngine::pendingPreTickEvents.enqueue
                 (
                     [=]
                     {
@@ -520,22 +508,19 @@ void CoreEngine::internalWindowLoop()
                         CoreSystem::OnMouseDown(ev.button.button);
                     }
                 );
-                CoreEngine::pendingPreTickEventsSync.unlock();
                 break;
             case SDL_MOUSEBUTTONUP:
-                CoreEngine::pendingPreTickEventsSync.lock();
-                CoreEngine::pendingPreTickEvents.push_back
+                CoreEngine::pendingPreTickEvents.enqueue
                 (
-                    [=]
+                    [button = ev.button.button]
                     {
-                        CoreEngine::pendingPostTickEventsSync.lock();
-                        CoreEngine::pendingPostTickEvents.push_back
+                        CoreEngine::pendingPostTickEvents.enqueue
                         (
-                            [=]
+                            [button = button]
                             {
                                 for (auto it = Input::currentHeldMouseButtons.begin(); it != Input::currentHeldMouseButtons.end(); ++it)
                                 {
-                                    if (*it == ev.button.button)
+                                    if (*it == button)
                                     {
                                         Input::currentHeldMouseButtons.erase(it);
                                         break;
@@ -543,55 +528,47 @@ void CoreEngine::internalWindowLoop()
                                 }
                             }
                         );
-                        CoreEngine::pendingPostTickEventsSync.unlock();
-                        CoreSystem::OnMouseUp(ev.button.button);
+                        CoreSystem::OnMouseUp(button);
                     }
                 );
-                CoreEngine::pendingPreTickEventsSync.unlock();
                 break;
             #pragma endregion
             #pragma region Key Events
             case SDL_KEYDOWN:
                 if (ev.key.repeat)
                 {
-                    CoreEngine::pendingPreTickEventsSync.lock();
-                    CoreEngine::pendingPreTickEvents.push_back
+                    CoreEngine::pendingPreTickEvents.enqueue
                     (
-                        [=]
+                        [sym = ev.key.keysym.sym]
                         {
-                            CoreSystem::OnKeyRepeat(ev.key.keysym.sym);
+                            CoreSystem::OnKeyRepeat(sym);
                         }
                     );
-                    CoreEngine::pendingPreTickEventsSync.unlock();
                 }
                 else
                 {
-                    CoreEngine::pendingPreTickEventsSync.lock();
-                    CoreEngine::pendingPreTickEvents.push_back
+                    CoreEngine::pendingPreTickEvents.enqueue
                     (
-                        [=]
+                        [sym = ev.key.keysym.sym]
                         {
-                            Input::currentHeldKeys.push_back(ev.key.keysym.sym);
-                            CoreSystem::OnKeyDown(ev.key.keysym.sym);
+                            Input::currentHeldKeys.push_back(sym);
+                            CoreSystem::OnKeyDown(sym);
                         }
                     );
-                    CoreEngine::pendingPreTickEventsSync.unlock();
                 }
                 break;
             case SDL_KEYUP:
-                CoreEngine::pendingPreTickEventsSync.lock();
-                CoreEngine::pendingPreTickEvents.push_back
+                CoreEngine::pendingPreTickEvents.enqueue
                 (
-                    [=]
+                    [sym = ev.key.keysym.sym]
                     {
-                        CoreEngine::pendingPostTickEventsSync.lock();
-                        CoreEngine::pendingPostTickEvents.push_back
+                        CoreEngine::pendingPostTickEvents.enqueue
                         (
-                            [=]
+                            [sym = sym]
                             {
                                 for (auto it = Input::currentHeldKeys.begin(); it != Input::currentHeldKeys.end(); ++it)
                                 {
-                                    if (*it == ev.key.keysym.sym)
+                                    if (*it == sym)
                                     {
                                         Input::currentHeldKeys.erase(it);
                                         break;
@@ -599,11 +576,9 @@ void CoreEngine::internalWindowLoop()
                                 }
                             }
                         );
-                        CoreEngine::pendingPostTickEventsSync.unlock();
-                        CoreSystem::OnKeyUp(ev.key.keysym.sym);
+                        CoreSystem::OnKeyUp(sym);
                     }
                 );
-                CoreEngine::pendingPreTickEventsSync.unlock();
                 break;
             #pragma endregion
             }
@@ -614,8 +589,9 @@ void CoreEngine::internalWindowLoop()
         Window::height = h;
     }
 
-    CoreEngine::pendingPreTickEvents.clear();
-    CoreEngine::pendingPostTickEvents.clear();
+    skarupke::function<void()> event;
+    while (CoreEngine::pendingPreTickEvents.try_dequeue(event));
+    while (CoreEngine::pendingPostTickEvents.try_dequeue(event));
     Input::currentHeldKeys.clear();
     Input::currentHeldKeys.shrink_to_fit();
     Input::currentHeldMouseButtons.clear();
@@ -689,12 +665,20 @@ void CoreEngine::internalRenderLoop()
             Renderer::setViewArea(0, 0, w, h);
         }
 
-        CoreEngine::pendingRenderJobBatchesSync.lock();
-        for (auto it1 = CoreEngine::pendingRenderJobBatches.begin(); it1 != CoreEngine::pendingRenderJobBatches.end(); ++it1)
-            for (auto it2 = it1->begin(); it2 != it1->end(); ++it2)
-                (*it2)();
-        CoreEngine::pendingRenderJobBatches.clear();
-        CoreEngine::pendingRenderJobBatchesSync.unlock();
+        static bool dequeued = false;
+        std::vector<skarupke::function<void()>> jobs;
+        while (CoreEngine::pendingRenderJobBatches.try_dequeue(jobs))
+            dequeued = true;
+        
+        if (dequeued) [[likely]]
+        {
+            Renderer::beginFrame();
+            for (auto it = jobs.begin(); it != jobs.end(); ++it)
+                (*it)();
+            Renderer::endFrame();
+        }
+
+        dequeued = false;
 
         isRendering.clear(std::memory_order_relaxed);
     }
@@ -709,7 +693,8 @@ void CoreEngine::internalRenderLoop()
 
     Renderer::shutdown();
 
-    CoreEngine::pendingRenderJobBatches.clear();
+    std::vector<skarupke::function<void()>> jobs;
+    while (CoreEngine::pendingRenderJobBatches.try_dequeue(jobs));
 
     CoreEngine::threadsFinished_2 = true;
 }
