@@ -144,7 +144,7 @@ void start()
 	t->text = U"help\x2122i";
 	te->rectTransform()->position = { 0, 0 };
 	te->rectTransform()->rotation = -20.0f;
-	te->rectTransform()->scale = { 0.05f, 0.05f };
+	te->rectTransform()->scale = { 2.0f, 2.0f };
 
 	//Debug::LogTrace("Parent Position: ", parent->rectTransform()->position(), ".");
 	//Debug::LogTrace("Child Position: ", _ent2->rectTransform()->position(), ".");

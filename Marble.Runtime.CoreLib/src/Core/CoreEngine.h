@@ -6,6 +6,8 @@
 #include <list>
 #include <SDL.h>
 #include <SDL_syswm.h>
+#include <moodycamel/readerwriterqueue.h>
+#include <moodycamel/concurrentqueue.h>
 #include <Utility/Function.h>
 #include <Utility/Lock.h>
 
