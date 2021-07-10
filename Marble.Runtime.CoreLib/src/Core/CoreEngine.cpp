@@ -5,7 +5,6 @@
 #include <ctti/nameof.hpp>
 #include <fcntl.h>
 #include <fstream>
-#include <io.h>
 #include <SDL_video.h>
 #include <SDL_pixels.h>
 
