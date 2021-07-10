@@ -21,10 +21,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Checkout submodules
+    - name: Checkout Submodules
       # You may pin to the exact commit or the version.
       # uses: textbook/git-checkout-submodule-action@0cb23c7e6a67085e1dc5e884920bd620f7b9c469
       uses: textbook/git-checkout-submodule-action@2.1.1
+      
+    - name: OpenGL Actions
+      # You may pin to the exact commit or the version.
+      # uses: NishkarshRaj/OpenGL_Actions@63d65d06b867c7463516ac12a7dec14cc9ab2376
+      uses: NishkarshRaj/OpenGL_Actions@1.0
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
