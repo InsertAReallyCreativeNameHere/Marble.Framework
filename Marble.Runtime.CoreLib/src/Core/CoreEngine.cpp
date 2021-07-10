@@ -72,11 +72,6 @@ int CoreEngine::execute(int argc, char* argv[])
     (void)argc;
     (void)argv;
     
-    #pragma region Initialization
-    #if _WIN32
-    _setmode(_fileno(stdout), _O_U8TEXT);
-    #endif
-
     std::wcout << "init() thread ID: " << std::this_thread::get_id() << ".\n\n";
 
     #pragma region Color Coding Code Support Modifications
