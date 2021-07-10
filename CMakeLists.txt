@@ -69,6 +69,7 @@ set(BGFX_BUILD_TOOLS OFF CACHE BOOL "Build bgfx tools." FORCE)
 set(BGFX_BUILD_EXAMPLES OFF CACHE BOOL "Build bgfx examples." FORCE)
 add_subdirectory("${CMAKE_SOURCE_DIR}/external/libgl")
 target_compile_definitions(bgfx PRIVATE BGFX_CONFIG_MULTITHREADED=0)
+set_property(TARGET bimg PROPERTY POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_BUILD_TYPE ${_CMAKE_BUILD_TYPE})
 
 # Marble.Mathematics
