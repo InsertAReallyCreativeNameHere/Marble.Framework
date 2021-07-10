@@ -72,6 +72,7 @@ int CoreEngine::execute(int argc, char* argv[])
     (void)argc;
     (void)argv;
     
+    #pragma region Initialization
     std::wcout << "init() thread ID: " << std::this_thread::get_id() << ".\n\n";
 
     #pragma region Color Coding Code Support Modifications
