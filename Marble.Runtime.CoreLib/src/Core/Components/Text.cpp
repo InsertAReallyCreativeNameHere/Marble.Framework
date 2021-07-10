@@ -1,49 +1,16 @@
 #include "Text.h"
 
 #include <Core/CoreEngine.h>
+#include <Rendering/Core/Renderer.h>
 #undef STB_TRUETYPE_IMPLEMENTATION
 #include <stb_truetype.h>
 #include <tuple>
-#include <mapbox/earcut.hpp>
 
 using namespace Marble;
 using namespace Marble::GL;
 using namespace Marble::Internal;
 using namespace Marble::PackageSystem;
 using namespace Marble::Typography;
-
-static constexpr std::array<float, 2> operator+(const std::array<float, 2>& lhs, const std::array<float, 2>& rhs)
-{
-    return { lhs[0] + rhs[0], lhs[1] + rhs[1] };
-}
-static constexpr std::array<float, 2> operator-(const std::array<float, 2>& lhs, const std::array<float, 2>& rhs)
-{
-    return { lhs[0] - rhs[0], lhs[1] - rhs[1] };
-}
-static constexpr std::array<float, 2> operator*(const std::array<float, 2>& lhs, const std::array<float, 2>& rhs)
-{
-    return { lhs[0] * rhs[0], lhs[1] * rhs[1] };
-}
-static constexpr std::array<float, 2> operator/(const std::array<float, 2>& lhs, const std::array<float, 2>& rhs)
-{
-    return { lhs[0] / rhs[0], lhs[1] / rhs[1] };
-}
-static constexpr std::array<float, 2> operator+(const std::array<float, 2>& lhs, float rhs)
-{
-    return { lhs[0] + rhs, lhs[1] + rhs };
-}
-static constexpr std::array<float, 2> operator-(const std::array<float, 2>& lhs, float rhs)
-{
-    return { lhs[0] - rhs, lhs[1] - rhs };
-}
-static constexpr std::array<float, 2> operator*(const std::array<float, 2>& lhs, float rhs)
-{
-    return { lhs[0] * rhs, lhs[1] * rhs };
-}
-static constexpr std::array<float, 2> operator/(const std::array<float, 2>& lhs, float rhs)
-{
-    return { lhs[0] / rhs, lhs[1] / rhs };
-}
 
 std::unordered_map<PackageSystem::TrueTypeFontPackageFile*, Text::RenderData*> Text::textFonts;
 
@@ -115,15 +82,16 @@ text
             else
             {
                 GlyphOutline glyph(this->data->file->fontHandle(), *it);
-
+                auto buffers = glyph.createGeometryBuffers<Vertex2D>();
+                
                 if (glyph.verts != nullptr) [[likely]]
                 {
                     this->data->characters[*it] = new CharacterRenderData { 1, { } };
                     CoreEngine::pendingRenderJobBatchesOffload.push_back
                     (
-                        [=, pointsFlattened = std::move(pointsFlattened), indexesFlattened = std::move(indexesFlattened), data = this->data->characters[*it]]
+                        [=, pointsFlattened = std::move(buffers.first), indexesFlattened = std::move(buffers.second), data = this->data->characters[*it]]
                         {
-                            data->polygon.create(pointsFlattened.data(), pointsFlattened.size(), indexesFlattened.data(), indexesFlattened.size(), 0xffffffffu);
+                            data->polygon.create(std::move(pointsFlattened), std::move(indexesFlattened));
                         }
                     );
                 }

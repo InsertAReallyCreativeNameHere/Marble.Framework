@@ -2,6 +2,7 @@
 
 #include "inc.h"
 
+#include <mapbox/earcut.hpp>
 #include <map>
 #undef STB_TRUETYPE_IMPLEMENTATION
 #include <stb_truetype.h>
@@ -33,12 +34,11 @@ namespace Marble
             stbtt_vertex* verts;
             int vertsSize;
 
-            GlyphOutline(Font& font, char32_t codepoint);
             GlyphOutline(GlyphOutline&& other);
             ~GlyphOutline();
 
             template <typename VertType>
-            inline void createGeometryBuffers(VertType*& verts, uint32_t& vertsSize, uint16_t*& indexes, uint32_t& indexesSize)
+            std::pair<std::vector<VertType>, std::vector<uint16_t>> createGeometryBuffers()
             {
                 constexpr auto pointsAreClockwise = [](stbtt_vertex* points, size_t pointsSize) -> bool
                 {
@@ -49,8 +49,10 @@ namespace Marble
                     return sign >= 0;
                 };
 
-                std::array<float, 2> ringBegin { glyph.verts[0].x, glyph.verts[0].y };
-                std::vector<std::vector<std::vector<std::array<float, 2>>>> points { { { ringBegin } } };
+                GlyphOutline& glyph = *this;
+
+                VertType ringBegin { .x = float(glyph.verts[0].x), .y = float(glyph.verts[0].y) };
+                std::vector<std::vector<std::vector<VertType>>> points { { { ringBegin } } };
                 std::vector<std::vector<uint16_t>> indexes;
 
                 size_t firstClockwiseLoopIndex = SIZE_MAX;
@@ -80,7 +82,7 @@ namespace Marble
                             {
                                 switch (firstClockwiseLoopIndex)
                                 {
-                                case 0:
+                                [[likely]] case 0:
                                     break;
                                 case SIZE_MAX:
                                     firstClockwiseLoopIndex = points.back().size();
@@ -91,7 +93,7 @@ namespace Marble
                                     firstClockwiseLoopIndex = 0;
                                 }
 
-                                auto polyIndexes = mapbox::earcut<uint16_t>(points.back());
+                                auto polyIndexes = mapbox::template earcut<uint16_t>(points.back());
                                 for (auto it = polyIndexes.begin(); it != polyIndexes.end(); ++it)
                                     *it += indexOffset;
                                 indexes.push_back(std::move(polyIndexes));
@@ -110,15 +112,15 @@ namespace Marble
                         break;
                     case STBTT_vcurve:
                         {
-                            std::array<float, 2> begin { glyph.verts[j - 1].x, glyph.verts[j - 1].y };
-                            std::array<float, 2> control { p.cx, p.cy };
-                            std::array<float, 2> end { p.x, p.y };
+                            VertType begin { .x = float(glyph.verts[j - 1].x), .y = float(glyph.verts[j - 1].y) };
+                            VertType control { .x = float(p.cx), .y = float(p.cy) };
+                            VertType end { .x = float(p.x), .y = float(p.y) };
 
                             constexpr auto approxQuadBezierLen =
-                            [](const std::array<float, 2>& begin, const std::array<float, 2>& control, const std::array<float, 2>& end) -> float
+                            [](const VertType& begin, const VertType& control, const VertType& end) -> float
                             {
-                                float d1 = std::fabsf(begin[0] - control[0]) + std::fabsf(control[0] - end[0]) + std::fabsf(begin[0] - end[0]);
-                                float d2 = std::fabsf(begin[1] - control[1]) + std::fabsf(control[1] - end[1]) + std::fabsf(begin[1] - end[1]);
+                                float d1 = std::fabsf(begin.x - control.x) + std::fabsf(control.x - end.x) + std::fabsf(begin.x - end.x);
+                                float d2 = std::fabsf(begin.y - control.y) + std::fabsf(control.y - end.y) + std::fabsf(begin.y - end.y);
                                 return std::sqrtf((d1 * d1) + (d2 * d2));
                             };
 
@@ -126,36 +128,44 @@ namespace Marble
                             float segments = float(size_t((approxQuadBezierLen(begin, control, end) / float(QUADRATIC_BEZIER_SEGMENT_LENGTH)) + 0.5f));
                             for (float k = 1; k < segments; k++)
                             {
-                                std::array<float, 2> p =
-                                (begin + (control - begin) / segments * k) +
-                                ((end + (control - end) / segments * (segments - k)) -
-                                (begin + (control - begin) / segments * k)) /
-                                segments * k;
+                                VertType p =
+                                {
+                                    .x =
+                                    (begin.x + (control.x - begin.x) / segments * k) +
+                                    ((end.x + (control.x - end.x) / segments * (segments - k)) -
+                                    (begin.x + (control.x - begin.x) / segments * k)) /
+                                    segments * k,
+                                    .y =
+                                    (begin.y + (control.y - begin.y) / segments * k) +
+                                    ((end.y + (control.y - end.y) / segments * (segments - k)) -
+                                    (begin.y + (control.y - begin.y) / segments * k)) /
+                                    segments * k
+                                };
                                 points.back().back().push_back(std::move(p));
                             }
                         }
                     [[fallthrough]];
                     case STBTT_vcubic: // Can't be stuffed converting cubic beziers to their quadratic approximations right now.
                     case STBTT_vline:
-                        if (p.x == ringBegin[0] && p.y == ringBegin[1]) [[unlikely]]
+                        if (p.x == ringBegin.x && p.y == ringBegin.y) [[unlikely]]
                             continue;
-                        points.back().back().push_back(std::array<float, 2> { float(p.x), float(p.y) });
+                        points.back().back().push_back(VertType { .x = float(p.x), .y = float(p.y) });
                         break;
                     }
                 }
 
-                if (firstClockwiseLoopIndex != 0)
+                if (firstClockwiseLoopIndex != 0) [[unlikely]]
                 {
                     std::iter_swap(points.back().begin(), points.back().begin() + firstClockwiseLoopIndex);
                     firstClockwiseLoopIndex = 0;
                 }
 
-                auto polyIndexes = mapbox::earcut<uint16_t>(points.back());
+                auto polyIndexes = mapbox::template earcut<uint16_t>(points.back());
                 for (auto it = polyIndexes.begin(); it != polyIndexes.end(); ++it)
                     *it += indexOffset;
                 indexes.push_back(std::move(polyIndexes));
 
-                std::vector<std::array<float, 2>> pointsFlattened;
+                std::vector<VertType> pointsFlattened;
                 size_t reserveSize = 0;
                 for (auto it1 = points.begin(); it1 != points.end(); ++it1)
                     for (auto it2 = it1->begin(); it2 != it1->end(); ++it2)
@@ -172,21 +182,24 @@ namespace Marble
                 indexesFlattened.reserve(reserveSize);
                 for (auto it = indexes.begin(); it != indexes.end(); ++it)
                     indexesFlattened.insert(indexesFlattened.end(), std::make_move_iterator(it->begin()), std::make_move_iterator(it->end()));
+
+                return std::make_pair(std::move(pointsFlattened), std::move(indexesFlattened));
             }
-            template <typename VertType>
-            inline void freeGeometryBuffers(VertType* verts, uint16_t indexes)
-            {
-                delete[] verts;
-                delete[] indexes;
-            }
+
+            friend class Marble::Typography::Font;
+        private:
+            GlyphOutline(Font& font, char32_t codepoint);
         };
         struct coreapi GlyphMetrics final
         {
             int advanceWidth, leftSideBearing;
 
-            GlyphMetrics(Font& font, char32_t codepoint);
             GlyphMetrics(GlyphMetrics&& other);
             ~GlyphMetrics();
+            
+            friend class Marble::Typography::Font;
+        private:
+            GlyphMetrics(Font& font, char32_t codepoint);
         };
     }
 }

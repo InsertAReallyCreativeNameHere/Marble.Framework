@@ -10,9 +10,19 @@ namespace mapbox {
 
 namespace util {
 
-template <std::size_t I, typename T> struct nth {
-    inline static typename std::tuple_element<I, T>::type
-    get(const T& t) { return std::get<I>(t); };
+template <std::size_t I, typename T>
+struct nth
+{
+    inline static float get(const T& t)
+    {
+        if constexpr (I == 0)
+            return t.x;
+        else if constexpr (I == 1)
+            return t.y;
+        else if constexpr (I == 2)
+            return t.z;
+        else static_assert(false, "mapbox::util::nth::get<std::size_t I>(const Vertex2D&) requires I to be 0 or 1.");
+    };
 };
 
 }

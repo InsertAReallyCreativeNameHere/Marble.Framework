@@ -2,9 +2,8 @@
 
 #include "inc.h"
 
-#include <array>
-#include <list>
-#include <Rendering/Core/Texture.h>
+#include <bgfx/bgfx.h>
+#include <vector>
 #include <Utility/Function.h>
 
 namespace Marble
@@ -25,19 +24,26 @@ namespace Marble
         protected:
             float transform[9] { 0 };
         };
-
         // Color values should be between 0.0f and 1.0f.
         struct coreapi ColoredTransformHandle final : TransformHandle
         {
             void setColor(float r, float g, float b, float a);
         };
+
+        struct Vertex2D final
+        {
+            float x;
+            float y;
+        };
         struct coreapi PolygonHandle final
         {
             bgfx::DynamicVertexBufferHandle vb { bgfx::kInvalidHandle };
             bgfx::DynamicIndexBufferHandle ib { bgfx::kInvalidHandle };
+            std::vector<Vertex2D>* vbBuf;
+            std::vector<uint16_t>* ibBuf;
 
-            void create(const std::array<float, 2>* points, uint32_t pointsSize, const uint16_t* indexes, uint32_t indexesSize, uint32_t abgrColor);
-            void update(const std::array<float, 2>* points, uint32_t pointsSize, const uint16_t* indexes, uint32_t indexesSize, uint32_t abgrColor);
+            void create(std::vector<Vertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer);
+            void update(std::vector<Vertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer);
             void destroy();
         };
 

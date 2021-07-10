@@ -1,10 +1,10 @@
 #include "Renderer.h"
 
-#include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
 #include <bimg/bimg.h>
 #include <bx/math.h>
 #include <cmath>
+#include <Rendering/Core/Texture.h>
 #include <Rendering/Utility/ShaderUtility.h>
 #include <shaderc.h>
 #include <utility>
@@ -82,11 +82,6 @@ static uint32_t vertexBufferTexSize;
 #pragma endregion
 
 #pragma region Polygon
-struct Vertex2D final
-{
-    float x;
-    float y;
-};
 bgfx::VertexLayout layoutPolygon;
 bgfx::ProgramHandle program2DPolygon;
 bgfx::UniformHandle uniform2DPolygon;
@@ -114,26 +109,28 @@ void ColoredTransformHandle::setColor(float r, float g, float b, float a)
     this->transform[5] = a;
 }
 
-void PolygonHandle::create(const std::array<float, 2>* points, uint32_t pointsSize, const uint16_t* indexes, uint32_t indexesSize, uint32_t abgrColor)
+void PolygonHandle::create(std::vector<Vertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer)
 {
-    const bgfx::Memory* vbMem = bgfx::alloc(pointsSize * sizeof(Vertex2D));
-    for (uint32_t i = 0; i < pointsSize; i++)
-        reinterpret_cast<Vertex2D*>(vbMem->data)[i] = { points[i][0], points[i][1] };
-    this->vb = bgfx::createDynamicVertexBuffer(vbMem, layoutPolygon);
-    this->ib = bgfx::createDynamicIndexBuffer(bgfx::copy(indexes, sizeof(uint16_t) * indexesSize));
+    this->vbBuf = new std::vector<Vertex2D>(std::move(vertexBuffer));
+    this->ibBuf = new std::vector<uint16_t>(std::move(indexBuffer));
+    this->vb = bgfx::createDynamicVertexBuffer(bgfx::makeRef(this->vbBuf->data(), sizeof(Vertex2D) * this->vbBuf->size()), layoutPolygon);
+    this->ib = bgfx::createDynamicIndexBuffer(bgfx::makeRef(this->ibBuf->data(), sizeof(uint16_t) * this->ibBuf->size()));
 }
-void PolygonHandle::update(const std::array<float, 2>* points, uint32_t pointsSize, const uint16_t* indexes, uint32_t indexesSize, uint32_t abgrColor)
+void PolygonHandle::update(std::vector<Vertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer)
 {
-    const bgfx::Memory* vbMem = bgfx::alloc(pointsSize * sizeof(Vertex2D));
-    for (uint32_t i = 0; i < pointsSize; i++)
-        reinterpret_cast<Vertex2D*>(vbMem->data)[i] = { points[i][0], points[i][1] };
-    bgfx::update(this->vb, 0, vbMem);
-    bgfx::update(this->ib, 0, bgfx::copy(indexes, sizeof(uint32_t) * indexesSize));
+    delete this->vbBuf;
+    delete this->ibBuf;
+    *this->vbBuf = std::move(vertexBuffer);
+    *this->ibBuf = std::move(indexBuffer);
+    bgfx::update(this->vb, 0, bgfx::makeRef(this->vbBuf->data(), sizeof(Vertex2D) * this->vbBuf->size()));
+    bgfx::update(this->ib, 0, bgfx::makeRef(this->ibBuf->data(), sizeof(uint16_t) * this->ibBuf->size()));
 }
 void PolygonHandle::destroy()
 {
     bgfx::destroy(this->vb);
     bgfx::destroy(this->ib);
+    delete this->vbBuf;
+    delete this->ibBuf;
 }
 
 bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t initHeight)
@@ -328,14 +325,14 @@ void main()
     a_position.x *= scaleX;
     a_position.y *= scaleY;
 
-    float s = sin(-rotation);
-    float c = cos(-rotation);
+    float s = sin(rotation);
+    float c = cos(rotation);
 
     float x = a_position.x;
     float y = a_position.y;
 
-    a_position.x = x * c - y * s;
-    a_position.y = x * s + y * c;
+    a_position.x = x * c + y * s;
+    a_position.y = y * c - x * s;
     
     a_position.x += offsetX;
     a_position.y += offsetY;

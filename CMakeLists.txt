@@ -220,6 +220,7 @@ target_include_directories(Sandbox PRIVATE
     "${CMAKE_SOURCE_DIR}/Marble.Typography/src"
     "${CMAKE_SOURCE_DIR}/Marble.Mathematics/src"
     "${CMAKE_SOURCE_DIR}/dependencies/ctti/include"
+    "${CMAKE_SOURCE_DIR}/dependencies/earcut/include"
     "${CMAKE_SOURCE_DIR}/dependencies/moodycamel"
     "${CMAKE_SOURCE_DIR}/dependencies/stb"
     "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/include"
