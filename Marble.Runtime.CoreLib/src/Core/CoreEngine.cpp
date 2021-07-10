@@ -602,26 +602,22 @@ void CoreEngine::internalRenderLoop()
 
     Renderer::initialize
     (
-        #if BX_PLATFORM_LINUX || BX_PLATFORM_BSD
-        #if ENTRY_CONFIG_USE_WAYLAND
-        CoreEngine::wmInfo.info.wl.display,
+        #if defined(SDL_VIDEO_DRIVER_WAYLAND)
+        (void*)CoreEngine::wmInfo.info.wl.display,
+        #elif defined(SDL_VIDEO_DRIVER_X11)
+        (void*)CoreEngine::wmInfo.info.x11.display,
         #else
-        CoreEngine::wmInfo.info.x11.display,
-        #endif
-        #elif BX_PLATFORM_OSX || BX_PLATFORM_WINDOWS
         nullptr,
         #endif
 
-        #if BX_PLATFORM_LINUX || BX_PLATFORM_BSD
-        #if ENTRY_CONFIG_USE_WAYLAND
-        (void*)(uintptr_t)(wl_egl_window*)SDL_GetWindowData(_window, "wl_egl_window"),
-        #else
+        #if defined(SDL_VIDEO_DRIVER_WAYLAND)
+        (void*)CoreEngine::wmInfo.info.wl.egl_window,
+        #elif defined(SDL_VIDEO_DRIVER_X11)
         (void*)CoreEngine::wmInfo.info.x11.window,
-        #endif
-        #elif BX_PLATFORM_OSX
-        CoreEngine::wmInfo.info.cocoa.window,
-        #elif BX_PLATFORM_WINDOWS
-        CoreEngine::wmInfo.info.win.window,
+        #elif defined(SDL_VIDEO_DRIVER_COCOA)
+        (void*)CoreEngine::wmInfo.info.cocoa.window,
+        #elif defined(SDL_VIDEO_DRIVER_WINDOWS)
+        (void*)CoreEngine::wmInfo.info.win.window,
         #endif
 
         Window::width.load(), Window::height.load()
