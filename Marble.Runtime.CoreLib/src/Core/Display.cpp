@@ -1,4 +1,4 @@
-#include "DsplMgmt.h"
+#include "Display.h"
 
 using namespace Marble;
 

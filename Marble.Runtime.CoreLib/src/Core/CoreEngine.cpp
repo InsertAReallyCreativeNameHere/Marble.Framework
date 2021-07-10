@@ -20,7 +20,7 @@
 #include <Core/Components/Text.h>
 #include <Core/EntityComponentSystem/CoreSystem.h>
 #include <Core/Debug.h>
-#include <Core/DsplMgmt.h>
+#include <Core/Display.h>
 #include <Core/Input.h>
 #include <Core/Objects/Entity.h>
 #include <Core/PackageManager.h>
@@ -41,8 +41,8 @@ using namespace Marble::Mathematics;
 using namespace Marble::PackageSystem;
 using namespace Marble::Typography;
 
-int CoreEngine::WNDW = 1280;
-int CoreEngine::WNDH = 720;
+#define WNDW 1280
+#define WNDH 720
 
 std::atomic<CoreEngine::state> CoreEngine::currentState;
 
@@ -198,7 +198,7 @@ void CoreEngine::internalLoop()
 
     Uint64 frameBegin = SDL_GetPerformanceCounter();
     Uint64 perfFreq = SDL_GetPerformanceFrequency();
-    float targetDeltaTime = CoreEngine::mspf;
+    constexpr float& targetDeltaTime = CoreEngine::mspf;
     float deltaTime;
     while (readyToExit.load(std::memory_order_seq_cst) == false)
     {

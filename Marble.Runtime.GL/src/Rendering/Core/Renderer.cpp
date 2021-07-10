@@ -394,10 +394,13 @@ void Renderer::shutdown()
         (*it)();
     finalizers.clear();
     
+    bgfx::destroy(triIndexBuffer);
     bgfx::destroy(quadIndexBuffer);
     bgfx::destroy(program2DRectangle);
     bgfx::destroy(program2DTex);
     bgfx::destroy(textureColor);
+    bgfx::destroy(uniform2DPolygon);
+    bgfx::destroy(program2DPolygon);
 
     bgfx::shutdown();
 }

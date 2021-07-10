@@ -53,9 +53,6 @@ namespace Marble
 			static void internalWindowLoop();
 			static void internalRenderLoop();
 
-			static int WNDW;
-			static int WNDH;
-
 			static float mspf;
 		public:
 			static int execute(int argc, char* argv[]);
