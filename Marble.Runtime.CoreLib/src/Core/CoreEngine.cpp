@@ -64,8 +64,8 @@ moodycamel::ConcurrentQueue<std::vector<skarupke::function<void()>>> CoreEngine:
 
 float CoreEngine::mspf = 16.6666666666f;
 
-static std::atomic_flag renderResizeFlag = ATOMIC_FLAG_INIT;
-static std::atomic_flag isRendering = ATOMIC_FLAG_INIT;
+static std::atomic<bool> renderResizeFlag = true;
+static std::atomic<bool> isRendering = false;
 
 int CoreEngine::execute(int argc, char* argv[])
 {
@@ -147,10 +147,6 @@ int CoreEngine::execute(int argc, char* argv[])
     else Debug::LogError("The CorePackage could not be found in the Runtime folder. Did you accidentally delete it?\n");
     #pragma endregion
     #pragma endregion
-
-    // Force strict memory ordering here, but only needed here.
-    renderResizeFlag.test_and_set();
-    isRendering.clear();
 
     std::thread(internalWindowLoop).detach();
     std::thread(internalRenderLoop).detach();
@@ -437,9 +433,9 @@ void CoreEngine::internalWindowLoop()
                 Window::width = w;
                 Window::height = h;
 
-                renderResizeFlag.test_and_set(std::memory_order_relaxed);
-                while (isRendering.test(std::memory_order_relaxed));
-                renderResizeFlag.clear(std::memory_order_relaxed);
+                renderResizeFlag.store(true, std::memory_order_relaxed);
+                while (isRendering.load(std::memory_order_relaxed));
+                renderResizeFlag.store(false, std::memory_order_relaxed);
             }
 
             return 1;
@@ -480,7 +476,7 @@ void CoreEngine::internalWindowLoop()
                 {
                 case SDL_WINDOWEVENT_RESIZED:
                     Window::resizing = false; // This line is very important.
-                    renderResizeFlag.test_and_set(std::memory_order_relaxed);
+                    renderResizeFlag.store(true, std::memory_order_relaxed);
                     break;
                 case SDL_WINDOWEVENT_MOVED:
                     break;
@@ -612,9 +608,9 @@ void CoreEngine::internalRenderLoop()
     (
         #if BX_PLATFORM_LINUX || BX_PLATFORM_BSD
         #if ENTRY_CONFIG_USE_WAYLAND
-        wmi.info.wl.display,
+        CoreEngine::wmInfo.info.wl.display,
         #else
-        wmi.info.x11.display,
+        CoreEngine::wmInfo.info.x11.display,
         #endif
         #elif BX_PLATFORM_OSX || BX_PLATFORM_WINDOWS
         nullptr,
@@ -647,13 +643,13 @@ void CoreEngine::internalRenderLoop()
 
     while (readyToExit.load(std::memory_order_relaxed) == false)
     {
-        isRendering.test_and_set(std::memory_order_relaxed);
+        isRendering.store(true, std::memory_order_relaxed);
 
         static int prevW, prevH;
         prevW = w;
         prevH = h;
 
-        while (!renderResizeFlag.test(std::memory_order_relaxed));
+        while (!renderResizeFlag.load( std::memory_order_relaxed));
 
         w = Window::width;
         h = Window::height;
@@ -679,7 +675,7 @@ void CoreEngine::internalRenderLoop()
 
         dequeued = false;
 
-        isRendering.clear(std::memory_order_relaxed);
+        isRendering.store(false, std::memory_order_relaxed);
     }
 
     while (!CoreEngine::threadsFinished_0.load());
