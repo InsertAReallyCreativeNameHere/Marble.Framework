@@ -34,6 +34,7 @@ namespace Marble
             stbtt_vertex* verts;
             int vertsSize;
 
+            GlyphOutline(Font& font, char32_t codepoint);
             GlyphOutline(GlyphOutline&& other);
             ~GlyphOutline();
 
@@ -119,9 +120,9 @@ namespace Marble
                             constexpr auto approxQuadBezierLen =
                             [](const VertType& begin, const VertType& control, const VertType& end) -> float
                             {
-                                float d1 = std::fabsf(begin.x - control.x) + std::fabsf(control.x - end.x) + std::fabsf(begin.x - end.x);
-                                float d2 = std::fabsf(begin.y - control.y) + std::fabsf(control.y - end.y) + std::fabsf(begin.y - end.y);
-                                return std::sqrtf((d1 * d1) + (d2 * d2));
+                                float d1 = fabs(begin.x - control.x) + fabs(control.x - end.x) + fabs(begin.x - end.x);
+                                float d2 = fabs(begin.y - control.y) + fabs(control.y - end.y) + fabs(begin.y - end.y);
+                                return sqrt((d1 * d1) + (d2 * d2));
                             };
 
                             #define QUADRATIC_BEZIER_SEGMENT_LENGTH 32
@@ -187,19 +188,16 @@ namespace Marble
             }
 
             friend class Marble::Typography::Font;
-        private:
-            GlyphOutline(Font& font, char32_t codepoint);
         };
         struct coreapi GlyphMetrics final
         {
             int advanceWidth, leftSideBearing;
 
+            GlyphMetrics(Font& font, char32_t codepoint);
             GlyphMetrics(GlyphMetrics&& other);
             ~GlyphMetrics();
             
             friend class Marble::Typography::Font;
-        private:
-            GlyphMetrics(Font& font, char32_t codepoint);
         };
     }
 }

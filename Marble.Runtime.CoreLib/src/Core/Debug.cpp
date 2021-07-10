@@ -1,5 +1,7 @@
 #include "Debug.h"
 
+#include <iomanip>
+
 using namespace Marble;
 
 std::mutex Debug::outputLock;
@@ -23,3 +25,10 @@ const wchar_t* Debug::ansiCodes[6] =
         L""
     #endif
 };
+
+std::string Debug::serializeTimePoint(const std::chrono::system_clock::time_point& time)
+{
+    std::ostringstream ss;
+    ss << time.time_since_epoch().count();
+    return ss.rdbuf()->str();
+}

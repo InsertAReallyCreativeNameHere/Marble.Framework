@@ -4,7 +4,6 @@
 
 #include <codecvt>
 #include <chrono>
-#include <iomanip>
 #include <iostream>
 #include <locale>
 #include <sstream>
@@ -42,16 +41,7 @@ namespace Marble
 			};
 		}
 
-		//Thanks Stackoverflow! https://stackoverflow.com/questions/34857119/how-to-convert-stdchronotime-point-to-string/34858704.
-		static std::string serializeTimePoint(const std::chrono::system_clock::time_point& time, const std::string_view& format)
-		{
-			std::time_t tt = std::chrono::system_clock::to_time_t(time);
-			std::tm tm;
-			gmtime_s(&tm, &tt);
-			std::stringstream ss;
-			ss << std::put_time(&tm, format.data());
-			return ss.rdbuf()->str();
-		}
+		static std::string serializeTimePoint(const std::chrono::system_clock::time_point& time);
 
 		static std::mutex outputLock;
 	public:
@@ -78,7 +68,7 @@ namespace Marble
 			std::wcout <<
 			ansiCodes[DEBUG_COLOUR_BLUE] <<
 			L"[UTC: " <<
-			serializeTimePoint(std::chrono::system_clock::now(), "%Y-%m-%d %H:%M:%S") <<
+			serializeTimePoint(std::chrono::system_clock::now()) <<
 			L"]" <<
 			ansiCodes[DEBUG_COLOUR_RESET] <<
 			L" " <<
@@ -102,7 +92,7 @@ namespace Marble
 			std::wcout <<
 			ansiCodes[DEBUG_COLOUR_BLUE] <<
 			L"[UTC: " <<
-			serializeTimePoint(std::chrono::system_clock::now(), "%Y-%m-%d %H:%M:%S") <<
+			serializeTimePoint(std::chrono::system_clock::now()) <<
 			L"]" <<
 			ansiCodes[DEBUG_COLOUR_RESET] <<
 			L" " <<
@@ -130,7 +120,7 @@ namespace Marble
 			std::wcout <<
 			ansiCodes[DEBUG_COLOUR_BLUE] <<
 			L"[UTC: " <<
-			serializeTimePoint(std::chrono::system_clock::now(), "%Y-%m-%d %H:%M:%S") <<
+			serializeTimePoint(std::chrono::system_clock::now()) <<
 			L"]" <<
 			ansiCodes[DEBUG_COLOUR_RESET] <<
 			L" " <<
@@ -158,7 +148,7 @@ namespace Marble
 			std::wcout <<
 			ansiCodes[DEBUG_COLOUR_BLUE] <<
 			L"[UTC: " <<
-			serializeTimePoint(std::chrono::system_clock::now(), "%Y-%m-%d %H:%M:%S") <<
+			serializeTimePoint(std::chrono::system_clock::now()) <<
 			L"]" <<
 			ansiCodes[DEBUG_COLOUR_RESET] <<
 			L" " <<
@@ -186,7 +176,7 @@ namespace Marble
 			std::wcout <<
 			ansiCodes[DEBUG_COLOUR_BLUE] <<
 			L"[UTC: " <<
-			serializeTimePoint(std::chrono::system_clock::now(), "%Y-%m-%d %H:%M:%S") <<
+			serializeTimePoint(std::chrono::system_clock::now()) <<
 			L"]" <<
 			ansiCodes[DEBUG_COLOUR_RESET] <<
 			L" " <<
