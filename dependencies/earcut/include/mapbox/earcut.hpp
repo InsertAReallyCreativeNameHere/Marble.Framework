@@ -21,7 +21,7 @@ struct nth
             return t.y;
         else if constexpr (I == 2)
             return t.z;
-        else static_assert(false, "mapbox::util::nth::get<std::size_t I>(const Vertex2D&) requires I to be 0 or 1.");
+        else static_assert(false, "mapbox::util::nth::get<std::size_t I>(const Vertex2D&) requires I to be 0, 1, or 2.");
     };
 };
 
