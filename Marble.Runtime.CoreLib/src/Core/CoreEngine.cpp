@@ -618,6 +618,8 @@ void CoreEngine::internalRenderLoop()
         (void*)CoreEngine::wmInfo.info.cocoa.window,
         #elif defined(SDL_VIDEO_DRIVER_WINDOWS)
         (void*)CoreEngine::wmInfo.info.win.window,
+        #else
+        nullptr,
         #endif
 
         Window::width.load(), Window::height.load()
