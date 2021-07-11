@@ -190,9 +190,9 @@ elseif (COMPILER STREQUAL "MSVC")
     target_include_directories(Marble.Runtime.CoreLib PRIVATE "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bx/include/compat/msvc")
 else()
 endif()
-target_link_libraries(Marble.Runtime.CoreLib PRIVATE
-    psapi
-)
+if (BUILD_PLATFORM STREQUAL Win32)
+    target_link_libraries(Marble.Runtime.CoreLib PRIVATE psapi)
+endif()
 
 # Sandbox
 
