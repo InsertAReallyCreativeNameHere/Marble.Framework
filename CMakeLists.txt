@@ -56,7 +56,7 @@ set(CMAKE_SHARED_LIBRARY_PREFIX "")
 add_subdirectory("${CMAKE_SOURCE_DIR}/Marble.Packager")
 
 # SDL2
-set(SDL_STATIC_PIC OFF CACHE INTERNAL "Build SDL2 shared library." FORCE)
+set(SDL_STATIC_PIC ON CACHE INTERNAL "Build SDL2 with position independent code." FORCE)
 set(SDL_SHARED OFF CACHE INTERNAL "Build SDL2 shared library." FORCE)
 add_subdirectory("${CMAKE_SOURCE_DIR}/external/SDL")
 target_compile_definitions(SDL2-static PRIVATE HAVE_LIBC=1)
