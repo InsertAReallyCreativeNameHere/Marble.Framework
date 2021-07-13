@@ -6,6 +6,7 @@
 #include <thread>
 #include <chrono>
 #include <fcntl.h>
+#include <vector>
 #include <string>
 
 #include <filesystem>
