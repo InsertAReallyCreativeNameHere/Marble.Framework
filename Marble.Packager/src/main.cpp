@@ -189,7 +189,7 @@ LR"(Commands:
                             uint32_t fileLen = toEndianness(fileLen_endianUnconverted, Packager::Endianness::Big, Packager::endianness);
                             
                             fs::create_directories(fs::path(filePath.c_str()).parent_path());
-                            std::ofstream outFile(filePath.c_str(), std::ios::binary);
+                            std::ofstream outFile(fs::path(filePath.c_str()), std::ios::binary);
 
                             for (uint32_t i = 0; i < fileLen / 1048576; i++)
                             {
