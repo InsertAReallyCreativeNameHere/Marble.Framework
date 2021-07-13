@@ -14,7 +14,7 @@ namespace Marble
                 Little = 1
             } endianness;
             
-            static void packageFolder(const std::wstring_view& folder);
+            static void packageFolder(std::wstring_view folder);
         };
 
         constexpr auto toEndianness = [](auto intType, Packager::Endianness from, Packager::Endianness to) -> decltype(intType)

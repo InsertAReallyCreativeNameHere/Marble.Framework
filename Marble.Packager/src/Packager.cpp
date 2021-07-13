@@ -11,7 +11,7 @@ using namespace Marble::PackageSystem;
 
 Packager::Endianness Packager::endianness;
 
-void Packager::packageFolder(const std::wstring_view& folder)
+void Packager::packageFolder(std::wstring_view folder)
 {
     std::wstring pakName(fs::current_path().wstring());
     pakName.append(L"/Package.marble.pkg");
@@ -22,7 +22,7 @@ void Packager::packageFolder(const std::wstring_view& folder)
         fputws(L"Removed.\n", stdout);
     }
 
-    std::ofstream package(pakName.c_str(), std::ios::binary);
+    std::ofstream package(fs::path(pakName.c_str()), std::ios::binary);
 
     for (auto& path : fs::recursive_directory_iterator(folder))
     {
@@ -39,7 +39,7 @@ void Packager::packageFolder(const std::wstring_view& folder)
             package.write(reinterpret_cast<char*>(&filePath[0]), sizeof(wchar_t) * len);
             std::wcout << L"Relative File Path - " << filePath.c_str() << L".\n";
             
-            std::ifstream infile(path.path().wstring().c_str(), std::ios::binary);
+            std::ifstream infile(path.path(), std::ios::binary);
 
             infile.seekg(0, std::ios::end);
             uint32_t length = infile.tellg();

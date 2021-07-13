@@ -165,7 +165,7 @@ LR"(Commands:
                         }
                         fs::create_directory(unpackDir);
 
-                        std::ifstream package(args[1].c_str(), std::ios::binary);
+                        std::ifstream package(fs::path(args[1]), std::ios::binary);
                         package.seekg(0, std::ios::end);
                         uint32_t length = package.tellg();
                         package.seekg(0, std::ios::beg);
