@@ -6,7 +6,6 @@
 #include <thread>
 #include <chrono>
 #include <fcntl.h>
-#include <io.h>
 #include <string>
 
 #include <filesystem>
@@ -27,8 +26,6 @@ uint64_t constexpr strhash(const wchar_t* m)
 
 int main(int argc, char* argv[])
 {
-    _setmode(_fileno(stdout), _O_U16TEXT);
-
     {
         uint16_t word = 0x0001;
         if (((uint8_t*)&word)[0])
