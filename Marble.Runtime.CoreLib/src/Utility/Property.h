@@ -19,76 +19,76 @@ namespace Marble
         Property(const Property<GetterReturnType, SetterInputType>& other) = delete;
         Property(Property<GetterReturnType, SetterInputType>&& other) = delete;
 
-        auto operator=(SetterInputType value)
+        inline GetterReturnType operator=(SetterInputType value)
         {
             this->setter(value);
             return this->getter();
         }
-        auto operator=(const Property<GetterReturnType, SetterInputType>& rhs) = delete;
-        auto operator=(Property<GetterReturnType, SetterInputType>&&) = delete;
+        inline GetterReturnType operator=(const Property<GetterReturnType, SetterInputType>& rhs) = delete;
+        inline GetterReturnType operator=(Property<GetterReturnType, SetterInputType>&&) = delete;
 
         #pragma region Arithmetic
-        auto operator+(SetterInputType rhs)
+        inline GetterReturnType operator+(SetterInputType rhs)
         {
             return (this->getter() + rhs);
         }
-        auto operator-(SetterInputType rhs)
+        inline GetterReturnType operator-(SetterInputType rhs)
         {
             return (this->getter() - rhs);
         }
-        auto operator*(SetterInputType rhs)
+        inline GetterReturnType operator*(SetterInputType rhs)
         {
             return (this->getter() * rhs);
         }
-        auto operator/(SetterInputType rhs)
+        inline GetterReturnType operator/(SetterInputType rhs)
         {
             return (this->getter() / rhs);
         }
-        auto operator%(SetterInputType rhs)
+        inline GetterReturnType operator%(SetterInputType rhs)
         {
             return (this->getter() % rhs);
         }
         
-        auto operator++()
+        inline GetterReturnType operator++()
         {
             return (this->getter()++);
         }
-        auto operator--()
+        inline GetterReturnType operator--()
         {
             return (this->getter()--);
         }
         #pragma endregion
 
         #pragma region Assignment
-        auto operator+=(SetterInputType rhs)
+        inline GetterReturnType operator+=(SetterInputType rhs)
         {
             GetterReturnType type = this->getter();
             type += rhs;
             this->setter((SetterInputType)type);
             return this->getter();
         }
-        auto operator-=(SetterInputType rhs)
+        inline GetterReturnType operator-=(SetterInputType rhs)
         {
             GetterReturnType type = this->getter();
             type -= rhs;
             this->setter((SetterInputType)type);
             return this->getter();
         }
-        auto operator*=(SetterInputType rhs)
+        inline GetterReturnType operator*=(SetterInputType rhs)
         {
             GetterReturnType type = this->getter();
             type *= rhs;
             this->setter((SetterInputType)type);
             return this->getter();
         }
-        auto operator/=(SetterInputType rhs)
+        inline GetterReturnType operator/=(SetterInputType rhs)
         {
             GetterReturnType type = this->getter();
             type /= rhs;
             this->setter((SetterInputType)type);
             return this->getter();
         }
-        auto operator%=(SetterInputType rhs)
+        inline GetterReturnType operator%=(SetterInputType rhs)
         {
             GetterReturnType type = this->getter();
             type %= rhs;
@@ -98,37 +98,37 @@ namespace Marble
         #pragma endregion
 
         #pragma region Comparison
-        auto operator==(SetterInputType rhs)
+        inline GetterReturnType operator==(SetterInputType rhs)
         {
             return this->getter() == rhs;
         }
-        auto operator!=(SetterInputType rhs)
+        inline GetterReturnType operator!=(SetterInputType rhs)
         {
             return this->getter() != rhs;
         }
-        auto operator>=(SetterInputType rhs)
+        inline GetterReturnType operator>=(SetterInputType rhs)
         {
             return this->getter() >= rhs;
         }
-        auto operator<=(SetterInputType rhs)
+        inline GetterReturnType operator<=(SetterInputType rhs)
         {
             return this->getter() <= rhs;
         }
-        auto operator>(SetterInputType rhs)
+        inline GetterReturnType operator>(SetterInputType rhs)
         {
             return this->getter() > rhs;
         }
-        auto operator<(SetterInputType rhs)
+        inline GetterReturnType operator<(SetterInputType rhs)
         {
             return this->getter() < rhs;
         }
         #pragma endregion
 
-        auto operator()()
+        inline GetterReturnType operator()()
         {
             return this->getter();
         }
-        operator auto ()
+        inline operator GetterReturnType ()
         {
             return this->getter();
         }
