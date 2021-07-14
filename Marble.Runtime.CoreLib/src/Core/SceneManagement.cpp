@@ -2,7 +2,7 @@
 
 using namespace Marble;
 
-std::list<Scene*> SceneManager::existingScenes;
+std::list<Scene*> SceneManager::existingScenes { new Scene };
 
 Scene::Scene()
 {
@@ -47,14 +47,7 @@ void SceneManager::setSceneInactive(Scene* scene)
 }
 void SceneManager::setMainScene(Scene* scene)
 {
-    for (auto it = SceneManager::existingScenes.begin(); it != SceneManager::existingScenes.end(); ++it)
-    {
-        if (*it == scene)
-        {
-            SceneManager::existingScenes.erase(it);
-            break;
-        }
-    }
+    SceneManager::existingScenes.erase(scene->it);
     scene->active = true;
     SceneManager::existingScenes.insert(SceneManager::existingScenes.begin(), scene);
 }
