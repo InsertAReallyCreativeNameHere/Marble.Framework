@@ -89,13 +89,8 @@ file(GLOB_RECURSE METHSRCS configure_depends
 
 add_library(Marble.Mathematics SHARED ${METHSRCS})
 target_compile_definitions(Marble.Mathematics PRIVATE BUILD_TYPE_DYNAMIC=1)
-
-target_link_libraries(Marble.Mathematics PRIVATE
-)
-target_include_directories(Marble.Mathematics PRIVATE
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/src"
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src"
-)
+target_include_directories(Marble.Mathematics PUBLIC "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/src")
+target_include_directories(Marble.Mathematics PRIVATE "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src")
 
 # Marble.Typography
 
@@ -111,9 +106,9 @@ file(GLOB_RECURSE FONTSRCS configure_depends
 add_library(Marble.Typography SHARED ${FONTSRCS})
 target_compile_definitions(Marble.Typography PRIVATE BUILD_TYPE_DYNAMIC=1)
 
+target_include_directories(Marble.Typography PUBLIC "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src")
 target_include_directories(Marble.Typography PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src"
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/stb"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
 )
@@ -136,8 +131,8 @@ file(GLOB_RECURSE SHADERC configure_depends
 add_library(Marble.Runtime.GL SHARED ${GLSRCS} ${SHADERC})
 target_compile_definitions(Marble.Runtime.GL PRIVATE BUILD_TYPE_DYNAMIC=1)
 
+target_include_directories(Marble.Runtime.GL PUBLIC "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/src")
 target_include_directories(Marble.Runtime.GL PRIVATE
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src"
     "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bgfx/include"
     "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include"
@@ -167,8 +162,8 @@ file(GLOB_RECURSE ENGINESRCS configure_depends
 add_library(Marble.Runtime.CoreLib SHARED ${ENGINESRCS})
 target_compile_definitions(Marble.Runtime.CoreLib PRIVATE SDL_MAIN_HANDLED BUILD_TYPE_DYNAMIC=1)
 
+target_include_directories(Marble.Runtime.CoreLib PUBLIC "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src")
 target_include_directories(Marble.Runtime.CoreLib PRIVATE
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/src"
