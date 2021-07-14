@@ -7,9 +7,6 @@
 
 namespace Marble
 {
-    extern void (*print)(std::string_view);
-    extern void (*wprint)(std::wstring_view);
-
     class coreapi CoreSystem final
     {
     public:

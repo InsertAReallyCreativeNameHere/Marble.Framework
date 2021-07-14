@@ -2,9 +2,6 @@
 
 using namespace Marble;
 
-void (*Marble::print)(std::string_view) = Debug::LogTrace;
-void (*Marble::wprint)(std::wstring_view) = Debug::LogTrace;
-
 FuncPtrEvent<> CoreSystem::OnInitialize;
 FuncPtrEvent<> CoreSystem::OnTick;
 FuncPtrEvent<> CoreSystem::OnPhysicsTick;
