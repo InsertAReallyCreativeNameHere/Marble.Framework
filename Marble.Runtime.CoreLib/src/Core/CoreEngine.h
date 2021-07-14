@@ -60,7 +60,7 @@ namespace Marble
 		public:
 			CoreEngine() = delete;
 
-			friend void main();
+			friend int __handleInitializeAndExit(int argc, char* argv[]);
 
 			friend class Marble::Panel;
 			friend class Marble::Image;
