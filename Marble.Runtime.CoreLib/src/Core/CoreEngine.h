@@ -49,14 +49,18 @@ namespace Marble
 			static std::vector<skarupke::function<void()>> pendingRenderJobBatchesOffload;
 			static moodycamel::ConcurrentQueue<std::vector<skarupke::function<void()>>> pendingRenderJobBatches;
 
+			static float mspf;
+
 			static void internalLoop();
 			static void internalWindowLoop();
 			static void internalRenderLoop();
 
-			static float mspf;
-		public:
 			static int execute(int argc, char* argv[]);
 			static void exit();
+		public:
+			CoreEngine() = delete;
+
+			friend void main();
 
 			friend class Marble::Panel;
 			friend class Marble::Image;

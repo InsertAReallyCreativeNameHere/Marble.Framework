@@ -166,33 +166,5 @@ namespace Marble
 			"\n";
 			Debug::outputLock.unlock();
 		}
-		template <typename... T>
-		inline static void LogFatalError(const T&... log)
-		{
-			std::wostringstream logStr;
-			variadicToString(logStr, log...);
-			
-			Debug::outputLock.lock();
-			std::wcout <<
-			ansiCodes[DEBUG_COLOUR_BLUE] <<
-			L"[UTC: " <<
-			serializeTimePoint(std::chrono::system_clock::now()) <<
-			L"]" <<
-			ansiCodes[DEBUG_COLOUR_RESET] <<
-			L" " <<
-			ansiCodes[DEBUG_COLOUR_ORANGE] <<
-			L"[tID: " <<
-			std::this_thread::get_id() <<
-			L"]" <<
-			ansiCodes[DEBUG_COLOUR_RED] <<
-			L" [FATAL]" <<
-			ansiCodes[DEBUG_COLOUR_RESET] <<
-			" | " <<
-			ansiCodes[DEBUG_COLOUR_RED] <<
-			logStr.rdbuf()->str().c_str() <<
-			ansiCodes[DEBUG_COLOUR_RESET] <<
-			"\n";
-			Debug::outputLock.unlock();
-		}
 	};
 }
