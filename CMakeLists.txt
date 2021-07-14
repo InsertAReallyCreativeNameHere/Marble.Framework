@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.20)
 
 project(Marble.Framework)
 
@@ -51,6 +51,9 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
+set(ORIGINAL_ARCHIVE_OUTPUT_DIRECTORY CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
+set(ORIGINAL_LIBRARY_OUTPUT_DIRECTORY CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+set(ORIGINAL_RUNTIME_OUTPUT_DIRECTORY CMAKE_RUNTIME_OUTPUT_DIRECTORY)
 
 # Marble.Packager
 add_subdirectory("${CMAKE_SOURCE_DIR}/Marble.Packager")
@@ -67,8 +70,8 @@ set(CMAKE_BUILD_TYPE "Release") # Builds faster for MinGW/GCC this way.
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../libglbuild)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../libglbuild)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../libglbuild)
-set(BGFX_BUILD_TOOLS OFF CACHE BOOL "Build bgfx tools." FORCE)
-set(BGFX_BUILD_EXAMPLES OFF CACHE BOOL "Build bgfx examples." FORCE)
+set(BGFX_BUILD_TOOLS OFF CACHE INTERNAL "Build bgfx tools." FORCE)
+set(BGFX_BUILD_EXAMPLES OFF CACHE INTERNAL "Build bgfx examples." FORCE)
 add_subdirectory("${CMAKE_SOURCE_DIR}/external/libgl")
 target_compile_definitions(bgfx PRIVATE BGFX_CONFIG_MULTITHREADED=0)
 set(CMAKE_BUILD_TYPE ${_CMAKE_BUILD_TYPE})
@@ -195,57 +198,6 @@ if (BUILD_PLATFORM STREQUAL Win32)
     target_link_libraries(Marble.Runtime.CoreLib PRIVATE psapi)
 endif()
 
-# Sandbox
-
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../lib/${OUTNAME}/Sandbox)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../lib/${OUTNAME}/Sandbox)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin/${OUTNAME}/Sandbox)
-
-file(GLOB_RECURSE SANDBOXSRCS configure_depends
-    "${CMAKE_SOURCE_DIR}/Sandbox/src/*.h"
-    "${CMAKE_SOURCE_DIR}/Sandbox/src/*.cpp"
-)
-
-add_executable(Sandbox ${SANDBOXSRCS})
-add_dependencies(Sandbox Marble.Runtime.CoreLib)
-target_compile_definitions(Sandbox PRIVATE SDL_MAIN_HANDLED BUILD_TYPE_DYNAMIC=0)
-
-target_link_libraries(Sandbox PRIVATE
-    Marble.Mathematics
-    Marble.Typography
-    Marble.Runtime.CoreLib
-)
-target_include_directories(Sandbox PRIVATE
-    "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/include"
-    "${CMAKE_SOURCE_DIR}/Marble.Runtime.CoreLib/src"
-    "${CMAKE_SOURCE_DIR}/Marble.Runtime.GL/src"
-    "${CMAKE_SOURCE_DIR}/Marble.Typography/src"
-    "${CMAKE_SOURCE_DIR}/Marble.Mathematics/src"
-    "${CMAKE_SOURCE_DIR}/dependencies/ctti/include"
-    "${CMAKE_SOURCE_DIR}/dependencies/earcut/include"
-    "${CMAKE_SOURCE_DIR}/dependencies/moodycamel"
-    "${CMAKE_SOURCE_DIR}/dependencies/stb"
-    "${CMAKE_SOURCE_DIR}/external/bgfx.cmake/bgfx/include"
-    "${CMAKE_SOURCE_DIR}/external/SDL/include"
-)
-
-add_custom_command(TARGET Sandbox POST_BUILD
-COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    $<TARGET_FILE:Marble.Mathematics>
-    $<TARGET_FILE_DIR:Sandbox>
-)
-add_custom_command(TARGET Sandbox POST_BUILD
-COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    $<TARGET_FILE:Marble.Typography>
-    $<TARGET_FILE_DIR:Sandbox>
-)
-add_custom_command(TARGET Sandbox POST_BUILD
-COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    $<TARGET_FILE:Marble.Runtime.GL>
-    $<TARGET_FILE_DIR:Sandbox>
-)
-add_custom_command(TARGET Sandbox POST_BUILD
-COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    $<TARGET_FILE:Marble.Runtime.CoreLib>
-    $<TARGET_FILE_DIR:Sandbox>
-)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ORIGINAL_ARCHIVE_OUTPUT_DIRECTORY})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ORIGINAL_LIBRARY_OUTPUT_DIRECTORY})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ORIGINAL_RUNTIME_OUTPUT_DIRECTORY})

@@ -133,7 +133,7 @@ namespace Marble
             return this->getter();
         }
     private:
-        skarupke::function<GetterReturnType()> getter = nullptr;
-        skarupke::function<void(SetterInputType)> setter = nullptr;
+        skarupke::function<GetterReturnType()> getter;
+        skarupke::function<void(SetterInputType)> setter;
     };
 }

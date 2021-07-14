@@ -325,8 +325,8 @@ void main()
     a_position.x *= scaleX;
     a_position.y *= scaleY;
 
-    float s = sin(rotation);
-    float c = cos(rotation);
+    float s = sinf(rotation);
+    float c = cosf(rotation);
 
     float x = a_position.x;
     float y = a_position.y;
