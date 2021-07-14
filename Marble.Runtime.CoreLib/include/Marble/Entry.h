@@ -6,7 +6,7 @@
 #include <Core/Debug.h>
 #include <type_traits>
 
-#define handleInitializeAndExit(argc, argv) __handleInitializeAndExit(argc, argv);
+#define handleInitializeAndExit(argc, argv) __handleInitializeAndExit(argc, argv)
 inline int __handleInitializeAndExit(int argc, char* argv[])
 {
     if (Marble::Application::execute(argc, argv) != 0)
