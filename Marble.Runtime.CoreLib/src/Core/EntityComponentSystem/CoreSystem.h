@@ -1,15 +1,14 @@
 #pragma once
 
-#include <inc.h>
+#include "inc.h"
 
-#include <string_view>
-#include <SDL.h>
 #include <Utility/Event.h>
+#include <string_view>
 
 namespace Marble
 {
-    extern void (*print)(const std::string_view&);
-    extern void (*wprint)(const std::wstring_view&);
+    extern void (*print)(std::string_view);
+    extern void (*wprint)(std::wstring_view);
 
     class coreapi CoreSystem final
     {
@@ -21,9 +20,9 @@ namespace Marble
         static FuncPtrEvent<> OnAcquireFocus;
         static FuncPtrEvent<> OnLoseFocus;
 
-        static FuncPtrEvent<SDL_Keycode> OnKeyDown;
-        static FuncPtrEvent<SDL_Keycode> OnKeyRepeat;
-        static FuncPtrEvent<SDL_Keycode> OnKeyUp;
+        static FuncPtrEvent<int32_t> OnKeyDown;
+        static FuncPtrEvent<int32_t> OnKeyRepeat;
+        static FuncPtrEvent<int32_t> OnKeyUp;
         static FuncPtrEvent<int> OnMouseDown;
         static FuncPtrEvent<int> OnMouseUp;
 
