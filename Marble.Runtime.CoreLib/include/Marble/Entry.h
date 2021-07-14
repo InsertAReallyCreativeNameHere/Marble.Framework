@@ -2,9 +2,11 @@
 
 #include "inc.h"
 
+#include <type_traits>
+
 #define main() \
-int __marble_entry_main(); \
-int (main)() \
+__marble_entry_main(); \
+std::result_of<decltype(__marble_entry_main())> (main)() \
 { \
     __marble_entry_main(); \
  \
@@ -16,4 +18,4 @@ int (main)() \
  \
     return EXIT_SUCCESS; \
 } \
-int __marble_entry_main()
+std::result_of<decltype(__marble_entry_main())> __marble_entry_main()
