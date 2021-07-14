@@ -5,9 +5,9 @@
 #include <Core/CoreEngine.h>
 #include <Core/Objects/Component.h>
 #include <Core/PackageManager.h>
-#include <Rendering/Core/Texture.h>
-#include <Utility/Property.h>
 #include <Rendering/Core.h>
+#include <Rendering/Core/Renderer.h>
+#include <Utility/Property.h>
 #include <SDL.h>
 
 namespace Marble
@@ -22,7 +22,7 @@ namespace Marble
         struct coreapi RenderData final
         {
             uint32_t accessCount;
-            GL::Texture2D* internalTexture;
+            GL::Texture2DHandle internalTexture;
             PackageSystem::PortableGraphicPackageFile* file;
         };
 

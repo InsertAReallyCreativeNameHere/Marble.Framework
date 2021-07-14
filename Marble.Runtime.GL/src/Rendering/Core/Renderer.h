@@ -26,15 +26,15 @@ namespace Marble
             float transform[9] { 0 };
         };
         // Color values should be between 0.0f and 1.0f.
-        struct coreapi ColoredTransformHandle final : TransformHandle
+        struct coreapi ColoredTransformHandle : public TransformHandle
         {
             void setColor(float r, float g, float b, float a);
         };
 
         struct Vertex2D final
         {
-            float x;
-            float y;
+            float x = 0;
+            float y = 0;
         };
         struct coreapi PolygonHandle final
         {
@@ -45,6 +45,36 @@ namespace Marble
 
             void create(std::vector<Vertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer);
             void update(std::vector<Vertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer);
+            void destroy();
+        };
+        
+        // All raw texture data is RGBA8, with no padding etc.
+        // Width and height in pixels.
+        struct coreapi Texture2DHandle final
+        {
+            bgfx::TextureHandle tex;
+            std::vector<uint8_t>* textureData;
+
+            void create(std::vector<uint8_t> textureData, uint32_t width, uint32_t height);
+            void update(std::vector<uint8_t> textureData, uint32_t width, uint32_t height);
+            void destroy();
+        };
+        struct TexturedVertex2D final
+        {
+            float x = 0;
+            float y = 0;
+            float u = 0;
+            float v = 0;
+        };
+        struct coreapi TexturedPolygonHandle final
+        {
+            bgfx::DynamicVertexBufferHandle vb { bgfx::kInvalidHandle };
+            bgfx::DynamicIndexBufferHandle ib { bgfx::kInvalidHandle };
+            std::vector<TexturedVertex2D>* vbBuf;
+            std::vector<uint16_t>* ibBuf;
+
+            void create(std::vector<TexturedVertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer);
+            void update(std::vector<TexturedVertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer);
             void destroy();
         };
 
@@ -64,10 +94,9 @@ namespace Marble
             static void beginFrame();
             static void endFrame();
 
-            static void drawTriangle(uint32_t abgrColor, float posX, float posY, const float (&point1)[2], const float (&point2)[2], const float (&point3)[2], float rotRadians = 0);
-            static void drawQuadrilateral(uint32_t abgrColor, const float (&point1)[2], const float (&point2)[2], const float (&point3)[2], const float (&point4)[2]);
+            static void drawUnitSquare(ColoredTransformHandle transform);
             static void drawPolygon(PolygonHandle polygon, ColoredTransformHandle transform);
-            static void drawImage(Texture2D* imageTexture, float posX, float posY, float top, float right, float bottom, float left, float rotRadians = 0);
+            static void drawImage(Texture2DHandle image, ColoredTransformHandle transform);
 
             friend struct Texture2D;
         };

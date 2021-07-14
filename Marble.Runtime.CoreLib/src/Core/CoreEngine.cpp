@@ -256,39 +256,21 @@ void CoreEngine::internalLoop()
                             {
                                 Panel* p = static_cast<Panel*>(*it3);
 
-                                uint8_t rgbaColor[4] = { p->_color.r, p->_color.g, p->_color.b, p->_color.a };
                                 Vector2& pos = p->attachedRectTransform->_position;
                                 Vector2& scale = p->attachedRectTransform->_scale;
                                 RectFloat& rect = p->attachedRectTransform->_rect;
-                                float rot = deg2RadF(p->attachedRectTransform->_rotation);
+
+                                ColoredTransformHandle t;
+                                t.setPosition(pos.x + (rect.right + rect.left) / 2, pos.y + (rect.top + rect.bottom) / 2);
+                                t.setScale(scale.x * (rect.right - rect.left), scale.y * (rect.top - rect.bottom));
+                                t.setRotation(deg2RadF(p->attachedRectTransform->_rotation));
+                                t.setColor(p->_color.r, p->_color.g, p->_color.b, p->_color.a);
                                 
-                                float rotL[2];
-                                rotL[0] = rect.left * scale.x; rotL[1] = 0;
-                                rotatePointAroundOrigin(rotL, rot);
-                                float rotT[2];
-                                rotT[0] = 0; rotT[1] = rect.top * scale.y;
-                                rotatePointAroundOrigin(rotT, rot);
-                                float rotR[2];
-                                rotR[0] = rect.right * scale.x; rotR[1] = 0;
-                                rotatePointAroundOrigin(rotR, rot);
-                                float rotB[2];
-                                rotB[0] = 0; rotB[1] = rect.bottom * scale.y;
-                                rotatePointAroundOrigin(rotB, rot);
-
-                                float p1[2] = { pos.x + rotL[0] + rotT[0], pos.y + rotL[1] + rotT[1] }; // TL
-                                float p2[2] = { pos.x + rotR[0] + rotT[0], pos.y + rotR[1] + rotT[1] }; // TR
-                                float p3[2] = { pos.x + rotL[0] + rotB[0], pos.y + rotL[1] + rotB[1] }; // BL
-                                float p4[2] = { pos.x + rotR[0] + rotB[0], pos.y + rotR[1] + rotB[1] }; // BR
-
                                 CoreEngine::pendingRenderJobBatchesOffload.push_back
                                 (
                                     [=]()
                                     {
-                                        Renderer::drawQuadrilateral
-                                        (
-                                            (uint32_t&)rgbaColor,
-                                            p1, p2, p3, p4
-                                        );
+                                        Renderer::drawUnitSquare(t);
                                     }
                                 );
                             }
@@ -299,24 +281,21 @@ void CoreEngine::internalLoop()
 
                                 if (img->data != nullptr)
                                 {
+                                    Vector2& pos = img->attachedRectTransform->_position;
+                                    Vector2& scale = img->attachedRectTransform->_scale;
+                                    RectFloat& rect = img->attachedRectTransform->_rect;
+
+                                    ColoredTransformHandle t;
+                                    t.setPosition(pos.x + (rect.right + rect.left) / 2, pos.y + (rect.top + rect.bottom) / 2);
+                                    t.setScale(scale.x * (rect.right - rect.left), scale.y * (rect.top - rect.bottom));
+                                    t.setRotation(deg2RadF(img->attachedRectTransform->_rotation));
+                                    t.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+                                    
                                     CoreEngine::pendingRenderJobBatchesOffload.push_back
                                     (
-                                        [
-                                            =,
-                                            pos = img->attachedRectTransform->_position,
-                                            scale = img->attachedRectTransform->_scale,
-                                            rect = img->attachedRectTransform->_rect,
-                                            rot = img->attachedRectTransform->_rotation
-                                        ]
+                                        [=, data = img->data]
                                         {
-                                            Renderer::drawImage
-                                            (
-                                                img->data->internalTexture,
-                                                pos.x, pos.y,
-                                                rect.top * scale.y, rect.right * scale.x,
-                                                rect.bottom * scale.y, rect.left * scale.x,
-                                                deg2RadF(rot)
-                                            );
+                                            Renderer::drawImage(data->internalTexture, t);
                                         }
                                     );
                                 }
@@ -676,7 +655,7 @@ void CoreEngine::internalRenderLoop()
 
     for (auto it = Image::imageTextures.begin(); it != Image::imageTextures.end(); ++it)
     {
-        delete it->second->internalTexture;
+        it->second->internalTexture.destroy();
         delete it->second;
     }
 

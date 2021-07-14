@@ -34,7 +34,7 @@ imageFile
                 (
                     [data = this->data]
                     {
-                        delete data->internalTexture;
+                        data->internalTexture.destroy();
                         delete data;
                     }
                 );
@@ -51,21 +51,20 @@ imageFile
             else
             {
                 auto& set = Image::imageTextures[file];
-                set = new RenderData { 1, nullptr, file };
+                set = new RenderData { 1, { }, file };
                 this->data = set;
 
                 uint32_t width = file->width, height = file->height;
                 uint32_t imageDataSize = width * height * 4;
-                uint8_t* imageData = new uint8_t[imageDataSize];
+                std::vector<uint8_t> imageData(imageDataSize);
                 for (uint32_t i = 0; i < imageDataSize; i++)
                     imageData[i] = file->loadedImage[i];
                 
                 CoreEngine::pendingRenderJobBatchesOffload.push_back
                 (
-                    [=, data = this->data]
+                    [=, data = this->data, imageData = std::move(imageData)]
                     {
-                        data->internalTexture = new Texture2D(imageData, width, height);
-                        delete[] imageData;
+                        data->internalTexture.create(imageData, width, height);
                     }
                 );
             }
@@ -89,7 +88,7 @@ Image::~Image()
             (
                 [=]
                 {
-                    delete data->internalTexture;
+                    data->internalTexture.destroy();
                     delete data;
                 }
             );
