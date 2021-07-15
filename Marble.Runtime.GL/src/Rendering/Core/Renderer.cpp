@@ -316,8 +316,8 @@ uniform mat3 transformData;
 
 void main()
 {
-    vec4 texColor = texture2D(s_texColor, v_texcoord0.xy);
-    gl_FragColor = vec4(a, b, g, r) * texColor;
+    vec4 color = texture2D(texColor, v_texcoord0.xy);
+    gl_FragColor = vec4(a, b, g, r) * color;
 }
 )",
                     ShaderCompileOptions(ShaderType::Fragment)
