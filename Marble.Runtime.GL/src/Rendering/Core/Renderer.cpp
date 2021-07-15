@@ -308,11 +308,10 @@ $input v_texcoord0
 SAMPLER2D(texColor, 0);
 
 uniform mat3 transformData;
-#define offsetX transformData[0][0]
-#define offsetY transformData[1][0]
-#define scaleX transformData[2][0]
-#define scaleY transformData[0][1]
-#define rotation transformData[1][1]
+#define r transformData[2][1]
+#define g transformData[0][2]
+#define b transformData[1][2]
+#define a transformData[2][2]
 
 void main()
 {
