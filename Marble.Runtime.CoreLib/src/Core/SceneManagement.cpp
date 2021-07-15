@@ -2,7 +2,14 @@
 
 using namespace Marble;
 
-std::list<Scene*> SceneManager::existingScenes { new Scene };
+static struct Initializer {
+    Initializer()
+    {
+        new Scene;
+    }
+} init;
+
+std::list<Scene*> SceneManager::existingScenes;
 
 Scene::Scene()
 {
