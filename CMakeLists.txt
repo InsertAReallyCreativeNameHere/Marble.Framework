@@ -165,6 +165,7 @@ target_compile_definitions(Marble.Runtime.CoreLib PUBLIC SDL_MAIN_HANDLED)
 target_compile_definitions(Marble.Runtime.CoreLib PRIVATE BUILD_TYPE_DYNAMIC=1)
 
 target_include_directories(Marble.Runtime.CoreLib PUBLIC
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/include"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/ctti/include"
