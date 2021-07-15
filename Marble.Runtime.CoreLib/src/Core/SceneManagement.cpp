@@ -7,7 +7,7 @@ std::list<Scene*> SceneManager::existingScenes;
 static struct Initializer {
     Initializer()
     {
-        new Scene;
+        SceneManager::setSceneActive(new Scene);
     }
 } init;
 
