@@ -106,11 +106,13 @@ file(GLOB_RECURSE FONTSRCS configure_depends
 add_library(Marble.Typography SHARED ${FONTSRCS})
 target_compile_definitions(Marble.Typography PRIVATE BUILD_TYPE_DYNAMIC=1)
 
-target_include_directories(Marble.Typography PUBLIC "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src")
+target_include_directories(Marble.Typography PUBLIC
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
+    "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
+)
 target_include_directories(Marble.Typography PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/stb"
-    "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
 )
 
 # Marble.Runtime.GL
@@ -169,7 +171,6 @@ target_include_directories(Marble.Runtime.CoreLib PUBLIC
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/include"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/ctti/include"
-    "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/moodycamel"
     "${CMAKE_CURRENT_LIST_DIR}/external/SDL/include"
 )
@@ -177,7 +178,6 @@ target_include_directories(Marble.Runtime.CoreLib PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/src"
-    "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/stb"
     "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bgfx/include"
     "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include"
