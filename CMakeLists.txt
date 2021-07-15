@@ -182,7 +182,7 @@ target_include_directories(Marble.Runtime.CoreLib PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bgfx/include"
     "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include"
 )
-target_link_libraries(Marble.Runtime.CoreLib PRIVATE
+target_link_libraries(Marble.Runtime.CoreLib PUBLIC
     Marble.Mathematics
     Marble.Typography
     Marble.Runtime.GL
