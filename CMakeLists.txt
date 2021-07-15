@@ -168,7 +168,7 @@ target_include_directories(Marble.Runtime.CoreLib PUBLIC
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/include"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/ctti/include"
-    "${CMAKE_CURRENT_LIST_DIR}/external/SDL2/include"
+    "${CMAKE_CURRENT_LIST_DIR}/external/SDL/include"
 )
 target_include_directories(Marble.Runtime.CoreLib PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/src"
