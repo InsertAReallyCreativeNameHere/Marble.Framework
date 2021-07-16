@@ -2,30 +2,33 @@
 
 #include <inc.h>
 
+#include <Utility/Lock.h>
 #include <codecvt>
 #include <chrono>
 #include <iostream>
 #include <locale>
 #include <sstream>
 #include <thread>
-#include <mutex>
 
 #define WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT 0
 
 namespace Marble
 {
-	// This is a bit of a cheat. Probably good to put this in Marble::Internal but i dunno how to get that to work.
-	inline static std::wostream& operator<<(std::wostream& stream, const std::string& rhs)
+	namespace Internal
 	{
-		std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> conv;
-		stream << conv.from_bytes(rhs);
-		return stream;
-	}
-	inline static std::wostream& operator<<(std::wostream& stream, const std::string_view& rhs)
-	{
-		std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> conv;
-		stream << conv.from_bytes(&*rhs.begin());
-		return stream;
+		// This is a bit of a cheat.
+		inline static std::wostream& operator<<(std::wostream& stream, const std::string& rhs)
+		{
+			std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> conv;
+			stream << conv.from_bytes(rhs);
+			return stream;
+		}
+		inline static std::wostream& operator<<(std::wostream& stream, const std::string_view& rhs)
+		{
+			std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> conv;
+			stream << conv.from_bytes(&*rhs.begin());
+			return stream;
+		}
 	}
 
 	class coreapi Debug final
@@ -33,6 +36,7 @@ namespace Marble
 		template<typename... T>
 		static void variadicToString(std::wostringstream& str, const T&... args)
 		{
+			using namespace Marble::Internal;
 			using expander = int[];
 			(void)expander
 			{
@@ -40,12 +44,6 @@ namespace Marble
 				(void(str << args), 0)...
 			};
 		}
-
-		static std::string serializeTimePoint(const std::chrono::system_clock::time_point& time);
-
-		static std::mutex outputLock;
-	public:
-		static const wchar_t* ansiCodes[6];
 
 		//Don't change this enum.
 		enum
@@ -58,6 +56,9 @@ namespace Marble
 			DEBUG_COLOUR_RED
 		};
 
+		static const wchar_t* ansiCodes[6];
+		static Marble::SpinLock outputLock;
+	public:
 		template <typename... T>
 		inline static void LogTrace(const T&... log)
 		{
@@ -66,17 +67,25 @@ namespace Marble
 			
 			Debug::outputLock.lock();
 			std::wcout <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_BLUE] <<
+			#endif
 			L"[UTC: " <<
-			serializeTimePoint(std::chrono::system_clock::now()) <<
+			std::chrono::system_clock::now().time_since_epoch().count() <<
 			L"]" <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_RESET] <<
+			#endif
 			L" " <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_ORANGE] <<
+			#endif
 			L"[tID: " <<
 			std::this_thread::get_id() <<
 			L"]" <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_RESET] <<
+			#endif
 			L" [TRACE] | " <<
 			logStr.rdbuf()->str().c_str() <<
 			"\n";
@@ -90,23 +99,37 @@ namespace Marble
 			
 			Debug::outputLock.lock();
 			std::wcout <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_BLUE] <<
+			#endif
 			L"[UTC: " <<
-			serializeTimePoint(std::chrono::system_clock::now()) <<
+			std::chrono::system_clock::now().time_since_epoch().count() <<
 			L"]" <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_RESET] <<
+			#endif
 			L" " <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_ORANGE] <<
+			#endif
 			L"[tID: " <<
 			std::this_thread::get_id() <<
 			L"]" <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_GREEN] <<
+			#endif
 			L" [INFO]" <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_RESET] <<
+			#endif
 			" | " <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_GREEN] <<
+			#endif
 			logStr.rdbuf()->str().c_str() <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_RESET] <<
+			#endif
 			"\n";
 			Debug::outputLock.unlock();
 		}
@@ -118,23 +141,37 @@ namespace Marble
 			
 			Debug::outputLock.lock();
 			std::wcout <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_BLUE] <<
+			#endif
 			L"[UTC: " <<
-			serializeTimePoint(std::chrono::system_clock::now()) <<
+			std::chrono::system_clock::now().time_since_epoch().count() <<
 			L"]" <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_RESET] <<
+			#endif
 			L" " <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_ORANGE] <<
+			#endif
 			L"[tID: " <<
 			std::this_thread::get_id() <<
 			L"]" <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_YELLOW] <<
+			#endif
 			L" [WARN]" <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_RESET] <<
+			#endif
 			" | " <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_YELLOW] <<
+			#endif
 			logStr.rdbuf()->str().c_str() <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_RESET] <<
+			#endif
 			"\n";
 			Debug::outputLock.unlock();
 		}
@@ -146,23 +183,37 @@ namespace Marble
 			
 			Debug::outputLock.lock();
 			std::wcout <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_BLUE] <<
+			#endif
 			L"[UTC: " <<
-			serializeTimePoint(std::chrono::system_clock::now()) <<
+			std::chrono::system_clock::now().time_since_epoch().count() <<
 			L"]" <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_RESET] <<
+			#endif
 			L" " <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_ORANGE] <<
+			#endif
 			L"[tID: " <<
 			std::this_thread::get_id() <<
 			L"]" <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_RED] <<
+			#endif
 			L" [ERROR]" <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_RESET] <<
+			#endif
 			" | " <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_RED] <<
+			#endif
 			logStr.rdbuf()->str().c_str() <<
+			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_RESET] <<
+			#endif
 			"\n";
 			Debug::outputLock.unlock();
 		}

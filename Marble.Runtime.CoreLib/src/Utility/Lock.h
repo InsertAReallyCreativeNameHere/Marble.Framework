@@ -3,36 +3,35 @@
 #include <inc.h>
 
 #include <atomic>
+#include <thread>
 
 namespace Marble
 {
-    class coreapi SpinLock final
+    class SpinLock
     {
         std::atomic_flag locked = ATOMIC_FLAG_INIT;
     public:
-        void lock();
-        void unlock();
+        inline void lock()
+        {
+            while (locked.test_and_set(std::memory_order_acquire));
+        }
+        inline void unlock()
+        {
+            locked.clear(std::memory_order_release);
+        }
     };
-    class coreapi SoyBoySpinLockGuard final
-    {
-        SpinLock* _lock;
-    public:
-        SoyBoySpinLockGuard(SpinLock& lock);
-        ~SoyBoySpinLockGuard();
-    };
-    
-    class coreapi YieldingLock final
+    class YieldingLock
     {
         std::atomic_flag locked = ATOMIC_FLAG_INIT;
     public:
-        void lock();
-        void unlock();
-    };
-    class coreapi SoyBoyYieldingLockGuard final
-    {
-        YieldingLock* _lock;
-    public:
-        SoyBoyYieldingLockGuard(YieldingLock& lock);
-        ~SoyBoyYieldingLockGuard();
+        inline void lock()
+        {
+            while (locked.test_and_set(std::memory_order_acquire))
+                std::this_thread::yield();
+        }
+        inline void unlock()
+        {
+            locked.clear(std::memory_order_release);
+        }
     };
 }

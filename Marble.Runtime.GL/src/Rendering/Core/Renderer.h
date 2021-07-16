@@ -80,7 +80,6 @@ namespace Marble
 
         class coreapi Renderer final
         {
-            static std::list<skarupke::function<void()>> finalizers;
         public:
             Renderer() = delete;
 

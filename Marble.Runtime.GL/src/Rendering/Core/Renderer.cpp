@@ -3,17 +3,13 @@
 #include <bgfx/platform.h>
 #include <bimg/bimg.h>
 #include <bx/math.h>
-#include <cmath>
 #include <Rendering/Utility/ShaderUtility.h>
 #include <shaderc.h>
-#include <utility>
-#include <Utility/ManagedArray.h>
 
 using namespace Marble;
 using namespace Marble::GL;
 
-static std::list<skarupke::function<void()>> renderTasks;
-std::list<skarupke::function<void()>> Renderer::finalizers;
+static std::list<skarupke::function<void()>> finalizers;
 
 static uint32_t renderWidth;
 static uint32_t renderHeight;
@@ -144,7 +140,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
     init.resolution.reset = BGFX_RESET_HIDPI | BGFX_RESET_VSYNC;
     bool ret = bgfx::init(init);
     
-    if (!ret)
+    if (!ret) [[unlikely]]
         return false;
     
     #if _DEBUG
@@ -386,10 +382,6 @@ void Renderer::beginFrame()
 }
 void Renderer::endFrame()
 {
-    for (auto it = renderTasks.begin(); it != renderTasks.end(); ++it)
-        (*it)();
-    renderTasks.clear();
-
     bgfx::frame();
 
     for (auto it = finalizers.begin(); it != finalizers.end(); ++it)
