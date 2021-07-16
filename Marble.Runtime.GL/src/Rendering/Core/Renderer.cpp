@@ -38,6 +38,11 @@ void TransformHandle::setPosition(float x, float y)
     this->transform[0] = x;
     this->transform[4] = y;
 }
+void TransformHandle::setPosition(float x, float y)
+{
+    this->transform[8] = x;
+    this->transform[12] = y;
+}
 void TransformHandle::setScale(float x, float y)
 {
     this->transform[1] = x;
