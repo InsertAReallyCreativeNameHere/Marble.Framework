@@ -21,17 +21,19 @@
 
 #define null NULL
 
-#if __has_include(<source_location>)
-#include <source_location>
 template <typename T>
-inline consteval std::source_location __internal_type()
+inline consteval const char* __internal_type()
 {
-    return std::source_location::current();
+    #if defined(__GNUC__) || defined(__clang__)
+    return __PRETTY_FUNCTION__;
+    #elif defined(_MSC_VER)
+    return __FUNCSIG__;
+    #endif
 }
 template <typename T>
 inline constexpr uint64_t __internal_typeid()
 {
-    const char* typeName = __internal_type<T>().function_name();
+    const char* typeName = __internal_type<T>();
     uint64_t ret = 0;
     size_t i = 0;
     do ret += i * (CHAR_MAX - CHAR_MIN) + typeName[i];
@@ -39,21 +41,3 @@ inline constexpr uint64_t __internal_typeid()
     return ret;
 }
 #define __typeid(Type) __internal_typeid<Type>()
-#elif __has_include(<experimental/source_location>)
-#include <experimental/source_location>
-template <typename T>
-inline consteval std::experimental::source_location __internal_type()
-{
-    return std::experimental::source_location::current();
-}
-template <typename T>
-inline constexpr uint64_t __internal_typeid()
-{
-    const char* typeName = __internal_type<T>().function_name();
-    uint64_t ret = 0;
-    do ret += i * (CHAR_MAX - CHAR_MIN) + typeName[i];
-    while (typeName[++i] != 0);
-    return ret;
-}
-#define __typeid(Type) __internal_typeid<Type>()
-#endif
