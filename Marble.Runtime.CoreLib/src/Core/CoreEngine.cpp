@@ -2,7 +2,6 @@
 
 #include <bx/platform.h>
 #include <cmath>
-#include <ctti/nameof.hpp>
 #include <fcntl.h>
 #include <fstream>
 #include <SDL_video.h>
@@ -252,7 +251,7 @@ void CoreEngine::internalLoop()
 
                         switch ((*it3)->reflection.typeID)
                         {
-                        case strhash(ctti::nameof<Panel>().begin()):
+                        case __typeid(Panel):
                             {
                                 Panel* p = static_cast<Panel*>(*it3);
 
@@ -275,7 +274,7 @@ void CoreEngine::internalLoop()
                                 );
                             }
                             break;
-                        case strhash(ctti::nameof<Image>().begin()):
+                        case __typeid(Image):
                             {
                                 Image* img = static_cast<Image*>(*it3);
 
@@ -301,7 +300,7 @@ void CoreEngine::internalLoop()
                                 }
                             }
                             break;
-                        case strhash(ctti::nameof<Text>().begin()):
+                        case __typeid(Text):
                             {
                                 Text* text = static_cast<Text*>(*it3);
 

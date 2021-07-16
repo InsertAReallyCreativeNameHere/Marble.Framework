@@ -18,7 +18,7 @@ PackageFile::~PackageFile()
 }
 
 BinaryPackageFile::BinaryPackageFile(uint8_t* bytes, uint32_t bytesSize, const fs::path& fileLocalPath) :
-PackageFile(fileLocalPath, strhash(ctti::nameof<BinaryPackageFile>().begin())), loadedBytes(bytes), bytesSize(bytesSize)
+PackageFile(fileLocalPath, __typeid(BinaryPackageFile)), loadedBytes(bytes), bytesSize(bytesSize)
 {
 }
 BinaryPackageFile::~BinaryPackageFile()
@@ -27,7 +27,7 @@ BinaryPackageFile::~BinaryPackageFile()
 }
 
 PortableGraphicPackageFile::PortableGraphicPackageFile(stbi_uc* imageBytes, int width, int height, const fs::path& fileLocalPath) :
-PackageFile(fileLocalPath, strhash(ctti::nameof<PortableGraphicPackageFile>().begin())), loadedImage(imageBytes), width(width), height(height)
+PackageFile(fileLocalPath, __typeid(PortableGraphicPackageFile)), loadedImage(imageBytes), width(width), height(height)
 {
 }
 PortableGraphicPackageFile::~PortableGraphicPackageFile()
@@ -36,7 +36,7 @@ PortableGraphicPackageFile::~PortableGraphicPackageFile()
 }
 
 TrueTypeFontPackageFile::TrueTypeFontPackageFile(uint8_t* fontData, const std::filesystem::path& fileLocalPath) :
-PackageFile(fileLocalPath, strhash(ctti::nameof<TrueTypeFontPackageFile>().begin())), font((unsigned char*)fontData), fontData(fontData)
+PackageFile(fileLocalPath, __typeid(TrueTypeFontPackageFile)), font((unsigned char*)fontData), fontData(fontData)
 {
 }
 TrueTypeFontPackageFile::~TrueTypeFontPackageFile()

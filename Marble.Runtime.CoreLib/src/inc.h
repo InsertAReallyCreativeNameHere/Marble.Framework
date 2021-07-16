@@ -24,12 +24,12 @@
 #if __has_include(<source_location>)
 #include <source_location>
 template <typename T>
-inline std::source_location __internal_type()
+inline consteval std::source_location __internal_type()
 {
     return std::source_location::current();
 }
 template <typename T>
-inline uint64_t __internal_typeid()
+inline consteval uint64_t __internal_typeid()
 {
     const char* typeName = __internal_type<T>().function_name();
     uint64_t ret = 0;
@@ -41,12 +41,12 @@ inline uint64_t __internal_typeid()
 #elif __has_include(<experimental/source_location>)
 #include <experimental/source_location>
 template <typename T>
-inline std::experimental::source_location __internal_type()
+inline consteval std::experimental::source_location __internal_type()
 {
     return std::experimental::source_location::current();
 }
 template <typename T>
-inline uint64_t __internal_typeid()
+inline consteval uint64_t __internal_typeid()
 {
     const char* typeName = __internal_type<T>().function_name();
     uint64_t ret = 0;

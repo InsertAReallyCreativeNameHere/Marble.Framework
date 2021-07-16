@@ -8,7 +8,6 @@
 #include <new>
 #include <type_traits>
 #include <cstring>
-#include <ctti/nameof.hpp>
 #include <Core/Debug.h>
 #include <Core/Components/RectTransform.h>
 #include <Core/Objects/Component.h>
@@ -59,7 +58,7 @@ namespace Marble
             T* ret = new T();
             ret->attachedEntity = this;
             ret->attachedRectTransform = this->attachedRectTransform;
-            ret->reflection.typeID = strhash(ctti::nameof<T>().begin());
+            ret->reflection.typeID = __typeid(T);
             this->components.push_back(ret);
             ret->it = --this->components.end();
             return ret;
@@ -77,13 +76,13 @@ namespace Marble
 
                 for (auto it = this->components.begin(); it != this->components.end(); ++it)
                 {
-                    if ((*it)->reflection.typeID == strhash(ctti::nameof<T>().begin()))
+                    if ((*it)->reflection.typeID == __typeid(T))
                     {
                         return static_cast<T*>(*it);
                     }
                 }
 
-                Debug::LogWarn("No component of type \"", ctti::nameof<T>().begin(), "\" could be found on this Entity!");
+                Debug::LogWarn("No component of type \"", __typeid(T), "\" could be found on this Entity!");
                 return nullptr;
             }
         }
@@ -101,14 +100,14 @@ namespace Marble
                 std::vector<T*> components;
                 for (auto it = this->components.begin(); it != this->components.end(); ++it)
                 {
-                    if ((*it)->reflection.typeID == strhash(ctti::nameof<T>().begin()))
+                    if ((*it)->reflection.typeID == __typeid(T))
                     {
                         components.push_back(static_cast<T*>(*it));
                     }
                 }
 
                 if (components.empty())
-                    Debug::LogWarn("No component of type \"", ctti::nameof<T>().begin(), "\" could be found on this Entity!");
+                    Debug::LogWarn("No component of type \"", __typeid(T), "\" could be found on this Entity!");
                 return components;
             }
         }
@@ -120,7 +119,7 @@ namespace Marble
             
             for (auto it = this->components.begin(); it != this->components.end(); ++it)
             {
-                if ((*it)->reflection.typeID == strhash(ctti::nameof<T>().begin()))
+                if ((*it)->reflection.typeID == __typeid(T))
                 {
                     (*it)->eraseIteratorOnDestroy = false;
                     delete *it;
@@ -139,7 +138,7 @@ namespace Marble
             bool throwWarn = true;
             for (auto it = this->components.begin(); it != this->components.end();)
             {
-                if ((*it)->reflection.typeID == strhash(ctti::nameof<T>().begin()))
+                if ((*it)->reflection.typeID == __typeid(T))
                 {
                     (*it)->eraseIteratorOnDestroy = false;
                     delete *it;

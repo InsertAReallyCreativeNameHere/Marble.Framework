@@ -2,7 +2,6 @@
 
 #include "inc.h"
 
-#include <ctti/nameof.hpp>
 #include <filesystem>
 #include <Font/Font.h>
 #include <list>
@@ -88,7 +87,7 @@ namespace Marble
         {
             static_assert(std::is_base_of<PackageFile, T>::value, "File cast can only work on type \"PackageFile\"!");
 
-            if (file->reflection.typeID == strhash(ctti::nameof<T>().begin()))
+            if (file->reflection.typeID == __typeid(T))
                 return static_cast<T*>(file);
             else return nullptr;
         }
