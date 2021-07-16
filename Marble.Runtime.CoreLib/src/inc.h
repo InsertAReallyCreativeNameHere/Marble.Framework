@@ -33,8 +33,9 @@ inline constexpr uint64_t __internal_typeid()
 {
     const char* typeName = __internal_type<T>().function_name();
     uint64_t ret = 0;
-    for (size_t i = 0; i < strlen(typeName); i++)
-        ret += i * (CHAR_MAX - CHAR_MIN) + typeName[i];
+    size_t i = 0;
+    do ret += i * (CHAR_MAX - CHAR_MIN) + typeName[i];
+    while (typeName[++i] != 0);
     return ret;
 }
 #define __typeid(Type) __internal_typeid<Type>()
@@ -50,8 +51,8 @@ inline constexpr uint64_t __internal_typeid()
 {
     const char* typeName = __internal_type<T>().function_name();
     uint64_t ret = 0;
-    for (size_t i = 0; i < strlen(typeName); i++)
-        ret += i * (CHAR_MAX - CHAR_MIN) + typeName[i];
+    do ret += i * (CHAR_MAX - CHAR_MIN) + typeName[i];
+    while (typeName[++i] != 0);
     return ret;
 }
 #define __typeid(Type) __internal_typeid<Type>()
