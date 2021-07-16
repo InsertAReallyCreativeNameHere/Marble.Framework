@@ -9,50 +9,50 @@
 using namespace Marble;
 using namespace Marble::GL;
 
-static std::list<skarupke::function<void()>> finalizers;
+inline static std::list<skarupke::function<void()>> finalizers;
 
-static uint32_t renderWidth;
-static uint32_t renderHeight;
+inline static uint32_t renderWidth;
+inline static uint32_t renderHeight;
 
 #pragma region 2D
-static bx::Vec3 at = { 0.0f, 0.0f, 0.0f };
-static bx::Vec3 eye = { 0.0f, 0.0f, -1.0f };
-static float view2D[16];
-static float proj2D[16];
+inline static bx::Vec3 at = { 0.0f, 0.0f, 0.0f };
+inline static bx::Vec3 eye = { 0.0f, 0.0f, -1.0f };
+inline static float view2D[16];
+inline static float proj2D[16];
 
-static PolygonHandle unitSquarePoly;
-static TexturedPolygonHandle unitTexturedSquarePoly;
+inline static PolygonHandle unitSquarePoly;
+inline static TexturedPolygonHandle unitTexturedSquarePoly;
 
-static bgfx::UniformHandle uniform2DPolygon;
+inline static bgfx::UniformHandle uniform2DPolygon;
 
-static bgfx::VertexLayout layoutPolygon;
-static bgfx::ProgramHandle program2DPolygon;
+inline static bgfx::VertexLayout layoutPolygon;
+inline static bgfx::ProgramHandle program2DPolygon;
 
-static bgfx::VertexLayout layoutTexturedPolygon;
-static bgfx::UniformHandle sampler2DTexturedPolygon;
-static bgfx::ProgramHandle program2DTexturedPolygon;
+inline static bgfx::VertexLayout layoutTexturedPolygon;
+inline static bgfx::UniformHandle sampler2DTexturedPolygon;
+inline static bgfx::ProgramHandle program2DTexturedPolygon;
 #pragma endregion
 
 void TransformHandle::setPosition(float x, float y)
 {
     this->transform[0] = x;
-    this->transform[1] = y;
+    this->transform[4] = y;
 }
 void TransformHandle::setScale(float x, float y)
 {
-    this->transform[2] = x;
-    this->transform[3] = y;
+    this->transform[1] = x;
+    this->transform[5] = y;
 }
 void TransformHandle::setRotation(float rot)
 {
-    this->transform[4] = rot;
+    this->transform[9] = rot;
 }
 void ColoredTransformHandle::setColor(float r, float g, float b, float a)
 {
-    this->transform[8] = r;
+    this->transform[3] = r;
     this->transform[7] = g;
-    this->transform[6] = b;
-    this->transform[5] = a;
+    this->transform[11] = b;
+    this->transform[15] = a;
 }
 
 void PolygonHandle::create(std::vector<Vertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer)
@@ -157,7 +157,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
     bx::mtxOrtho(proj2D, -(float)renderWidth / 2, (float)renderWidth / 2, -(float)renderHeight / 2, (float)renderHeight / 2, 0, 100, 0, bgfx::getCaps()->homogeneousDepth);
     bgfx::setViewTransform(0, view2D, proj2D);
 
-    uniform2DPolygon = bgfx::createUniform("transformData", bgfx::UniformType::Mat3);
+    uniform2DPolygon = bgfx::createUniform("transformData", bgfx::UniformType::Mat4);
 
     program2DPolygon = bgfx::createProgram
     (
@@ -172,20 +172,15 @@ $input a_position
 
 #include <Runtime/bgfx_shader.sh>
 
-uniform mat3 transformData;
-#define offsetX transformData[0][0]
-#define offsetY transformData[1][0]
-#define scaleX transformData[2][0]
-#define scaleY transformData[0][1]
-#define rotation transformData[1][1]
+uniform mat4 transformData;
 
 void main()
 {
-    a_position.x *= scaleX;
-    a_position.y *= scaleY;
+    a_position += transformData[0].zw;
+    a_position *= transformData[1].xy;
 
-    float s = sin(rotation);
-    float c = cos(rotation);
+    float s = sin(transformData[1].z);
+    float c = cos(transformData[1].z);
 
     float x = a_position.x;
     float y = a_position.y;
@@ -193,8 +188,7 @@ void main()
     a_position.x = x * c + y * s;
     a_position.y = y * c - x * s;
     
-    a_position.x += offsetX;
-    a_position.y += offsetY;
+    a_position += transformData[0].xy;
 
 	gl_Position = mul(u_modelViewProj, vec4(a_position.x, a_position.y, 0.0, 1.0));
 }
@@ -214,15 +208,11 @@ void main()
 R"(
 #include <Runtime/bgfx_shader.sh>
 
-uniform mat3 transformData;
-#define r transformData[2][1]
-#define g transformData[0][2]
-#define b transformData[1][2]
-#define a transformData[2][2]
+uniform mat4 transformData;
 
 void main()
 {
-    gl_FragColor = vec4(a, b, g, r);
+    gl_FragColor = transformData[3];
 }
 )",
                     ShaderCompileOptions(ShaderType::Fragment)
@@ -255,20 +245,15 @@ $output v_texcoord0
 
 #include <Runtime/bgfx_shader.sh>
 
-uniform mat3 transformData;
-#define offsetX transformData[0][0]
-#define offsetY transformData[1][0]
-#define scaleX transformData[2][0]
-#define scaleY transformData[0][1]
-#define rotation transformData[1][1]
+uniform mat4 transformData;
 
 void main()
 {
-    a_position.x *= scaleX;
-    a_position.y *= scaleY;
+    a_position += transformData[0].zw;
+    a_position *= transformData[1].xy;
 
-    float s = sin(rotation);
-    float c = cos(rotation);
+    float s = sin(transformData[1].z);
+    float c = cos(transformData[1].z);
 
     float x = a_position.x;
     float y = a_position.y;
@@ -276,8 +261,7 @@ void main()
     a_position.x = x * c + y * s;
     a_position.y = y * c - x * s;
     
-    a_position.x += offsetX;
-    a_position.y += offsetY;
+    a_position += transformData[0].xy;
 
 	gl_Position = mul(u_modelViewProj, vec4(a_position.x, a_position.y, 0.0, 1.0));
 
@@ -303,16 +287,12 @@ $input v_texcoord0
 
 SAMPLER2D(texColor, 0);
 
-uniform mat3 transformData;
-#define r transformData[2][1]
-#define g transformData[0][2]
-#define b transformData[1][2]
-#define a transformData[2][2]
+uniform mat4 transformData;
 
 void main()
 {
     vec4 color = texture2D(texColor, v_texcoord0.xy);
-    gl_FragColor = vec4(a, b, g, r) * color;
+    gl_FragColor = transformData[3] * color;
 }
 )",
                     ShaderCompileOptions(ShaderType::Fragment)

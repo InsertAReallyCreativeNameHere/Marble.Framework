@@ -260,7 +260,8 @@ void CoreEngine::internalLoop()
                                 RectFloat& rect = p->attachedRectTransform->_rect;
 
                                 ColoredTransformHandle t;
-                                t.setPosition(pos.x + (rect.right + rect.left) / 2, pos.y + (rect.top + rect.bottom) / 2);
+                                t.setPosition(pos.x, pos.y);
+                                t.setOffset((rect.right + rect.left) / 2, (rect.top + rect.bottom) / 2);
                                 t.setScale(scale.x * (rect.right - rect.left), scale.y * (rect.top - rect.bottom));
                                 t.setRotation(deg2RadF(p->attachedRectTransform->_rotation));
                                 t.setColor(p->_color.r, p->_color.g, p->_color.b, p->_color.a);
@@ -285,7 +286,8 @@ void CoreEngine::internalLoop()
                                     RectFloat& rect = img->attachedRectTransform->_rect;
 
                                     ColoredTransformHandle t;
-                                    t.setPosition(pos.x + (rect.right + rect.left) / 2, pos.y + (rect.top + rect.bottom) / 2);
+                                    t.setPosition(pos.x, pos.y);
+                                    t.setOffset((rect.right + rect.left) / 2, (rect.top + rect.bottom) / 2);
                                     t.setScale(scale.x * (rect.right - rect.left), scale.y * (rect.top - rect.bottom));
                                     t.setRotation(deg2RadF(img->attachedRectTransform->_rotation));
                                     t.setColor(1.0f, 1.0f, 1.0f, 1.0f);

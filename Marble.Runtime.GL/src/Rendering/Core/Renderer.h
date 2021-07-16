@@ -17,13 +17,25 @@ namespace Marble
         // Rotation values should be in radians.
         struct coreapi TransformHandle
         {
-            void setPosition(float x, float y);
+            void setPosition(float x, float y); // Positional transform after rotation.
+            void setOffset(float x, float y); // Positional transform before rotation.
             void setScale(float x, float y);
             void setRotation(float rot);
 
             friend class Marble::GL::Renderer;
         protected:
-            float transform[9] { 0 };
+            float transform[16]
+            {
+            //  pos     scale   res1    user1
+            //  pos     scale   res2    user2
+            //  rotoff  rot     res3    user3
+            //  rotoff  res0    res4    user4
+
+                0,      1,      0,      0,
+                0,      1,      0,      0,
+                0,      0,      0,      0,
+                0,      0,      0,      0
+            };
         };
         // Color values should be between 0.0f and 1.0f.
         struct coreapi ColoredTransformHandle : public TransformHandle
