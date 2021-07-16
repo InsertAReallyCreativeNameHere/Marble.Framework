@@ -182,7 +182,8 @@ uniform mat4 transformData;
 void main()
 {
     a_position += transformData[0].zw;
-    a_position *= transformData[1].xy;
+    a_position.x *= transformData[1].x;
+    a_position.y *= transformData[1].y;
 
     float s = sin(transformData[1].z);
     float c = cos(transformData[1].z);
@@ -255,7 +256,8 @@ uniform mat4 transformData;
 void main()
 {
     a_position += transformData[0].zw;
-    a_position *= transformData[1].xy;
+    a_position.x *= transformData[1].x;
+    a_position.y *= transformData[1].y;
 
     float s = sin(transformData[1].z);
     float c = cos(transformData[1].z);
