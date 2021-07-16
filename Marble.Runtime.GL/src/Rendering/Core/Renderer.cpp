@@ -183,7 +183,8 @@ void main()
 {
     a_position.x += transformData[0].x;
     a_position.y += transformData[0].y;
-    a_position *= transformData[1].xy;
+    a_position.x *= transformData[1].x;
+    a_position.y *= transformData[1].y;
 
     float s = sin(transformData[1].z);
     float c = cos(transformData[1].z);
@@ -257,7 +258,8 @@ void main()
 {
     a_position.x += transformData[0].x;
     a_position.y += transformData[0].y;
-    a_position *= transformData[1].xy;
+    a_position.x *= transformData[1].x;
+    a_position.y *= transformData[1].y;
 
     float s = sin(transformData[1].z);
     float c = cos(transformData[1].z);
