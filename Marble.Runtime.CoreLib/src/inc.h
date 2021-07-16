@@ -29,7 +29,7 @@ inline consteval std::source_location __internal_type()
     return std::source_location::current();
 }
 template <typename T>
-inline consteval uint64_t __internal_typeid()
+inline constexpr uint64_t __internal_typeid()
 {
     const char* typeName = __internal_type<T>().function_name();
     uint64_t ret = 0;
@@ -46,7 +46,7 @@ inline consteval std::experimental::source_location __internal_type()
     return std::experimental::source_location::current();
 }
 template <typename T>
-inline consteval uint64_t __internal_typeid()
+inline constexpr uint64_t __internal_typeid()
 {
     const char* typeName = __internal_type<T>().function_name();
     uint64_t ret = 0;
