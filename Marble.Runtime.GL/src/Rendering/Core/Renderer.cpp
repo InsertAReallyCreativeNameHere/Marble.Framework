@@ -271,7 +271,8 @@ void main()
     a_position.x = x * c + y * s;
     a_position.y = y * c - x * s;
     
-    a_position += transformData[0].xy;
+    a_position.x += transformData[0].x;
+    a_position.y += transformData[0].y;
 
 	gl_Position = mul(u_modelViewProj, vec4(a_position.x, a_position.y, 0.0, 1.0));
 
