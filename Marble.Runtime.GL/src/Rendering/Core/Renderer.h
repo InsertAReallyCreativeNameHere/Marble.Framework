@@ -31,8 +31,8 @@ namespace Marble
             //  rotoff  rot     res3    user3
             //  rotoff  res0    res4    user4
 
-                0,      1,      0,      0,
-                0,      1,      0,      0,
+                0,      0,      0,      0,
+                1,      1,      0,      0,
                 0,      0,      0,      0,
                 0,      0,      0,      0
             };

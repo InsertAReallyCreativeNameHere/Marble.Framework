@@ -36,27 +36,27 @@ inline static bgfx::ProgramHandle program2DTexturedPolygon;
 void TransformHandle::setPosition(float x, float y)
 {
     this->transform[0] = x;
-    this->transform[4] = y;
+    this->transform[1] = y;
 }
 void TransformHandle::setOffset(float x, float y)
 {
-    this->transform[8] = x;
-    this->transform[12] = y;
+    this->transform[2] = x;
+    this->transform[3] = y;
 }
 void TransformHandle::setScale(float x, float y)
 {
-    this->transform[1] = x;
+    this->transform[4] = x;
     this->transform[5] = y;
 }
 void TransformHandle::setRotation(float rot)
 {
-    this->transform[9] = rot;
+    this->transform[6] = rot;
 }
 void ColoredTransformHandle::setColor(float r, float g, float b, float a)
 {
-    this->transform[3] = r;
-    this->transform[7] = g;
-    this->transform[11] = b;
+    this->transform[12] = r;
+    this->transform[13] = g;
+    this->transform[14] = b;
     this->transform[15] = a;
 }
 
