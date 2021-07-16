@@ -36,27 +36,27 @@ inline static bgfx::ProgramHandle program2DTexturedPolygon;
 void TransformHandle::setPosition(float x, float y)
 {
     this->transform[0] = x;
-    this->transform[1] = y;
+    this->transform[4] = y;
 }
 void TransformHandle::setOffset(float x, float y)
 {
-    this->transform[2] = x;
-    this->transform[3] = y;
+    this->transform[8] = x;
+    this->transform[12] = y;
 }
 void TransformHandle::setScale(float x, float y)
 {
-    this->transform[4] = x;
+    this->transform[1] = x;
     this->transform[5] = y;
 }
 void TransformHandle::setRotation(float rot)
 {
-    this->transform[6] = rot;
+    this->transform[9] = rot;
 }
 void ColoredTransformHandle::setColor(float r, float g, float b, float a)
 {
-    this->transform[12] = r;
-    this->transform[13] = g;
-    this->transform[14] = b;
+    this->transform[3] = r;
+    this->transform[7] = g;
+    this->transform[11] = b;
     this->transform[15] = a;
 }
 
@@ -181,10 +181,10 @@ uniform mat4 transformData;
 
 void main()
 {
-    a_position.x += transformData[0].x;
-    a_position.y += transformData[0].y;
     a_position.x *= transformData[1].x;
     a_position.y *= transformData[1].y;
+    a_position.x += transformData[0].x;
+    a_position.y += transformData[0].y;
 
     float s = sin(transformData[1].z);
     float c = cos(transformData[1].z);
@@ -257,10 +257,10 @@ uniform mat4 transformData;
 
 void main()
 {
-    a_position.x += transformData[0].x;
-    a_position.y += transformData[0].y;
     a_position.x *= transformData[1].x;
     a_position.y *= transformData[1].y;
+    a_position.x += transformData[0].x;
+    a_position.y += transformData[0].y;
 
     float s = sin(transformData[1].z);
     float c = cos(transformData[1].z);
