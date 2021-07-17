@@ -54,10 +54,10 @@ void TransformHandle::setRotation(float rot)
 }
 void ColoredTransformHandle::setColor(float r, float g, float b, float a)
 {
-    this->transform[3] = r;
-    this->transform[7] = g;
-    this->transform[11] = b;
-    this->transform[15] = a;
+    this->transform[2] = r;
+    this->transform[6] = g;
+    this->transform[10] = b;
+    this->transform[14] = a;
 }
 
 void PolygonHandle::create(std::vector<Vertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer)
@@ -183,8 +183,8 @@ void main()
 {
     a_position.x *= transformData[1].x;
     a_position.y *= transformData[1].y;
-    a_position.x += transformData[0].x;
-    a_position.y += transformData[0].y;
+    a_position.x += transformData[0].z;
+    a_position.y += transformData[0].w;
 
     float s = sin(transformData[1].z);
     float c = cos(transformData[1].z);
@@ -220,7 +220,7 @@ uniform mat4 transformData;
 
 void main()
 {
-    gl_FragColor = transformData[3];
+    gl_FragColor = transformData[2];
 }
 )",
                     ShaderCompileOptions(ShaderType::Fragment)
@@ -259,8 +259,8 @@ void main()
 {
     a_position.x *= transformData[1].x;
     a_position.y *= transformData[1].y;
-    a_position.x += transformData[0].x;
-    a_position.y += transformData[0].y;
+    a_position.x += transformData[0].z;
+    a_position.y += transformData[0].w;
 
     float s = sin(transformData[1].z);
     float c = cos(transformData[1].z);
@@ -303,7 +303,7 @@ uniform mat4 transformData;
 void main()
 {
     vec4 color = texture2D(texColor, v_texcoord0.xy);
-    gl_FragColor = transformData[3] * color;
+    gl_FragColor = transformData[2] * color;
 }
 )",
                     ShaderCompileOptions(ShaderType::Fragment)
