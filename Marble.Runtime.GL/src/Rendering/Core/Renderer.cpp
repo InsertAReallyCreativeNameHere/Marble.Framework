@@ -324,7 +324,7 @@ void main()
     sampler2DTexturedPolygon = bgfx::createUniform("texColor", bgfx::UniformType::Sampler);
 
     unitSquarePoly.create({ { -0.5f, -0.5f }, { 0.5f, -0.5f }, { 0.5f, 0.5f }, { -0.5f, 0.5f } }, { 2, 3, 0, 1, 2, 0 });
-    unitTexturedSquarePoly.create({ { -0.5f, -0.5f, 0.0f, 0.0f }, { 0.5f, -0.5f, 1.0f, 0.0f }, { 0.5f, 0.5f, 1.0f, 1.0f }, { -0.5f, 0.5f, 0.0f, 1.0f } }, { 0, 3, 2, 0, 2, 1 });
+    unitTexturedSquarePoly.create({ { -0.5f, -0.5f, 0.0f, 0.0f }, { 0.5f, -0.5f, 1.0f, 0.0f }, { 0.5f, 0.5f, 1.0f, 1.0f }, { -0.5f, 0.5f, 0.0f, 1.0f } }, { 2, 3, 0, 1, 2, 0 });
     #pragma endregion
 
     return true;
