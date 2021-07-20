@@ -398,7 +398,7 @@ void Renderer::drawImage(Texture2DHandle image, ColoredTransformHandle transform
 {
     bgfx::setVertexBuffer(0, unitTexturedSquarePoly.vb);
     bgfx::setIndexBuffer(unitTexturedSquarePoly.ib);
-    bgfx::setTexture(0, sampler2DTexturedPolygon, image.tex);
+    //bgfx::setTexture(0, sampler2DTexturedPolygon, image.tex);
     bgfx::setUniform(uniform2DPolygon, transform.transform);
     bgfx::submit(0, program2DTexturedPolygon);
 }
