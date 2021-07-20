@@ -91,13 +91,13 @@ void Texture2DHandle::create(std::vector<uint8_t> textureData, uint32_t width, u
     (
         width, height, false, 1, bgfx::TextureFormat::RGBA8,
         BGFX_TEXTURE_NONE | BGFX_SAMPLER_NONE,
-        bgfx::makeRef(textureData.data(), textureData.size() * sizeof(decltype(textureData)::value_type))
+        bgfx::makeRef(this->textureData->data(), this->textureData->size() * sizeof(decltype(textureData)::value_type))
     );
 }
 void Texture2DHandle::update(std::vector<uint8_t> textureData, uint32_t width, uint32_t height)
 {
     *this->textureData = std::move(textureData);
-    bgfx::updateTexture2D(this->tex, 1, 0, 0, 0, width, height, bgfx::makeRef(textureData.data(), textureData.size() * sizeof(decltype(textureData)::value_type)), width * 4);
+    bgfx::updateTexture2D(this->tex, 1, 0, 0, 0, width, height, bgfx::makeRef(this->textureData->data(), this->textureData->size() * sizeof(decltype(textureData)::value_type)), width * 4);
 }
 void Texture2DHandle::destroy()
 {
@@ -149,7 +149,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
         return false;
     
     #if _DEBUG
-    bgfx::setDebug(BGFX_DEBUG_PROFILER | BGFX_DEBUG_STATS | BGFX_DEBUG_TEXT);
+    bgfx::setDebug(BGFX_DEBUG_PROFILER | BGFX_DEBUG_STATS | BGFX_DEBUG_TEXT | BGFX_DEBUG_WIREFRAME);
     #endif
 
     bgfx::g_verbose = true;
@@ -257,22 +257,24 @@ uniform mat4 transformData;
 
 void main()
 {
-    a_position.x *= transformData[1].x;
-    a_position.y *= transformData[1].y;
-    a_position.x += transformData[0].z;
-    a_position.y += transformData[0].w;
+    //a_position.x *= transformData[1].x;
+    //a_position.y *= transformData[1].y;
+    //a_position.x += transformData[0].z;
+    //a_position.y += transformData[0].w;
+    //a_position.x *= 100;
+    //a_position.y *= 100;
 
-    float s = sin(transformData[1].z);
-    float c = cos(transformData[1].z);
+    //float s = sin(transformData[1].z);
+    //float c = cos(transformData[1].z);
 
-    float x = a_position.x;
-    float y = a_position.y;
+    //float x = a_position.x;
+    //float y = a_position.y;
 
-    a_position.x = x * c + y * s;
-    a_position.y = y * c - x * s;
+    //a_position.x = x * c + y * s;
+    //a_position.y = y * c - x * s;
     
-    a_position.x += transformData[0].x;
-    a_position.y += transformData[0].y;
+    //a_position.x += transformData[0].x;
+    //a_position.y += transformData[0].y;
 
 	gl_Position = mul(u_modelViewProj, vec4(a_position.x, a_position.y, 0.0, 1.0));
 
@@ -324,7 +326,16 @@ void main()
     sampler2DTexturedPolygon = bgfx::createUniform("texColor", bgfx::UniformType::Sampler);
 
     unitSquarePoly.create({ { -0.5f, -0.5f }, { 0.5f, -0.5f }, { 0.5f, 0.5f }, { -0.5f, 0.5f } }, { 2, 3, 0, 1, 2, 0 });
-    unitTexturedSquarePoly.create({ { -0.5f, -0.5f, 0.0f, 0.0f, 0.0f }, { 0.5f, -0.5f, 0.0f, 1.0f, 0.0f }, { 0.5f, 0.5f, 0.0f, 1.0f, 1.0f }, { -0.5f, 0.5f, 0.0f, 0.0f, 1.0f } }, { 2, 3, 0, 1, 2, 0 });
+    unitTexturedSquarePoly.create
+    (
+        {
+            { -100, -100, 0.0f, 0.5f, 0.5f },
+            { 100, -100, 0.0f, 0.5f, 0.5f },
+            { 100, 100, 0.0f, 0.5f, 0.5f },
+            { -100, 100, 0.0f, 0.5f, 0.5f }
+        },
+        { 2, 3, 0, 1, 2, 0 }
+    );
     #pragma endregion
 
     return true;
@@ -398,7 +409,7 @@ void Renderer::drawImage(Texture2DHandle image, ColoredTransformHandle transform
 {
     bgfx::setVertexBuffer(0, unitTexturedSquarePoly.vb);
     bgfx::setIndexBuffer(unitTexturedSquarePoly.ib);
-    //bgfx::setTexture(0, sampler2DTexturedPolygon, image.tex);
+    bgfx::setTexture(0, sampler2DTexturedPolygon, image.tex);
     bgfx::setUniform(uniform2DPolygon, transform.transform);
     bgfx::submit(0, program2DTexturedPolygon);
 }
