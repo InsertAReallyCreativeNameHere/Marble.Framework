@@ -109,7 +109,7 @@ void TexturedPolygonHandle::create(std::vector<TexturedVertex2D> vertexBuffer, s
 {
     this->vbBuf = new std::vector<TexturedVertex2D>(std::move(vertexBuffer));
     this->ibBuf = new std::vector<uint16_t>(std::move(indexBuffer));
-    this->vb = bgfx::createDynamicVertexBuffer(bgfx::makeRef(this->vbBuf->data(), sizeof(TexturedVertex2D) * this->vbBuf->size()), layoutPolygon);
+    this->vb = bgfx::createDynamicVertexBuffer(bgfx::makeRef(this->vbBuf->data(), sizeof(TexturedVertex2D) * this->vbBuf->size()), layoutTexturedPolygon);
     this->ib = bgfx::createDynamicIndexBuffer(bgfx::makeRef(this->ibBuf->data(), sizeof(uint16_t) * this->ibBuf->size()));
 }
 void TexturedPolygonHandle::update(std::vector<TexturedVertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer)
@@ -257,24 +257,22 @@ uniform mat4 transformData;
 
 void main()
 {
-    //a_position.x *= transformData[1].x;
-    //a_position.y *= transformData[1].y;
-    //a_position.x += transformData[0].z;
-    //a_position.y += transformData[0].w;
-    //a_position.x *= 100;
-    //a_position.y *= 100;
+    a_position.x *= transformData[1].x;
+    a_position.y *= transformData[1].y;
+    a_position.x += transformData[0].z;
+    a_position.y += transformData[0].w;
 
-    //float s = sin(transformData[1].z);
-    //float c = cos(transformData[1].z);
+    float s = sin(transformData[1].z);
+    float c = cos(transformData[1].z);
 
-    //float x = a_position.x;
-    //float y = a_position.y;
+    float x = a_position.x;
+    float y = a_position.y;
 
-    //a_position.x = x * c + y * s;
-    //a_position.y = y * c - x * s;
+    a_position.x = x * c + y * s;
+    a_position.y = y * c - x * s;
     
-    //a_position.x += transformData[0].x;
-    //a_position.y += transformData[0].y;
+    a_position.x += transformData[0].x;
+    a_position.y += transformData[0].y;
 
 	gl_Position = mul(u_modelViewProj, vec4(a_position.x, a_position.y, 0.0, 1.0));
 
@@ -319,7 +317,7 @@ void main()
     
     layoutTexturedPolygon
     .begin()
-    .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+    .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
     .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
     .end();
 
@@ -329,12 +327,12 @@ void main()
     unitTexturedSquarePoly.create
     (
         {
-            { -100, -100, 0.0f, 0.5f, 0.5f },
-            { 100, -100, 0.0f, 0.5f, 0.5f },
-            { 100, 100, 0.0f, 0.5f, 0.5f },
-            { -100, 100, 0.0f, 0.5f, 0.5f }
+            { -0.5f, -0.5f, 0.0f, 1.0f },
+            { 0.5f, -0.5f, 1.0f, 1.0f },
+            { 0.5f, 0.5f, 1.0f, 0.0f },
+            { -0.5f, 0.5f, 0.0f, 0.0f }
         },
-        { 0, 3, 2, 0, 2, 1 }
+        { 2, 3, 0, 1, 2, 0 }
     );
     #pragma endregion
 
@@ -380,6 +378,12 @@ void Renderer::setClear(uint32_t rgbaColor)
 
 void Renderer::beginFrame()
 {
+    bgfx::setState
+    (
+        0 |
+        BGFX_STATE_CULL_CW | 
+        BGFX_STATE_DEPTH_TEST_GREATER
+    );
     bgfx::touch(0);
 }
 void Renderer::endFrame()
