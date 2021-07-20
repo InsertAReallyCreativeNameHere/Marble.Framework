@@ -75,6 +75,7 @@ namespace Marble
         {
             float x = 0;
             float y = 0;
+            float z = 0;
             float u = 0;
             float v = 0;
         };
