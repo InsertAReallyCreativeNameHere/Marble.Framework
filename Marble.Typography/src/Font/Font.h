@@ -33,6 +33,10 @@ namespace Marble
             stbtt_vertex* verts;
             int vertsSize;
 
+            GlyphOutline(const GlyphOutline&) = delete; // Laziness.
+            GlyphOutline(GlyphOutline&& other);
+            ~GlyphOutline();
+
             template <typename VertType>
             std::pair<std::vector<VertType>, std::vector<uint16_t>> createGeometryBuffers()
             {
@@ -182,8 +186,6 @@ namespace Marble
                 return std::make_pair(std::move(pointsFlattened), std::move(indexesFlattened));
             }
             
-            ~GlyphOutline();
-
             friend class Marble::Typography::Font;
         private:
             GlyphOutline();

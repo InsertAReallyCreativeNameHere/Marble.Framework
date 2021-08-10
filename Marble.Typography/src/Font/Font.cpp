@@ -23,10 +23,15 @@ GlyphOutline Font::getCodepointOutline(char32_t codepoint)
 {
     GlyphOutline ret;
     ret.vertsSize = stbtt_GetCodepointShape(&this->fontInfo, codepoint, &ret.verts);
-    return ret;
+    return std::move(ret);
 }
 GlyphOutline::GlyphOutline()
 {
+}
+GlyphOutline::GlyphOutline(GlyphOutline&& other) : verts(other.verts), vertsSize(other.vertsSize)
+{
+    other.verts = nullptr;
+    other.vertsSize = 0;
 }
 GlyphOutline::~GlyphOutline()
 {
