@@ -82,10 +82,10 @@ text
             else
             {
                 GlyphOutline glyph = this->data->file->fontHandle().getCodepointOutline(*it);
-                auto buffers = glyph.createGeometryBuffers<Vertex2D>();
                 
                 if (glyph.verts != nullptr) [[likely]]
                 {
+                    auto buffers = glyph.createGeometryBuffers<Vertex2D>();
                     this->data->characters[*it] = new CharacterRenderData { 1, { } };
                     CoreEngine::pendingRenderJobBatchesOffload.push_back
                     (
