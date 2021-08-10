@@ -3,6 +3,7 @@
 #include <Core/CoreAPI.h>
 #include <Core/Debug.h>
 
+#include <climits>
 #include <cstdint>
 #include <cstring>
 

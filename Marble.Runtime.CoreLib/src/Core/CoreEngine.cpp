@@ -154,7 +154,7 @@ int CoreEngine::execute(int argc, char* argv[])
 }
 void CoreEngine::exit()
 {
-    while (CoreEngine::threadsFinished_1.load(std::memory_order_seq_cst) == false)
+    while (CoreEngine::threadsFinished_1.load(std::memory_order_relaxed) == false)
         std::this_thread::yield();
 
     std::wcout << L"Cleaning up...\n";
@@ -308,27 +308,30 @@ void CoreEngine::internalLoop()
 
                                 Vector2 pos = text->attachedRectTransform->_position;
                                 Vector2 scale = text->attachedRectTransform->_scale;
+                                float glyphScale = float(text->fontSize) / (text->data->file->fontHandle().ascent - text->data->file->fontHandle().descent);
+
                                 float rot = deg2RadF(text->attachedRectTransform->_rotation);
+                                float rotMul[2] { 1, 0 };
+                                rotatePointAroundOrigin(rotMul, rot);
+
                                 float accAdvance = 0;
+
                                 for (auto it = text->_text.begin(); it != text->_text.end(); ++it)
                                 {
-                                    GlyphMetrics metrics(text->data->file->fontHandle(), *it);
+                                    GlyphMetrics metrics = text->data->file->fontHandle().getCodepointMetrics(*it);
 
                                     auto c = text->data->characters.find(*it);
                                     if (c != text->data->characters.end())
                                     {
-                                        float accAdvOffset[2] { accAdvance, 0 };
-                                        rotatePointAroundOrigin(accAdvOffset, rot);
-
                                         ColoredTransformHandle transform;
-                                        transform.setPosition(pos.x + accAdvOffset[0], pos.y + accAdvOffset[1]);
-                                        transform.setScale(scale.x, scale.y);
+                                        transform.setPosition(pos.x + accAdvance * rotMul[0], pos.y + accAdvance * rotMul[1]);
+                                        transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
                                         transform.setRotation(rot);
                                         transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
                                         CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = c->second] { Renderer::drawPolygon(data->polygon, transform); });
                                     }
 
-                                    accAdvance += float(metrics.advanceWidth) * scale.x;
+                                    accAdvance += float(metrics.advanceWidth) * glyphScale * scale.x;
                                 }
                             }
                             break;
@@ -370,7 +373,7 @@ void CoreEngine::internalLoop()
     }
     SceneManager::existingScenes.clear();
 
-    CoreEngine::threadsFinished_0 = true;
+    CoreEngine::threadsFinished_0.store(true, std::memory_order_relaxed);
 }
 
 void CoreEngine::internalWindowLoop()
@@ -383,7 +386,7 @@ void CoreEngine::internalWindowLoop()
     {
         Debug::LogError("Could not create window: ", SDL_GetError(), ".");
         CoreEngine::readyToExit = true;
-        CoreEngine::threadsFinished_1 = true;
+        CoreEngine::threadsFinished_1.store(true, std::memory_order_relaxed);
         return;
     }
     Window::width = WNDW;
@@ -568,10 +571,10 @@ void CoreEngine::internalWindowLoop()
     Input::currentHeldMouseButtons.clear();
     Input::currentHeldMouseButtons.shrink_to_fit();
 
-    while (!CoreEngine::threadsFinished_2.load());
+    while (!CoreEngine::threadsFinished_2.load(std::memory_order_relaxed));
 
     SDL_DestroyWindow(wind);
-    CoreEngine::threadsFinished_1 = true;
+    CoreEngine::threadsFinished_1.store(true, std::memory_order_relaxed);
 }
 
 void CoreEngine::internalRenderLoop()
@@ -652,7 +655,7 @@ void CoreEngine::internalRenderLoop()
         isRendering.store(false, std::memory_order_relaxed);
     }
 
-    while (!CoreEngine::threadsFinished_0.load());
+    while (!CoreEngine::threadsFinished_0.load(std::memory_order_relaxed));
 
     for (auto it = Image::imageTextures.begin(); it != Image::imageTextures.end(); ++it)
     {
@@ -665,5 +668,5 @@ void CoreEngine::internalRenderLoop()
     std::vector<skarupke::function<void()>> jobs;
     while (CoreEngine::pendingRenderJobBatches.try_dequeue(jobs));
 
-    CoreEngine::threadsFinished_2 = true;
+    CoreEngine::threadsFinished_2.store(true, std::memory_order_relaxed);
 }

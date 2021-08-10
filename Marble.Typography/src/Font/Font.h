@@ -24,19 +24,14 @@ namespace Marble
             Font(const Font&) = delete;
             Font(Font&&) = delete;
 
-            friend struct Marble::Typography::GlyphOutline;
-            friend struct Marble::Typography::GlyphMetrics;
+            GlyphOutline getCodepointOutline(char32_t codepoint);
+            GlyphMetrics getCodepointMetrics(char32_t codepoint);
         };
 
         struct coreapi GlyphOutline final
         {
-            Font& font;
             stbtt_vertex* verts;
             int vertsSize;
-
-            GlyphOutline(Font& font, char32_t codepoint);
-            GlyphOutline(GlyphOutline&& other);
-            ~GlyphOutline();
 
             template <typename VertType>
             std::pair<std::vector<VertType>, std::vector<uint16_t>> createGeometryBuffers()
@@ -186,18 +181,20 @@ namespace Marble
 
                 return std::make_pair(std::move(pointsFlattened), std::move(indexesFlattened));
             }
+            
+            ~GlyphOutline();
 
             friend class Marble::Typography::Font;
+        private:
+            GlyphOutline();
         };
         struct coreapi GlyphMetrics final
         {
             int advanceWidth, leftSideBearing;
 
-            GlyphMetrics(Font& font, char32_t codepoint);
-            GlyphMetrics(GlyphMetrics&& other);
-            ~GlyphMetrics();
-            
             friend class Marble::Typography::Font;
+        private:
+            GlyphMetrics();
         };
     }
 }

@@ -19,29 +19,26 @@ Font::Font(unsigned char* fontData)
     stbtt_GetFontVMetrics(&this->fontInfo, &this->ascent, &this->descent, &this->lineGap);
 }
 
-GlyphOutline::GlyphOutline(Font& font, char32_t codepoint) : font(font), verts(nullptr)
+GlyphOutline Font::getCodepointOutline(char32_t codepoint)
 {
-    this->vertsSize = stbtt_GetCodepointShape(&font.fontInfo, codepoint, &this->verts);
+    GlyphOutline ret;
+    ret.vertsSize = stbtt_GetCodepointShape(&this->fontInfo, codepoint, &ret.verts);
+    return ret;
 }
-GlyphOutline::GlyphOutline(GlyphOutline&& other) : font(other.font), verts(other.verts), vertsSize(other.vertsSize)
+GlyphOutline::GlyphOutline()
 {
-    other.verts = nullptr;
-    other.vertsSize = 0;
 }
 GlyphOutline::~GlyphOutline()
 {
-    stbtt_FreeShape(&this->font.fontInfo, this->verts);
+    STBTT_free(this->verts, nullptr);
 }
 
-GlyphMetrics::GlyphMetrics(Font& font, char32_t codepoint)
+GlyphMetrics Font::getCodepointMetrics(char32_t codepoint)
 {
-    stbtt_GetCodepointHMetrics(&font.fontInfo, codepoint, &this->advanceWidth, &this->leftSideBearing);
+    GlyphMetrics ret;
+    stbtt_GetCodepointHMetrics(&this->fontInfo, codepoint, &ret.advanceWidth, &ret.leftSideBearing);
+    return ret;
 }
-GlyphMetrics::GlyphMetrics(GlyphMetrics&& other) : advanceWidth(other.advanceWidth), leftSideBearing(other.leftSideBearing)
-{
-    other.advanceWidth = 0;
-    other.leftSideBearing = 0;
-}
-GlyphMetrics::~GlyphMetrics()
+GlyphMetrics::GlyphMetrics()
 {
 }

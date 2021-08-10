@@ -81,7 +81,7 @@ text
             }
             else
             {
-                GlyphOutline glyph(this->data->file->fontHandle(), *it);
+                GlyphOutline glyph = this->data->file->fontHandle().getCodepointOutline(*it);
                 auto buffers = glyph.createGeometryBuffers<Vertex2D>();
                 
                 if (glyph.verts != nullptr) [[likely]]
