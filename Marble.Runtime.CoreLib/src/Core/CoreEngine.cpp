@@ -326,7 +326,8 @@ void CoreEngine::internalLoop()
                                     if (c != text->data->characters.end())
                                     {
                                         ColoredTransformHandle transform;
-                                        transform.setPosition(pos.x + rect.left * scale.x + accAdvance * rotMul[0], pos.y + rect.top * scale.y + accAdvance * rotMul[1]);
+                                        transform.setPosition(pos.x, pos.y);
+                                        transform.setOffset(rect.left * scale.x + accAdvance * rotMul[0], rect.top * scale.y + accAdvance * rotMul[1]);
                                         transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
                                         transform.setRotation(rot);
                                         transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
