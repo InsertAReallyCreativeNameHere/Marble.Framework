@@ -308,6 +308,8 @@ void CoreEngine::internalLoop()
 
                                 Vector2 pos = text->attachedRectTransform->_position;
                                 Vector2 scale = text->attachedRectTransform->_scale;
+                                RectFloat rect = text->attachedRectTransform->_rect;
+
                                 float glyphScale = float(text->fontSize) / (text->data->file->fontHandle().ascent - text->data->file->fontHandle().descent);
 
                                 float rot = deg2RadF(text->attachedRectTransform->_rotation);
@@ -324,7 +326,7 @@ void CoreEngine::internalLoop()
                                     if (c != text->data->characters.end())
                                     {
                                         ColoredTransformHandle transform;
-                                        transform.setPosition(pos.x + accAdvance * rotMul[0], pos.y + accAdvance * rotMul[1]);
+                                        transform.setPosition(pos.x + rect.left * scale.x + accAdvance * rotMul[0], pos.y + rect.top * scale.y + accAdvance * rotMul[1]);
                                         transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
                                         transform.setRotation(rot);
                                         transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
