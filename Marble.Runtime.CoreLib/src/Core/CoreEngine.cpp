@@ -317,8 +317,8 @@ void CoreEngine::internalLoop()
                                     float rot = deg2RadF(text->attachedRectTransform->_rotation);
                                     float asc = text->data->file->fontHandle().ascent;
                                     float lineHeight = asc - text->data->file->fontHandle().descent;
-                                    float lineDiff = text->data->file->fontHandle().lineGap + lineHeight;
-                                    float glyphScale = float(text->fontSize) / lineDiff;
+                                    float glyphScale = float(text->fontSize) / lineHeight;
+                                    float lineDiffScaled = (text->data->file->fontHandle().lineGap + lineHeight) * glyphScale;
                                     float accXAdvance = 0;
                                     float accYAdvance = 0;
 
@@ -333,7 +333,7 @@ void CoreEngine::internalLoop()
                                         if ((accXAdvance += std::accumulate(advanceLengths.begin(), advanceLengths.end(), 0)) > rectWidth);
                                         {
                                             accXAdvance = 0;
-                                            accYAdvance += lineDiff;
+                                            accYAdvance += lineDiffScaled;
                                         }
 
                                         auto advanceLenIt = advanceLengths.begin();
