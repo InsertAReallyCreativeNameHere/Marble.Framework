@@ -312,8 +312,8 @@ void CoreEngine::internalLoop()
                                     Vector2 pos = text->attachedRectTransform->_position;
                                     Vector2 scale = text->attachedRectTransform->_scale;
                                     RectFloat rect = text->attachedRectTransform->_rect;
-                                    float rectWidth = rect.right - rect.left;
-                                    float rectHeight = rect.top - rect.bottom;
+                                    float rectWidth = (rect.right - rect.left) * scale.x;
+                                    float rectHeight = (rect.top - rect.bottom) * scale.x;
                                     float rot = deg2RadF(text->attachedRectTransform->_rotation);
                                     float asc = text->data->file->fontHandle().ascent;
                                     float glyphScale = float(text->fontSize) / (asc - text->data->file->fontHandle().descent);
@@ -351,6 +351,7 @@ void CoreEngine::internalLoop()
                                             }
 
                                             accXAdvance += float(*advanceLenIt) * glyphScale * scale.x;
+                                            ++advanceLenIt;
                                         }
 
                                         beg = end;
