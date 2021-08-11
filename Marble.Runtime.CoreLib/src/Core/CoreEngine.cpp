@@ -315,7 +315,8 @@ void CoreEngine::internalLoop()
                                     float rectWidth = (rect.right - rect.left) * scale.x;
                                     float rectHeight = (rect.top - rect.bottom) * scale.x;
                                     float rot = deg2RadF(text->attachedRectTransform->_rotation);
-                                    float lineDiff = text->data->file->fontHandle().ascent - text->data->file->fontHandle().descent;//text->data->file->fontHandle().lineGap;
+                                    float lineHeight = text->data->file->fontHandle().ascent - text->data->file->fontHandle().descent;
+                                    float lineDiff = text->data->file->fontHandle().lineGap + lineHeight;
                                     float glyphScale = float(text->fontSize) / lineDiff;
                                     float accXAdvance = 0;
                                     float accYAdvance = 0;
