@@ -4,6 +4,7 @@
 #include <cmath>
 #include <fcntl.h>
 #include <fstream>
+#include <numeric>
 #include <SDL_video.h>
 #include <SDL_pixels.h>
 
@@ -311,32 +312,41 @@ void CoreEngine::internalLoop()
                                     Vector2 pos = text->attachedRectTransform->_position;
                                     Vector2 scale = text->attachedRectTransform->_scale;
                                     RectFloat rect = text->attachedRectTransform->_rect;
+                                    float rectWidth = rect.right - rect.left;
+                                    float rectHeight = rect.top - rect.bottom;
                                     float rot = deg2RadF(text->attachedRectTransform->_rotation);
                                     float asc = text->data->file->fontHandle().ascent;
                                     float glyphScale = float(text->fontSize) / (asc - text->data->file->fontHandle().descent);
-                                    float accAdvance = 0;
+                                    float accXAdvance = 0;
+                                    float accYAdvance = 0;
 
                                     size_t beg = 0;
                                     size_t end;
                                     while ((end = text->_text.find_first_of(U' ', beg + 1)) != std::u32string::npos)
                                     {
+                                        std::vector<int> advanceLengths;
+                                        advanceLengths.reserve(end - beg);
+                                        for (size_t i = beg; i < end; i++)
+                                            advanceLengths.push_back(text->data->file->fontHandle().getCodepointMetrics(text->_text[i]).advanceWidth);
+                                        if ((accXAdvance += std::accumulate(advanceLengths.begin(), advanceLengths.end(), 0)) > rectWidth);
+                                            accXAdvance = 0;
+
+                                        auto advanceLenIt = advanceLengths.begin();
                                         for (size_t i = beg; i < end; i++)
                                         {
-                                            GlyphMetrics metrics = text->data->file->fontHandle().getCodepointMetrics(text->_text[i]);
-
                                             auto c = text->data->characters.find(text->_text[i]);
                                             if (c != text->data->characters.end())
                                             {
                                                 ColoredTransformHandle transform;
                                                 transform.setPosition(pos.x, pos.y);
-                                                transform.setOffset(rect.left * scale.x + accAdvance, rect.top * scale.y - asc * glyphScale);
+                                                transform.setOffset(rect.left * scale.x + accXAdvance, rect.top * scale.y - asc * glyphScale);
                                                 transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
                                                 transform.setRotation(rot);
                                                 transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
                                                 CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = c->second] { Renderer::drawPolygon(data->polygon, transform); });
                                             }
 
-                                            accAdvance += float(metrics.advanceWidth) * glyphScale * scale.x;
+                                            accXAdvance += float(*advanceLenIt) * glyphScale * scale.x;
                                         }
 
                                         beg = end;
