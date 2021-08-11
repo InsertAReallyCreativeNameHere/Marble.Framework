@@ -317,6 +317,7 @@ void CoreEngine::internalLoop()
                                     float rot = deg2RadF(text->attachedRectTransform->_rotation);
                                     float asc = text->data->file->fontHandle().ascent;
                                     float glyphScale = float(text->fontSize) / (asc - text->data->file->fontHandle().descent);
+                                    float lineDiff = text->data->file->fontHandle().lineGap;
                                     float accXAdvance = 0;
                                     float accYAdvance = 0;
 
@@ -329,7 +330,10 @@ void CoreEngine::internalLoop()
                                         for (size_t i = beg; i < end; i++)
                                             advanceLengths.push_back(text->data->file->fontHandle().getCodepointMetrics(text->_text[i]).advanceWidth);
                                         if ((accXAdvance += std::accumulate(advanceLengths.begin(), advanceLengths.end(), 0)) > rectWidth);
+                                        {
                                             accXAdvance = 0;
+                                            accYAdvance += lineDiff;
+                                        }
 
                                         auto advanceLenIt = advanceLengths.begin();
                                         for (size_t i = beg; i < end; i++)
@@ -339,7 +343,7 @@ void CoreEngine::internalLoop()
                                             {
                                                 ColoredTransformHandle transform;
                                                 transform.setPosition(pos.x, pos.y);
-                                                transform.setOffset(rect.left * scale.x + accXAdvance, rect.top * scale.y - asc * glyphScale);
+                                                transform.setOffset(rect.left * scale.x + accXAdvance, rect.top * scale.y - asc * glyphScale - accYAdvance);
                                                 transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
                                                 transform.setRotation(rot);
                                                 transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
