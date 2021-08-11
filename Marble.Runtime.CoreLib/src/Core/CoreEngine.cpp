@@ -318,7 +318,7 @@ void CoreEngine::internalLoop()
                                     float asc = text->data->file->fontHandle().ascent;
                                     float lineHeight = asc - text->data->file->fontHandle().descent;
                                     float glyphScale = float(text->fontSize) / lineHeight;
-                                    float lineDiffScaled = (text->data->file->fontHandle().lineGap + lineHeight) * glyphScale;
+                                    float lineDiff = (text->data->file->fontHandle().lineGap + lineHeight) * glyphScale;
                                     float accXAdvance = 0;
                                     float accYAdvance = 0;
 
@@ -333,7 +333,7 @@ void CoreEngine::internalLoop()
                                         if ((accXAdvance += std::accumulate(advanceLengths.begin(), advanceLengths.end(), 0)) > rectWidth);
                                         {
                                             accXAdvance = 0;
-                                            accYAdvance += lineDiffScaled;
+                                            accYAdvance += lineDiff;
                                         }
 
                                         auto advanceLenIt = advanceLengths.begin();
