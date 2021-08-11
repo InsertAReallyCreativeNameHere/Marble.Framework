@@ -329,7 +329,7 @@ void CoreEngine::internalLoop()
                                         std::vector<int> advanceLengths;
                                         advanceLengths.reserve(end - beg);
                                         for (size_t i = beg; i < end; i++)
-                                            advanceLengths.push_back(text->data->file->fontHandle().getCodepointMetrics(text->_text[i]).advanceWidth);
+                                            advanceLengths.push_back(text->data->file->fontHandle().getCodepointMetrics(text->_text[i]).advanceWidth  * glyphScale * scale.x);
                                         if ((accXAdvance += std::accumulate(advanceLengths.begin(), advanceLengths.end(), 0)) > rectWidth);
                                         {
                                             accXAdvance = 0;
@@ -351,7 +351,7 @@ void CoreEngine::internalLoop()
                                                 CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = c->second] { Renderer::drawPolygon(data->polygon, transform); });
                                             }
 
-                                            accXAdvance += float(*advanceLenIt) * glyphScale * scale.x;
+                                            accXAdvance += float(*advanceLenIt);
                                             ++advanceLenIt;
                                         }
 
