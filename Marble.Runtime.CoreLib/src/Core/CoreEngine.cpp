@@ -326,11 +326,11 @@ void CoreEngine::internalLoop()
                                     size_t end;
                                     while ((end = text->_text.find_first_of(U' ', beg + 1)) != std::u32string::npos)
                                     {
-                                        std::vector<int> advanceLengths;
+                                        std::vector<float> advanceLengths;
                                         advanceLengths.reserve(end - beg);
                                         for (size_t i = beg; i < end; i++)
-                                            advanceLengths.push_back(text->data->file->fontHandle().getCodepointMetrics(text->_text[i]).advanceWidth  * glyphScale * scale.x);
-                                        if ((accXAdvance + std::accumulate(advanceLengths.begin(), advanceLengths.end(), 0)) > rectWidth);
+                                            advanceLengths.push_back(float(text->data->file->fontHandle().getCodepointMetrics(text->_text[i]).advanceWidth) * glyphScale * scale.x);
+                                        if (accXAdvance + std::accumulate(advanceLengths.begin(), advanceLengths.end(), 0.0f) > rectWidth)
                                         {
                                             accXAdvance = 0;
                                             accYAdvance += lineDiff;
