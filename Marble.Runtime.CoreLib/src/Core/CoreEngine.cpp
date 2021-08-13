@@ -355,7 +355,7 @@ void CoreEngine::internalLoop()
                                             ++advanceLenIt;
                                         }
 
-                                        beg = end;
+                                        beg = end + 1;
                                     }
                                 }
                             }
