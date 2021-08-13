@@ -334,6 +334,7 @@ void CoreEngine::internalLoop()
                                         {
                                             accXAdvance = 0;
                                             accYAdvance += lineDiff;
+                                            ++beg;
                                         }
 
                                         auto advanceLenIt = advanceLengths.begin();
@@ -355,7 +356,7 @@ void CoreEngine::internalLoop()
                                             ++advanceLenIt;
                                         }
 
-                                        beg = end + 1;
+                                        beg = end;
                                     }
                                 }
                             }
