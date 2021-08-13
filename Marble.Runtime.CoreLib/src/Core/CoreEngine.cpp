@@ -330,14 +330,17 @@ void CoreEngine::internalLoop()
                                         advanceLengths.reserve(end - beg);
                                         for (size_t i = beg; i < end; i++)
                                             advanceLengths.push_back(float(text->data->file->fontHandle().getCodepointMetrics(text->_text[i]).advanceWidth) * glyphScale * scale.x);
+
+                                        auto advanceLenIt = advanceLengths.begin();
+
                                         if (accXAdvance + std::accumulate(advanceLengths.begin(), advanceLengths.end(), 0.0f) > rectWidth)
                                         {
                                             accXAdvance = 0;
                                             accYAdvance += lineDiff;
                                             ++beg;
+                                            ++advanceLenIt;
                                         }
 
-                                        auto advanceLenIt = advanceLengths.begin();
                                         for (size_t i = beg; i < end; i++)
                                         {
                                             auto c = text->data->characters.find(text->_text[i]);
