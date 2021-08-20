@@ -318,13 +318,15 @@ void CoreEngine::internalLoop()
                                     float asc = text->data->file->fontHandle().ascent;
                                     float lineHeight = asc - text->data->file->fontHandle().descent;
                                     float glyphScale = float(text->fontSize) / lineHeight;
-                                    float lineDiff = (text->data->file->fontHandle().lineGap + lineHeight) * glyphScale;
+                                    float lineDiff = (text->data->file->fontHandle().lineGap + lineHeight) * glyphScale * scale.y;
                                     float accXAdvance = 0;
                                     float accYAdvance = 0;
+                                    float spaceAdv = text->data->file->fontHandle().getCodepointMetrics(U' ').advanceWidth * glyphScale * scale.x;
 
                                     size_t beg = 0;
                                     size_t end;
-                                    while ((end = text->_text.find_first_of(U' ', beg + 1)) != std::u32string::npos)
+
+                                    while ((end = text->_text.find_first_of(U" \n", beg + 1)) != std::u32string::npos)
                                     {
                                         std::vector<float> advanceLengths;
                                         advanceLengths.reserve(end - beg);
@@ -336,9 +338,7 @@ void CoreEngine::internalLoop()
                                         if (accXAdvance + std::accumulate(advanceLengths.begin(), advanceLengths.end(), 0.0f) > rectWidth)
                                         {
                                             accXAdvance = 0;
-                                            accYAdvance += lineDiff;
-                                            ++beg;
-                                            ++advanceLenIt;
+                                            accYAdvance -= lineDiff;
                                         }
 
                                         for (size_t i = beg; i < end; i++)
@@ -359,7 +359,51 @@ void CoreEngine::internalLoop()
                                             ++advanceLenIt;
                                         }
 
-                                        beg = end;
+                                        switch (text->_text[end])
+                                        {
+                                        case U' ':
+                                            accXAdvance += spaceAdv;
+                                            break;
+                                        case U'\n':
+                                            accXAdvance = 0;
+                                            accYAdvance -= lineDiff;
+                                            break;
+                                        }
+
+                                        beg = end + 1;
+                                    }
+
+                                    end = text->_text.size();
+                                    
+                                    std::vector<float> advanceLengths;
+                                    advanceLengths.reserve(end - beg);
+                                    for (size_t i = beg; i < end; i++)
+                                        advanceLengths.push_back(float(text->data->file->fontHandle().getCodepointMetrics(text->_text[i]).advanceWidth) * glyphScale * scale.x);
+
+                                    auto advanceLenIt = advanceLengths.begin();
+
+                                    if (accXAdvance + std::accumulate(advanceLengths.begin(), advanceLengths.end(), 0.0f) > rectWidth)
+                                    {
+                                        accXAdvance = 0;
+                                        accYAdvance -= lineDiff;
+                                    }
+
+                                    for (size_t i = beg; i < end; i++)
+                                    {
+                                        auto c = text->data->characters.find(text->_text[i]);
+                                        if (c != text->data->characters.end())
+                                        {
+                                            ColoredTransformHandle transform;
+                                            transform.setPosition(pos.x, pos.y);
+                                            transform.setOffset(rect.left * scale.x + accXAdvance, rect.top * scale.y - asc * glyphScale - accYAdvance);
+                                            transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
+                                            transform.setRotation(rot);
+                                            transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+                                            CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = c->second] { Renderer::drawPolygon(data->polygon, transform); });
+                                        }
+
+                                        accXAdvance += float(*advanceLenIt);
+                                        ++advanceLenIt;
                                     }
                                 }
                             }
