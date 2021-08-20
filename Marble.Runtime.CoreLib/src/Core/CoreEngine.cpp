@@ -338,7 +338,7 @@ void CoreEngine::internalLoop()
                                         if (accXAdvance + std::accumulate(advanceLengths.begin(), advanceLengths.end(), 0.0f) > rectWidth)
                                         {
                                             accXAdvance = 0;
-                                            accYAdvance -= lineDiff;
+                                            accYAdvance += lineDiff;
                                         }
 
                                         for (size_t i = beg; i < end; i++)
@@ -366,7 +366,7 @@ void CoreEngine::internalLoop()
                                             break;
                                         case U'\n':
                                             accXAdvance = 0;
-                                            accYAdvance -= lineDiff;
+                                            accYAdvance += lineDiff;
                                             break;
                                         }
 
@@ -385,7 +385,7 @@ void CoreEngine::internalLoop()
                                     if (accXAdvance + std::accumulate(advanceLengths.begin(), advanceLengths.end(), 0.0f) > rectWidth)
                                     {
                                         accXAdvance = 0;
-                                        accYAdvance -= lineDiff;
+                                        accYAdvance += lineDiff;
                                     }
 
                                     for (size_t i = beg; i < end; i++)
