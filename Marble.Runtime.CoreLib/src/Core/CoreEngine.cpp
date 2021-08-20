@@ -359,18 +359,24 @@ void CoreEngine::internalLoop()
                                             ++advanceLenIt;
                                         }
 
-                                        switch (text->_text[end])
+                                        beg = end;
+                                        end = text->_text.find_first_not_of(U" \n", beg + 1);
+
+                                        for (size_t i = beg; i < end; i++)
                                         {
-                                        case U' ':
-                                            accXAdvance += spaceAdv;
-                                            break;
-                                        case U'\n':
-                                            accXAdvance = 0;
-                                            accYAdvance += lineDiff;
-                                            break;
+                                            switch (text->_text[i])
+                                            {
+                                            case U' ':
+                                                accXAdvance += spaceAdv;
+                                                break;
+                                            case U'\n':
+                                                accXAdvance = 0;
+                                                accYAdvance += lineDiff;
+                                                break;
+                                            }
                                         }
 
-                                        beg = end + 1;
+                                        beg = end;
                                     }
 
                                     end = text->_text.size();
