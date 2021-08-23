@@ -322,7 +322,6 @@ void CoreEngine::internalLoop()
                                     float accXAdvance = 0;
                                     float accYAdvance = 0;
                                     float spaceAdv = text->data->file->fontHandle().getCodepointMetrics(U' ').advanceWidth * glyphScale * scale.x;
-                                    float tabAdv = text->data->file->fontHandle().getCodepointMetrics(U'\t').advanceWidth * glyphScale * scale.x;
 
                                     size_t beg = 0;
                                     size_t end;
@@ -371,7 +370,7 @@ void CoreEngine::internalLoop()
                                                 accXAdvance += spaceAdv;
                                                 break;
                                             case U'\t':
-                                                accXAdvance += tabAdv;
+                                                accXAdvance += spaceAdv * 8;
                                                 break;
                                             case U'\r':
                                                 break;
