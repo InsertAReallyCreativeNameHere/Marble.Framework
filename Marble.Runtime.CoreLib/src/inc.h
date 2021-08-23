@@ -23,7 +23,7 @@
 #define null NULL
 
 template <typename T>
-inline consteval const char* __internal_type()
+inline constexpr const char* __internal_type()
 {
     #if defined(__GNUC__) || defined(__clang__)
     return __PRETTY_FUNCTION__;
