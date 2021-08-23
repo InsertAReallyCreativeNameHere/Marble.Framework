@@ -48,13 +48,13 @@ void Packager::packageFolder(std::wstring_view folder)
             package.write(reinterpret_cast<char*>(&length_endianConverted), sizeof(uint32_t));
             infile.seekg(0, std::ios::beg);
 
-            char* buffer = new char[1048576];
+            char* buffer[1048576];
 
             for (uint32_t i = 0; i < length / 1048576; i++)
             {
                 fputws(L"Writing 1048576 bytes.\n", stdout);
-                infile.read(buffer, 1048576);
-                package.write(buffer, sizeof(char) * 1048576);
+                infile.read(&buffer[0], 1048576);
+                package.write(&buffer[0], sizeof(char) * 1048576);
                 fputws(L"Written 1048576 bytes.\n", stdout);
             }
 
@@ -62,12 +62,10 @@ void Packager::packageFolder(std::wstring_view folder)
             if (rem != 0)
             {
                 wprintf(L"Writing %u remaining bytes.\n", rem);
-                infile.read(buffer, rem);
-                package.write(buffer, sizeof(char) * rem);
+                infile.read(&buffer[0], rem);
+                package.write(&buffer[0], sizeof(char) * rem);
                 wprintf(L"Written %u remaining bytes.\n", rem);
             }
-
-            delete[] buffer;
         }
     }
 }
