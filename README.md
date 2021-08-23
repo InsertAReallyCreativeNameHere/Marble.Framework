@@ -2,7 +2,7 @@
 [![Marble.Framework](https://img.shields.io/github/stars/InsertAReallyCreativeNameHere/Marble.Framework)](#)
 [![Marble.Framework](https://img.shields.io/github/issues/InsertAReallyCreativeNameHere/Marble.Framework)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/issues)
 [![CMake](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/actions/workflows/cmake.yml/badge.svg)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/actions/workflows/cmake.yml)
-[![CodeFactor](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework/badge)](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework)
+[![CodeFactor](https://img.shields.io/codefactor/grade/github/InsertAReallyCreativeNameHere/Marble.Framework/main)](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework)
 
 # Marble.Framework
 TODO: put stuff here lol
