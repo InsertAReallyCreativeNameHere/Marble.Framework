@@ -23,7 +23,7 @@
 #define null NULL
 
 template <typename T>
-inline constexpr const char* __internal_type()
+inline constexpr std::string /* const char*: "May return stack-allocated memory" - Well maybe it wouldn't if you let me compile it with consteval, lgtm. */ __internal_type()
 {
     #if defined(__GNUC__) || defined(__clang__)
     return __PRETTY_FUNCTION__;
@@ -34,7 +34,7 @@ inline constexpr const char* __internal_type()
 template <typename T>
 inline constexpr uint64_t __internal_typeid()
 {
-    const char* typeName = __internal_type<T>();
+    const char* typeName = __internal_type<T>().c_str();
     uint64_t ret = 0;
     size_t i = 0;
     do ret += i * (CHAR_MAX - CHAR_MIN) + typeName[i];

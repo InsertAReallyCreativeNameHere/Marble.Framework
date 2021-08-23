@@ -12,12 +12,12 @@ namespace Marble
     >
     struct Property
     {
-        explicit Property(const std::tuple<skarupke::function<GetterReturnType()>, skarupke::function<void(SetterInputType)>>&& constructor) :
+        inline explicit Property(const std::pair<skarupke::function<GetterReturnType()>, skarupke::function<void(SetterInputType)>>&& constructor) :
         getter(std::move(std::get<0>(constructor))), setter(std::move(std::get<1>(constructor)))
         {
         }
-        Property(const Property<GetterReturnType, SetterInputType>& other) = delete;
-        Property(Property<GetterReturnType, SetterInputType>&& other) = delete;
+        inline Property(const Property<GetterReturnType, SetterInputType>& other) = delete;
+        inline Property(Property<GetterReturnType, SetterInputType>&& other) = delete;
 
         inline GetterReturnType operator=(SetterInputType value)
         {
