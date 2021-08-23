@@ -199,7 +199,6 @@ Matrix::Matrix(const std::initializer_list<std::initializer_list<float>>& matrix
         }
         _i++;
     }
-
 }
 
 float& Matrix::operator()(const size_t& row, const size_t& column)

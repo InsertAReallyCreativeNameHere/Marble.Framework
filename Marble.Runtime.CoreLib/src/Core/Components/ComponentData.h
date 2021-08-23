@@ -8,6 +8,6 @@ namespace Marble
 {
     struct coreapi ComponentData : public Internal::Component
     {
-        virtual ~ComponentData() override;
+        virtual ~ComponentData() = 0;
     };
 }

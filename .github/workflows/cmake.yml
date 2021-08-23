@@ -22,7 +22,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: textbook/git-checkout-submodule-action@2.1.1
     - run: sudo apt install -y libgl1-mesa-dev
-    
+
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
@@ -31,7 +31,7 @@ jobs:
     - name: Build (Linux)
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-    
+
   windows-build:
     # The CMake configure and build commands are platform agnostic and should work equally
     # well on Windows or Mac.  You can convert this to a matrix build if you need
@@ -42,7 +42,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: git submodule update --init --recursive
-    
+
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
@@ -51,4 +51,3 @@ jobs:
     - name: Build (Windows)
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-      
