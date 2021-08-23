@@ -43,7 +43,7 @@ void Packager::packageFolder(std::wstring_view folder)
 
             infile.seekg(0, std::ios::end);
             uint32_t length = infile.tellg();
-            wprintf(L"Filesize - %ldB%ls", length, L".\n");
+            wprintf(L"Filesize - %ui%s", length, L".\n");
             uint32_t length_endianConverted = toEndianness(length, Packager::endianness, Packager::Endianness::Big);
             package.write(reinterpret_cast<char*>(&length_endianConverted), sizeof(uint32_t));
             infile.seekg(0, std::ios::beg);
