@@ -11,7 +11,7 @@
 [![Marble.Framework](https://img.shields.io/github/issues-pr/InsertAReallyCreativeNameHere/Marble.Framework)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/pulls)   
 [![LGTM](https://img.shields.io/lgtm/alerts/github/InsertAReallyCreativeNameHere/Marble.Framework)](#)
 [![LGTM](https://img.shields.io/lgtm/grade/C++/github/InsertAReallyCreativeNameHere/Marble.Framework)](#)
-[![CodeFactor](https://img.shields.io/codefactor/grade/github/InsertAReallyCreativeNameHere/Marble.Framework/main)](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework)
+[![CodeFactor](https://img.shields.io/codefactor/grade/github/InsertAReallyCreativeNameHere/Marble.Framework/main?logo=codefactor)](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework)
 
 # Marble.Framework
 TODO: put stuff here lol
