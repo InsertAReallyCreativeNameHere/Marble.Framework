@@ -1,16 +1,17 @@
-[![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-informational)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/blob/main/LICENSE)
-[![Marble.Framework](https://img.shields.io/github/languages/count/InsertAReallyCreativeNameHere/Marble.Framework)](#)
+[![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-informational?logo=creativecommons)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/blob/main/LICENSE)
+[![Marble.Framework](https://img.shields.io/github/languages/count/InsertAReallyCreativeNameHere/Marble.Framework?logo=cplusplus)](#)
 [![Marble.Framework](https://img.shields.io/github/stars/InsertAReallyCreativeNameHere/Marble.Framework)](#)
 [![Marble.Framework](https://img.shields.io/github/languages/code-size/InsertAReallyCreativeNameHere/Marble.Framework)](#)
 [![Marble.Framework](https://img.shields.io/tokei/lines/github/InsertAReallyCreativeNameHere/Marble.Framework)](#)   
 [![Marble.Framework](https://img.shields.io/github/contributors/InsertAReallyCreativeNameHere/Marble.Framework)](#)
-[![Marble.Framework](https://img.shields.io/github/last-commit/InsertAReallyCreativeNameHere/Marble.Framework)](#)   
+[![Marble.Framework](https://img.shields.io/github/last-commit/InsertAReallyCreativeNameHere/Marble.Framework)](#)
+[![Marble.Framework](https://img.shields.io/maintenance/yes/2021)](#)   
 [![CMake](https://img.shields.io/github/workflow/status/InsertAReallyCreativeNameHere/Marble.Framework/CMake?logo=github)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/actions/workflows/cmake.yml)
 [![Marble.Framework](https://img.shields.io/github/issues/InsertAReallyCreativeNameHere/Marble.Framework)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/issues)
 [![Marble.Framework](https://img.shields.io/github/issues-pr/InsertAReallyCreativeNameHere/Marble.Framework)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/pulls)   
-[![LGTM](https://img.shields.io/lgtm/alerts/github/InsertAReallyCreativeNameHere/Marble.Framework)](#)
-[![LGTM](https://img.shields.io/lgtm/grade/C++/github/InsertAReallyCreativeNameHere/Marble.Framework)](#)
-[![CodeFactor](https://img.shields.io/codefactor/grade/github/InsertAReallyCreativeNameHere/Marble.Framework/main)](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework)
+[![LGTM](https://img.shields.io/lgtm/alerts/github/InsertAReallyCreativeNameHere/Marble.Framework?logo=lgtm)](#)
+[![LGTM](https://img.shields.io/lgtm/grade/C++/github/InsertAReallyCreativeNameHere/Marble.Framework?logo=lgtm)](#)
+[![CodeFactor](https://img.shields.io/codefactor/grade/github/InsertAReallyCreativeNameHere/Marble.Framework/main?logo=codefactor)](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework)
 
 # Marble.Framework
 TODO: put stuff here lol
