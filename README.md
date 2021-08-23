@@ -5,7 +5,7 @@
 [![Marble.Framework](https://img.shields.io/tokei/lines/github/InsertAReallyCreativeNameHere/Marble.Framework)](#)   
 [![Marble.Framework](https://img.shields.io/github/contributors/InsertAReallyCreativeNameHere/Marble.Framework)](#)
 [![Marble.Framework](https://img.shields.io/github/last-commit/InsertAReallyCreativeNameHere/Marble.Framework)](#)   
-[![CMake](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/actions/workflows/cmake.yml/badge.svg)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/actions/workflows/cmake.yml)
+[![CMake](https://img.shields.io/github/workflow/status/InsertAReallyCreativeNameHere/Marble.Framework/CMake)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/actions/workflows/cmake.yml)
 [![Marble.Framework](https://img.shields.io/github/issues/InsertAReallyCreativeNameHere/Marble.Framework)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/issues)
 [![Marble.Framework](https://img.shields.io/github/issues-pr/InsertAReallyCreativeNameHere/Marble.Framework)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/pulls)   
 [![LGTM](https://img.shields.io/lgtm/alerts/github/InsertAReallyCreativeNameHere/Marble.Framework)](#)
