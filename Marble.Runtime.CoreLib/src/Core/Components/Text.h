@@ -15,6 +15,14 @@ namespace Marble
         class CoreEngine;
     }
 
+    enum class TextAlign : uint8_t
+    {
+        Left,
+        Center,
+        Right,
+        Justify
+    };
+
     class coreapi Text final : public Internal::Component
     {
         struct coreapi CharacterRenderData final
@@ -40,6 +48,8 @@ namespace Marble
         Property<PackageSystem::TrueTypeFontPackageFile*, PackageSystem::TrueTypeFontPackageFile*> font;
         Property<const std::u32string&, std::u32string> text;
         uint32_t fontSize; // In pixels.
+        TextAlign horizontalAlign;
+        TextAlign verticalAlign;
 
         friend class Marble::Internal::CoreEngine;
     };

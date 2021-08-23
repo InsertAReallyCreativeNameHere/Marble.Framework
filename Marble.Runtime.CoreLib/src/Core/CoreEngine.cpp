@@ -322,11 +322,12 @@ void CoreEngine::internalLoop()
                                     float accXAdvance = 0;
                                     float accYAdvance = 0;
                                     float spaceAdv = text->data->file->fontHandle().getCodepointMetrics(U' ').advanceWidth * glyphScale * scale.x;
+                                    float tabAdv = text->data->file->fontHandle().getCodepointMetrics(U'\t').advanceWidth * glyphScale * scale.x;
 
                                     size_t beg = 0;
                                     size_t end;
 
-                                    while ((end = text->_text.find_first_of(U" \n", beg + 1)) != std::u32string::npos)
+                                    while ((end = text->_text.find_first_of(U" \t\r\n", beg + 1)) != std::u32string::npos)
                                     {
                                         std::vector<float> advanceLengths;
                                         advanceLengths.reserve(end - beg);
@@ -368,6 +369,11 @@ void CoreEngine::internalLoop()
                                             {
                                             case U' ':
                                                 accXAdvance += spaceAdv;
+                                                break;
+                                            case U'\t':
+                                                accXAdvance += tabAdv;
+                                                break;
+                                            case U'\r':
                                                 break;
                                             case U'\n':
                                                 accXAdvance = 0;
