@@ -1,5 +1,4 @@
-[![help](https://img.shields.io/github/issues/InsertAReallyCreativeNameHere/Marble.Framework)]
-(https://img.shields.io/github/issues/InsertAReallyCreativeNameHere/Marble.Framework)
+<a href="https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/issues"><img src="https://img.shields.io/github/issues/InsertAReallyCreativeNameHere/Marble.Framework"/></a>
 [![CodeFactor](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework/badge)](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework)
 
 # Marble.Framework
