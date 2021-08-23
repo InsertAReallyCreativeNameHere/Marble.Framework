@@ -1,5 +1,6 @@
+[![bruh](https://img.shields.io/github/issues/InsertAReallyCreativeNameHere/Marble.Framework)]
+(https://img.shields.io/github/issues/InsertAReallyCreativeNameHere/Marble.Framework)
 [![CodeFactor](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework/badge)](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework)
-![joe](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/blob/main/.github/workflows/cmake.yml/badge.svg)
 
 # Marble.Framework
 TODO: put stuff here lol
