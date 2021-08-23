@@ -12,13 +12,13 @@
 [![Marble.Framework](https://img.shields.io/github/issues/InsertAReallyCreativeNameHere/Marble.Framework)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/issues)
 [![Marble.Framework](https://img.shields.io/github/issues-pr/InsertAReallyCreativeNameHere/Marble.Framework)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/pulls)   
 [![LGTM](https://img.shields.io/lgtm/alerts/github/InsertAReallyCreativeNameHere/Marble.Framework?logo=lgtm)](#)
-[![LGTM](https://img.shields.io/lgtm/grade/C++/github/InsertAReallyCreativeNameHere/Marble.Framework?logo=lgtm)](#)
+[![LGTM](https://img.shields.io/lgtm/grade/cpp/github/InsertAReallyCreativeNameHere/Marble.Framework?logo=lgtm)](#)
 [![CodeFactor](https://img.shields.io/codefactor/grade/github/InsertAReallyCreativeNameHere/Marble.Framework/main?logo=codefactor)](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework)   
 [![What](https://img.shields.io/badge/my-code-orange?style=flat-square)](#)
 [![What](https://img.shields.io/badge/is-bad-orange?style=flat-square)](#)
 [![What](https://img.shields.io/badge/dont-ever-orange?style=flat-square)](#)
 [![What](https://img.shields.io/badge/hire-me-orange?style=flat-square)](#)   
-[![What](https://img.shields.io/badge/cheeseball-consumer-green?style=for-the-badge&logo=bean)](#)
+[![What](https://img.shields.io/badge/bean-consumer-green?style=for-the-badge&logo=bean)](#)
 
 # Marble.Framework
 TODO: put stuff here lol
