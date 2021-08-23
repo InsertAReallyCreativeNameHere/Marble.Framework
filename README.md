@@ -1,5 +1,5 @@
 [![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-informational)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/blob/main/LICENSE)
-[![Marble.Framework](https://img.shields.io/github/languages/count/InsertAReallyCreativeNameHere/Marble.Framework?logo=cpp)](#)
+[![Marble.Framework](https://img.shields.io/github/languages/count/InsertAReallyCreativeNameHere/Marble.Framework?logo=cplusplus)](#)
 [![Marble.Framework](https://img.shields.io/github/stars/InsertAReallyCreativeNameHere/Marble.Framework)](#)
 [![Marble.Framework](https://img.shields.io/github/languages/code-size/InsertAReallyCreativeNameHere/Marble.Framework)](#)
 [![Marble.Framework](https://img.shields.io/tokei/lines/github/InsertAReallyCreativeNameHere/Marble.Framework)](#)   
