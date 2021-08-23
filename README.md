@@ -1,6 +1,6 @@
-<a href="https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue"/></a>
-<a href="https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/issues"><img src="https://img.shields.io/github/issues/InsertAReallyCreativeNameHere/Marble.Framework"/></a>
+<a href="https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-informational"/></a>
 <a href="https://github.com/InsertAReallyCreativeNameHere/Marble.Framework"><img src="https://img.shields.io/github/stars/InsertAReallyCreativeNameHere/Marble.Framework"/></a>
+<a href="https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/issues"><img src="https://img.shields.io/github/issues/InsertAReallyCreativeNameHere/Marble.Framework"/></a>
 [![CodeFactor](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework/badge)](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework)
 
 # Marble.Framework
