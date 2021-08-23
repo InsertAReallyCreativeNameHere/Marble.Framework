@@ -1,3 +1,5 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework/badge)](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework)
+
 # Marble.Framework
 TODO: put stuff here lol
 
