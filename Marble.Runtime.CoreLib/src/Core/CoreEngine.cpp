@@ -3,8 +3,10 @@
 #include <bx/platform.h>
 #include <cmath>
 #include <fcntl.h>
+#include <filesystem>
 #include <fstream>
 #include <numeric>
+#include <ranges>
 #include <SDL_video.h>
 #include <SDL_pixels.h>
 
@@ -30,9 +32,8 @@
 #include <Rendering/Core/Renderer.h>
 #include <Rendering/Utility/ShaderUtility.h>
 
-#include <filesystem>
 namespace fs = std::filesystem;
-
+namespace ranges = std::ranges;
 using namespace Marble;
 using namespace Marble::GL;
 using namespace Marble::Internal;

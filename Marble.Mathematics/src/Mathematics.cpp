@@ -172,8 +172,7 @@ Matrix::Matrix
 )
 : rows(rows), columns(columns), values(rows * columns)
 {
-    #pragma omp parallel for default(none) shared(rows, columns, value) num_threads(2)
-    for (size_t i = 0; i < rows; i++) // Don't collapse loop unless you can ensure its actually faster. (No collapse(2)).
+    for (size_t i = 0; i < rows; i++)
         for (size_t j = 0; j < columns; j++)
             this->values[i * this->columns + j] = value;
 }
