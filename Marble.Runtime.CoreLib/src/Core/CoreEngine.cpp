@@ -6,7 +6,6 @@
 #include <filesystem>
 #include <fstream>
 #include <numeric>
-#include <ranges>
 #include <SDL_video.h>
 #include <SDL_pixels.h>
 
@@ -32,8 +31,7 @@
 #include <Rendering/Core/Renderer.h>
 #include <Rendering/Utility/ShaderUtility.h>
 
-namespace fs = std::filesystem;
-namespace ranges = std::ranges;
+namespace fs = std::filesystem
 using namespace Marble;
 using namespace Marble::GL;
 using namespace Marble::Internal;
