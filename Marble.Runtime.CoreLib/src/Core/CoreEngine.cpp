@@ -31,7 +31,7 @@
 #include <Rendering/Core/Renderer.h>
 #include <Rendering/Utility/ShaderUtility.h>
 
-namespace fs = std::filesystem
+namespace fs = std::filesystem;
 using namespace Marble;
 using namespace Marble::GL;
 using namespace Marble::Internal;
