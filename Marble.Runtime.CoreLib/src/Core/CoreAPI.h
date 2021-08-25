@@ -7,5 +7,5 @@
 		#define coreapi __declspec(dllimport)
 	#endif
 #else
-	#define coreapi 
+	#define coreapi
 #endif

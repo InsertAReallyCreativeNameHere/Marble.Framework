@@ -5,7 +5,6 @@
 #include <bgfx/bgfx.h>
 #include <list>
 #include <vector>
-#include <Utility/Function.h>
 
 namespace Marble
 {

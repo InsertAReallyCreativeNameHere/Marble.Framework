@@ -7,7 +7,7 @@
 #include <SDL.h>
 #include <SDL_syswm.h>
 #include <moodycamel/concurrentqueue.h>
-#include <Utility/Function.h>
+#include <skarupke/function.h>
 #include <Utility/Lock.h>
 
 namespace Marble

@@ -3,6 +3,7 @@
 #include <bx/platform.h>
 #include <cmath>
 #include <fcntl.h>
+#include <filesystem>
 #include <fstream>
 #include <numeric>
 #include <SDL_video.h>
@@ -30,9 +31,7 @@
 #include <Rendering/Core/Renderer.h>
 #include <Rendering/Utility/ShaderUtility.h>
 
-#include <filesystem>
 namespace fs = std::filesystem;
-
 using namespace Marble;
 using namespace Marble::GL;
 using namespace Marble::Internal;
@@ -318,13 +317,15 @@ void CoreEngine::internalLoop()
                                     float asc = text->data->file->fontHandle().ascent;
                                     float lineHeight = asc - text->data->file->fontHandle().descent;
                                     float glyphScale = float(text->fontSize) / lineHeight;
-                                    float lineDiff = (text->data->file->fontHandle().lineGap + lineHeight) * glyphScale;
+                                    float lineDiff = (text->data->file->fontHandle().lineGap + lineHeight) * glyphScale * scale.y;
                                     float accXAdvance = 0;
                                     float accYAdvance = 0;
+                                    float spaceAdv = text->data->file->fontHandle().getCodepointMetrics(U' ').advanceWidth * glyphScale * scale.x;
 
                                     size_t beg = 0;
                                     size_t end;
-                                    while ((end = text->_text.find_first_of(U' ', beg + 1)) != std::u32string::npos)
+
+                                    while ((end = text->_text.find_first_of(U" \t\r\n", beg + 1)) != std::u32string::npos)
                                     {
                                         std::vector<float> advanceLengths;
                                         advanceLengths.reserve(end - beg);
@@ -337,8 +338,6 @@ void CoreEngine::internalLoop()
                                         {
                                             accXAdvance = 0;
                                             accYAdvance += lineDiff;
-                                            ++beg;
-                                            ++advanceLenIt;
                                         }
 
                                         for (size_t i = beg; i < end; i++)
@@ -360,6 +359,61 @@ void CoreEngine::internalLoop()
                                         }
 
                                         beg = end;
+                                        end = text->_text.find_first_not_of(U" \n", beg + 1);
+
+                                        for (size_t i = beg; i < end; i++)
+                                        {
+                                            switch (text->_text[i])
+                                            {
+                                            case U' ':
+                                                accXAdvance += spaceAdv;
+                                                break;
+                                            case U'\t':
+                                                accXAdvance += spaceAdv * 8;
+                                                break;
+                                            case U'\r':
+                                                break;
+                                            case U'\n':
+                                                accXAdvance = 0;
+                                                accYAdvance += lineDiff;
+                                                break;
+                                            }
+                                        }
+
+                                        beg = end;
+                                    }
+
+                                    end = text->_text.size();
+                                    
+                                    std::vector<float> advanceLengths;
+                                    advanceLengths.reserve(end - beg);
+                                    for (size_t i = beg; i < end; i++)
+                                        advanceLengths.push_back(float(text->data->file->fontHandle().getCodepointMetrics(text->_text[i]).advanceWidth) * glyphScale * scale.x);
+
+                                    auto advanceLenIt = advanceLengths.begin();
+
+                                    if (accXAdvance + std::accumulate(advanceLengths.begin(), advanceLengths.end(), 0.0f) > rectWidth)
+                                    {
+                                        accXAdvance = 0;
+                                        accYAdvance += lineDiff;
+                                    }
+
+                                    for (size_t i = beg; i < end; i++)
+                                    {
+                                        auto c = text->data->characters.find(text->_text[i]);
+                                        if (c != text->data->characters.end())
+                                        {
+                                            ColoredTransformHandle transform;
+                                            transform.setPosition(pos.x, pos.y);
+                                            transform.setOffset(rect.left * scale.x + accXAdvance, rect.top * scale.y - asc * glyphScale - accYAdvance);
+                                            transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
+                                            transform.setRotation(rot);
+                                            transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+                                            CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = c->second] { Renderer::drawPolygon(data->polygon, transform); });
+                                        }
+
+                                        accXAdvance += float(*advanceLenIt);
+                                        ++advanceLenIt;
                                     }
                                 }
                             }

@@ -28,7 +28,7 @@ namespace Marble
             RectTransform* attachedRectTransform;
         protected:
             Component();
-            virtual ~Component() override = 0;
+            virtual ~Component() = 0;
         public:
             Entity* entity();
             RectTransform* rectTransform();

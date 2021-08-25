@@ -5,6 +5,7 @@
 #include <bx/math.h>
 #include <Rendering/Utility/ShaderUtility.h>
 #include <shaderc.h>
+#include <skarupke/function.h>
 
 using namespace Marble;
 using namespace Marble::GL;

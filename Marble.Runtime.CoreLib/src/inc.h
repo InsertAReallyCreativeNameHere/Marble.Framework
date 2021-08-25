@@ -22,19 +22,16 @@
 
 #define null NULL
 
-template <typename T>
-inline consteval const char* __internal_type()
-{
-    #if defined(__GNUC__) || defined(__clang__)
-    return __PRETTY_FUNCTION__;
-    #elif defined(_MSC_VER)
-    return __FUNCSIG__;
-    #endif
-}
+// Fine, I fixed it, lgtm.
 template <typename T>
 inline constexpr uint64_t __internal_typeid()
 {
-    const char* typeName = __internal_type<T>();
+    const char* typeName =
+    #if defined(__GNUC__) || defined(__clang__)
+    __PRETTY_FUNCTION__;
+    #elif defined(_MSC_VER)
+    __FUNCSIG__;
+    #endif
     uint64_t ret = 0;
     size_t i = 0;
     do ret += i * (CHAR_MAX - CHAR_MIN) + typeName[i];
