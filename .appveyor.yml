@@ -15,8 +15,4 @@ before_build:
 
 build_script:
 - cd build
-- cmake --build --config Release --target Marble.Runtime.CoreLib
-
-build:
-  project: Marble.Runtime.CoreLib
-  verbosity: detailed
+- cmake --build --config Release
