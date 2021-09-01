@@ -10,6 +10,8 @@ configuration:
 # environment:
 #   matrix:
 
+clone_depth: 2
+
 before_build:
 - cmd: cmake -H. -Bbuild
 
