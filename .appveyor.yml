@@ -15,4 +15,4 @@ before_build:
 
 build_script:
 - cd build
-- cmake --build --config Release
+- cmake --build . --config Release
