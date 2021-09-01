@@ -4,9 +4,6 @@
 [submodule "bgfx.cmake"]
 	path = external/bgfx.cmake
 	url = https://github.com/bkaradzic/bgfx.cmake.git
-[submodule "external/libschrift"]
-	path = external/libschrift
-	url = https://github.com/tomolt/libschrift.git
 [submodule "dependencies/stb"]
 	path = dependencies/stb
 	url = https://github.com/nothings/stb.git
