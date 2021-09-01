@@ -9,11 +9,11 @@ configuration:
 
 before_build:
 - git submodule update --init --recursive
-- cmake -H. -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release
+- cmake -H. -Bbuild -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_BUILD_TYPE=Release
 
 build_script:
 - cd build
-- cmake --build --config Release
+- cmake --build --config Release --target Marble.Runtime.CoreLib
 
 build:
   verbosity: normal
