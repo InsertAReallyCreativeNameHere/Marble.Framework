@@ -18,4 +18,5 @@ build_script:
 - cmake --build --config Release --target Marble.Runtime.CoreLib
 
 build:
-  verbosity: normal
+  project: Marble.Runtime.CoreLib
+  verbosity: detailed
