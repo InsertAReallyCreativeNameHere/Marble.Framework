@@ -8,6 +8,8 @@ configuration:
 - Release
 
 before_build:
+- sh: sudo apt-get update
+- sh: sudo apt install -y libgl1-mesa-dev
 - git submodule update --init --recursive
 - cmake -H. -Bbuild -DCMAKE_CONFIGURATION_TYPES=Release -DCMAKE_BUILD_TYPE=Release
 
