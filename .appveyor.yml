@@ -9,7 +9,11 @@ configuration:
 
 before_build:
 - cmd: git submodule update --init --recursive
-- cmd: cmake -H. -Bbuild
+- cmd: cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release
+
+build_script:
+- cmd: cd build
+- cmd: cmake --build --config Release
 
 build:
   verbosity: normal
