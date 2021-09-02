@@ -8,6 +8,7 @@
 
 using namespace Marble;
 using namespace Marble::GL;
+using namespace Marble::Mathematics;
 using namespace Marble::Internal;
 using namespace Marble::PackageSystem;
 using namespace Marble::Typography;
@@ -15,6 +16,9 @@ using namespace Marble::Typography;
 std::unordered_map<PackageSystem::TrueTypeFontPackageFile*, Text::RenderData*> Text::textFonts;
 
 Text::Text() :
+data(nullptr),
+_text(U""),
+_fontSize(11),
 font
 ({
     []
@@ -50,7 +54,6 @@ font
         else this->data = nullptr;
     }
 }),
-data(nullptr),
 text
 ({
     [this]() -> const std::u32string&
@@ -109,8 +112,35 @@ text
         this->_text = std::move(str);
     }
 }),
-_text(U""),
-fontSize(11)
+fontSize
+({
+    [&]() -> uint32_t
+    {
+        return this->_fontSize;
+    },
+    [&](uint32_t value) -> void
+    {
+        switch (value)
+        {
+        case TextSize::Auto:
+            {
+                RectTransform* rt = this->rectTransform();
+                Font& font = this->data->file->fontHandle();
+                float height = (font.ascent - font.descent);
+
+                float accAdvance = 0;
+                for (auto it = this->_text.begin(); it != this->_text.end(); ++it)
+                    accAdvance += font.getCodepointMetrics(*it).advanceWidth * height;
+
+                uint32_t optimisticFontSize = (rt->rect().right - rt->rect().left) * (rt->rect().top - rt->rect().bottom) / accAdvance;
+                this->_fontSize = optimisticFontSize;
+            }
+            break;
+        default:
+            this->_fontSize = value;
+        }
+    }
+})
 {
 }
 Text::~Text()

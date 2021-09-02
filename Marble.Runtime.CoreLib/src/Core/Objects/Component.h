@@ -30,8 +30,14 @@ namespace Marble
             Component();
             virtual ~Component() = 0;
         public:
-            Entity* entity();
-            RectTransform* rectTransform();
+            inline Entity* entity()
+            {
+                return this->attachedEntity;
+            }
+            inline RectTransform* rectTransform()
+            {
+                return this->attachedRectTransform;
+            }
 
             friend class Marble::Entity;
             friend class Marble::RectTransform;

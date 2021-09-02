@@ -111,7 +111,8 @@
         "semaphore": "cpp",
         "charconv": "cpp",
         "schrift.h": "c",
-        "source_location": "cpp"
+        "source_location": "cpp",
+        "span": "cpp"
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "cmake.configureOnOpen": false

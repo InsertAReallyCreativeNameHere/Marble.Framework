@@ -23,6 +23,17 @@ namespace Marble
         Justify
     };
 
+    struct TextSize
+    {
+        TextSize() = delete;
+
+        enum
+        {
+            Default = 11,
+            Auto = UINT32_MAX
+        };
+    };
+
     class coreapi Text final : public Internal::Component
     {
         struct coreapi CharacterRenderData final
@@ -41,13 +52,14 @@ namespace Marble
         RenderData* data;
 
         std::u32string _text;
+        uint32_t _fontSize;
     public:
         Text();
         ~Text();
 
         Property<PackageSystem::TrueTypeFontPackageFile*, PackageSystem::TrueTypeFontPackageFile*> font;
         Property<const std::u32string&, std::u32string> text;
-        uint32_t fontSize; // In pixels.
+        Property<uint32_t, uint32_t> fontSize; // In pixels.
         TextAlign horizontalAlign;
         TextAlign verticalAlign;
 
