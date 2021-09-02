@@ -9,7 +9,7 @@
 [![Marble.Framework](https://img.shields.io/github/last-commit/InsertAReallyCreativeNameHere/Marble.Framework)](#)
 [![Marble.Framework](https://img.shields.io/maintenance/yes/2021)](#)   
 [![CMake](https://img.shields.io/github/workflow/status/InsertAReallyCreativeNameHere/Marble.Framework/CMake?logo=github)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/actions/workflows/cmake.yml)
-[![AppVeyor](https://img.shields.io/appveyor/build/InsertAReallyCreativeNameHere/Marble.Framework?label=appveyor&logo=appveyor)](https://ci.appveyor.com/project/InsertAReallyCreativeNameHere/marble-framework)
+[![AppVeyor](https://img.shields.io/appveyor/build/InsertAReallyCreativeNameHere/marble-framework?label=appveyor&logo=appveyor)](https://ci.appveyor.com/project/InsertAReallyCreativeNameHere/marble-framework)
 [![Marble.Framework](https://img.shields.io/github/issues/InsertAReallyCreativeNameHere/Marble.Framework)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/issues)
 [![Marble.Framework](https://img.shields.io/github/issues-pr/InsertAReallyCreativeNameHere/Marble.Framework)](https://github.com/InsertAReallyCreativeNameHere/Marble.Framework/pulls)   
 [![LGTM](https://img.shields.io/lgtm/alerts/github/InsertAReallyCreativeNameHere/Marble.Framework?logo=lgtm)](https://lgtm.com/projects/g/InsertAReallyCreativeNameHere/Marble.Framework)
