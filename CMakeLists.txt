@@ -17,6 +17,7 @@ endif()
 
 if (WIN32 OR WIN64)
     set(BUILD_PLATFORM Win32)
+    add_definitions(-D_WIN32_WINNT=0x0501)
 elseif (UNIX AND NOT APPLE)
     set(BUILD_PLATFORM Linux)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
