@@ -182,24 +182,26 @@ uniform mat4 transformData;
 
 void main()
 {
-    a_position.x *= transformData[1].x;
-    a_position.y *= transformData[1].y;
-    a_position.x += transformData[0].z;
-    a_position.y += transformData[0].w;
+    vec3 pos = a_position;
+
+    pos.x *= transformData[1].x;
+    pos.y *= transformData[1].y;
+    pos.x += transformData[0].z;
+    pos.y += transformData[0].w;
 
     float s = sin(transformData[1].z);
     float c = cos(transformData[1].z);
 
-    float x = a_position.x;
-    float y = a_position.y;
+    float x = pos.x;
+    float y = pos.y;
 
-    a_position.x = x * c + y * s;
-    a_position.y = y * c - x * s;
+    pos.x = x * c + y * s;
+    pos.y = y * c - x * s;
     
-    a_position.x += transformData[0].x;
-    a_position.y += transformData[0].y;
+    pos.x += transformData[0].x;
+    pos.y += transformData[0].y;
 
-	gl_Position = mul(u_modelViewProj, vec4(a_position.x, a_position.y, 0.0, 1.0));
+	gl_Position = mul(u_modelViewProj, vec4(pos.x, pos.y, 0.0, 1.0));
 }
 )",
                     ShaderCompileOptions(ShaderType::Vertex)
@@ -258,24 +260,26 @@ uniform mat4 transformData;
 
 void main()
 {
-    a_position.x *= transformData[1].x;
-    a_position.y *= transformData[1].y;
-    a_position.x += transformData[0].z;
-    a_position.y += transformData[0].w;
+    vec3 pos = a_position;
+
+    pos.x *= transformData[1].x;
+    pos.y *= transformData[1].y;
+    pos.x += transformData[0].z;
+    pos.y += transformData[0].w;
 
     float s = sin(transformData[1].z);
     float c = cos(transformData[1].z);
 
-    float x = a_position.x;
-    float y = a_position.y;
+    float x = pos.x;
+    float y = pos.y;
 
-    a_position.x = x * c + y * s;
-    a_position.y = y * c - x * s;
+    pos.x = x * c + y * s;
+    pos.y = y * c - x * s;
     
-    a_position.x += transformData[0].x;
-    a_position.y += transformData[0].y;
+    pos.x += transformData[0].x;
+    pos.y += transformData[0].y;
 
-	gl_Position = mul(u_modelViewProj, vec4(a_position.x, a_position.y, 0.0, 1.0));
+	gl_Position = mul(u_modelViewProj, vec4(pos.x, pos.y, 0.0, 1.0));
 
     v_texcoord0 = a_texcoord0;
 }
