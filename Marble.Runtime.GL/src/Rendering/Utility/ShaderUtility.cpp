@@ -50,10 +50,6 @@ std::vector<char> ShaderUtility::compileShader(const std::string& shaderData, co
     std::string varyingPath(curPath);
     varyingPath.append("/Runtime/varying.def.sc");
 
-    std::string prof;
-    prof.reserve(6);
-    prof.push_back((char)options.shaderType);
-    prof.push_back("s_3_0");
     std::vector<const char*> args
     {
         #if BX_PLATFORM_LINUX
@@ -72,7 +68,7 @@ std::vector<char> ShaderUtility::compileShader(const std::string& shaderData, co
         "--type", shaderType,
         "-p"
     };
-    args.push_back(prof.c_str());
+    args.push_back("s_3_0");
 
     for (auto it = options.includeDirs.begin(); it != options.includeDirs.end(); ++it)
     {
