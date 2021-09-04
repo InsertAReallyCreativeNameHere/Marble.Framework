@@ -726,10 +726,10 @@ void CoreEngine::internalRenderLoop()
         
         if (dequeued) [[likely]]
         {
-            Renderer::beginFrame();
+            /*Renderer::beginFrame();
             for (auto it = jobs.begin(); it != jobs.end(); ++it)
                 (*it)();
-            Renderer::endFrame();
+            Renderer::endFrame();*/
         }
 
         dequeued = false;
