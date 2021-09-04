@@ -463,7 +463,7 @@ void CoreEngine::internalWindowLoop()
     Debug::LogInfo("Window initialisation began."); 
 
     #pragma region SDL Window Initialisation
-    wind = SDL_CreateWindow("Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WNDW, WNDH, SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+    wind = SDL_CreateWindow("Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WNDW, WNDH, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_HIDDEN);
     if (wind == nullptr)
     {
         Debug::LogError("Could not create window: ", SDL_GetError(), ".");
