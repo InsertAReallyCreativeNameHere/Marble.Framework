@@ -68,7 +68,7 @@ std::vector<char> ShaderUtility::compileShader(const std::string& shaderData, co
         "--type", shaderType,
         "-p"
     };
-    args.push_back("spirv");
+    args.push_back("120");
 
     for (auto it = options.includeDirs.begin(); it != options.includeDirs.end(); ++it)
     {
