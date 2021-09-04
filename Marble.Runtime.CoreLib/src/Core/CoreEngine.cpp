@@ -471,6 +471,7 @@ void CoreEngine::internalWindowLoop()
         CoreEngine::threadsFinished_1.store(true, std::memory_order_relaxed);
         return;
     }
+    SDL_SetWindowFullscreen(wind, SDL_FALSE);
     Window::width = WNDW;
     Window::height = WNDH;
     #pragma endregion
