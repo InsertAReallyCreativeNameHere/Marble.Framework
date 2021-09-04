@@ -462,6 +462,13 @@ void CoreEngine::internalWindowLoop()
 {
     Debug::LogInfo("Window initialisation began."); 
 
+    if (SDL_InitSubSystem(SDL_INIT_VIDEO) != 0) [[unlikely]]
+    {
+        Debug::LogError("SDL Video Initialisation Failed! Error: ", SDL_GetError(), ".\n");
+        CoreEngine::readyToExit = true;
+        CoreEngine::threadsFinished_1.store(true, std::memory_order_relaxed);
+        return;
+    }
     displayModeStuff();
 
     #pragma region SDL Window Initialisation
