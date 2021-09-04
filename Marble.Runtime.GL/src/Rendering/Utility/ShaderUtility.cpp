@@ -70,7 +70,7 @@ std::vector<char> ShaderUtility::compileShader(const std::string& shaderData, co
     };
     std::string profile;
     profile.reserve(6);
-    if (options.shaderType == 'v')
+    if (options.shaderType == (ShaderType)'v')
         profile.push_back('v');
     else profile.push_back('p');
     profile.append("s_3_0");
