@@ -104,8 +104,7 @@ int CoreEngine::execute(int argc, char* argv[])
             SDL_INIT_GAMECONTROLLER |
             SDL_INIT_HAPTIC |
             SDL_INIT_JOYSTICK |
-            SDL_INIT_NOPARACHUTE |
-            SDL_INIT_SENSOR
+            SDL_INIT_NOPARACHUTE
         )
         == 0
     )
