@@ -15,5 +15,7 @@ inline int __handleInitializeAndExit(int argc, char* argv[])
 		return EXIT_FAILURE;
 	}
 
+	system("pause");
+
     return EXIT_SUCCESS;
 }
