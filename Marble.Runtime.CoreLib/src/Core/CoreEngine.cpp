@@ -462,8 +462,10 @@ void CoreEngine::internalWindowLoop()
 {
     Debug::LogInfo("Window initialisation began."); 
 
+    displayModeStuff();
+
     #pragma region SDL Window Initialisation
-    wind = SDL_CreateWindow("Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WNDW, WNDH, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_HIDDEN);
+    wind = SDL_CreateWindow("Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Screen::width / 2, Screen::height / 2, SDL_WINDOW_ALLOW_HIGHDPI);
     if (wind == nullptr)
     {
         Debug::LogError("Could not create window: ", SDL_GetError(), ".");
@@ -471,16 +473,14 @@ void CoreEngine::internalWindowLoop()
         CoreEngine::threadsFinished_1.store(true, std::memory_order_relaxed);
         return;
     }
-    SDL_SetWindowFullscreen(wind, SDL_FALSE);
-    Window::width = WNDW;
-    Window::height = WNDH;
+    Window::width = Screen::width / 2;
+    Window::height = Screen::height / 2;
     #pragma endregion
 
     SDL_VERSION(&CoreEngine::wmInfo.version);
     SDL_GetWindowWMInfo(CoreEngine::wind, &CoreEngine::wmInfo);
 
     SDL_SetWindowMinimumSize(wind, 200, 200);
-    displayModeStuff();
 
     SDL_SetEventFilter
     (
