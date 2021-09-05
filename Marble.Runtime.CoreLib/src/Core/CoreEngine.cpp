@@ -335,6 +335,12 @@ void CoreEngine::internalLoop()
 
                                         static const auto drawNextLetter = [&](size_t i) -> void
                                         {
+                                            if (accXAdvance + *advanceLenIt > rectWidth) [[unlikely]]
+                                            {
+                                                accXAdvance = 0;
+                                                accYAdvance += lineDiff;
+                                            }
+
                                             auto c = text->data->characters.find(text->_text[i]);
                                             if (c != text->data->characters.end())
                                             {
@@ -355,12 +361,6 @@ void CoreEngine::internalLoop()
                                             accXAdvance += float(*advanceLenIt);
                                             ++advanceLenIt;
 
-                                            if (accXAdvance > rectWidth) [[unlikely]]
-                                            {
-                                                accXAdvance = 0;
-                                                accYAdvance += lineDiff;
-                                            }
-                                            
                                             drawNextLetter(i);
                                         }
                                     };
