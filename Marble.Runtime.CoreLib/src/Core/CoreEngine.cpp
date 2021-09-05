@@ -359,9 +359,8 @@ void CoreEngine::internalLoop()
                                         for (size_t i = beg + 1; i < end; i++)
                                         {
                                             accXAdvance += float(*advanceLenIt);
-                                            ++advanceLenIt;
-
                                             drawNextLetter(i);
+                                            ++advanceLenIt;
                                         }
                                     };
 
