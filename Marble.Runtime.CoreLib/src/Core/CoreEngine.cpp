@@ -324,7 +324,7 @@ void CoreEngine::internalLoop()
                                     size_t beg = 0;
                                     size_t end;
 
-                                    while ((end = text->_text.find_first_of(U" \t\r\n", beg + 1)) != std::u32string::npos)
+                                    const auto drawNextWord = [&]() -> void
                                     {
                                         std::vector<float> advanceLengths;
                                         advanceLengths.reserve(end - beg);
@@ -333,7 +333,7 @@ void CoreEngine::internalLoop()
 
                                         auto advanceLenIt = advanceLengths.begin();
 
-                                        for (size_t i = beg; i < end; i++)
+                                        static const auto drawNextLetter = [&](size_t i) -> void
                                         {
                                             auto c = text->data->characters.find(text->_text[i]);
                                             if (c != text->data->characters.end())
@@ -346,16 +346,28 @@ void CoreEngine::internalLoop()
                                                 transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
                                                 CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = c->second] { Renderer::drawPolygon(data->polygon, transform); });
                                             }
+                                        };
 
+                                        drawNextLetter(0);
+
+                                        for (size_t i = beg + 1; i < end; i++)
+                                        {
                                             accXAdvance += float(*advanceLenIt);
                                             ++advanceLenIt;
 
-                                            if (accXAdvance + std::accumulate(advanceLengths.begin(), advanceLenIt, 0.0f) > rectWidth) [[unlikely]]
+                                            if (accXAdvance > rectWidth) [[unlikely]]
                                             {
                                                 accXAdvance = 0;
                                                 accYAdvance += lineDiff;
                                             }
+                                            
+                                            drawNextLetter(i);
                                         }
+                                    };
+
+                                    while ((end = text->_text.find_first_of(U" \t\r\n", beg + 1)) != std::u32string::npos)
+                                    {
+                                        drawNextWord();
 
                                         beg = end;
                                         end = text->_text.find_first_not_of(U" \n", beg + 1);
@@ -383,37 +395,7 @@ void CoreEngine::internalLoop()
                                     }
 
                                     end = text->_text.size();
-                                    
-                                    std::vector<float> advanceLengths;
-                                    advanceLengths.reserve(end - beg);
-                                    for (size_t i = beg; i < end; i++)
-                                        advanceLengths.push_back(float(text->data->file->fontHandle().getCodepointMetrics(text->_text[i]).advanceWidth) * glyphScale * scale.x);
-
-                                    auto advanceLenIt = advanceLengths.begin();
-
-                                    if (accXAdvance + std::accumulate(advanceLengths.begin(), advanceLengths.end(), 0.0f) > rectWidth)
-                                    {
-                                        accXAdvance = 0;
-                                        accYAdvance += lineDiff;
-                                    }
-
-                                    for (size_t i = beg; i < end; i++)
-                                    {
-                                        auto c = text->data->characters.find(text->_text[i]);
-                                        if (c != text->data->characters.end())
-                                        {
-                                            ColoredTransformHandle transform;
-                                            transform.setPosition(pos.x, pos.y);
-                                            transform.setOffset(rect.left * scale.x + accXAdvance, rect.top * scale.y - asc * glyphScale - accYAdvance);
-                                            transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
-                                            transform.setRotation(rot);
-                                            transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-                                            CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = c->second] { Renderer::drawPolygon(data->polygon, transform); });
-                                        }
-
-                                        accXAdvance += float(*advanceLenIt);
-                                        ++advanceLenIt;
-                                    }
+                                    drawNextWord();
                                 }
                             }
                             break;
