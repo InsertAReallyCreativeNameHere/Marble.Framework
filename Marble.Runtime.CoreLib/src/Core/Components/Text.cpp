@@ -131,22 +131,12 @@ fontSize
                 float accArea = 0;
                 for (auto it = this->_text.begin(); it != this->_text.end(); ++it)
                     accArea += font.getCodepointMetrics(*it).advanceWidth * height;
-                    
-                Debug::LogError(accArea);
-                Debug::LogError
-                (
-                    (this->rectTransform()->rect().top - this->rectTransform()->rect().bottom) *
-                    (this->rectTransform()->rect().right - this->rectTransform()->rect().left)
-                );
-                Debug::LogError
-                (
-                    accArea /
-                    ((this->rectTransform()->rect().top - this->rectTransform()->rect().bottom) *
-                    (this->rectTransform()->rect().right - this->rectTransform()->rect().left)) /
-                    height
-                );
-
-                this->_fontSize = 11;
+                
+                this->_fontSize =
+                accArea /
+                ((this->rectTransform()->rect().top - this->rectTransform()->rect().bottom) *
+                (this->rectTransform()->rect().right - this->rectTransform()->rect().left)) /
+                height;
             }
             break;
         default:
