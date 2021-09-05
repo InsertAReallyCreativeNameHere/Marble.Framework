@@ -333,12 +333,6 @@ void CoreEngine::internalLoop()
 
                                         auto advanceLenIt = advanceLengths.begin();
 
-                                        if (accXAdvance + std::accumulate(advanceLengths.begin(), advanceLengths.end(), 0.0f) > rectWidth)
-                                        {
-                                            accXAdvance = 0;
-                                            accYAdvance += lineDiff;
-                                        }
-
                                         for (size_t i = beg; i < end; i++)
                                         {
                                             auto c = text->data->characters.find(text->_text[i]);
@@ -355,6 +349,12 @@ void CoreEngine::internalLoop()
 
                                             accXAdvance += float(*advanceLenIt);
                                             ++advanceLenIt;
+
+                                            if (accXAdvance + std::accumulate(advanceLengths.begin(), advanceLenIt, 0.0f) > rectWidth) [[unlikely]]
+                                            {
+                                                accXAdvance = 0;
+                                                accYAdvance += lineDiff;
+                                            }
                                         }
 
                                         beg = end;
