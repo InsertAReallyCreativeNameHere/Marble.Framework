@@ -23,9 +23,9 @@ namespace Marble
         Justify
     };
 
-    struct TextSize
+    struct FontSize
     {
-        TextSize() = delete;
+        FontSize() = delete;
 
         enum
         {

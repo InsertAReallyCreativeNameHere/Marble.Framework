@@ -122,18 +122,24 @@ fontSize
     {
         switch (value)
         {
-        case TextSize::Auto:
+        case FontSize::Auto:
             {
                 RectTransform* rt = this->rectTransform();
                 Font& font = this->data->file->fontHandle();
-                float height = (font.ascent - font.descent);
+                float height = (font.ascent - font.descent) + font.lineGap;
 
-                float accAdvance = 0;
+                float accArea = 0;
                 for (auto it = this->_text.begin(); it != this->_text.end(); ++it)
-                    accAdvance += font.getCodepointMetrics(*it).advanceWidth * height;
+                    accArea += font.getCodepointMetrics(*it).advanceWidth * height;
+                    
+                Debug::LogError(accArea);
+                Debug::LogError
+                (
+                    (this->rectTransform()->rect().top - this->rectTransform()->rect().bottom) *
+                    (this->rectTransform()->rect().right - this->rectTransform()->rect().left)
+                );
 
-                uint32_t optimisticFontSize = (rt->rect().right - rt->rect().left) * (rt->rect().top - rt->rect().bottom) / accAdvance;
-                this->_fontSize = optimisticFontSize;
+                this->_fontSize = 11;
             }
             break;
         default:

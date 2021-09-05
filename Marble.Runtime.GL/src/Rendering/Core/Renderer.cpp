@@ -151,9 +151,8 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
     
     #if _DEBUG
     bgfx::setDebug(BGFX_DEBUG_PROFILER | BGFX_DEBUG_STATS | BGFX_DEBUG_TEXT);
-    #endif
-
     bgfx::g_verbose = true;
+    #endif
 
     renderWidth = initWidth;
     renderHeight = initHeight;

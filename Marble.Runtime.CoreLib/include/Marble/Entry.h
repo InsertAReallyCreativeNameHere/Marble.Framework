@@ -15,7 +15,7 @@ inline int __handleInitializeAndExit(int argc, char* argv[])
 		return EXIT_FAILURE;
 	}
 
-	system("pause");
+	std::getchar();
 
     return EXIT_SUCCESS;
 }
