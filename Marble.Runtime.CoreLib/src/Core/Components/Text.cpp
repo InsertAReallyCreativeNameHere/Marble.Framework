@@ -138,6 +138,13 @@ fontSize
                     (this->rectTransform()->rect().top - this->rectTransform()->rect().bottom) *
                     (this->rectTransform()->rect().right - this->rectTransform()->rect().left)
                 );
+                Debug::LogError
+                (
+                    accArea /
+                    ((this->rectTransform()->rect().top - this->rectTransform()->rect().bottom) *
+                    (this->rectTransform()->rect().right - this->rectTransform()->rect().left)) /
+                    height
+                );
 
                 this->_fontSize = 11;
             }
