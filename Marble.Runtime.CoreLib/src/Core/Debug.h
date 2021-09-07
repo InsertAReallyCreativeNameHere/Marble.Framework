@@ -8,7 +8,7 @@
 #include <iostream>
 #include <locale>
 #include <sstream>
-#include <thread>
+#include <compat/thread>
 
 #define WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT 0
 

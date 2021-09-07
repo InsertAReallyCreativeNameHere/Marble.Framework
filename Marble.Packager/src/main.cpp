@@ -3,7 +3,6 @@
 #include <cstring>
 #include <iostream>
 #include <fstream>
-#include <thread>
 #include <chrono>
 #include <fcntl.h>
 #include <vector>
@@ -66,7 +65,6 @@ int main(int argc, char* argv[])
             case strhash(L"exit"):
                 {
                     fputws(L"Alrighty! Exiting...\n", stdout);
-                    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                     goto Exit;
                 }
                 break;

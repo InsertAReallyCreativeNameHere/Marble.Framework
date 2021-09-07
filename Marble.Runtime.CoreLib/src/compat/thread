@@ -1,0 +1,5 @@
+#if __MINGW32__
+    #include <mingw.thread.h>
+#else
+    #include <thread>
+#endif
