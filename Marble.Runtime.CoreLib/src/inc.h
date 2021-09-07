@@ -1,7 +1,9 @@
 #pragma once
 
 #include <Core/CoreAPI.h>
-#include <Core/Debug.h>
+#if __has_include(<mingw.thread.h>)
+    #include <Core/Debug.h>
+#endif
 
 #include <climits>
 #include <cstdint>
