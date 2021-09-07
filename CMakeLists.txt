@@ -31,8 +31,6 @@ set(CMAKE_CXX_STANDARD 20)
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     if (CMAKE_SHARED_LIBRARY_SUFFIX STREQUAL ".dll")
         set(COMPILER "MinGW")
-        add_compile_options("-no-pthread")
-        add_link_options("-no-pthread")
     else()
         set(COMPILER "gcc")
     endif()
@@ -145,7 +143,7 @@ target_include_directories(Marble.Runtime.GL PRIVATE
 target_link_libraries(Marble.Runtime.GL PRIVATE
     gl
 )
-if (COMPILER STREQUAL "MinGW")
+if (COMPILER STREQUAL "MinGW" OR COMPILER STREQUAL "Clang")
     target_include_directories(Marble.Runtime.GL PRIVATE "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include/compat/mingw")
 elseif (COMPILER STREQUAL "MSVC")
     target_include_directories(Marble.Runtime.GL PRIVATE "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include/compat/msvc")
