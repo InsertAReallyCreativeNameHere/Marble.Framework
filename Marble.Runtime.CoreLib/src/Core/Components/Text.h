@@ -2,11 +2,12 @@
 
 #include "inc.h"
 
+#include <map>
 #include <Core/Objects/Component.h>
 #include <Core/PackageManager.h>
 #include <Font/Font.h>
-#include <map>
 #include <Rendering/Core/Renderer.h>
+#include <Utility/Property.h>
 
 namespace Marble
 {
