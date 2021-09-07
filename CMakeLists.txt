@@ -59,6 +59,10 @@ set(ORIGINAL_RUNTIME_OUTPUT_DIRECTORY CMAKE_RUNTIME_OUTPUT_DIRECTORY)
 # Marble.Packager
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Marble.Packager")
 
+# mingw-std-threads
+option(MINGW_STDTHREADS_GENERATE_STDHEADERS "" ON)
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/dependencies/compat/mingw-std-threads")
+
 # SDL2
 set(SDL_STATIC_PIC ON CACHE INTERNAL "Build SDL2 with position independent code." FORCE)
 set(SDL_SHARED OFF CACHE INTERNAL "Build SDL2 shared library." FORCE)
@@ -187,7 +191,7 @@ target_link_libraries(Marble.Runtime.CoreLib PRIVATE
 )
 if (COMPILER STREQUAL "MinGW")
     target_include_directories(Marble.Runtime.CoreLib PRIVATE "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include/compat/mingw")
-    target_include_directories(Marble.Runtime.CoreLib PUBLIC "${CMAKE_CURRENT_LIST_DIR}/dependencies/compat/mingw-std-threads")
+    target_include_directories(Marble.Runtime.CoreLib PUBLIC mingw_stdthreads)
 elseif (COMPILER STREQUAL "MSVC")
     target_include_directories(Marble.Runtime.CoreLib PRIVATE "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include/compat/msvc")
 else()
