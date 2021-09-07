@@ -1,6 +1,6 @@
 #include "RectTransform.h"
 
-#include <cmath>
+#include <Mathematics.h>
 
 using namespace Marble;
 using namespace Marble::Internal;
@@ -8,8 +8,8 @@ using namespace Marble::Mathematics;
 
 constexpr static auto rotatePointAround = [](Vector2& point, const Vector2& rotateAround, float angle) -> void
 {
-    float s = sinf(-angle * float(M_PI) / 180);
-    float c = cosf(-angle * float(M_PI) / 180);
+    float s = sinf(-angle * float(piF) / 180);
+    float c = cosf(-angle * float(piF) / 180);
 
     float x = point.x - rotateAround.x;
     float y = point.y - rotateAround.y;
@@ -19,8 +19,8 @@ constexpr static auto rotatePointAround = [](Vector2& point, const Vector2& rota
 };
 constexpr static auto rotatePointAroundOrigin = [](Vector2& point, float angle) -> void
 {
-    float s = sinf(-angle * float(M_PI) / 180);
-    float c = cosf(-angle * float(M_PI) / 180);
+    float s = sinf(-angle * float(piF) / 180);
+    float c = cosf(-angle * float(piF) / 180);
 
     float x = point.x;
     float y = point.y;

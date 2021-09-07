@@ -1,6 +1,7 @@
 #pragma once
 
-#include <inc.h>
+#include "inc.h"
+
 #include <Utility/ManagedArray.h>
 
 namespace Marble
@@ -136,4 +137,5 @@ namespace Marble
 	}
 }
 
+#define piF 3.14159265358979323846264338327950288f
 #define deg2RadF(degrees) 3.14159265358979323846264338327950288f / 180 * (degrees)

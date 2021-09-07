@@ -5,6 +5,7 @@
 #include <fstream>
 #include <stb_image.h>
 #include <Core/Application.h>
+#include <Core/Debug.h>
 
 using namespace Marble;
 using namespace Marble::PackageSystem;

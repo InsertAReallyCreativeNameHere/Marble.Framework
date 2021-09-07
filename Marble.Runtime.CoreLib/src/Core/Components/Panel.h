@@ -4,6 +4,7 @@
 
 #include <Core/Objects/Component.h>
 #include <Rendering/Core.h>
+#include <Utility/Property.h>
 
 namespace Marble
 {

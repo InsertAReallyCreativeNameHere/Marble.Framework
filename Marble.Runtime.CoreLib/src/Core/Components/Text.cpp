@@ -1,7 +1,9 @@
 #include "Text.h"
 
 #include <Core/CoreEngine.h>
+#include <Core/Components/RectTransform.h>
 #include <Rendering/Core/Renderer.h>
+#include <Mathematics.h>
 #undef STB_TRUETYPE_IMPLEMENTATION
 #include <stb_truetype.h>
 #include <tuple>
