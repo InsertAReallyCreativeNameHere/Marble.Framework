@@ -1,4 +1,4 @@
-#if __MINGW32__
+#if _WIN32 && __GNUC__
     #define MINGW_STDTHREAD_REDUNDANCY_WARNING
     #include <mingw.thread.h>
     namespace stdthread = mingw_stdthread;
