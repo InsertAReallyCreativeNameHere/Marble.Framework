@@ -7,6 +7,3 @@
 [submodule "dependencies/stb"]
 	path = dependencies/stb
 	url = https://github.com/nothings/stb.git
-[submodule "dependencies/compat/mingw-std-threads"]
-	path = dependencies/compat/mingw-std-threads
-	url = https://github.com/meganz/mingw-std-threads.git

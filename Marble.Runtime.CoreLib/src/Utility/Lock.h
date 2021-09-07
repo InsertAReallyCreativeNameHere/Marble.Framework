@@ -3,7 +3,7 @@
 #include <inc.h>
 
 #include <atomic>
-#include <compat/thread>
+#include <thread>
 
 namespace Marble
 {
