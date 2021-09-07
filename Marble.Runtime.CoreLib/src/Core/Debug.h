@@ -81,7 +81,7 @@ namespace Marble
 			ansiCodes[DEBUG_COLOUR_ORANGE] <<
 			#endif
 			L"[tID: " <<
-			std::this_thread::get_id() <<
+			stdthread::this_thread::get_id() <<
 			L"]" <<
 			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_RESET] <<
@@ -113,7 +113,7 @@ namespace Marble
 			ansiCodes[DEBUG_COLOUR_ORANGE] <<
 			#endif
 			L"[tID: " <<
-			std::this_thread::get_id() <<
+			stdthread::this_thread::get_id() <<
 			L"]" <<
 			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_GREEN] <<
@@ -155,7 +155,7 @@ namespace Marble
 			ansiCodes[DEBUG_COLOUR_ORANGE] <<
 			#endif
 			L"[tID: " <<
-			std::this_thread::get_id() <<
+			stdthread::this_thread::get_id() <<
 			L"]" <<
 			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_YELLOW] <<
@@ -197,7 +197,7 @@ namespace Marble
 			ansiCodes[DEBUG_COLOUR_ORANGE] <<
 			#endif
 			L"[tID: " <<
-			std::this_thread::get_id() <<
+			stdthread::this_thread::get_id() <<
 			L"]" <<
 			#if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
 			ansiCodes[DEBUG_COLOUR_RED] <<
