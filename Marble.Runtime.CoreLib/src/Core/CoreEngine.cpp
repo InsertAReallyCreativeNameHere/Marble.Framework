@@ -72,7 +72,7 @@ int CoreEngine::execute(int argc, char* argv[])
     (void)argv;
     
     #pragma region Initialization
-    std::wcout << "init() thread ID: " << std::this_thread::get_id() << ".\n\n";
+    std::wcout << "init() thread ID: " << stdthread::this_thread::get_id() << ".\n\n";
 
     #pragma region Color Coding Code Support Modifications
     #if _WIN32 && WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
@@ -154,7 +154,7 @@ int CoreEngine::execute(int argc, char* argv[])
 void CoreEngine::exit()
 {
     while (CoreEngine::threadsFinished_1.load(std::memory_order_relaxed) == false)
-        std::this_thread::yield();
+        stdthread::this_thread::yield();
 
     std::wcout << L"Cleaning up...\n";
     // Cleanup here is done for stuff created in CoreEngine::execute, thread-specific cleanup is done per-thread, at the end of their lifetime.
