@@ -128,15 +128,14 @@ fontSize
                 Font& font = this->data->file->fontHandle();
                 float height = (font.ascent - font.descent) + font.lineGap;
 
-                float accArea = 0;
+                float accAdv = 0;
                 for (auto it = this->_text.begin(); it != this->_text.end(); ++it)
-                    accArea += font.getCodepointMetrics(*it).advanceWidth * height;
-                
-                this->_fontSize =
-                accArea /
-                ((this->rectTransform()->rect().top - this->rectTransform()->rect().bottom) *
-                (this->rectTransform()->rect().right - this->rectTransform()->rect().left)) /
-                height;
+                    accAdv += font.getCodepointMetrics(*it).advanceWidth;
+
+                // TODO: Is it possible to eliminate the costly sqrt?
+                uint32_t lineFontSize = (font.ascent - font.descent) *
+                ((this->rectTransform()->rect().right - this->rectTransform()->rect().left) / accAdv);
+                this->_fontSize = lineFontSize * std::sqrt((this->rectTransform()->rect().top - this->rectTransform()->rect().bottom) / lineFontSize);
             }
             break;
         default:

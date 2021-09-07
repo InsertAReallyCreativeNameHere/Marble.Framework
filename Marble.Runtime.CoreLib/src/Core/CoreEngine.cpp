@@ -311,7 +311,7 @@ void CoreEngine::internalLoop()
                                     Vector2 scale = text->attachedRectTransform->_scale;
                                     RectFloat rect = text->attachedRectTransform->_rect;
                                     float rectWidth = (rect.right - rect.left) * scale.x;
-                                    float rectHeight = (rect.top - rect.bottom) * scale.x;
+                                    float rectHeight = (rect.top - rect.bottom) * scale.y;
                                     float rot = deg2RadF(text->attachedRectTransform->_rotation);
                                     float asc = text->data->file->fontHandle().ascent;
                                     float lineHeight = asc - text->data->file->fontHandle().descent;
@@ -332,8 +332,7 @@ void CoreEngine::internalLoop()
                                             advanceLengths.push_back(float(text->data->file->fontHandle().getCodepointMetrics(text->_text[i]).advanceWidth) * glyphScale * scale.x);
 
                                         auto advanceLenIt = advanceLengths.begin();
-
-                                        static const auto drawNextLetter = [&](size_t i) -> void
+                                        for (size_t i = beg; i < end; i++)
                                         {
                                             if (accXAdvance + *advanceLenIt > rectWidth) [[unlikely]]
                                             {
@@ -352,14 +351,8 @@ void CoreEngine::internalLoop()
                                                 transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
                                                 CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = c->second] { Renderer::drawPolygon(data->polygon, transform); });
                                             }
-                                        };
-
-                                        drawNextLetter(0);
-
-                                        for (size_t i = beg + 1; i < end; i++)
-                                        {
+                                            
                                             accXAdvance += float(*advanceLenIt);
-                                            drawNextLetter(i);
                                             ++advanceLenIt;
                                         }
                                     };
