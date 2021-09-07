@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.0)
 
+project(gl)
+
+set(CMAKE_CXX_STANDARD 14)
+
 set(BGFX_LIBRARY_TYPE "STATIC")
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/../bgfx.cmake" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 include("${CMAKE_CURRENT_LIST_DIR}/../bgfx.cmake/cmake/3rdparty/glslang.cmake")
@@ -8,7 +12,6 @@ include("${CMAKE_CURRENT_LIST_DIR}/../bgfx.cmake/cmake/3rdparty/fcpp.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/../bgfx.cmake/cmake/3rdparty/spirv-tools.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/../bgfx.cmake/cmake/3rdparty/spirv-cross.cmake")
 
-project(gl)
 add_library(gl "src.cpp")
 target_include_directories(gl PUBLIC
     "${CMAKE_CURRENT_LIST_DIR}/../bgfx.cmake/bgfx/3rdparty/fcpp"
