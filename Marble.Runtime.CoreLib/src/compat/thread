@@ -1,4 +1,5 @@
 #if __MINGW32__
+    #undef _GLIBCXX_HAS_GTHREADS
     #include <mingw.thread.h>
 #else
     #include <thread>
