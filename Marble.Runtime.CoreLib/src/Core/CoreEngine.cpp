@@ -142,8 +142,8 @@ int CoreEngine::execute(int argc, char* argv[])
     #pragma endregion
     #pragma endregion
 
-    std::thread(internalWindowLoop).detach();
-    std::thread(internalRenderLoop).detach();
+    stdthread::thread(internalWindowLoop).detach();
+    stdthread::thread(internalRenderLoop).detach();
     
     internalLoop();
 

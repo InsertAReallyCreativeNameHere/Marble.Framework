@@ -1,6 +1,8 @@
 #if __MINGW32__
     #define MINGW_STDTHREAD_REDUNDANCY_WARNING
     #include <mingw.thread.h>
+    namespace stdthread = mingw_stdthread;
 #else
     #include <thread>
+    namespace stdthread = std;
 #endif
