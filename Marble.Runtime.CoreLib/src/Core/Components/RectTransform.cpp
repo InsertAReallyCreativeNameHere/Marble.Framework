@@ -1,5 +1,6 @@
 #include "RectTransform.h"
 
+#include <cmath>
 #include <Mathematics.h>
 
 using namespace Marble;
