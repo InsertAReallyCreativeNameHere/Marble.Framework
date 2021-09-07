@@ -1,10 +1,9 @@
 #pragma once
 
-#include <inc.h>
+#include "inc.h"
 
-#include <Core/Objects/Object.h>
 #include <list>
-#include <Utility/Lock.h>
+#include <Core/Objects/Object.h>
 
 namespace Marble
 {
@@ -43,9 +42,5 @@ namespace Marble
             friend class Marble::RectTransform;
             friend class Marble::Internal::CoreEngine;
         };
- }
+    }
 }
-
-#include <Core/Objects/Entity.h>
-#include <Core/Components/RectTransform.h>
-#include <Core/CoreEngine.h>
