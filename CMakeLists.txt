@@ -143,7 +143,7 @@ target_include_directories(Marble.Runtime.GL PRIVATE
 target_link_libraries(Marble.Runtime.GL PRIVATE
     gl
 )
-if (COMPILER STREQUAL "MinGW" OR COMPILER STREQUAL "Clang")
+if (COMPILER STREQUAL "MinGW")
     target_include_directories(Marble.Runtime.GL PRIVATE "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include/compat/mingw")
 elseif (COMPILER STREQUAL "MSVC")
     target_include_directories(Marble.Runtime.GL PRIVATE "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include/compat/msvc")
