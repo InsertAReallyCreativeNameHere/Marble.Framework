@@ -124,7 +124,7 @@ fontSize
     {
         switch (value)
         {
-        case FontSize::Auto:
+        case FontSize::RecalculateForRectSize:
             {
                 RectTransform* rt = this->rectTransform();
                 Font& font = this->data->file->fontHandle();

@@ -31,7 +31,7 @@ namespace Marble
         enum
         {
             Default = 11,
-            Auto = UINT32_MAX
+            RecalculateForRectSize = UINT32_MAX
         };
     };
 
