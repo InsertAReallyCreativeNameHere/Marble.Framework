@@ -134,10 +134,30 @@ fontSize
                 for (auto it = this->_text.begin(); it != this->_text.end(); ++it)
                     accAdv += font.getCodepointMetrics(*it).advanceWidth;
 
+                // Calculate optimistic font size - the largest possible with given text.
                 // TODO: Is it possible to eliminate the costly sqrt?
-                uint32_t lineFontSize = (font.ascent - font.descent) *
+                this->_fontSize = (font.ascent - font.descent) *
                 ((this->rectTransform()->rect().right - this->rectTransform()->rect().left) / accAdv);
-                this->_fontSize = lineFontSize * std::sqrt((this->rectTransform()->rect().top - this->rectTransform()->rect().bottom) / lineFontSize);
+                this->_fontSize = this->_fontSize * std::sqrt((this->rectTransform()->rect().top - this->rectTransform()->rect().bottom) / this->_fontSize);
+
+                while (this->_fontSize != 0)
+                {
+                    for (auto it = this->_text.begin(); it != this->_text.end(); ++it)
+                    {
+                        switch (*it)
+                        {
+                        case U' ':
+                            break;
+                        case U'\t':
+                            break;
+                        case U'\r':
+                            break;
+                        case U'\n':
+                            break;
+                        default:
+                        }
+                    }
+                }
             }
             break;
         default:
