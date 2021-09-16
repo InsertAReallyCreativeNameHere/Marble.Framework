@@ -128,7 +128,16 @@ fontSize
             {
                 RectTransform* rt = this->rectTransform();
                 Font& font = this->data->file->fontHandle();
-                float height = (font.ascent - font.descent) + font.lineGap;
+                Vector2 pos = rt->position();
+                Vector2 scale = rt->scale();
+                RectFloat rect = rt->rect();
+                float rectWidth = (rect.right - rect.left) * scale.x;
+                float rectHeight = (rect.top - rect.bottom) * scale.y;
+                float rot = deg2RadF(rt->rotation);
+                float asc = font.ascent;
+                float lineHeight = asc - font.descent;
+                float accXAdvance = 0;
+                float accYAdvance = 0;
 
                 float accAdv = 0;
                 for (auto it = this->_text.begin(); it != this->_text.end(); ++it)
@@ -138,25 +147,75 @@ fontSize
                 // TODO: Is it possible to eliminate the costly sqrt?
                 this->_fontSize = (font.ascent - font.descent) *
                 ((this->rectTransform()->rect().right - this->rectTransform()->rect().left) / accAdv);
-                this->_fontSize = this->_fontSize * std::sqrt((this->rectTransform()->rect().top - this->rectTransform()->rect().bottom) / this->_fontSize);
+                this->_fontSize = this->_fontSize * sqrt((this->rectTransform()->rect().top - this->rectTransform()->rect().bottom) / this->_fontSize);
+
+                size_t beg = 0;
+                size_t end;
+
+                auto calcNextWord = [&, this]
+                {
+                    std::vector<float> advanceLengths;
+                    advanceLengths.reserve(end - beg);
+                    for (size_t i = beg; i < end; i++)
+                        advanceLengths.push_back(float(this->data->file->fontHandle().getCodepointMetrics(this->_text[i]).advanceWidth) * glyphScale * scale.x);
+
+                    auto advanceLenIt = advanceLengths.begin();
+                    for (size_t i = beg; i < end; i++)
+                    {
+                        if (accXAdvance + *advanceLenIt > rectWidth) [[unlikely]]
+                        {
+                            accXAdvance = 0;
+                            accYAdvance += lineDiff;
+                        }
+                        accXAdvance += float(*advanceLenIt);
+                        ++advanceLenIt;
+                    }
+                };
 
                 while (this->_fontSize != 0)
                 {
-                    for (auto it = this->_text.begin(); it != this->_text.end(); ++it)
+                    float glyphScale = float(this->_fontSize) / lineHeight;
+                    float lineDiff = (font.lineGap + lineHeight) * glyphScale * scale.y;
+                    float spaceAdv = font.getCodepointMetrics(U' ').advanceWidth * glyphScale * scale.x;
+
+                    while ((end = this->_text.find_first_of(U" \t\r\n", beg + 1)) != std::u32string::npos)
                     {
-                        switch (*it)
+                        calcNextWord();
+                        if (accYAdvance > rectHeight)
+                            goto CalcOneLess;
+
+                        beg = end;
+                        end = this->_text.find_first_not_of(U" \n", beg + 1);
+
+                        for (size_t i = beg; i < end; i++)
                         {
-                        case U' ':
-                            break;
-                        case U'\t':
-                            break;
-                        case U'\r':
-                            break;
-                        case U'\n':
-                            break;
-                        default:
+                            switch (this->_text[i])
+                            {
+                            case U' ':
+                                accXAdvance += spaceAdv;
+                                break;
+                            case U'\t':
+                                accXAdvance += spaceAdv * 8;
+                                break;
+                            case U'\r':
+                                break;
+                            case U'\n':
+                                accXAdvance = 0;
+                                accYAdvance += lineDiff;
+                                break;
+                            }
                         }
+
+                        beg = end;
                     }
+
+                    end = this->_text.size();
+                    calcNextWord();
+                    if (accYAdvance <= rectHeight)
+                        break;
+
+                    CalcOneLess:
+                    --this->_fontSize;
                 }
             }
             break;
