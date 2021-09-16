@@ -152,31 +152,31 @@ fontSize
                 size_t beg = 0;
                 size_t end;
 
-                auto calcNextWord = [&, this]
-                {
-                    std::vector<float> advanceLengths;
-                    advanceLengths.reserve(end - beg);
-                    for (size_t i = beg; i < end; i++)
-                        advanceLengths.push_back(float(this->data->file->fontHandle().getCodepointMetrics(this->_text[i]).advanceWidth) * glyphScale * scale.x);
-
-                    auto advanceLenIt = advanceLengths.begin();
-                    for (size_t i = beg; i < end; i++)
-                    {
-                        if (accXAdvance + *advanceLenIt > rectWidth) [[unlikely]]
-                        {
-                            accXAdvance = 0;
-                            accYAdvance += lineDiff;
-                        }
-                        accXAdvance += float(*advanceLenIt);
-                        ++advanceLenIt;
-                    }
-                };
-
                 while (this->_fontSize != 0)
                 {
                     float glyphScale = float(this->_fontSize) / lineHeight;
                     float lineDiff = (font.lineGap + lineHeight) * glyphScale * scale.y;
                     float spaceAdv = font.getCodepointMetrics(U' ').advanceWidth * glyphScale * scale.x;
+
+                    auto calcNextWord = [&, this]
+                    {
+                        std::vector<float> advanceLengths;
+                        advanceLengths.reserve(end - beg);
+                        for (size_t i = beg; i < end; i++)
+                            advanceLengths.push_back(float(this->data->file->fontHandle().getCodepointMetrics(this->_text[i]).advanceWidth) * glyphScale * scale.x);
+
+                        auto advanceLenIt = advanceLengths.begin();
+                        for (size_t i = beg; i < end; i++)
+                        {
+                            if (accXAdvance + *advanceLenIt > rectWidth) [[unlikely]]
+                            {
+                                accXAdvance = 0;
+                                accYAdvance += lineDiff;
+                            }
+                            accXAdvance += float(*advanceLenIt);
+                            ++advanceLenIt;
+                        }
+                    };
 
                     while ((end = this->_text.find_first_of(U" \t\r\n", beg + 1)) != std::u32string::npos)
                     {
