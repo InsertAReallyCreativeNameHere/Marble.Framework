@@ -15,7 +15,7 @@
 [![LGTM](https://img.shields.io/lgtm/alerts/github/InsertAReallyCreativeNameHere/Marble.Framework?logo=lgtm)](https://lgtm.com/projects/g/InsertAReallyCreativeNameHere/Marble.Framework)
 [![LGTM](https://img.shields.io/lgtm/grade/cpp/github/InsertAReallyCreativeNameHere/Marble.Framework?logo=lgtm)](https://lgtm.com/projects/g/InsertAReallyCreativeNameHere/Marble.Framework)
 [![CodeFactor](https://img.shields.io/codefactor/grade/github/InsertAReallyCreativeNameHere/Marble.Framework/main?logo=codefactor)](https://www.codefactor.io/repository/github/insertareallycreativenamehere/marble.framework)
-[![Codacy](https://app.codacy.com/project/badge/Grade/43790938623c48a3ad6c5a7bcd1d9bbc)](https://www.codacy.com/gh/InsertAReallyCreativeNameHere/Marble.Framework/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=InsertAReallyCreativeNameHere/Marble.Framework&amp;utm_campaign=Badge_Grade)   
+[![Codacy](https://img.shields.io/codacy/grade/43790938623c48a3ad6c5a7bcd1d9bbc?logo=Codacy)](https://www.codacy.com/gh/InsertAReallyCreativeNameHere/Marble.Framework/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=InsertAReallyCreativeNameHere/Marble.Framework&amp;utm_campaign=Badge_Grade)   
 [![What](https://img.shields.io/badge/my-code-orange?style=flat-square)](#)
 [![What](https://img.shields.io/badge/is-bad-orange?style=flat-square)](#)
 [![What](https://img.shields.io/badge/dont-ever-orange?style=flat-square)](#)
