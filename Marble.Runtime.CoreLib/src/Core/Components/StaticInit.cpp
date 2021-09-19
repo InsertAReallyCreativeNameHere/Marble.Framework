@@ -8,8 +8,7 @@ using namespace Marble::Internal;
 
 namespace Marble::Internal
 {
-    struct ComponentCoreStaticInit
-    {
+    static struct ComponentCoreStaticInit {
         ComponentCoreStaticInit()
         {
             InternalEngineEvent::OnRenderOffloadForComponent += [](Component* component)
@@ -36,5 +35,5 @@ namespace Marble::Internal
                 }
             };
         };
-    };
+    } init;
 }
