@@ -79,6 +79,7 @@ set(CMAKE_BUILD_TYPE ${_CMAKE_BUILD_TYPE})
 
 # Marble.Mathematics
 
+# FIXME: For all instances of this variable setting config code, change it to just set a target property.
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../lib/${OUTNAME}/Marble.Mathematics)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../lib/${OUTNAME}/Marble.Mathematics)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin/${OUTNAME}/Marble.Mathematics)
@@ -174,6 +175,7 @@ target_include_directories(Marble.Runtime.CoreLib PUBLIC
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/include"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
+    "${CMAKE_CURRENT_LIST_DIR}/dependencies/robin_hood/include"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/stb"
     "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bgfx/include"
     "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include"

@@ -2,6 +2,7 @@
 
 #include <inc.h>
 
+#include <robin_hood.h>
 #include <Core/CoreEngine.h>
 #include <Core/Objects/Component.h>
 #include <Core/PackageManager.h>
@@ -25,7 +26,7 @@ namespace Marble
             PackageSystem::PortableGraphicPackageFile* file;
         };
 
-        static std::unordered_map<PackageSystem::PortableGraphicPackageFile*, RenderData*> imageTextures;
+        static robin_hood::unordered_map<PackageSystem::PortableGraphicPackageFile*, RenderData*> imageTextures;
         RenderData* data;
 
         void renderOffload();

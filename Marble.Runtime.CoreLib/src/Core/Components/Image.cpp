@@ -16,7 +16,7 @@ using namespace Marble::GL;
 using namespace Marble::PackageSystem;
 namespace fs = std::filesystem;
 
-std::unordered_map<PackageSystem::PortableGraphicPackageFile*, Image::RenderData*> Image::imageTextures;
+robin_hood::unordered_map<PackageSystem::PortableGraphicPackageFile*, Image::RenderData*> Image::imageTextures;
 
 Image::Image() :
 imageFile
