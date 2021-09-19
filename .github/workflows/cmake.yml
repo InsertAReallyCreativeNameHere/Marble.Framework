@@ -25,7 +25,6 @@ jobs:
     - name: Install Linux Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install gcc-11
         sudo apt install -y libgl1-mesa-dev
       if: matrix.os == 'ubuntu-latest'
 
