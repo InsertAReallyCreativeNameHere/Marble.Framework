@@ -324,7 +324,22 @@ void CoreEngine::internalLoop()
                                     size_t beg = 0;
                                     size_t end;
 
-                                    const auto drawNextWord = [&]() -> void
+                                    // NB: Horrific code that avoids multiple calls of find_first_*.
+                                    //     I don't even know if this was optimal.
+                                    if
+                                    (
+                                        size_t _end = text->_text.find_first_of(U" \t\r\n", 0);
+                                        _end < (end = text->_text.find_first_not_of(U" \t\r\n", 0))
+                                    )
+                                    {
+                                        end = _end;
+                                        goto HandleWord;
+                                    }
+                                    else goto HandleSpace;
+
+                                    // NB: Ohhhhhhh the goto abuse...
+                                    //     I am going to hell.
+                                    HandleWord:
                                     {
                                         std::vector<float> advanceLengths;
                                         advanceLengths.reserve(end - beg);
@@ -332,14 +347,9 @@ void CoreEngine::internalLoop()
                                             advanceLengths.push_back(float(text->data->file->fontHandle().getCodepointMetrics(text->_text[i]).advanceWidth) * glyphScale * scale.x);
 
                                         auto advanceLenIt = advanceLengths.begin();
-                                        for (size_t i = beg; i < end; i++)
-                                        {
-                                            if (accXAdvance + *advanceLenIt > rectWidth) [[unlikely]]
-                                            {
-                                                accXAdvance = 0;
-                                                accYAdvance += lineDiff;
-                                            }
 
+                                        auto drawCharAndIterNext = [&](size_t i)
+                                        {
                                             auto c = text->data->characters.find(text->_text[i]);
                                             if (c != text->data->characters.end())
                                             {
@@ -351,43 +361,87 @@ void CoreEngine::internalLoop()
                                                 transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
                                                 CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = c->second] { Renderer::drawPolygon(data->polygon, transform); });
                                             }
-                                            
-                                            accXAdvance += float(*advanceLenIt);
+
+                                            accXAdvance += *advanceLenIt;
                                             ++advanceLenIt;
-                                        }
-                                    };
-
-                                    while ((end = text->_text.find_first_of(U" \t\r\n", beg + 1)) != std::u32string::npos)
-                                    {
-                                        drawNextWord();
-
-                                        beg = end;
-                                        end = text->_text.find_first_not_of(U" \n", beg + 1);
-
-                                        for (size_t i = beg; i < end; i++)
+                                        };
+                                        
+                                        float wordLen = std::accumulate(advanceLenIt, advanceLengths.end(), 0.0f);
+                                        if (accXAdvance + wordLen > rectWidth) [[unlikely]]
                                         {
-                                            switch (text->_text[i])
+                                            if (wordLen > rectWidth) [[unlikely]]
+                                                goto SplitDrawWord;
+                                            else
                                             {
-                                            case U' ':
-                                                accXAdvance += spaceAdv;
-                                                break;
-                                            case U'\t':
-                                                accXAdvance += spaceAdv * 8;
-                                                break;
-                                            case U'\r':
-                                                break;
-                                            case U'\n':
                                                 accXAdvance = 0;
                                                 accYAdvance += lineDiff;
-                                                break;
+                                                goto InlineDrawWord;
                                             }
                                         }
+                                        else goto InlineDrawWord;
 
-                                        beg = end;
+                                        // NB: Draw a word split across lines. This is used when
+                                        //     a word is longer than the width of a line.
+                                        SplitDrawWord:
+                                        for (size_t i = beg; i < end; i++)
+                                        {
+                                            if (accXAdvance + *advanceLenIt > rectWidth) [[unlikely]]
+                                            {
+                                                accXAdvance = 0;
+                                                accYAdvance += lineDiff;
+                                            }
+
+                                            drawCharAndIterNext(i);
+                                        }
+                                        goto ExitDrawWord;
+
+                                        // NB: Draw a word in one line. This makes the assumption
+                                        //     that the whole word will fit within a line.
+                                        InlineDrawWord:
+                                        for (size_t i = beg; i < end; i++)
+                                            drawCharAndIterNext(i);
+                                        // NB: No goto here, jump would go to the same place anyways.
+
+                                        ExitDrawWord:;
                                     }
+                                    beg = end;
+                                    if (end != text->_text.size()) [[likely]]
+                                    {
+                                        size_t _end = text->_text.find_first_not_of(U" \t\r\n", beg + 1);
+                                        end = (_end == std::u32string::npos ? text->_text.size() : _end);
+                                        goto HandleSpace;
+                                    }
+                                    else goto ExitTextHandling;
 
-                                    end = text->_text.size();
-                                    drawNextWord();
+                                    HandleSpace:
+                                    for (size_t i = beg; i < end; i++)
+                                    {
+                                        switch (text->_text[i])
+                                        {
+                                        case U' ':
+                                            accXAdvance += spaceAdv;
+                                            break;
+                                        case U'\t':
+                                            accXAdvance += spaceAdv * 8;
+                                            break;
+                                        case U'\r':
+                                            break;
+                                        case U'\n':
+                                            accXAdvance = 0;
+                                            accYAdvance += lineDiff;
+                                            break;
+                                        }
+                                    }
+                                    beg = end;
+                                    if (end != text->_text.size()) [[likely]]
+                                    {
+                                        size_t _end = text->_text.find_first_of(U" \t\r\n", beg + 1);
+                                        end = (_end == std::u32string::npos ? text->_text.size() : _end);
+                                        goto HandleWord;
+                                    }
+                                    // NB: No else here, it just goes to the same place anyways.
+
+                                    ExitTextHandling:;
                                 }
                             }
                             break;
