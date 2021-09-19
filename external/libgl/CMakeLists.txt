@@ -3,7 +3,9 @@ cmake_minimum_required(VERSION 3.0)
 project(gl)
 
 set(CMAKE_CXX_STANDARD 14)
-add_definitions(-DMINGW_HAS_SECURE_API=0)
+if (COMPILER STREQUAL "MinGW")
+    add_definitions(-DMINGW_HAS_SECURE_API=0)
+endif()
 
 set(BGFX_LIBRARY_TYPE "STATIC")
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/../bgfx.cmake" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
