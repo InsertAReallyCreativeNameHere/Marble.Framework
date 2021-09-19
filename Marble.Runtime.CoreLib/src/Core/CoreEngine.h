@@ -65,7 +65,5 @@ namespace Marble
 			friend int __handleInitializeAndExit(int argc, char* argv[]);
 			friend class Marble::Application;
 		};
-
-		using IExposeEngineInternal = CoreEngine;
 	}
 }
