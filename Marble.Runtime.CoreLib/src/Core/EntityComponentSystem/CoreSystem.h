@@ -2,12 +2,12 @@
 
 #include "inc.h"
 
-#include <Utility/Event.h>
 #include <string_view>
+#include <Utility/Event.h>
 
 namespace Marble
 {
-    class coreapi CoreSystem final
+    class coreapi EngineEvent final
     {
     public:
         static FuncPtrEvent<> OnInitialize;
@@ -40,4 +40,16 @@ namespace Marble
 
         static void (*OnQuit)();*/
     };
+
+    namespace Internal
+    {
+        class Component;
+
+        class coreapi InternalEngineEvent final
+        {
+        public:
+            static FuncPtrEvent<Component*> OnRenderOffloadForComponent;
+            static FuncPtrEvent<> OnRenderShutdown;
+        };
+    }
 }

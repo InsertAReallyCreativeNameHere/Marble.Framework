@@ -8,12 +8,12 @@
 #include <numeric>
 #include <SDL_video.h>
 #include <SDL_pixels.h>
-
 #undef STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 #undef STB_TRUETYPE_IMPLEMENTATION
 #include <stb_truetype.h>
 
+#include <Mathematics.h>
 #include <Core/Application.h>
 #include <Core/Components/Panel.h>
 #include <Core/Components/Image.h>
@@ -25,11 +25,10 @@
 #include <Core/Objects/Entity.h>
 #include <Core/PackageManager.h>
 #include <Core/SceneManagement.h>
-#include <Utility/Hash.h>
-#include <Mathematics.h>
-#include <Rendering/Core.h>
+#include <Drawing/Core.h>
 #include <Rendering/Core/Renderer.h>
 #include <Rendering/Utility/ShaderUtility.h>
+#include <Utility/Hash.h>
 
 namespace fs = std::filesystem;
 using namespace Marble;
@@ -142,10 +141,13 @@ int CoreEngine::execute(int argc, char* argv[])
     #pragma endregion
     #pragma endregion
 
-    std::thread(internalWindowLoop).detach();
-    std::thread(internalRenderLoop).detach();
+    std::thread windowThread(internalWindowLoop);
+    std::thread renderThread(internalRenderLoop);
     
     internalLoop();
+
+    renderThread.join();
+    windowThread.join();
 
     CoreEngine::exit();
 
@@ -166,6 +168,8 @@ void CoreEngine::exit()
     fs::remove_all(dir);
 
     SDL_Quit();
+    
+    std::wcout << L"Done.\n";
 }
 
 void CoreEngine::displayModeStuff()
@@ -183,7 +187,7 @@ void CoreEngine::internalLoop()
 
     Debug::LogInfo("Internal loop started.\n");
 
-    CoreSystem::OnInitialize();
+    EngineEvent::OnInitialize();
 
     Uint64 frameBegin = SDL_GetPerformanceCounter();
     Uint64 perfFreq = SDL_GetPerformanceFrequency();
@@ -201,7 +205,7 @@ void CoreEngine::internalLoop()
             tickEvent();
         #pragma endregion
 
-        CoreSystem::OnTick();
+        EngineEvent::OnTick();
 
         #pragma region Post-Tick
         while (CoreEngine::pendingPostTickEvents.try_dequeue(tickEvent))
@@ -235,218 +239,7 @@ void CoreEngine::internalLoop()
                         it3 != (*it2)->components.end();
                         ++it3
                     )
-                    {
-                        constexpr auto rotatePointAroundOrigin = [](float (&point)[2], float angle) -> void
-                        {
-                            float s = sinf(-angle);
-                            float c = cosf(-angle);
-
-                            float x = point[0];
-                            float y = point[1];
-
-                            point[0] = x * c - y * s;
-                            point[1] = x * s + y * c;
-                        };
-
-                        switch ((*it3)->reflection.typeID)
-                        {
-                        case __typeid(Panel):
-                            {
-                                Panel* p = static_cast<Panel*>(*it3);
-
-                                Vector2& pos = p->attachedRectTransform->_position;
-                                Vector2& scale = p->attachedRectTransform->_scale;
-                                RectFloat& rect = p->attachedRectTransform->_rect;
-
-                                ColoredTransformHandle t;
-                                t.setPosition(pos.x, pos.y);
-                                t.setOffset((rect.right + rect.left) / 2, (rect.top + rect.bottom) / 2);
-                                t.setScale(scale.x * (rect.right - rect.left), scale.y * (rect.top - rect.bottom));
-                                t.setRotation(deg2RadF(p->attachedRectTransform->_rotation));
-                                t.setColor(p->_color.r, p->_color.g, p->_color.b, p->_color.a);
-                                
-                                CoreEngine::pendingRenderJobBatchesOffload.push_back
-                                (
-                                    [=]()
-                                    {
-                                        Renderer::drawUnitSquare(t);
-                                    }
-                                );
-                            }
-                            break;
-                        case __typeid(Image):
-                            {
-                                Image* img = static_cast<Image*>(*it3);
-
-                                if (img->data != nullptr)
-                                {
-                                    Vector2& pos = img->attachedRectTransform->_position;
-                                    Vector2& scale = img->attachedRectTransform->_scale;
-                                    RectFloat& rect = img->attachedRectTransform->_rect;
-
-                                    ColoredTransformHandle t;
-                                    t.setPosition(pos.x, pos.y);
-                                    t.setOffset((rect.right + rect.left) / 2, (rect.top + rect.bottom) / 2);
-                                    t.setScale(scale.x * (rect.right - rect.left), scale.y * (rect.top - rect.bottom));
-                                    t.setRotation(deg2RadF(img->attachedRectTransform->_rotation));
-                                    t.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-                                    
-                                    CoreEngine::pendingRenderJobBatchesOffload.push_back
-                                    (
-                                        [=, data = img->data]
-                                        {
-                                            Renderer::drawImage(data->internalTexture, t);
-                                        }
-                                    );
-                                }
-                            }
-                            break;
-                        case __typeid(Text):
-                            {
-                                Text* text = static_cast<Text*>(*it3);
-
-                                if (!text->_text.empty()) [[likely]]
-                                {
-                                    Vector2 pos = text->attachedRectTransform->_position;
-                                    Vector2 scale = text->attachedRectTransform->_scale;
-                                    RectFloat rect = text->attachedRectTransform->_rect;
-                                    float rectWidth = (rect.right - rect.left) * scale.x;
-                                    float rectHeight = (rect.top - rect.bottom) * scale.y;
-                                    float rot = deg2RadF(text->attachedRectTransform->_rotation);
-                                    float asc = text->data->file->fontHandle().ascent;
-                                    float lineHeight = asc - text->data->file->fontHandle().descent;
-                                    float glyphScale = float(text->fontSize) / lineHeight;
-                                    float lineDiff = (text->data->file->fontHandle().lineGap + lineHeight) * glyphScale * scale.y;
-                                    float accXAdvance = 0;
-                                    float accYAdvance = 0;
-                                    float spaceAdv = text->data->file->fontHandle().getCodepointMetrics(U' ').advanceWidth * glyphScale * scale.x;
-
-                                    size_t beg = 0;
-                                    size_t end;
-
-                                    // NB: Horrific code that avoids multiple calls of find_first_*.
-                                    //     I don't even know if this was optimal.
-                                    if
-                                    (
-                                        size_t _end = text->_text.find_first_of(U" \t\r\n", 0);
-                                        _end < (end = text->_text.find_first_not_of(U" \t\r\n", 0))
-                                    )
-                                    {
-                                        end = _end;
-                                        goto HandleWord;
-                                    }
-                                    else goto HandleSpace;
-
-                                    // NB: Ohhhhhhh the goto abuse...
-                                    //     I am going to hell.
-                                    HandleWord:
-                                    {
-                                        std::vector<float> advanceLengths;
-                                        advanceLengths.reserve(end - beg);
-                                        for (size_t i = beg; i < end; i++)
-                                            advanceLengths.push_back(float(text->data->file->fontHandle().getCodepointMetrics(text->_text[i]).advanceWidth) * glyphScale * scale.x);
-
-                                        auto advanceLenIt = advanceLengths.begin();
-
-                                        auto drawCharAndIterNext = [&](size_t i)
-                                        {
-                                            auto c = text->data->characters.find(text->_text[i]);
-                                            if (c != text->data->characters.end())
-                                            {
-                                                ColoredTransformHandle transform;
-                                                transform.setPosition(pos.x, pos.y);
-                                                transform.setOffset(rect.left * scale.x + accXAdvance, rect.top * scale.y - asc * glyphScale - accYAdvance);
-                                                transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
-                                                transform.setRotation(rot);
-                                                transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-                                                CoreEngine::pendingRenderJobBatchesOffload.push_back([=, data = c->second] { Renderer::drawPolygon(data->polygon, transform); });
-                                            }
-
-                                            accXAdvance += *advanceLenIt;
-                                            ++advanceLenIt;
-                                        };
-                                        
-                                        float wordLen = std::accumulate(advanceLenIt, advanceLengths.end(), 0.0f);
-                                        if (accXAdvance + wordLen > rectWidth) [[unlikely]]
-                                        {
-                                            if (wordLen > rectWidth) [[unlikely]]
-                                                goto SplitDrawWord;
-                                            else
-                                            {
-                                                accXAdvance = 0;
-                                                accYAdvance += lineDiff;
-                                                goto InlineDrawWord;
-                                            }
-                                        }
-                                        else goto InlineDrawWord;
-
-                                        // NB: Draw a word split across lines. This is used when
-                                        //     a word is longer than the width of a line.
-                                        SplitDrawWord:
-                                        for (size_t i = beg; i < end; i++)
-                                        {
-                                            if (accXAdvance + *advanceLenIt > rectWidth) [[unlikely]]
-                                            {
-                                                accXAdvance = 0;
-                                                accYAdvance += lineDiff;
-                                            }
-
-                                            drawCharAndIterNext(i);
-                                        }
-                                        goto ExitDrawWord;
-
-                                        // NB: Draw a word in one line. This makes the assumption
-                                        //     that the whole word will fit within a line.
-                                        InlineDrawWord:
-                                        for (size_t i = beg; i < end; i++)
-                                            drawCharAndIterNext(i);
-                                        // NB: No goto here, jump would go to the same place anyways.
-
-                                        ExitDrawWord:;
-                                    }
-                                    beg = end;
-                                    if (end != text->_text.size()) [[likely]]
-                                    {
-                                        size_t _end = text->_text.find_first_not_of(U" \t\r\n", beg + 1);
-                                        end = (_end == std::u32string::npos ? text->_text.size() : _end);
-                                        goto HandleSpace;
-                                    }
-                                    else goto ExitTextHandling;
-
-                                    HandleSpace:
-                                    for (size_t i = beg; i < end; i++)
-                                    {
-                                        switch (text->_text[i])
-                                        {
-                                        case U' ':
-                                            accXAdvance += spaceAdv;
-                                            break;
-                                        case U'\t':
-                                            accXAdvance += spaceAdv * 8;
-                                            break;
-                                        case U'\r':
-                                            break;
-                                        case U'\n':
-                                            accXAdvance = 0;
-                                            accYAdvance += lineDiff;
-                                            break;
-                                        }
-                                    }
-                                    beg = end;
-                                    if (end != text->_text.size()) [[likely]]
-                                    {
-                                        size_t _end = text->_text.find_first_of(U" \t\r\n", beg + 1);
-                                        end = (_end == std::u32string::npos ? text->_text.size() : _end);
-                                        goto HandleWord;
-                                    }
-                                    // NB: No else here, it just goes to the same place anyways.
-
-                                    ExitTextHandling:;
-                                }
-                            }
-                            break;
-                        }
-                    }
+                    { InternalEngineEvent::OnRenderOffloadForComponent(*it3); }
                 }
             }
         }
@@ -460,21 +253,7 @@ void CoreEngine::internalLoop()
         //Debug::LogInfo("Update() frame time: ", deltaTime, ".");
     }
     
-    CoreSystem::OnQuit();
-
-    CoreSystem::OnInitialize.clear();
-    CoreSystem::OnTick.clear();
-    CoreSystem::OnPhysicsTick.clear();
-    CoreSystem::OnAcquireFocus.clear();
-    CoreSystem::OnLoseFocus.clear();
-    CoreSystem::OnKeyDown.clear();
-    CoreSystem::OnKeyRepeat.clear();
-    CoreSystem::OnKeyUp.clear();
-    CoreSystem::OnMouseDown.clear();
-    CoreSystem::OnMouseUp.clear();
-    CoreSystem::OnQuit.clear();
-
-    CoreEngine::pendingRenderJobBatchesOffload.clear();
+    EngineEvent::OnQuit();
 
     for (auto it = SceneManager::existingScenes.begin(); it != SceneManager::existingScenes.end(); ++it)
     {
@@ -597,7 +376,7 @@ void CoreEngine::internalWindowLoop()
                     [=]
                     {
                         Input::currentHeldMouseButtons.push_back(ev.button.button);
-                        CoreSystem::OnMouseDown(ev.button.button);
+                        EngineEvent::OnMouseDown(ev.button.button);
                     }
                 );
                 break;
@@ -620,7 +399,7 @@ void CoreEngine::internalWindowLoop()
                                 }
                             }
                         );
-                        CoreSystem::OnMouseUp(button);
+                        EngineEvent::OnMouseUp(button);
                     }
                 );
                 break;
@@ -633,7 +412,7 @@ void CoreEngine::internalWindowLoop()
                     (
                         [sym = ev.key.keysym.sym]
                         {
-                            CoreSystem::OnKeyRepeat(sym);
+                            EngineEvent::OnKeyRepeat(sym);
                         }
                     );
                 }
@@ -644,7 +423,7 @@ void CoreEngine::internalWindowLoop()
                         [sym = ev.key.keysym.sym]
                         {
                             Input::currentHeldKeys.push_back(sym);
-                            CoreSystem::OnKeyDown(sym);
+                            EngineEvent::OnKeyDown(sym);
                         }
                     );
                 }
@@ -668,7 +447,7 @@ void CoreEngine::internalWindowLoop()
                                 }
                             }
                         );
-                        CoreSystem::OnKeyUp(sym);
+                        EngineEvent::OnKeyUp(sym);
                     }
                 );
                 break;
@@ -775,12 +554,7 @@ void CoreEngine::internalRenderLoop()
 
     while (!CoreEngine::threadsFinished_0.load(std::memory_order_relaxed));
 
-    for (auto it = Image::imageTextures.begin(); it != Image::imageTextures.end(); ++it)
-    {
-        it->second->internalTexture.destroy();
-        delete it->second;
-    }
-
+    InternalEngineEvent::OnRenderShutdown();
     Renderer::shutdown();
 
     std::vector<skarupke::function<void()>> jobs;

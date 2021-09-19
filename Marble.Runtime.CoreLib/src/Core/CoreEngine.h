@@ -14,10 +14,6 @@ namespace Marble
 {
 	class Application;
 
-	class Panel;
-	class Image;
-	class Text;
-
 	namespace Internal
 	{
 		class coreapi CoreEngine final
@@ -60,12 +56,16 @@ namespace Marble
 		public:
 			CoreEngine() = delete;
 
-			friend int __handleInitializeAndExit(int argc, char* argv[]);
+			template <typename Func>
+			inline static void queueRenderJobForFrame(Func&& job)
+			{
+				CoreEngine::pendingRenderJobBatchesOffload.push_back(job);
+			}
 
-			friend class Marble::Panel;
-			friend class Marble::Image;
-			friend class Marble::Text;
+			friend int __handleInitializeAndExit(int argc, char* argv[]);
 			friend class Marble::Application;
 		};
+
+		using IExposeEngineInternal = CoreEngine;
 	}
 }

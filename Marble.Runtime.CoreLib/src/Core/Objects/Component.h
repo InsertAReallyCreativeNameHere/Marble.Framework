@@ -29,6 +29,11 @@ namespace Marble
             Component();
             virtual ~Component() = 0;
         public:
+            inline uint64_t typeIndex()
+            {
+                return this->reflection.typeID;
+            }
+
             inline Entity* entity()
             {
                 return this->attachedEntity;

@@ -5,16 +5,15 @@
 #include <Core/CoreEngine.h>
 #include <Core/Objects/Component.h>
 #include <Core/PackageManager.h>
-#include <Rendering/Core.h>
+#include <Drawing/Core.h>
 #include <Rendering/Core/Renderer.h>
 #include <Utility/Property.h>
-#include <SDL.h>
 
 namespace Marble
 {
     namespace Internal
     {
-        class CoreEngine;
+        struct ComponentCoreStaticInit;
     }
 
     class coreapi Image final : public Internal::Component
@@ -28,12 +27,14 @@ namespace Marble
 
         static std::unordered_map<PackageSystem::PortableGraphicPackageFile*, RenderData*> imageTextures;
         RenderData* data;
+
+        void renderOffload();
     public:
         Image();
         ~Image();
 
         Property<PackageSystem::PortableGraphicPackageFile*, PackageSystem::PortableGraphicPackageFile*> imageFile;
 
-        friend class Marble::Internal::CoreEngine;
+        friend class Marble::Internal::ComponentCoreStaticInit;
     };
 }

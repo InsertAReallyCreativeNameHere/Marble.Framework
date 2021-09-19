@@ -1,33 +1,40 @@
 #include "CoreSystem.h"
 
 using namespace Marble;
+using namespace Marble::Internal;
 
-FuncPtrEvent<> CoreSystem::OnInitialize;
-FuncPtrEvent<> CoreSystem::OnTick;
-FuncPtrEvent<> CoreSystem::OnPhysicsTick;
+FuncPtrEvent<> EngineEvent::OnInitialize;
+FuncPtrEvent<> EngineEvent::OnTick;
+FuncPtrEvent<> EngineEvent::OnPhysicsTick;
 
-FuncPtrEvent<> CoreSystem::OnAcquireFocus;
-FuncPtrEvent<> CoreSystem::OnLoseFocus;
+FuncPtrEvent<> EngineEvent::OnAcquireFocus;
+FuncPtrEvent<> EngineEvent::OnLoseFocus;
 
-FuncPtrEvent<int32_t> CoreSystem::OnKeyDown;
-FuncPtrEvent<int32_t> CoreSystem::OnKeyRepeat;
-FuncPtrEvent<int32_t> CoreSystem::OnKeyUp;
-FuncPtrEvent<int> CoreSystem::OnMouseDown;
-FuncPtrEvent<int> CoreSystem::OnMouseUp;
+FuncPtrEvent<int32_t> EngineEvent::OnKeyDown;
+FuncPtrEvent<int32_t> EngineEvent::OnKeyRepeat;
+FuncPtrEvent<int32_t> EngineEvent::OnKeyUp;
+FuncPtrEvent<int> EngineEvent::OnMouseDown;
+FuncPtrEvent<int> EngineEvent::OnMouseUp;
 
-FuncPtrEvent<> CoreSystem::OnQuit;
+FuncPtrEvent<> EngineEvent::OnQuit;
 
-/*void (*CoreSystem::OnInitialize)();
-void (*CoreSystem::OnTick)();
-void (*CoreSystem::OnPhysicsTick)();
+/*void (*EngineEvent::OnInitialize)();
+void (*EngineEvent::OnTick)();
+void (*EngineEvent::OnPhysicsTick)();
 
-void (*CoreSystem::OnAcquireFocus)();
-void (*CoreSystem::OnLoseFocus)();
+void (*EngineEvent::OnAcquireFocus)();
+void (*EngineEvent::OnLoseFocus)();
 
-void (*CoreSystem::OnKeyDown)(SDL_Keycode);
-void (*CoreSystem::OnKeyRepeat)(SDL_Keycode);
-void (*CoreSystem::OnKeyUp)(SDL_Keycode);
-void (*CoreSystem::OnMouseDown)(int);
-void (*CoreSystem::OnMouseUp)(int);
+void (*EngineEvent::OnKeyDown)(SDL_Keycode);
+void (*EngineEvent::OnKeyRepeat)(SDL_Keycode);
+void (*EngineEvent::OnKeyUp)(SDL_Keycode);
+void (*EngineEvent::OnMouseDown)(int);
+void (*EngineEvent::OnMouseUp)(int);
 
-void (*CoreSystem::OnQuit)();*/
+void (*EngineEvent::OnQuit)();*/
+
+// NB: Runs in main thread.
+FuncPtrEvent<Component*> InternalEngineEvent::OnRenderOffloadForComponent;
+// NB: Runs in render thread. Note FuncPtrEvent is not thread-safe,
+//     so make sure you modify this event _before_ the main update loop exits.
+FuncPtrEvent<> InternalEngineEvent::OnRenderShutdown;

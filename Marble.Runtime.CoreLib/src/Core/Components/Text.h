@@ -13,7 +13,7 @@ namespace Marble
 {
     namespace Internal
     {
-        class CoreEngine;
+        struct ComponentCoreStaticInit;
     }
 
     enum class TextAlign : uint8_t
@@ -54,6 +54,8 @@ namespace Marble
 
         std::u32string _text;
         uint32_t _fontSize;
+
+        void renderOffload();
     public:
         Text();
         ~Text();
@@ -64,6 +66,6 @@ namespace Marble
         TextAlign horizontalAlign;
         TextAlign verticalAlign;
 
-        friend class Marble::Internal::CoreEngine;
+        friend class Marble::Internal::ComponentCoreStaticInit;
     };
 }
