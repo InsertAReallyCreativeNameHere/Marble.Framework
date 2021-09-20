@@ -359,7 +359,7 @@ void Text::renderOffload()
 
             auto drawCharAndIterNext = [&](size_t i)
             {
-                auto c = this->data->characters.find(this->_text[i]);
+                auto c = this->data->characters.find(this->textData[i].glyphIndex);
                 if (c != this->data->characters.end())
                 {
                     ColoredTransformHandle transform;
