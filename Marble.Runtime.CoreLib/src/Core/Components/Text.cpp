@@ -368,7 +368,7 @@ void Text::renderOffload()
                     transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
                     transform.setRotation(rot);
                     transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    CoreEngine::queueRenderJobForFrame([=, data = c->second] { Renderer::drawPolygon(data->polygon, transform); });
+                    CoreEngine::queueRenderJobForFrame([=, data = c->second] { Renderer::drawUnitSquare(transform); Renderer::drawPolygon(data->polygon, transform); });
                 }
 
                 accXAdvance += *advanceLenIt;
