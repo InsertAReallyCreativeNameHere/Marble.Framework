@@ -16,7 +16,47 @@ using namespace Marble::Typography;
 using namespace Marble::GL;
 using namespace Marble::PackageSystem;
 
-std::unordered_map<PackageSystem::TrueTypeFontPackageFile*, Text::RenderData*> Text::textFonts;
+robin_hood::unordered_map<PackageSystem::TrueTypeFontPackageFile*, Text::RenderData*> Text::textFonts;
+
+void Text::RenderData::trackCharacters(const std::vector<CharacterData>& text)
+{
+    for (auto it = text.begin(); it != text.end(); ++it)
+    {
+        auto c = this->characters.find(it->glyphIndex);
+        if (c != this->characters.end())
+            ++c->second->accessCount;
+        else
+        {
+            GlyphOutline glyph = this->file->fontHandle().getGlyphOutline(it->glyphIndex);
+            
+            if (glyph.verts != nullptr) [[likely]]
+            {
+                auto buffers = glyph.createGeometryBuffers<Vertex2D>();
+                auto charData = this->characters.insert(robin_hood::pair<int, CharacterRenderData*>(it->glyphIndex, new CharacterRenderData { 1, { } })).first->second;
+                CoreEngine::queueRenderJobForFrame
+                (
+                    [pointsFlattened = std::move(buffers.first), indexesFlattened = std::move(buffers.second), data = charData]
+                    {
+                        data->polygon.create(std::move(pointsFlattened), std::move(indexesFlattened));
+                    }
+                );
+            }
+        }
+    }
+}
+void Text::RenderData::untrackCharacters(const std::vector<CharacterData>& text)
+{
+    for (auto it = text.begin(); it != text.end(); ++it)
+    {
+        auto& charData = this->characters[it->glyphIndex];
+        --charData->accessCount;
+        if (charData->accessCount == 0)
+        {
+            CoreEngine::queueRenderJobForFrame([data = charData] { data->polygon.destroy(); delete data; });
+            this->characters.erase(it->glyphIndex);
+        }
+    }
+}
 
 Text::Text() :
 data(nullptr),
@@ -24,20 +64,18 @@ _text(U""),
 _fontSize(11),
 font
 ({
-    []
+    [this]
     {
-        return nullptr;
+        return this->data ? this->data->file : nullptr;
     },
     [this](TrueTypeFontPackageFile* file)
     {
-        if (this->data != nullptr)
+        if (this->data)
         {
+            this->data->untrackCharacters(this->textData);
             --this->data->accessCount;
             if (this->data->accessCount == 0)
-            {
-                Text::textFonts.erase(this->data->file);
-                delete data;
-            }
+                delete this->data;
         }
         if (file != nullptr)
         {
@@ -49,9 +87,8 @@ font
             }
             else
             {
-                auto& set = Text::textFonts[file];
-                set = new RenderData { 1, { }, file };
-                this->data = set;
+                this->data = Text::textFonts.insert(robin_hood::pair<TrueTypeFontPackageFile*, RenderData*>(file, new RenderData { 1, { }, file })).first->second;
+                this->data->trackCharacters(this->textData);
             }
         }
         else this->data = nullptr;
@@ -65,54 +102,27 @@ text
     },
     [this](std::u32string str) -> void
     {
-        std::map<char32_t, bool> needToErase;
-        for (auto it = this->_text.begin(); it != this->_text.end(); ++it)
+        if (this->data)
         {
-            auto c = this->data->characters.find(*it);
-            if (c != this->data->characters.end())
+            this->_text = std::move(str);
+            std::vector<CharacterData> oldTextData = std::move(this->textData);
+
+            this->textData.clear();
+            this->textData.reserve(this->_text.size());
+            Font& font = this->data->file->fontHandle();
+            for (auto it = this->_text.begin(); it != this->_text.end(); ++it)
             {
-                --c->second->accessCount;
-                if (c->second->accessCount == 0)
-                    needToErase[*it] = true;
+                int glyphIndex = font.getGlyphIndex(*it);
+                this->textData.push_back
+                ({
+                    glyphIndex,
+                    font.getGlyphMetrics(glyphIndex)
+                });
             }
+
+            this->data->trackCharacters(this->textData);
+            this->data->untrackCharacters(oldTextData);
         }
-        for (auto it = str.begin(); it != str.end(); ++it)
-        {
-            auto c = this->data->characters.find(*it);
-            if (c != this->data->characters.end())
-            {
-                ++c->second->accessCount;
-                if (auto erase = needToErase.find(c->first); erase != needToErase.end())
-                    erase->second = false;
-            }
-            else
-            {
-                GlyphOutline glyph = this->data->file->fontHandle().getCodepointOutline(*it);
-                
-                if (glyph.verts != nullptr) [[likely]]
-                {
-                    auto buffers = glyph.createGeometryBuffers<Vertex2D>();
-                    this->data->characters[*it] = new CharacterRenderData { 1, { } };
-                    CoreEngine::queueRenderJobForFrame
-                    (
-                        [=, pointsFlattened = std::move(buffers.first), indexesFlattened = std::move(buffers.second), data = this->data->characters[*it]]
-                        {
-                            data->polygon.create(std::move(pointsFlattened), std::move(indexesFlattened));
-                        }
-                    );
-                }
-            }
-        }
-        for (auto it = needToErase.begin(); it != needToErase.end(); ++it)
-        {
-            if (it->second)
-            {
-                CoreEngine::queueRenderJobForFrame([=, data = this->data->characters[it->first]] { data->polygon.destroy(); delete data; });
-                this->data->characters.erase(it->first);
-            }
-        }
-        
-        this->_text = std::move(str);
     }
 }),
 fontSize
@@ -121,7 +131,7 @@ fontSize
     {
         return this->_fontSize;
     },
-    [&](uint32_t value) -> void
+    [&, this](uint32_t value) -> void
     {
         switch (value)
         {
@@ -133,8 +143,8 @@ fontSize
                     Font& font = this->data->file->font;
 
                     float accAdv = 0;
-                    for (auto it = this->_text.begin(); it != this->_text.end(); ++it)
-                        accAdv += font.getCodepointMetrics(*it).advanceWidth;
+                    for (auto it = this->textData.begin(); it != this->textData.end(); ++it)
+                        accAdv += it->metrics.advanceWidth;
 
                     // NB: Calculate optimistic font size - the largest possible with given text.
                     //     This is done to be generally performant with the following iterative
@@ -160,7 +170,6 @@ fontSize
                         float lineDiff = (this->data->file->fontHandle().lineGap + lineHeight) * glyphScale * scale.y;
                         float accXAdvance = 0;
                         float accYAdvance = 0;
-                        float spaceAdv = this->data->file->fontHandle().getCodepointMetrics(U' ').advanceWidth * glyphScale * scale.x;
 
                         size_t beg = 0;
                         size_t end;
@@ -191,7 +200,7 @@ fontSize
                             std::vector<float> advanceLengths;
                             advanceLengths.reserve(end - beg);
                             for (size_t i = beg; i < end; i++)
-                                advanceLengths.push_back(float(font.getCodepointMetrics(this->_text[i]).advanceWidth) * glyphScale * scale.x);
+                                advanceLengths.push_back(float(this->textData[i].metrics.advanceWidth) * glyphScale * scale.x);
 
                             auto advanceLenIt = advanceLengths.begin();
 
@@ -253,10 +262,10 @@ fontSize
                             switch (this->_text[i])
                             {
                             case U' ':
-                                accXAdvance += spaceAdv;
+                                accXAdvance += this->textData[i].metrics.advanceWidth;
                                 break;
                             case U'\t':
-                                accXAdvance += spaceAdv * 8;
+                                accXAdvance += this->textData[i].metrics.advanceWidth * 8;
                                 break;
                             case U'\r':
                                 break;
@@ -294,20 +303,13 @@ fontSize
 }
 Text::~Text()
 {
-    for (auto it = this->_text.begin(); it != this->_text.end(); ++it)
+    if (this->data)
     {
-        decltype(this->data->characters)::iterator c;
-        if ((c = this->data->characters.find(*it)) != this->data->characters.end())
-        {
-            --this->data->characters[*it]->accessCount;
-            if (this->data->characters[*it]->accessCount == 0)
-                CoreEngine::queueRenderJobForFrame([=, data = this->data->characters[*it]] { data->polygon.destroy(); delete data; });
-            this->data->characters.erase(*it);
-        }
+        this->data->untrackCharacters(this->textData);
+        --this->data->accessCount;
+        if (this->data->accessCount == 0)
+            delete this->data;
     }
-    --this->data->accessCount;
-    if (this->data->accessCount == 0)
-        delete this->data;
 }
 
 void Text::renderOffload()
@@ -327,7 +329,6 @@ void Text::renderOffload()
         float lineDiff = (this->data->file->fontHandle().lineGap + lineHeight) * glyphScale * scale.y;
         float accXAdvance = 0;
         float accYAdvance = 0;
-        float spaceAdv = this->data->file->fontHandle().getCodepointMetrics(U' ').advanceWidth * glyphScale * scale.x;
 
         size_t beg = 0;
         size_t end;
@@ -352,7 +353,7 @@ void Text::renderOffload()
             std::vector<float> advanceLengths;
             advanceLengths.reserve(end - beg);
             for (size_t i = beg; i < end; i++)
-                advanceLengths.push_back(float(this->data->file->fontHandle().getCodepointMetrics(this->_text[i]).advanceWidth) * glyphScale * scale.x);
+                advanceLengths.push_back(float(this->textData[i].metrics.advanceWidth) * glyphScale * scale.x);
 
             auto advanceLenIt = advanceLengths.begin();
 
@@ -427,10 +428,10 @@ void Text::renderOffload()
             switch (this->_text[i])
             {
             case U' ':
-                accXAdvance += spaceAdv;
+                accXAdvance += this->textData[i].metrics.advanceWidth;
                 break;
             case U'\t':
-                accXAdvance += spaceAdv * 8;
+                accXAdvance += this->textData[i].metrics.advanceWidth * 8;
                 break;
             case U'\r':
                 break;

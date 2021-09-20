@@ -2,7 +2,8 @@
 
 #include "inc.h"
 
-#include <map>
+#include <robin_hood.h>
+#include <stb_truetype.h>
 #include <Core/Objects/Component.h>
 #include <Core/PackageManager.h>
 #include <Font/Font.h>
@@ -37,22 +38,31 @@ namespace Marble
 
     class coreapi Text final : public Internal::Component
     {
-        struct coreapi CharacterRenderData final
+        struct CharacterData
+        {
+            int glyphIndex;
+            Typography::GlyphMetrics metrics;
+        };
+        struct CharacterRenderData
         {
             uint32_t accessCount;
             GL::PolygonHandle polygon;
         };
-        struct coreapi RenderData final
+        struct RenderData
         {
             uint32_t accessCount;
-            std::map<char32_t, CharacterRenderData*> characters;
+            robin_hood::unordered_map<int, CharacterRenderData*> characters;
             PackageSystem::TrueTypeFontPackageFile* file;
+
+            inline void trackCharacters(const std::vector<CharacterData>& text);
+            inline void untrackCharacters(const std::vector<CharacterData>& text);
         };
 
-        static std::unordered_map<PackageSystem::TrueTypeFontPackageFile*, RenderData*> textFonts;
+        static robin_hood::unordered_map<PackageSystem::TrueTypeFontPackageFile*, RenderData*> textFonts;
         RenderData* data;
 
         std::u32string _text;
+        std::vector<CharacterData> textData;
         uint32_t _fontSize;
 
         void renderOffload();

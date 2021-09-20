@@ -12,17 +12,23 @@ namespace Marble
         class CoreEngine;
     }
 
-    struct coreapi Rect final
+    struct Rect
     {
         int top, right, bottom, left;
 
-        Rect(const int& top, const int& right, const int& bottom, const int& left);
+        constexpr Rect(int32_t top, int32_t right, int32_t bottom, int32_t left) :
+        top(top), right(right), bottom(bottom), left(left)
+        {
+        }
     };
-    struct coreapi RectFloat final
+    struct RectFloat
     {
         float top, right, bottom, left;
 
-        RectFloat(const float& top, const float& right, const float& bottom, const float& left);
+        constexpr RectFloat(float top, float right, float bottom, float left) :
+        top(top), right(right), bottom(bottom), left(left)
+        {
+        }
     };
 
     class coreapi RectTransform final : public Internal::Component
@@ -43,21 +49,20 @@ namespace Marble
         Property<const RectFloat&, const RectFloat&> rect;
         Property<const RectFloat&, const RectFloat&> rectAnchor;
 
-        Property<const Mathematics::Vector2&, const Mathematics::Vector2&> position;
+        Property<Mathematics::Vector2, Mathematics::Vector2> position;
         Property<float, float> rotation;
-        Property<const Mathematics::Vector2&, const Mathematics::Vector2&> scale;
+        Property<Mathematics::Vector2, Mathematics::Vector2> scale;
         
         Property<Mathematics::Vector2, Mathematics::Vector2> localPosition;
         Property<float, float> localRotation;
-        Property<Mathematics::Vector2, const Mathematics::Vector2&> localScale;
+        Property<Mathematics::Vector2, Mathematics::Vector2> localScale;
 
-        Property<const RectTransform*, RectTransform*> parent;
+        Property<RectTransform*, RectTransform*> parent;
         inline const std::list<RectTransform*>& children()
         {
             return this->_children;
         }
 
         friend class Marble::Entity;
-        friend class Marble::Internal::CoreEngine;
     };
 }

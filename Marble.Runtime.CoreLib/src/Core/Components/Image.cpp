@@ -21,9 +21,9 @@ robin_hood::unordered_map<PackageSystem::PortableGraphicPackageFile*, Image::Ren
 Image::Image() :
 imageFile
 ({
-    []
+    [this]
     {
-        return nullptr;
+        return this->data ? this->data->file : nullptr;
     },
     [this](PortableGraphicPackageFile* file)
     {
@@ -53,9 +53,7 @@ imageFile
             }
             else
             {
-                auto& set = Image::imageTextures[file];
-                set = new RenderData { 1, { }, file };
-                this->data = set;
+                this->data = Image::imageTextures.insert(robin_hood::pair<PortableGraphicPackageFile*, RenderData*>(file, new RenderData { 1, { }, file })).first->second;
 
                 uint32_t width = file->width, height = file->height;
                 uint32_t imageDataSize = width * height * 4;
@@ -65,7 +63,7 @@ imageFile
                 
                 CoreEngine::queueRenderJobForFrame
                 (
-                    [=, data = this->data, imageData = std::move(imageData)]
+                    [width, height, data = this->data, imageData = std::move(imageData)]
                     {
                         data->internalTexture.create(imageData, width, height);
                     }
@@ -117,7 +115,7 @@ void Image::renderOffload()
         
         CoreEngine::queueRenderJobForFrame
         (
-            [=, data = this->data]
+            [t, data = this->data]
             {
                 Renderer::drawImage(data->internalTexture, t);
             }

@@ -24,8 +24,9 @@ namespace Marble
             Font(const Font&) = delete;
             Font(Font&&) = delete;
 
-            GlyphOutline getCodepointOutline(char32_t codepoint);
-            GlyphMetrics getCodepointMetrics(char32_t codepoint);
+            GlyphOutline getGlyphOutline(int glyphIndex);
+            GlyphMetrics getGlyphMetrics(int glyphIndex);
+            int getGlyphIndex(char32_t codepoint);
         };
 
         struct coreapi GlyphOutline final

@@ -30,16 +30,6 @@ constexpr static auto rotatePointAroundOrigin = [](Vector2& point, float angle) 
     point.y = x * s + y * c;
 };
 
-Rect::Rect(const int& top, const int& right, const int& bottom, const int& left)
-: top(top), right(right), bottom(bottom), left(left)
-{
-}
-
-RectFloat::RectFloat(const float& top, const float& right, const float& bottom, const float& left)
-: top(top), right(right), bottom(bottom), left(left)
-{
-}
-
 RectTransform::RectTransform() :
 rect
 ({
@@ -65,11 +55,11 @@ rectAnchor
 }),
 position
 ({
-    [this]() -> const Vector2&
+    [this]() -> Vector2
     {
         return this->_position;
     },
-    [this](const Vector2& value)
+    [this](Vector2 value)
     {
         Vector2 delta = value - this->_position;
         this->_position = value;
@@ -110,11 +100,11 @@ rotation
 }),
 scale
 ({
-    [this]() -> const Vector2&
+    [this]() -> Vector2
     {
         return this->_scale;
     },
-    [this](const Vector2& value)
+    [this](Vector2 value)
     {
         Vector2 delta = value / this->_scale;
         this->_scale = value;
@@ -173,7 +163,7 @@ localRotation
             return this->_rotation - this->_parent->_rotation;
         else return this->_rotation;
     },
-    [this](const float& value)
+    [this](float value)
     {
         float delta;
         if (this->_parent != nullptr)
@@ -201,7 +191,7 @@ localScale
             return this->_scale / this->_parent->_scale;
         else return this->_scale;
     },
-    [this](const Vector2& value)
+    [this](Vector2 value)
     {
         Vector2 delta;
         if (this->_parent != nullptr)
@@ -223,7 +213,7 @@ localScale
 }),
 parent
 ({
-    [this]() -> const RectTransform*
+    [this]() -> RectTransform*
     {
         return this->_parent;
     },

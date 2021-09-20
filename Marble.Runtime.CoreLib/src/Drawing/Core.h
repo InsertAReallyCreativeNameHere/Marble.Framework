@@ -27,20 +27,7 @@ namespace Marble
         r(r), g(g), b(b), a(a)
         {
         }
-        constexpr Color(const Color& other) :
-        r(other.r), g(other.g), b(other.b), a(other.a)
-        {
-        }
-
-        constexpr Color& operator=(const Color& rhs)
-        {
-            this->r = rhs.r;
-            this->g = rhs.g;
-            this->b = rhs.b;
-            this->a = rhs.a;
-            return *this;
-        }
-
+        
         constexpr bool operator==(const Color& rhs)
         {
             return this->r == rhs.r && this->g == rhs.g && this->b == rhs.b && this->a == rhs.a;

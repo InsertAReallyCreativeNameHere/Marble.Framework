@@ -22,7 +22,6 @@ Panel::Panel() : color
     }
 })
 {
-    uint8_t color[4] { this->_color.r, this->_color.g, this->_color.b, this->_color.a };
 }
 Panel::~Panel()
 {
@@ -44,7 +43,7 @@ void Panel::renderOffload()
     
     CoreEngine::queueRenderJobForFrame
     (
-        [=]()
+        [t]()
         {
             Renderer::drawUnitSquare(t);
         }

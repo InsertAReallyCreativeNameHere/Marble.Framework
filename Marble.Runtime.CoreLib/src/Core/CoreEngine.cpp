@@ -505,7 +505,9 @@ void CoreEngine::internalRenderLoop()
         Window::width.load(), Window::height.load()
     );
     
-    static int w = Window::width, h = Window::height;
+    int w = Window::width, h = Window::height;
+    int prevW, prevH;
+    
     Renderer::setViewArea(0, 0, w, h);
     Renderer::setClear(0x323232ff);
 
@@ -519,7 +521,6 @@ void CoreEngine::internalRenderLoop()
     {
         isRendering.store(true, std::memory_order_relaxed);
 
-        static int prevW, prevH;
         prevW = w;
         prevH = h;
 
@@ -528,7 +529,7 @@ void CoreEngine::internalRenderLoop()
         w = Window::width;
         h = Window::height;
         
-        if (prevW != w || prevH != h)
+        if (prevW != w || prevH != h) [[unlikely]]
         {
             Renderer::reset(w, h);
             Renderer::setViewArea(0, 0, w, h);

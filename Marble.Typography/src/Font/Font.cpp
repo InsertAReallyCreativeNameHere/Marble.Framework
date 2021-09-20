@@ -19,10 +19,10 @@ Font::Font(unsigned char* fontData)
     stbtt_GetFontVMetrics(&this->fontInfo, &this->ascent, &this->descent, &this->lineGap);
 }
 
-GlyphOutline Font::getCodepointOutline(char32_t codepoint)
+GlyphOutline Font::getGlyphOutline(int glyph)
 {
     GlyphOutline ret;
-    ret.vertsSize = stbtt_GetCodepointShape(&this->fontInfo, codepoint, &ret.verts);
+    ret.vertsSize = stbtt_GetGlyphShape(&this->fontInfo, glyph, &ret.verts);
     return std::move(ret);
 }
 GlyphOutline::GlyphOutline()
@@ -38,12 +38,17 @@ GlyphOutline::~GlyphOutline()
     STBTT_free(this->verts, nullptr);
 }
 
-GlyphMetrics Font::getCodepointMetrics(char32_t codepoint)
+GlyphMetrics Font::getGlyphMetrics(int glyph)
 {
     GlyphMetrics ret;
-    stbtt_GetCodepointHMetrics(&this->fontInfo, codepoint, &ret.advanceWidth, &ret.leftSideBearing);
+    stbtt_GetGlyphHMetrics(&this->fontInfo, glyph, &ret.advanceWidth, &ret.leftSideBearing);
     return ret;
 }
 GlyphMetrics::GlyphMetrics()
 {
+}
+
+int Font::getGlyphIndex(char32_t codepoint)
+{
+    return stbtt_FindGlyphIndex(&this->fontInfo, codepoint);
 }
