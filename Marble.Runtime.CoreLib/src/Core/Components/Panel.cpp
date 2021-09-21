@@ -10,19 +10,6 @@ using namespace Marble::Internal;
 using namespace Marble::Mathematics;
 using namespace Marble::GL;
 
-Panel::Panel() : color
-({
-    [this]() -> const Color&
-    {
-        return this->_color;
-    },
-    [this](const Color& value)
-    {
-        this->_color = value;
-    }
-})
-{
-}
 Panel::~Panel()
 {
 }

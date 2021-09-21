@@ -43,8 +43,10 @@ namespace Marble
         Entity(const Mathematics::Vector2& localPosition, const float& localRotation, const Mathematics::Vector2& scale, RectTransform* parent);
         ~Entity() override;
 
-        Entity* entity();
-        RectTransform* rectTransform();
+        inline RectTransform* rectTransform()
+        {
+            return this->attachedRectTransform;
+        }
 
         template <typename T>
         T* addComponent()

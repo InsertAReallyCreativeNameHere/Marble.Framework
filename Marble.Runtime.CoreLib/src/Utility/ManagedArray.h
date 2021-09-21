@@ -8,24 +8,24 @@ namespace Marble
     template<typename T>
     struct coreapi ManagedArray final
     {
-        ManagedArray(size_t length = 0) : array(new T[length]), arrlen(length)
+        inline ManagedArray(size_t length = 0) : array(new T[length]), arrlen(length)
         {
         }
-        ManagedArray(size_t length, const T& fill) : array(new T[length]), arrlen(length)
+        inline ManagedArray(size_t length, const T& fill) : array(new T[length]), arrlen(length)
         {
             std::fill(this->array, this->array + this->arrlen, fill);
         }
-        ManagedArray(const ManagedArray<T>& other) : array(new T[other.arrlen]), arrlen(other.arrlen)
+        inline ManagedArray(const ManagedArray<T>& other) : array(new T[other.arrlen]), arrlen(other.arrlen)
         {
             for (size_t i = 0; i < this->arrlen; i++)
                 this->array[i] = other.array[i];
         }
-        ManagedArray(ManagedArray<T>&& other) : array(other.array), arrlen(other.arrlen)
+        inline ManagedArray(ManagedArray<T>&& other) : array(other.array), arrlen(other.arrlen)
         {
             other.array = nullptr;
             other.arrlen = 0;
         }
-        ManagedArray<T>& operator=(const ManagedArray<T>& other)
+        inline ManagedArray<T>& operator=(const ManagedArray<T>& other)
         {
             delete[] this->array;
             this->arrlen = other.arrlen;
@@ -34,7 +34,7 @@ namespace Marble
                 this->array[i] = other.array[i];
             return *this;
         }
-        ManagedArray<T>& operator=(ManagedArray<T>&& other)
+        inline ManagedArray<T>& operator=(ManagedArray<T>&& other)
         {
             delete[] this->array;
 
@@ -48,7 +48,7 @@ namespace Marble
 
             return *this;
         }
-        ~ManagedArray()
+        inline ~ManagedArray()
         {
             delete[] this->array;
         }

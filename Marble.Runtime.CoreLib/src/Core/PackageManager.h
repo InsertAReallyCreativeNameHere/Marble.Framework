@@ -32,7 +32,6 @@ namespace Marble
 
             std::filesystem::path fileLocalPath;
 
-            friend class Marble::Image;
             friend class Marble::PackageSystem::PackageManager;
             friend class Marble::Internal::CoreEngine;
         protected:
@@ -62,7 +61,6 @@ namespace Marble
             inline int imageHeight() { return this->height; };
             inline uint8_t* imageRGBAData() { return this->loadedImage; };
 
-            friend class Marble::Image;
             friend class Marble::PackageSystem::PackageManager;
         };
         class coreapi TrueTypeFontPackageFile final : public PackageFile
@@ -78,7 +76,6 @@ namespace Marble
                 return this->font;
             }
 
-            friend class Marble::Text;
             friend class Marble::PackageSystem::PackageManager;
         };
 
@@ -86,10 +83,7 @@ namespace Marble
         T* file_cast(PackageFile* file)
         {
             static_assert(std::is_base_of<PackageFile, T>::value, "File cast can only work on type \"PackageFile\"!");
-
-            if (file->reflection.typeID == __typeid(T))
-                return static_cast<T*>(file);
-            else return nullptr;
+            return file->reflection.typeID == __typeid(T) ? static_cast<T*>(file) : nullptr;
         }
         
         enum class Endianness : uint_fast8_t
@@ -113,7 +107,6 @@ namespace Marble
 
             static PackageSystem::PackageFile* getCorePackageFileByPath(std::wstring filePath);
 
-            friend class Marble::Image;
             friend class Marble::Internal::CoreEngine;
         };
     }

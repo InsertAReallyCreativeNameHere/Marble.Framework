@@ -18,68 +18,10 @@ namespace fs = std::filesystem;
 
 robin_hood::unordered_map<PackageSystem::PortableGraphicPackageFile*, Image::RenderData*> Image::imageTextures;
 
-Image::Image() :
-imageFile
-({
-    [this]
-    {
-        return this->data ? this->data->file : nullptr;
-    },
-    [this](PortableGraphicPackageFile* file)
-    {
-        if (this->data != nullptr)
-        {
-            --this->data->accessCount;
-            if (this->data->accessCount == 0)
-            {
-                Image::imageTextures.erase(this->data->file);
-                CoreEngine::queueRenderJobForFrame
-                (
-                    [data = this->data]
-                    {
-                        data->internalTexture.destroy();
-                        delete data;
-                    }
-                );
-            }
-        }
-        if (file != nullptr)
-        {
-            auto set = Image::imageTextures.find(file);
-            if (set != Image::imageTextures.end())
-            {
-                this->data = set->second;
-                ++this->data->accessCount;
-            }
-            else
-            {
-                this->data = Image::imageTextures.insert(robin_hood::pair<PortableGraphicPackageFile*, RenderData*>(file, new RenderData { 1, { }, file })).first->second;
-
-                uint32_t width = file->width, height = file->height;
-                uint32_t imageDataSize = width * height * 4;
-                std::vector<uint8_t> imageData(imageDataSize);
-                for (uint32_t i = 0; i < imageDataSize; i++)
-                    imageData[i] = file->loadedImage[i];
-                
-                CoreEngine::queueRenderJobForFrame
-                (
-                    [width, height, data = this->data, imageData = std::move(imageData)]
-                    {
-                        data->internalTexture.create(imageData, width, height);
-                    }
-                );
-            }
-        }
-        else this->data = nullptr;
-    }
-}),
-data(nullptr)
-{
-}
 Image::~Image()
 {
     RenderData* data = this->data;
-    if (data != nullptr)
+    if (data)
     {
         --data->accessCount;
         if (data->accessCount == 0)
@@ -97,9 +39,55 @@ Image::~Image()
     }
 }
 
+void Image::setImageFile(PortableGraphicPackageFile* value)
+{
+    if (this->data)
+    {
+        --this->data->accessCount;
+        if (this->data->accessCount == 0)
+        {
+            Image::imageTextures.erase(this->data->file);
+            CoreEngine::queueRenderJobForFrame
+            (
+                [data = this->data]
+                {
+                    data->internalTexture.destroy();
+                    delete data;
+                }
+            );
+        }
+    }
+    if (value)
+    {
+        auto set = Image::imageTextures.find(value);
+        if (set != Image::imageTextures.end())
+        {
+            this->data = set->second;
+            ++this->data->accessCount;
+        }
+        else
+        {
+            this->data = Image::imageTextures.insert(robin_hood::pair<PortableGraphicPackageFile*, RenderData*>(value, new RenderData { 1, { }, value })).first->second;
+
+            uint32_t width = value->imageWidth(), height = value->imageHeight();
+            uint32_t imageDataSize = width * height * 4;
+            std::vector<uint8_t> imageData(value->imageRGBAData(), value->imageRGBAData() + imageDataSize);
+            
+            CoreEngine::queueRenderJobForFrame
+            (
+                [width, height, data = this->data, imageData = std::move(imageData)]
+                {
+                    data->internalTexture.create(imageData, width, height);
+                }
+            );
+        }
+    }
+    else this->data = nullptr;
+}
+
 void Image::renderOffload()
 {
-    if (this->data != nullptr)
+    if (this->data)
     {
         RectTransform* thisRect = this->rectTransform();
         const Vector2& pos = thisRect->position;

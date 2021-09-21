@@ -76,12 +76,3 @@ Entity::~Entity()
     if (this->eraseIteratorOnDestroy)
         this->attachedScene->entities.erase(this->it);
 }
-
-Entity* Entity::entity()
-{
-    return this;
-}
-RectTransform* Entity::rectTransform()
-{
-    return this->attachedRectTransform;
-}

@@ -4,8 +4,8 @@ using namespace Marble;
 
 std::list<Scene*> SceneManager::existingScenes;
 
-static struct Initializer {
-    Initializer()
+static struct Init {
+    Init()
     {
         SceneManager::setSceneActive(new Scene);
     }

@@ -14,7 +14,7 @@ namespace Marble
 
     struct Rect
     {
-        int top, right, bottom, left;
+        int32_t top, right, bottom, left;
 
         constexpr Rect(int32_t top, int32_t right, int32_t bottom, int32_t left) :
         top(top), right(right), bottom(bottom), left(left)
@@ -33,8 +33,7 @@ namespace Marble
 
     class coreapi RectTransform final : public Internal::Component
     {
-        RectTransform();
-        ~RectTransform() override;
+        inline ~RectTransform() override = default;
 
         RectFloat _rect { 10, 10, -10, -10 };
         RectFloat _anchor { 0, 0, 0, 0 };
@@ -45,20 +44,67 @@ namespace Marble
 
         RectTransform* _parent = nullptr;
         std::list<RectTransform*> _children;
+
+        void setPosition(Mathematics::Vector2 value);
+        void setRotation(float value);
+        void setScale(Mathematics::Vector2 value);
+
+        Mathematics::Vector2 getLocalPosition() const;
+        void setLocalPosition(Mathematics::Vector2 value);
+        void setLocalRotation(float value);
+        void setLocalScale(Mathematics::Vector2 scale);
+
+        void setParent(RectTransform* value);
     public:
-        Property<const RectFloat&, const RectFloat&> rect;
-        Property<const RectFloat&, const RectFloat&> rectAnchor;
+        const Property<const RectFloat&, const RectFloat&> rect
+        {{
+            [this]() -> const RectFloat& { return this->_rect; },
+            [this](const RectFloat& value) { this->_rect = value; }
+        }};
+        const Property<const RectFloat&, const RectFloat&> rectAnchor
+        {{
+            [this]() -> const RectFloat& { return this->_anchor; },
+            [this](const RectFloat& value) { this->_anchor = value; }
+        }};
 
-        Property<Mathematics::Vector2, Mathematics::Vector2> position;
-        Property<float, float> rotation;
-        Property<Mathematics::Vector2, Mathematics::Vector2> scale;
+        const Property<Mathematics::Vector2, Mathematics::Vector2> position
+        {{
+            [this]() -> Mathematics::Vector2 { return this->_position; },
+            [this](Mathematics::Vector2 value) { this->setPosition(value); }
+        }};
+        const Property<float, float> rotation
+        {{
+            [this]() -> float { return this->_rotation; },
+            [this](float value) { this->setRotation(value); }
+        }};
+        const Property<Mathematics::Vector2, Mathematics::Vector2> scale
+        {{
+            [this]() -> Mathematics::Vector2 { return this->_scale; },
+            [this](Mathematics::Vector2 value) { this->setScale(value); }
+        }};
         
-        Property<Mathematics::Vector2, Mathematics::Vector2> localPosition;
-        Property<float, float> localRotation;
-        Property<Mathematics::Vector2, Mathematics::Vector2> localScale;
+        const Property<Mathematics::Vector2, Mathematics::Vector2> localPosition
+        {{
+            [this]() -> Mathematics::Vector2 { return this->getLocalPosition(); },
+            [this](Mathematics::Vector2 value) { this->setLocalPosition(value); }
+        }};
+        const Property<float, float> localRotation
+        {{
+            [this]() -> float { return this->_parent ? this->_rotation - this->_parent->_rotation : this->_rotation; },
+            [this](float value) { this->setLocalRotation(value); }
+        }};
+        const Property<Mathematics::Vector2, Mathematics::Vector2> localScale
+        {{
+            [this]() -> Mathematics::Vector2 { return this->_parent ? this->_scale / this->_parent->_scale : this->_scale; },
+            [this](Mathematics::Vector2 value) { this->setLocalScale(value); }
+        }};
 
-        Property<RectTransform*, RectTransform*> parent;
-        inline const std::list<RectTransform*>& children()
+        const Property<RectTransform*, RectTransform*> parent
+        {{
+            [this]() -> RectTransform* { return this->_parent; },
+            [this](RectTransform* value) { this->setParent(value); }
+        }};
+        inline const std::list<RectTransform*>& children() const
         {
             return this->_children;
         }

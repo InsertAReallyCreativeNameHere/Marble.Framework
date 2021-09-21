@@ -13,7 +13,7 @@ namespace Marble
     {
         return (*m) ? strmix(*m,strhash(m+1)) : 0;
     }
-    // not sure whether these ones work, i dunno i dont fucken test my code
+    // TODO: No clue whether these work. Not sure why I even put these here, they never get used.
     inline uint64_t constexpr wstrmix(wchar_t m, uint64_t s)
     {
         return ((s<<7) + ~(s>>3)) + ~m;

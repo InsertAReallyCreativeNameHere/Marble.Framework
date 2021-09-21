@@ -26,8 +26,7 @@ namespace Marble
             Entity* attachedEntity;
             RectTransform* attachedRectTransform;
         protected:
-            Component();
-            virtual ~Component() = 0;
+            virtual ~Component();
         public:
             inline uint64_t typeIndex()
             {

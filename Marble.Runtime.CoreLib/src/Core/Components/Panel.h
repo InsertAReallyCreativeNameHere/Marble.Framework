@@ -19,9 +19,12 @@ namespace Marble
 
         void renderOffload();
     public:
-        Property<const Color&, const Color&> color;
+        const Property<const Color&, const Color&> color
+        {{
+            [this]() -> const Color& { return this->_color; },
+            [this](const Color& value) { this->_color = value; }
+        }};
 
-        Panel();
         ~Panel() override;
 
         friend class Marble::Internal::ComponentCoreStaticInit;

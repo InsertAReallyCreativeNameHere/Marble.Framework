@@ -27,15 +27,20 @@ namespace Marble
         };
 
         static robin_hood::unordered_map<PackageSystem::PortableGraphicPackageFile*, RenderData*> imageTextures;
-        RenderData* data;
+        RenderData* data = nullptr;
+
+        void setImageFile(PackageSystem::PortableGraphicPackageFile* value);
 
         void renderOffload();
     public:
-        Image();
-        ~Image();
+        ~Image() override;
 
-        Property<PackageSystem::PortableGraphicPackageFile*, PackageSystem::PortableGraphicPackageFile*> imageFile;
+        const Property<PackageSystem::PortableGraphicPackageFile*, PackageSystem::PortableGraphicPackageFile*> imageFile
+        {{
+            [this]() -> PackageSystem::PortableGraphicPackageFile* { return this->data ? this->data->file : nullptr; },
+            [this](PackageSystem::PortableGraphicPackageFile* value) { this->setImageFile(value); }
+        }};
 
-        friend class Marble::Internal::ComponentCoreStaticInit;
+        friend struct Marble::Internal::ComponentCoreStaticInit;
     };
 }

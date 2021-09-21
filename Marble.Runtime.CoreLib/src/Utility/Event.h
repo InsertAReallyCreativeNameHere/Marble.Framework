@@ -12,21 +12,21 @@ namespace Marble
     {
         std::vector<skarupke::function<void(Args...)>> children;
     public:
-        Event()
+        inline Event()
         {
         }
         Event(const Event<Args...>&) = delete;
         Event(Event<Args...>&&) = delete;
 
-        void operator+=(const skarupke::function<void(Args...)>& func)
+        inline void operator+=(const skarupke::function<void(Args...)>& func)
         {
             this->children.push_back(func);
         }
-        void operator+=(skarupke::function<void(Args...)>&& func)
+        inline void operator+=(skarupke::function<void(Args...)>&& func)
         {
             this->children.push_back(func);
         }
-        void operator-=(const skarupke::function<void(Args...)>& func)
+        inline void operator-=(const skarupke::function<void(Args...)>& func)
         {
             for (auto it = this->children.begin(); it != this->children.end(); ++it)
             {
@@ -37,17 +37,17 @@ namespace Marble
                 }
             }
         }
-        void operator()(Args... args)
+        inline void operator()(Args... args)
         {
             for (auto it = this->children.begin(); it != this->children.end(); ++it)
                 (*it)(args...);
         }
 
-        bool unhandled()
+        inline bool unhandled()
         {
             return this->children.empty();
         }
-        void clear()
+        inline void clear()
         {
             this->children.clear();
         }
@@ -58,17 +58,17 @@ namespace Marble
     {
         std::vector<void (*)(Args...)> children;
     public:
-        FuncPtrEvent()
+        inline FuncPtrEvent()
         {
         }
         FuncPtrEvent(const FuncPtrEvent<Args...>&) = delete;
         FuncPtrEvent(FuncPtrEvent<Args...>&&) = delete;
 
-        void operator+=(void (*func)(Args...))
+        inline void operator+=(void (*func)(Args...))
         {
             this->children.push_back(func);
         }
-        void operator-=(void (*func)(Args...))
+        inline void operator-=(void (*func)(Args...))
         {
             for (auto it = this->children.begin(); it != this->children.end(); ++it)
             {
@@ -79,17 +79,17 @@ namespace Marble
                 }
             }
         }
-        void operator()(Args... args)
+        inline void operator()(Args... args)
         {
             for (auto it = this->children.begin(); it != this->children.end(); ++it)
                 (*it)(args...);
         }
 
-        bool unhandled()
+        inline bool unhandled()
         {
             return this->children.empty();
         }
-        void clear()
+        inline void clear()
         {
             this->children.clear();
         }

@@ -15,11 +15,11 @@ namespace Marble
         r(0), g(0), b(0), a(0)
         {
         }
-        constexpr Color(uint8_t const (&color)[3]) :
+        constexpr Color(const uint8_t (&color)[3]) :
         r(color[0]), g(color[1]), b(color[2]), a(255)
         {
         }
-        constexpr Color(uint8_t const (&color)[4]) :
+        constexpr Color(const uint8_t (&color)[4]) :
         r(color[0]), g(color[1]), b(color[2]), a(color[3])
         {
         }

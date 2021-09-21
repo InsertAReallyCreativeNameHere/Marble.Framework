@@ -16,10 +16,12 @@ namespace Marble
         
         class coreapi Object
         {
-            MemoryIdentifier* instanceID;
+            MemoryIdentifier* instanceID = new MemoryIdentifier();
         protected:
-            Object();
-            virtual ~Object() = 0;
+            inline virtual ~Object()
+            {
+                delete this->instanceID;
+            }
         public:
             inline InstanceID getInstanceID()
             {
