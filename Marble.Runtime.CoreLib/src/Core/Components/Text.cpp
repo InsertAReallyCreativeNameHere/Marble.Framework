@@ -54,6 +54,7 @@ void Text::RenderData::untrackCharacters(const std::vector<CharacterData>& text)
             --charData->second->accessCount;
             if (charData->second->accessCount == 0)
             {
+                this->characters.erase(charData);
                 CoreEngine::queueRenderJobForFrame([data = charData->second] { data->polygon.destroy(); delete data; });
                 this->characters.erase(it->glyphIndex);
             }
@@ -78,7 +79,10 @@ font
             this->data->untrackCharacters(this->textData);
             --this->data->accessCount;
             if (this->data->accessCount == 0)
+            {
+                Text::textFonts.erase(this->data->file);
                 delete this->data;
+            }
         }
         if (file != nullptr)
         {
@@ -157,9 +161,9 @@ fontSize
                     ((thisRect->rect().right - thisRect->rect().left) / accAdv);
                     this->_fontSize = this->_fontSize * sqrt((thisRect->rect().top - thisRect->rect().bottom) / this->_fontSize);
 
-                    decltype(auto) pos = thisRect->position;
-                    decltype(auto) scale = thisRect->scale;
-                    decltype(auto) rect = thisRect->rect;
+                    Vector2 pos = thisRect->position;
+                    Vector2 scale = thisRect->scale;
+                    RectFloat rect = thisRect->rect;
                     float rectWidth = (rect.right - rect.left) * scale.x;
                     float rectHeight = (rect.top - rect.bottom) * scale.y;
                     float rot = deg2RadF(thisRect->rotation);
@@ -330,7 +334,10 @@ Text::~Text()
         this->data->untrackCharacters(this->textData);
         --this->data->accessCount;
         if (this->data->accessCount == 0)
+        {
+            Text::textFonts.erase(this->data->file);
             delete this->data;
+        }
     }
 }
 
@@ -342,9 +349,9 @@ void Text::renderOffload()
     if (this->data->file != nullptr && !this->_text.empty()) [[likely]]
     {
         RectTransform* thisRect = this->rectTransform();
-        const Vector2& pos = thisRect->position;
-        const Vector2& scale = thisRect->scale;
-        const RectFloat& rect = thisRect->rect;
+        Vector2 pos = thisRect->position;
+        Vector2 scale = thisRect->scale;
+        RectFloat rect = thisRect->rect;
         float rectWidth = (rect.right - rect.left) * scale.x;
         float rectHeight = (rect.top - rect.bottom) * scale.y;
         float rot = deg2RadF(thisRect->rotation);
