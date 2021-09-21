@@ -20,7 +20,8 @@
 [![What](https://img.shields.io/badge/is-bad-orange?style=flat-square)](#)
 [![What](https://img.shields.io/badge/dont-ever-orange?style=flat-square)](#)
 [![What](https://img.shields.io/badge/hire-me-orange?style=flat-square)](#)   
-[![What](https://img.shields.io/badge/bean-consumer-green?style=for-the-badge&logo=bean)](#)
+[![What](https://img.shields.io/badge/bean-consumer-green?style=for-the-badge&logo=bean)](#)   
+(Yes I know lgtm says there are an excessive quanitity of alerts, I screwed up the lgtm.yml file. I'm not going to fix it because it's kind of funny and I'm lazy.)
 
 # Marble.Framework
 TODO: put stuff here lol
