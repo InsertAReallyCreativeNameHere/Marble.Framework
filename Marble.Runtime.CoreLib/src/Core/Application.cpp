@@ -8,11 +8,6 @@ namespace fs = std::filesystem;
 
 fs::path Application::currentWorkingDirectory;
 
-const fs::path& Application::currentDirectory()
-{
-    return Application::currentWorkingDirectory;
-}
-
 int Application::execute(int argc, char* argv[])
 {
     return Internal::CoreEngine::execute(argc, argv);

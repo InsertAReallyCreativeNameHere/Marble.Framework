@@ -1,6 +1,6 @@
 #pragma once
 
-#include <inc.h>
+#include "inc.h"
 
 #include <iostream>
 
@@ -8,7 +8,7 @@ namespace Marble
 {
     namespace Internal
     {
-        struct coreapi MemoryIdentifier final
+        struct MemoryIdentifier
         {
         };
 
@@ -21,7 +21,10 @@ namespace Marble
             Object();
             virtual ~Object() = 0;
         public:
-            InstanceID getInstanceID();
+            inline InstanceID getInstanceID()
+            {
+                return (InstanceID)this->instanceID;
+            }
         };
     }
 }

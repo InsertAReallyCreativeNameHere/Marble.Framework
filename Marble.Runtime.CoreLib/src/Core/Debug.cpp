@@ -5,7 +5,7 @@ using namespace Marble;
 SpinLock Debug::outputLock;
 
 #if !defined(_WIN32) || WINDOWS_ENABLE_COLOURED_CONSOLE_TEXT
-//Don't change this array.
+// NB: Don't change this array.
 const wchar_t* Debug::ansiCodes[6] =
 {
     L"\x1b[0m",

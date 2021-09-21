@@ -21,11 +21,11 @@ namespace Marble
 			static bool isMouseButtonHeld(const int& mouseButton);
 			static bool isKeyHeld(const SDL_Keycode& keyCode);
 
-			inline static const Mathematics::Vector2Int& mousePosition()
+			inline static Mathematics::Vector2Int mousePosition()
 			{
 				return Input::internalMousePosition;
 			}
-			inline static const Mathematics::Vector2Int& mouseMotion()
+			inline static Mathematics::Vector2Int mouseMotion()
 			{
 				return Input::internalMouseMotion;
 			}

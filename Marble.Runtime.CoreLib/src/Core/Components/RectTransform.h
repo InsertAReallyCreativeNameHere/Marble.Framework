@@ -1,6 +1,6 @@
 #pragma once
 
-#include <inc.h>
+#include "inc.h"
 #include <Core/Objects/Component.h>
 #include <Utility/Property.h>
 #include <Mathematics.h>

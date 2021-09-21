@@ -1,7 +1,6 @@
 #include "Entity.h"
 
 #include <Core/SceneManagement.h>
-#include <Core/Exception.h>
 
 using namespace Marble;
 using namespace Marble::Internal;

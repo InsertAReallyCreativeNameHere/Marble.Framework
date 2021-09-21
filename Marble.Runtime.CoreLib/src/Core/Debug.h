@@ -1,6 +1,6 @@
 #pragma once
 
-#include <inc.h>
+#include "inc.h"
 
 #include <Utility/Lock.h>
 #include <codecvt>
@@ -16,7 +16,7 @@ namespace Marble
 {
 	namespace Internal
 	{
-		// This is a bit of a cheat.
+		// NB: This is a bit of a hack.
 		inline static std::wostream& operator<<(std::wostream& stream, const std::string& rhs)
 		{
 			std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> conv;

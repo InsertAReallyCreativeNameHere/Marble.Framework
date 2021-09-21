@@ -1,6 +1,6 @@
 #pragma once
 
-#include <inc.h>
+#include "inc.h"
 #include <skarupke/function.h>
 
 namespace Marble

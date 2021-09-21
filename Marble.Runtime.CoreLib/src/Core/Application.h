@@ -1,6 +1,6 @@
 #pragma once
 
-#include <inc.h>
+#include "inc.h"
 
 #include <filesystem>
 
@@ -23,14 +23,14 @@ namespace Marble
     {
         static std::filesystem::path currentWorkingDirectory;
     public:
-        static const std::filesystem::path& currentDirectory();
+        inline static const std::filesystem::path& currentDirectory()
+        {
+            return Application::currentWorkingDirectory;
+        }
 
         static int execute(int argc, char* argv[]);
         static void quit();
 
-        friend class Marble::Image;
-        friend class Marble::PackageSystem::PackageManager;
-        friend class Marble::Internal::ShaderUtility;
         friend class Marble::Internal::CoreEngine;
     };
 }

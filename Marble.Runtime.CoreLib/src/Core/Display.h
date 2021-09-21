@@ -1,6 +1,6 @@
 #pragma once
 
-#include <inc.h>
+#include "inc.h"
 
 #include <atomic>
 #include <Mathematics.h>
@@ -19,22 +19,41 @@ namespace Marble
 
         static std::atomic<bool> resizing;
     public:
-        static int pixelWidth();
-        static int pixelHeight();
+        inline static int pixelWidth()
+        {
+            return Window::width.load(std::memory_order_relaxed);
+        }
+        inline static int pixelHeight()
+        {
+            return Window::height.load(std::memory_order_relaxed);
+        }
 
-        static bool isResizing();
+        inline static bool isResizing()
+        {
+            return Window::resizing.load(std::memory_order_relaxed);
+        }
 
         friend class Marble::Internal::CoreEngine;
     };
+    
     class coreapi Screen final
     {
         static int width;
         static int height;
         static int screenRefreshRate;
     public:
-        static int pixelWidth();
-        static int pixelHeight();
-        static int refreshRate();
+        inline static int pixelWidth()
+        {
+            return Screen::width;
+        }
+        inline static int pixelHeight()
+        {
+            return Screen::height;
+        }
+        inline static int refreshRate()
+        {
+            return Screen::screenRefreshRate;
+        }
 
         friend class Marble::Internal::CoreEngine;
     };

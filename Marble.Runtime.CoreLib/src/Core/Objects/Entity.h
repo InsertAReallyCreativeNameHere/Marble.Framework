@@ -1,7 +1,7 @@
 #ifndef __ENTITY_H__
 #define __ENTITY_H__
 
-#include <inc.h>
+#include "inc.h"
 
 #include <vector>
 #include <list>
@@ -17,9 +17,6 @@
 
 namespace Marble
 {
-    class Entities;
-    class Components;
-    
     class Scene;
     class SceneManager;
 
@@ -67,21 +64,16 @@ namespace Marble
         T* getFirstComponent()
         {
             if constexpr (std::is_same<T, RectTransform>::value)
-            {
                 return this->attachedRectTransform;
-            }
             else
             {
                 static_assert(std::is_base_of<Internal::Component, T>::value, "Cannot get component from Entity. Typename \"T\" is not derived from type \"Component\"");
 
                 for (auto it = this->components.begin(); it != this->components.end(); ++it)
-                {
                     if ((*it)->reflection.typeID == __typeid(T))
-                    {
                         return static_cast<T*>(*it);
-                    }
-                }
 
+                // FIXME: Log the name, not the integer ID...
                 Debug::LogWarn("No component of type \"", __typeid(T), "\" could be found on this Entity!");
                 return nullptr;
             }
@@ -90,22 +82,17 @@ namespace Marble
         std::vector<T*> getAllComponents()
         {
             if constexpr (std::is_same<T, RectTransform>::value)
-            {
                 return std::vector<T*> { this->attachedRectTransform };
-            }
             else
             {
                 static_assert(std::is_base_of<Internal::Component, T>::value, "Cannot get component from Entity. Typename \"T\" is not derived from type \"Component\"");
 
                 std::vector<T*> components;
                 for (auto it = this->components.begin(); it != this->components.end(); ++it)
-                {
                     if ((*it)->reflection.typeID == __typeid(T))
-                    {
                         components.push_back(static_cast<T*>(*it));
-                    }
-                }
 
+                // TODO: Is this necessary?
                 if (components.empty())
                     Debug::LogWarn("No component of type \"", __typeid(T), "\" could be found on this Entity!");
                 return components;
@@ -135,7 +122,7 @@ namespace Marble
         {
             static_assert(!std::is_same<T, RectTransform>::value, "Cannot remove component from Entity. You cannot remove RectTransform from an Entity, it is a default component.");
 
-            bool throwWarn = true;
+            bool emitWarn = true;
             for (auto it = this->components.begin(); it != this->components.end();)
             {
                 if ((*it)->reflection.typeID == __typeid(T))
@@ -143,20 +130,19 @@ namespace Marble
                     (*it)->eraseIteratorOnDestroy = false;
                     delete *it;
                     it = this->components.erase(it);
-                    throwWarn = false;
+                    emitWarn = false;
                 }
                 else ++it;
             }
 
-            if (throwWarn)
+            // TODO: Is this necessary?
+            if (emitWarn)
                 Debug::LogWarn("No identical component could be found on this Entity to be removed!");
         }
 
-        friend class Marble::Internal::Component;
-        friend class Marble::Entities;
-        friend class Marble::Components;
         friend class Marble::SceneManager;
         friend class Marble::Scene;
+        friend class Marble::Internal::Component;
         friend class Marble::Internal::CoreEngine;
     };
 }
