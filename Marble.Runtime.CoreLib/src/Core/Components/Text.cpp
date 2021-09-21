@@ -48,12 +48,15 @@ void Text::RenderData::untrackCharacters(const std::vector<CharacterData>& text)
 {
     for (auto it = text.begin(); it != text.end(); ++it)
     {
-        auto& charData = this->characters[it->glyphIndex];
-        --charData->accessCount;
-        if (charData->accessCount == 0)
+        auto charData = this->characters.find(it->glyphIndex);
+        if (charData != this->characters.end())
         {
-            CoreEngine::queueRenderJobForFrame([data = charData] { data->polygon.destroy(); delete data; });
-            this->characters.erase(it->glyphIndex);
+            --charData->second->accessCount;
+            if (charData->second->accessCount == 0)
+            {
+                CoreEngine::queueRenderJobForFrame([data = charData->second] { data->polygon.destroy(); delete data; });
+                this->characters.erase(it->glyphIndex);
+            }
         }
     }
 }
@@ -163,10 +166,19 @@ fontSize
                     float asc = this->data->file->fontHandle().ascent;
                     float lineHeight = asc - this->data->file->fontHandle().descent;
 
+                    Debug::LogInfo("Optimistic font size: ", this->_fontSize, '.');
+
                     while (this->_fontSize != 0)
                     {
                         float glyphScale = float(this->_fontSize) / lineHeight;
                         float lineHeightScaled = lineHeight * glyphScale * scale.y;
+                        
+                        if (lineHeightScaled > rectHeight)
+                        {
+                            --this->_fontSize;
+                            continue;
+                        }
+                        
                         float lineDiff = (this->data->file->fontHandle().lineGap + lineHeight) * glyphScale * scale.y;
                         float accXAdvance = 0;
                         float accYAdvance = 0;
@@ -174,12 +186,6 @@ fontSize
                         size_t beg = 0;
                         size_t end;
 
-                        if (lineHeightScaled > rectHeight)
-                        {
-                            --this->_fontSize;
-                            continue;
-                        }
-                        
                         // NB: Horrific code that avoids multiple calls of find_first_*.
                         //     I don't even know if this was optimal.
                         if
@@ -262,10 +268,10 @@ fontSize
                             switch (this->_text[i])
                             {
                             case U' ':
-                                accXAdvance += this->textData[i].metrics.advanceWidth;
+                                accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.y;
                                 break;
                             case U'\t':
-                                accXAdvance += this->textData[i].metrics.advanceWidth * 8;
+                                accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.y * 8;
                                 break;
                             case U'\r':
                                 break;
@@ -289,7 +295,9 @@ fontSize
                         }
                         // NB: No else here, it just goes to the same place anyways.
 
-                        ExitTextHandling: break;
+                        ExitTextHandling:
+                        Debug::LogInfo("Fitting font size: ", this->_fontSize, '.');
+                        break;
                     }
                 }
             }
@@ -325,7 +333,7 @@ void Text::renderOffload()
         float rot = deg2RadF(thisRect->rotation);
         float asc = this->data->file->fontHandle().ascent;
         float lineHeight = asc - this->data->file->fontHandle().descent;
-        float glyphScale = float(this->fontSize) / lineHeight;
+        float glyphScale = float(this->_fontSize) / lineHeight;
         float lineDiff = (this->data->file->fontHandle().lineGap + lineHeight) * glyphScale * scale.y;
         float accXAdvance = 0;
         float accYAdvance = 0;
@@ -368,7 +376,7 @@ void Text::renderOffload()
                     transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
                     transform.setRotation(rot);
                     transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    CoreEngine::queueRenderJobForFrame([=, data = c->second] { Renderer::drawUnitSquare(transform); Renderer::drawPolygon(data->polygon, transform); });
+                    CoreEngine::queueRenderJobForFrame([transform, data = c->second] { Renderer::drawPolygon(data->polygon, transform); });
                 }
 
                 accXAdvance += *advanceLenIt;
@@ -428,10 +436,10 @@ void Text::renderOffload()
             switch (this->_text[i])
             {
             case U' ':
-                accXAdvance += this->textData[i].metrics.advanceWidth;
+                accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.y;
                 break;
             case U'\t':
-                accXAdvance += this->textData[i].metrics.advanceWidth * 8;
+                accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.y * 8;
                 break;
             case U'\r':
                 break;

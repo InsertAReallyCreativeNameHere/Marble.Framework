@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Core/CoreAPI.h>
-#if __has_include(<mingw.thread.h>)
+#if __has_include(<Core/Debug.h>)
     #include <Core/Debug.h>
 #endif
 
@@ -24,7 +24,7 @@
 
 #define null NULL
 
-// Fine, I fixed it, lgtm.
+// NB: Fine, I fixed it, lgtm. No returning temporary C string anymore. Happy?
 template <typename T>
 inline constexpr uint64_t __internal_typeid()
 {
