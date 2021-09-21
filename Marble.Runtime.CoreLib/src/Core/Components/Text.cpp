@@ -157,9 +157,9 @@ fontSize
                     ((thisRect->rect().right - thisRect->rect().left) / accAdv);
                     this->_fontSize = this->_fontSize * sqrt((thisRect->rect().top - thisRect->rect().bottom) / this->_fontSize);
 
-                    const Vector2& pos = thisRect->position;
-                    const Vector2& scale = thisRect->scale;
-                    const RectFloat& rect = thisRect->rect;
+                    decltype(auto) pos = thisRect->position;
+                    decltype(auto) scale = thisRect->scale;
+                    decltype(auto) rect = thisRect->rect;
                     float rectWidth = (rect.right - rect.left) * scale.x;
                     float rectHeight = (rect.top - rect.bottom) * scale.y;
                     float rot = deg2RadF(thisRect->rotation);
@@ -179,7 +179,7 @@ fontSize
                             continue;
                         }
                         
-                        float lineDiff = (this->data->file->fontHandle().lineGap + lineHeight) * glyphScale * scale.y;
+                        float lineDiff = this->data->file->fontHandle().lineGap * glyphScale * scale.y + lineHeightScaled;
                         float accXAdvance = 0;
                         float accYAdvance = 0;
 
@@ -201,6 +201,8 @@ fontSize
 
                         // NB: Ohhhhhhh the goto abuse...
                         //     I am going to hell.
+                        // NB: Do calculations for an individual text segment. This matters because
+                        //     each word cannot be split across lines, unless there is no space for it to fit in one line.
                         HandleWord:
                         {
                             std::vector<float> advanceLengths;
@@ -213,6 +215,9 @@ fontSize
                             float wordLen = std::accumulate(advanceLenIt, advanceLengths.end(), 0.0f);
                             if (accXAdvance + wordLen > rectWidth) [[unlikely]]
                             {
+                                // NB: If the word doesn't fit in one line,
+                                //     split it across two, otherwise,
+                                //     put it on a new line.
                                 if (wordLen > rectWidth) [[unlikely]]
                                     goto SplitCalcWord;
                                 else
@@ -229,6 +234,8 @@ fontSize
                             }
                             else goto InlineCalcWord;
 
+                            // NB: For when a word doesn't fit within its line,
+                            //     and has to be split across two.
                             SplitCalcWord:
                             for (auto it = advanceLengths.begin(); it != advanceLengths.end(); ++it)
                             {
@@ -239,13 +246,20 @@ fontSize
                                     if (accYAdvance + lineHeightScaled > rectHeight)
                                     {
                                         --this->_fontSize;
-                                        continue;
+                                        goto Continue;
                                     }
                                 }
                                 accXAdvance += *it;
                             }
                             goto ExitCalcWord;
 
+                            // NB: More label abuse to allow for continuing
+                            //     of the outer loop.
+                            Continue:
+                            continue;
+                            // NB: Never falls through.
+
+                            // NB: For when a text segment fits within its line.
                             InlineCalcWord:
                             for (auto it = advanceLengths.begin(); it != advanceLengths.end(); ++it)
                                 accXAdvance += *it;
@@ -320,6 +334,9 @@ Text::~Text()
     }
 }
 
+// TODO: Lots of recycled code here from calculating font size.
+//       Is it possible to condense stuff down?
+//       Duplicate code is a completely valid analyser complaint.
 void Text::renderOffload()
 {
     if (this->data->file != nullptr && !this->_text.empty()) [[likely]]
