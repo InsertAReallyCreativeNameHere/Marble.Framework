@@ -57,7 +57,7 @@ namespace Marble
             T* ret = new T();
             ret->attachedEntity = this;
             ret->attachedRectTransform = this->attachedRectTransform;
-            ret->reflection.typeID = __typeid(T);
+            ret->reflection.typeID = __typeid(T).qualifiedNameHash();
             this->components.push_back(ret);
             ret->it = --this->components.end();
             return ret;
@@ -72,11 +72,11 @@ namespace Marble
                 static_assert(std::is_base_of<Internal::Component, T>::value, "Cannot get component from Entity. Typename \"T\" is not derived from type \"Component\"");
 
                 for (auto it = this->components.begin(); it != this->components.end(); ++it)
-                    if ((*it)->reflection.typeID == __typeid(T))
+                    if ((*it)->reflection.typeID == __typeid(T).qualifiedNameHash())
                         return static_cast<T*>(*it);
 
                 // FIXME: Log the name, not the integer ID...
-                Debug::LogWarn("No component of type \"", __typeid(T), "\" could be found on this Entity!");
+                Debug::LogWarn("No component of type \"", __typeid(T).qualifiedName(), "\" could be found on this Entity!");
                 return nullptr;
             }
         }
@@ -91,12 +91,12 @@ namespace Marble
 
                 std::vector<T*> components;
                 for (auto it = this->components.begin(); it != this->components.end(); ++it)
-                    if ((*it)->reflection.typeID == __typeid(T))
+                    if ((*it)->reflection.typeID == __typeid(T).qualifiedNameHash())
                         components.push_back(static_cast<T*>(*it));
 
                 // TODO: Is this necessary?
                 if (components.empty())
-                    Debug::LogWarn("No component of type \"", __typeid(T), "\" could be found on this Entity!");
+                    Debug::LogWarn("No component of type \"", __typeid(T).qualifiedName(), "\" could be found on this Entity!");
                 return components;
             }
         }
@@ -108,7 +108,7 @@ namespace Marble
             
             for (auto it = this->components.begin(); it != this->components.end(); ++it)
             {
-                if ((*it)->reflection.typeID == __typeid(T))
+                if ((*it)->reflection.typeID == __typeid(T).qualifiedNameHash())
                 {
                     (*it)->eraseIteratorOnDestroy = false;
                     delete *it;
@@ -127,7 +127,7 @@ namespace Marble
             bool emitWarn = true;
             for (auto it = this->components.begin(); it != this->components.end();)
             {
-                if ((*it)->reflection.typeID == __typeid(T))
+                if ((*it)->reflection.typeID == __typeid(T).qualifiedNameHash())
                 {
                     (*it)->eraseIteratorOnDestroy = false;
                     delete *it;

@@ -23,8 +23,8 @@ namespace Marble
             std::list<Component*>::iterator it;
             bool eraseIteratorOnDestroy = true;
             
-            Entity* attachedEntity;
-            RectTransform* attachedRectTransform;
+            Entity* attachedEntity = nullptr;
+            RectTransform* attachedRectTransform = nullptr;
         protected:
             virtual ~Component();
         public:
