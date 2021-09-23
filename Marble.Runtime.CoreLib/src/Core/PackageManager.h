@@ -42,6 +42,7 @@ namespace Marble
             {
             }
         };
+        inline PackageFile::~PackageFile() = default;
 
         class coreapi BinaryPackageFile final : public PackageFile
         {
@@ -76,7 +77,7 @@ namespace Marble
         {
             static Endianness endianness;
 
-            static std::map<std::streamoff, std::map<size_t, std::unordered_map<std::vector<uint8_t>, PackageFile* (*)(std::vector<uint8_t>)>, std::greater<size_t>>> binFileHandlers;
+            static std::map<std::streamoff, std::map<size_t, robin_hood::unordered_map<std::basic_string<uint8_t>, PackageFile* (*)(std::vector<uint8_t>)>, std::greater<size_t>>> binFileHandlers;
             static robin_hood::unordered_map<std::wstring, PackageFile* (*)(std::u32string)> textFileHandlers;
 
             static std::vector<PackageFile*> loadedCorePackage;
@@ -89,8 +90,11 @@ namespace Marble
         public:
             PackageManager() = delete;
 
+            // 'robin_hood::pair<std::basic_string<uint8_t,std::char_traits<uint8_t>,std::allocator<uint8_t>>,Marble::PackageSystem::PackageFile *(__cdecl *)(std::vector<uint8_t,std::allocator<uint8_t>>)>'
+            // 'std::initializer_list<robin_hood::pair<const std::basic_string<uint8_t,std::char_traits<uint8_t>,std::allocator<uint8_t>>,T>>'
+            
             template <typename PackageFileType>
-            inline static void addBinaryFileHandler(std::vector<uint8_t> signature, size_t offset = 0)
+            inline static void addBinaryFileHandler(const std::vector<uint8_t>& signature, size_t offset = 0)
             {
                 static_assert(std::is_final<PackageFileType>::value, "A custom package file type is required to be final.");
                 static_assert(std::is_base_of<PackageFile, PackageFileType>::value, "A custom package file type is required to be derived from Marble::PackageSystem::PackageFile.");
@@ -98,18 +102,18 @@ namespace Marble
 
                 PackageManager::binFileHandlers[offset][signature.size()].insert
                 (
-                    std::make_pair
-                    (
-                        std::move(signature),
+                    {
+                        std::basic_string<uint8_t>(signature.data(), signature.size()),
                         [](std::vector<uint8_t> data) -> PackageFile*
                         {
                             PackageFileType* ret = new PackageFileType(std::move(data));
                             ret->reflection.typeID = __typeid(PackageFileType).qualifiedNameHash();
+                            return ret;
                         }
-                    )
+                    }
                 );
             }
-            static void removeBinaryFileHandler(std::vector<uint8_t> signature, size_t offset);
+            static void removeBinaryFileHandler(const std::vector<uint8_t>& signature, size_t offset);
             // NB: Text files are read as utf-8, but converted to utf-32.
             template <typename PackageFileType>
             inline static void addTextFileHandler(std::wstring extension, PackageFile* (*handler)(std::u32string))
@@ -117,7 +121,7 @@ namespace Marble
                 static_assert(std::is_final<PackageFileType>::value, "A custom package file type is required to be final.");
                 static_assert(std::is_base_of<PackageFile, PackageFileType>::value, "A custom package file is required to be derived from Marble::PackageSystem::PackageFile.");
 
-                PackageManager::textFileHandlers.insert(std::make_pair(std::move(extension), handler));
+                PackageManager::textFileHandlers.insert(robin_hood::pair<std::wstring, PackageFile* (*)(std::u32string)>(std::move(extension), handler));
             }
             inline static void removeTextFileHandler(const std::wstring& extension)
             {

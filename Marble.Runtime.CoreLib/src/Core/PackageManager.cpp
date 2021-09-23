@@ -26,7 +26,7 @@ constexpr auto toEndianness = [](auto intType, Endianness from, Endianness to) c
 
 Endianness PackageManager::endianness;
 
-void PackageManager::removeBinaryFileHandler(std::vector<uint8_t> signature, size_t offset)
+void PackageManager::removeBinaryFileHandler(const std::vector<uint8_t>& signature, size_t offset)
 {
     auto it1 = PackageManager::binFileHandlers.find(offset);
     if (it1 != PackageManager::binFileHandlers.end())
@@ -34,7 +34,7 @@ void PackageManager::removeBinaryFileHandler(std::vector<uint8_t> signature, siz
         auto it2 = it1->second.find(signature.size());
         if (it2 != it1->second.end())
         {
-            it2->second.erase(signature);
+            it2->second.erase(std::basic_string<uint8_t>(signature.data(), signature.size()));
             if (it2->second.empty())
             {
                 it1->second.erase(it2);
@@ -45,6 +45,9 @@ void PackageManager::removeBinaryFileHandler(std::vector<uint8_t> signature, siz
         
     }
 }
+
+std::map<std::streamoff, std::map<size_t, robin_hood::unordered_map<std::basic_string<uint8_t>, PackageFile* (*)(std::vector<uint8_t>)>, std::greater<size_t>>> PackageManager::binFileHandlers;
+robin_hood::unordered_map<std::wstring, PackageFile* (*)(std::u32string)> PackageManager::textFileHandlers;
 
 std::vector<PackageFile*> PackageManager::loadedCorePackage;
 std::ifstream PackageManager::corePackageStream;
@@ -80,7 +83,7 @@ void PackageManager::loadCorePackageIntoMemory(const fs::path& packagePath)
         {
             for (auto it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
             {
-                std::vector<uint8_t> sig(fileBytes.begin() + it1->first, fileBytes.begin() + it1->first + it2->first);
+                std::basic_string<uint8_t> sig(fileBytes.data() + it1->first, fileBytes.data() + it1->first + it2->first);
                 auto it3 = it2->second.find(sig);
                 if (it3 != it2->second.end())
                 {
