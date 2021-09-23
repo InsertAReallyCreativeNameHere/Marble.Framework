@@ -108,7 +108,7 @@ namespace Marble
             PackageManager() = delete;
 
             static PackageFile* getCorePackageFileByPath(std::wstring filePath);
-            static void installFileHandler(PackageFile* (*)())
+            static void installFileHandler(PackageFile* (*)(uint8_t*, size_t));
 
             friend class Marble::Internal::CoreEngine;
         };
