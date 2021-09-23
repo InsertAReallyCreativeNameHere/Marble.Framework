@@ -3,6 +3,7 @@
 #include "inc.h"
 
 #include <robin_hood.h>
+#include <Core/Components/PackageFileCore.h>
 #include <Core/CoreEngine.h>
 #include <Core/Objects/Component.h>
 #include <Core/PackageManager.h>

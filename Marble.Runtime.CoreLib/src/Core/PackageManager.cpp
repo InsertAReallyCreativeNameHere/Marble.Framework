@@ -3,7 +3,6 @@
 #include <cctype>
 #include <cmath>
 #include <fstream>
-#include <stb_image.h>
 #include <Core/Application.h>
 #include <Core/Debug.h>
 #include <Utility/TypeInfo.h>
@@ -11,40 +10,6 @@
 using namespace Marble;
 using namespace Marble::PackageSystem;
 namespace fs = std::filesystem;
-
-PackageFile::PackageFile(const std::filesystem::path& fileLocalPath, uint64_t typeID) : fileLocalPath(fileLocalPath), reflection { typeID }
-{
-}
-PackageFile::~PackageFile()
-{
-}
-
-BinaryPackageFile::BinaryPackageFile(uint8_t* bytes, uint32_t bytesSize, const fs::path& fileLocalPath) :
-PackageFile(fileLocalPath, __typeid(BinaryPackageFile).qualifiedNameHash()), loadedBytes(bytes), bytesSize(bytesSize)
-{
-}
-BinaryPackageFile::~BinaryPackageFile()
-{
-    delete[] this->loadedBytes;
-}
-
-PortableGraphicPackageFile::PortableGraphicPackageFile(stbi_uc* imageBytes, int width, int height, const fs::path& fileLocalPath) :
-PackageFile(fileLocalPath, __typeid(PortableGraphicPackageFile).qualifiedNameHash()), loadedImage(imageBytes), width(width), height(height)
-{
-}
-PortableGraphicPackageFile::~PortableGraphicPackageFile()
-{
-    stbi_image_free(const_cast<stbi_uc*>(this->loadedImage));
-}
-
-TrueTypeFontPackageFile::TrueTypeFontPackageFile(uint8_t* fontData, const std::filesystem::path& fileLocalPath) :
-PackageFile(fileLocalPath, __typeid(TrueTypeFontPackageFile).qualifiedNameHash()), font((unsigned char*)fontData), fontData(fontData)
-{
-}
-TrueTypeFontPackageFile::~TrueTypeFontPackageFile()
-{
-    delete[] this->fontData;
-}
 
 constexpr auto toEndianness = [](auto intType, Endianness from, Endianness to) constexpr -> decltype(intType)
 {
@@ -61,7 +26,27 @@ constexpr auto toEndianness = [](auto intType, Endianness from, Endianness to) c
 
 Endianness PackageManager::endianness;
 
-std::list<PackageFile*> PackageManager::loadedCorePackage;
+void PackageManager::removeBinaryFileHandler(std::vector<uint8_t> signature, size_t offset)
+{
+    auto it1 = PackageManager::binFileHandlers.find(offset);
+    if (it1 != PackageManager::binFileHandlers.end())
+    {
+        auto it2 = it1->second.find(signature.size());
+        if (it2 != it1->second.end())
+        {
+            it2->second.erase(signature);
+            if (it2->second.empty())
+            {
+                it1->second.erase(it2);
+                if (it1->second.empty())
+                    PackageManager::binFileHandlers.erase(it1);
+            }
+        }
+        
+    }
+}
+
+std::vector<PackageFile*> PackageManager::loadedCorePackage;
 std::ifstream PackageManager::corePackageStream;
 
 void PackageManager::loadCorePackageIntoMemory(const fs::path& packagePath)
@@ -88,28 +73,35 @@ void PackageManager::loadCorePackageIntoMemory(const fs::path& packagePath)
         uint32_t fileLen = toEndianness(fileLen_endianUnconverted, Endianness::Big, PackageManager::endianness);
         Debug::LogTrace("Package File Size - ", fileLen, "B.");
 
-        uint8_t* fileBytes = new uint8_t[fileLen];
-        PackageManager::corePackageStream.read(reinterpret_cast<char*>(fileBytes), fileLen);
+        std::vector<uint8_t> fileBytes(fileLen);
+        PackageManager::corePackageStream.read(reinterpret_cast<char*>(fileBytes.data()), fileLen);
 
-        switch (wstrhash(fs::path(filePath).extension().wstring().c_str()))
+        for (auto it1 = PackageManager::binFileHandlers.begin(); it1 != PackageManager::binFileHandlers.end(); ++it1)
         {
-        case wstrhash(L".png"):
+            for (auto it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
             {
-                int w, h, channels;
-                stbi_uc* loadedImage = stbi_load_from_memory(reinterpret_cast<stbi_uc*>(fileBytes), fileLen, &w, &h, &channels, 4);
-                delete[] fileBytes;
-
-                PackageManager::loadedCorePackage.push_back(new PortableGraphicPackageFile(loadedImage, w, h, filePath));
+                std::vector<uint8_t> sig(fileBytes.begin() + it1->first, fileBytes.begin() + it1->first + it2->first);
+                auto it3 = it2->second.find(sig);
+                if (it3 != it2->second.end())
+                {
+                    PackageFile* file = it3->second(std::move(fileBytes));
+                    file->fileLocalPath = filePath;
+                    PackageManager::loadedCorePackage.push_back(file);
+                    goto FileHandled;
+                }
             }
-            break;
-        case wstrhash(L".ttf"):
-            {
-                PackageManager::loadedCorePackage.push_back(new TrueTypeFontPackageFile(fileBytes, filePath));
-            }
-            break;
-        default:
-            PackageManager::loadedCorePackage.push_back(new BinaryPackageFile(fileBytes, fileLen, filePath));
         }
+        if
+        (
+            auto it = PackageManager::textFileHandlers.find(fs::path(filePath).extension().wstring().c_str());
+            it != PackageManager::textFileHandlers.end()
+        )
+        {
+            Debug::LogError("Text file loading has not been implemented. This file handler will not be run.");
+        }
+        else PackageManager::loadedCorePackage.push_back(new BinaryPackageFile(std::move(fileBytes), filePath));
+
+        FileHandled:;
     }
 }
 void PackageManager::freeCorePackageInMemory()

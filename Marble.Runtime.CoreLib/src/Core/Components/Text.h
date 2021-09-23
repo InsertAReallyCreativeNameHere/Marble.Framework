@@ -3,7 +3,7 @@
 #include "inc.h"
 
 #include <robin_hood.h>
-#include <stb_truetype.h>
+#include <Core/Components/PackageFileCore.h>
 #include <Core/Objects/Component.h>
 #include <Core/PackageManager.h>
 #include <Font/Font.h>

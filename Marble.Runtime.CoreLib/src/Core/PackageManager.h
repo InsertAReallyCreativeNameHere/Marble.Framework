@@ -3,20 +3,14 @@
 #include "inc.h"
 
 #include <filesystem>
-#include <list>
+#include <map>
 #include <robin_hood.h>
-#undef STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
 #include <unordered_map>
-#include <Font/Font.h>
 #include <Utility/Hash.h>
 #include <Utility/TypeInfo.h>
 
 namespace Marble
 {
-    class Image;
-    class Text;
-
     namespace Internal
     {
         class CoreEngine;
@@ -24,6 +18,7 @@ namespace Marble
 
     namespace PackageSystem
     {
+        class BinaryPackageFile;
         class PackageManager;
 
         struct coreapi PackageFile
@@ -34,48 +29,32 @@ namespace Marble
 
             std::filesystem::path fileLocalPath;
 
+            virtual ~PackageFile() = 0;
+
             friend class Marble::PackageSystem::PackageManager;
+            friend class Marble::PackageSystem::BinaryPackageFile;
             friend class Marble::Internal::CoreEngine;
         protected:
-            PackageFile(const std::filesystem::path& fileLocalPath, uint64_t typeID);
-            virtual ~PackageFile() = 0;
+            inline PackageFile() = default;
+        private:
+            inline PackageFile(uint64_t typeID, std::filesystem::path localPath) :
+            reflection { typeID }, fileLocalPath(std::move(localPath))
+            {
+            }
         };
 
         class coreapi BinaryPackageFile final : public PackageFile
         {
-            uint8_t* loadedBytes;
-            uint32_t bytesSize;
+            std::vector<uint8_t> data;
             
-            BinaryPackageFile(uint8_t* bytes, uint32_t bytesSize, const std::filesystem::path& fileLocalPath);
-            ~BinaryPackageFile() override;
-        public:
-            friend class Marble::PackageSystem::PackageManager;
-        };
-        class coreapi PortableGraphicPackageFile final : public PackageFile
-        {
-            stbi_uc* loadedImage;
-            int width, height;
-            
-            PortableGraphicPackageFile(stbi_uc* imageBytes, int width, int height, const std::filesystem::path& fileLocalPath);
-            ~PortableGraphicPackageFile() override;
-        public:
-            inline int imageWidth() { return this->width; };
-            inline int imageHeight() { return this->height; };
-            inline uint8_t* imageRGBAData() { return this->loadedImage; };
-
-            friend class Marble::PackageSystem::PackageManager;
-        };
-        class coreapi TrueTypeFontPackageFile final : public PackageFile
-        {
-            Typography::Font font;
-            uint8_t* fontData;
-            
-            TrueTypeFontPackageFile(uint8_t* fontData, const std::filesystem::path& fileLocalPath);
-            ~TrueTypeFontPackageFile() override;
-        public:
-            inline Typography::Font& fontHandle()
+            inline BinaryPackageFile(std::vector<uint8_t> data, std::filesystem::path localPath) :
+            PackageFile(__typeid(BinaryPackageFile).qualifiedNameHash(), std::move(localPath)), data(std::move(data))
             {
-                return this->font;
+            }
+        public:
+            inline const std::vector<uint8_t>& binaryData()
+            {
+                return this->data;
             }
 
             friend class Marble::PackageSystem::PackageManager;
@@ -97,7 +76,10 @@ namespace Marble
         {
             static Endianness endianness;
 
-            static std::list<PackageFile*> loadedCorePackage;
+            static std::map<std::streamoff, std::map<size_t, std::unordered_map<std::vector<uint8_t>, PackageFile* (*)(std::vector<uint8_t>)>, std::greater<size_t>>> binFileHandlers;
+            static robin_hood::unordered_map<std::wstring, PackageFile* (*)(std::u32string)> textFileHandlers;
+
+            static std::vector<PackageFile*> loadedCorePackage;
             static std::ifstream corePackageStream;
             
             static void normalizePath(std::wstring& path);
@@ -107,9 +89,43 @@ namespace Marble
         public:
             PackageManager() = delete;
 
-            static PackageFile* getCorePackageFileByPath(std::wstring filePath);
-            static void installFileHandler(PackageFile* (*)(uint8_t*, size_t));
+            template <typename PackageFileType>
+            inline static void addBinaryFileHandler(std::vector<uint8_t> signature, size_t offset = 0)
+            {
+                static_assert(std::is_final<PackageFileType>::value, "A custom package file type is required to be final.");
+                static_assert(std::is_base_of<PackageFile, PackageFileType>::value, "A custom package file type is required to be derived from Marble::PackageSystem::PackageFile.");
+                // FIXME: This doesn't work. static_assert(std::is_constructible<PackageFileType, std::vector<uint8_t>>::value, "A custom package file type is required to be constructible from a std::vector<uint8_t>.");
 
+                PackageManager::binFileHandlers[offset][signature.size()].insert
+                (
+                    std::make_pair
+                    (
+                        std::move(signature),
+                        [](std::vector<uint8_t> data) -> PackageFile*
+                        {
+                            PackageFileType* ret = new PackageFileType(std::move(data));
+                            ret->reflection.typeID = __typeid(PackageFileType).qualifiedNameHash();
+                        }
+                    )
+                );
+            }
+            static void removeBinaryFileHandler(std::vector<uint8_t> signature, size_t offset);
+            // NB: Text files are read as utf-8, but converted to utf-32.
+            template <typename PackageFileType>
+            inline static void addTextFileHandler(std::wstring extension, PackageFile* (*handler)(std::u32string))
+            {
+                static_assert(std::is_final<PackageFileType>::value, "A custom package file type is required to be final.");
+                static_assert(std::is_base_of<PackageFile, PackageFileType>::value, "A custom package file is required to be derived from Marble::PackageSystem::PackageFile.");
+
+                PackageManager::textFileHandlers.insert(std::make_pair(std::move(extension), handler));
+            }
+            inline static void removeTextFileHandler(const std::wstring& extension)
+            {
+                PackageManager::textFileHandlers.erase(extension);
+            }
+
+            static PackageFile* getCorePackageFileByPath(std::wstring filePath);
+            
             friend class Marble::Internal::CoreEngine;
         };
     }

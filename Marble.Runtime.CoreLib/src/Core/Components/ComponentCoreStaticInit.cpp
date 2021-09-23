@@ -2,16 +2,22 @@
 #include <Core/Components/Panel.h>
 #include <Core/Components/Text.h>
 #include <Core/EntityComponentSystem/CoreSystem.h>
+#include <Core/PackageManager.h>
 #include <Utility/TypeInfo.h>
 
 using namespace Marble;
 using namespace Marble::Internal;
+using namespace Marble::PackageSystem;
 
 namespace Marble::Internal
 {
     static struct ComponentCoreStaticInit {
         ComponentCoreStaticInit()
         {
+            PackageManager::addBinaryFileHandler<PortableGraphicPackageFile>({ 0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a });
+            PackageManager::addBinaryFileHandler<TrueTypeFontPackageFile>({ 0x00, 0x01, 0x00, 0x00, 0x00 });
+            PackageManager::addBinaryFileHandler<TrueTypeFontPackageFile>({ 0x74, 0x72, 0x75, 0x65, 0x00 });
+
             InternalEngineEvent::OnRenderOffloadForComponent += [](Component* component)
             {
                 switch (component->typeIndex())

@@ -2,8 +2,6 @@
 
 #include <Mathematics.h>
 #include <numeric>
-#undef STB_TRUETYPE_IMPLEMENTATION
-#include <stb_truetype.h>
 #include <tuple>
 #include <Core/CoreEngine.h>
 #include <Core/Components/RectTransform.h>
