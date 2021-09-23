@@ -3,11 +3,12 @@
 #include "inc.h"
 
 #include <filesystem>
-#include <Font/Font.h>
 #include <list>
+#include <robin_hood.h>
 #undef STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 #include <unordered_map>
+#include <Font/Font.h>
 #include <Utility/Hash.h>
 #include <Utility/TypeInfo.h>
 
@@ -81,7 +82,7 @@ namespace Marble
         };
 
         template <typename T>
-        T* file_cast(PackageFile* file)
+        inline T* file_cast(PackageFile* file)
         {
             static_assert(std::is_base_of<PackageFile, T>::value, "File cast can only work on type \"PackageFile\"!");
             return file && file->reflection.typeID == __typeid(T).qualifiedNameHash() ? static_cast<T*>(file) : nullptr;
@@ -96,7 +97,7 @@ namespace Marble
         {
             static Endianness endianness;
 
-            static std::list<PackageSystem::PackageFile*> loadedCorePackage;
+            static std::list<PackageFile*> loadedCorePackage;
             static std::ifstream corePackageStream;
             
             static void normalizePath(std::wstring& path);
@@ -106,7 +107,8 @@ namespace Marble
         public:
             PackageManager() = delete;
 
-            static PackageSystem::PackageFile* getCorePackageFileByPath(std::wstring filePath);
+            static PackageFile* getCorePackageFileByPath(std::wstring filePath);
+            static void installFileHandler(PackageFile* (*)())
 
             friend class Marble::Internal::CoreEngine;
         };

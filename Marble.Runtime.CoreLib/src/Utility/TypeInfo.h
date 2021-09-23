@@ -36,7 +36,7 @@ namespace Marble
     private:
         std::string_view qualName;
 
-        constexpr TypeInfo(const char* begin, const char* end) : qualName(begin, end)
+        constexpr TypeInfo(const char* begin, const char* end) : qualName(begin, end - begin)
         {
         }
     };
