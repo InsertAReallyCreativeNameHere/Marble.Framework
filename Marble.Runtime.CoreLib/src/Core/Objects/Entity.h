@@ -1,5 +1,4 @@
-#ifndef __ENTITY_H__
-#define __ENTITY_H__
+#pragma once
 
 #include "inc.h"
 
@@ -13,6 +12,7 @@
 #include <Core/Objects/Component.h>
 #include <Utility/ManagedArray.h>
 #include <Utility/Hash.h>
+#include <Utility/TypeInfo.h>
 #include <Mathematics.h>
 
 namespace Marble
@@ -148,5 +148,3 @@ namespace Marble
         friend class Marble::Internal::CoreEngine;
     };
 }
-
-#endif

@@ -134,7 +134,7 @@ void Text::setFontSize(uint32_t value)
     {
     case FontSize::RecalculateForRectSize:
         {
-            if (this->data->file) [[likely]]
+            if (this->data) [[likely]]
             {
                 RectTransform* thisRect = this->rectTransform();
                 Font& font = this->data->file->fontHandle();
@@ -320,7 +320,7 @@ void Text::setFontSize(uint32_t value)
 //       Duplicate code is a completely valid analyser complaint.
 void Text::renderOffload()
 {
-    if (this->data->file && !this->_text.empty()) [[likely]]
+    if (this->data && !this->_text.empty()) [[likely]]
     {
         RectTransform* thisRect = this->rectTransform();
         Vector2 pos = thisRect->position;

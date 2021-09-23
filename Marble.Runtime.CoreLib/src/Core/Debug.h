@@ -25,8 +25,8 @@ namespace Marble
 		}
 		inline static std::wostream& operator<<(std::wostream& stream, const std::string_view& rhs)
 		{
-			std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> conv;
-			stream << conv.from_bytes(&*rhs.begin());
+			for (auto it = rhs.begin(); it != rhs.end(); ++it)
+				stream << *it;
 			return stream;
 		}
 	}

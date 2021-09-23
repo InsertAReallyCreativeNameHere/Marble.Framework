@@ -16,19 +16,25 @@ namespace Marble
 {
     struct TypeInfo
     {
-        constexpr const std::string& qualifiedName()
+        // As of 2021/09/23, only MSVC STL implements a constexpr std::string.
+        #ifdef _MSC_VER
+        constexpr
+        #else
+        inline
+        #endif
+        std::string qualifiedName()
         {
-            return this->qualName;
+            return std::string(this->qualName.begin(), this->qualName.end());
         }
         constexpr uint64_t qualifiedNameHash()
         {
-            return strhash(this->qualName.c_str());
+            return strhash(this->qualName.data(), this->qualName.size());
         }
 
         // NB: Cursed friend declaration.
         template <typename T> friend constexpr TypeInfo (::__internal_typeid)();
     private:
-        std::string qualName;
+        std::string_view qualName;
 
         constexpr TypeInfo(const char* begin, const char* end) : qualName(begin, end)
         {
@@ -40,14 +46,16 @@ template <typename T>
 constexpr Marble::TypeInfo __internal_typeid()
 {
     #if defined(__GNUC__) || defined(__clang__)
-    constexpr std::string_view funcName(__PRETTY_FUNCTION__);
+    constexpr const char* funcNameString = __PRETTY_FUNCTION__;
+    constexpr std::string_view funcName(funcNameString);
     constexpr size_t rbrack = funcName.rfind(']');
     constexpr size_t rsemic = funcName.find(';');
     constexpr size_t beg = funcName.find('=') + 2;
     constexpr size_t end = rsemic < rbrack ? rsemic : rbrack;
 	return Marble::TypeInfo(funcName.data() + beg, funcName.data() + end);
     #elif defined(_MSC_VER)
-	constexpr std::string_view funcName(__FUNCSIG__);
+    constexpr const char* funcNameString = __FUNCSIG__;
+	constexpr std::string_view funcName(funcNameString);
 	constexpr size_t _beg = funcName.find("__internal_typeid");
 	constexpr size_t beg = funcName.find_first_of('<', _beg) + 1;
 	constexpr size_t end = funcName.find_last_of('>');

@@ -9,6 +9,7 @@
 #include <stb_image.h>
 #include <unordered_map>
 #include <Utility/Hash.h>
+#include <Utility/TypeInfo.h>
 
 namespace Marble
 {
@@ -83,7 +84,7 @@ namespace Marble
         T* file_cast(PackageFile* file)
         {
             static_assert(std::is_base_of<PackageFile, T>::value, "File cast can only work on type \"PackageFile\"!");
-            return file->reflection.typeID == __typeid(T).qualifiedNameHash() ? static_cast<T*>(file) : nullptr;
+            return file && file->reflection.typeID == __typeid(T).qualifiedNameHash() ? static_cast<T*>(file) : nullptr;
         }
         
         enum class Endianness : uint_fast8_t
