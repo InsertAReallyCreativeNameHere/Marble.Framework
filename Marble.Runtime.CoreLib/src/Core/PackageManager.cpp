@@ -17,7 +17,7 @@ constexpr auto toEndianness = [](auto intType, Endianness from, Endianness to) c
         return intType;
     else
     {
-        decltype(intType) _int = 0;
+        constexpr decltype(intType) _int = 0;
         for (size_t i = 0; i < sizeof(decltype(intType)); i++)
             reinterpret_cast<int8_t*>(&_int)[i] = reinterpret_cast<int8_t*>(&intType)[sizeof(decltype(intType)) - 1 - i];
         return _int;

@@ -40,7 +40,6 @@ namespace Marble
             inline TrueTypeFontPackageFile(std::vector<uint8_t> data) : data(std::move(data)), font((unsigned char*)this->data.data())
             {
             }
-            inline ~TrueTypeFontPackageFile() override = default;
         public:
             inline Typography::Font& fontHandle()
             {

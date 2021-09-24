@@ -90,9 +90,6 @@ namespace Marble
         public:
             PackageManager() = delete;
 
-            // 'robin_hood::pair<std::basic_string<uint8_t,std::char_traits<uint8_t>,std::allocator<uint8_t>>,Marble::PackageSystem::PackageFile *(__cdecl *)(std::vector<uint8_t,std::allocator<uint8_t>>)>'
-            // 'std::initializer_list<robin_hood::pair<const std::basic_string<uint8_t,std::char_traits<uint8_t>,std::allocator<uint8_t>>,T>>'
-            
             template <typename PackageFileType>
             inline static void addBinaryFileHandler(const std::vector<uint8_t>& signature, size_t offset = 0)
             {

@@ -1,7 +1,8 @@
 #pragma once
 
 #include <vector>
-#include <SDL.h>
+#include <SDL_mouse.h>
+#include <SDL_keycode.h>
 #include <Mathematics.h>
 
 namespace Marble
@@ -9,28 +10,153 @@ namespace Marble
 	namespace Internal
 	{
 		class CoreEngine;
-			
-		class coreapi Input final // Get input functions are all per frame.
-		{
-			static std::vector<int> currentHeldMouseButtons;
-			static std::vector<SDL_Keycode> currentHeldKeys;
-
-			static Mathematics::Vector2Int internalMousePosition;
-			static Mathematics::Vector2Int internalMouseMotion;
-		public:
-			static bool isMouseButtonHeld(const int& mouseButton);
-			static bool isKeyHeld(const SDL_Keycode& keyCode);
-
-			inline static Mathematics::Vector2Int mousePosition()
-			{
-				return Input::internalMousePosition;
-			}
-			inline static Mathematics::Vector2Int mouseMotion()
-			{
-				return Input::internalMouseMotion;
-			}
-
-			friend class Marble::Internal::CoreEngine;
-		};
 	}
+
+	enum class Key : uint_fast16_t
+	{
+		Unknown = 0,
+
+		LetterA, LetterB, LetterC, LetterD,
+		LetterE, LetterF, LetterG, LetterH,
+		LetterI, LetterJ, LetterK, LetterL,
+		LetterM, LetterN, LetterO, LetterP,
+		LetterQ, LetterR, LetterS, LetterT,
+		LetterU, LetterV, LetterW, LetterX,
+		LetterY, LetterZ,
+		
+		Number1, Number2, Number3, Number4,
+		Number5, Number6, Number7, Number8,
+		Number9, Number0,
+
+		Return, SecondaryReturn, Escape, CapsLock,
+		Space, Tab, Backspace,
+
+		Period, Comma, ExclamationMark, QuestionMark,
+		AtSign, Hashtag, Dollar, Percent,
+		Caret, Ampersand, Asterisk, Colon,
+		SemiColon, Underscore,
+
+		Plus, Minus, Equals, GreaterThan, LessThan,
+
+		SingleQuote, DoubleQuotes, BackQuote,
+
+		LeftParenthesis, RightParenthesis,
+		LeftSquareBracket, RightSquareBracket,
+		ForwardSlash, BackSlash,
+
+		Function1, Function2, Function3, Function4,
+		Function5, Function6, Function7, Function8,
+		Function9, Function10, Function11, Function12,
+		Function13, Function14, Function15, Function16,
+		Function17, Function18, Function19, Function20,
+		Function21, Function22, Function23, Function24,
+
+		PrintScreen, NumLock, ScrollLock, Home,
+		Pause, End, Insert, Delete,
+		PageUp, PageDown,
+
+		UpArrow, DownArrow, RightArrow, LeftArrow,
+
+		Numpad1, Numpad2, Numpad3, Numpad4,
+		Numpad5, Numpad6, Numpad7, Numpad8,
+		Numpad9, Numpad0, Numpad00, Numpad000,
+		
+		NumpadA, NumpadB, NumpadC, NumpadD,
+		NumpadE, NumpadF,
+
+		NumpadEnter, NumpadPeriod, NumpadComma,
+
+		NumpadLeftParenthesis, NumpadRightParenthesis,
+		NumpadLeftBrace, NumpadRightBrace,
+
+		NumpadPlus, NumpadMinus, NumpadMultiply, NumpadDivide,
+		NumpadEquals, NumpadEqualsAS400, NumpadLessThan, NumpadGreaterThan,
+
+		Application /* On Windows, its the Windows key. */, Power, Menu, Help,
+
+		Undo /* NB: Again */, Redo, Cut, Copy, Paste,
+
+		Select, Find, Prior,
+		Clear, ClearAgain, Cancel, Stop,
+		
+		Execute, EraseEaze, SystemRequest, Separator,
+		Out, Oper, CrSel, ExSel,
+		
+		MuteVolume, IncreaseVolume, DecreaseVolume,
+
+		ThousandsSeparator, DecimalSeparator,
+		CurrencyUnit, CurrencySubUnit,
+
+		NumpadPower, NumpadSpace, NumpadTab, NumpadBackspace,
+		NumpadExclamationMark, NumpadAtSign, NumpadHashtag, NumpadPercent,
+		NumpadAmpersand, NumpadDoubleAmpersand,
+		NumpadVerticalBar, NumpadDoubleVerticalBar,
+		NumpadClear, NumpadClearEntry,
+		NumpadBinary, NumpadOctal, NumpadDecimal, NumpadHexadecimal,
+		NumpadColon, NumpadXor,
+
+		NumpadMemAdd, NumpadMemSubtract, NumpadMemMultiply, NumpadMemDivide,
+		NumpadPlusMinus, NumpadMemStore, NumpadMemRecall, NumpadMemClear,
+		
+		Control, LeftControl, RightControl,
+		Shift, LeftShift, RightShift,
+		Alt, LeftAlt, RightAlt,
+		GUI, LeftGUI, RightGUI,
+
+		ModeSwitch,
+
+		MediaSelect, NextMedia, PreviousMedia,
+		PlayMedia, StopMedia, FastForwardMedia, RewindMedia,
+		MuteMedia,
+
+		Computer, WorldWideWeb, Calculator, Mail,
+
+		AppCtrlKeypadHome, AppCtrlKeypadSearch, AppCtrlKeypadForward, AppCtrlKeypadBack,
+		AppCtrlKeypadStop, AppCtrlKeypadRefresh, AppCtrlKeypadBookmarks,
+
+		IncreaseBrightness, DecreaseBrightness,
+		IncreaseKeyboardIlluminationToggle, DecreaseKeyboardIllumination,
+		KeyboardIlluminationToggle,
+
+		DisplaySwitch, Eject, Sleep,
+
+		App1, App2,
+
+		Count
+	};
+
+	enum class MouseButton : uint_fast8_t
+	{
+		Left = SDL_BUTTON_LEFT,
+		Middle = SDL_BUTTON_MIDDLE,
+		Right = SDL_BUTTON_RIGHT,
+		Special1 = SDL_BUTTON_X1,
+		Special2 = SDL_BUTTON_X2
+	};
+	
+	// NB: Get input functions are all per frame.
+	class coreapi Input final
+	{
+		static std::vector<int> currentHeldMouseButtons;
+		static std::vector<SDL_Keycode> currentHeldKeys;
+
+		static Mathematics::Vector2Int internalMousePosition;
+		static Mathematics::Vector2Int internalMouseMotion;
+
+		static Key convertFromSDLKey(SDL_KeyCode code);
+	public:
+		static bool isMouseButtonHeld(int mouseButton);
+		static bool isKeyHeld(SDL_KeyCode keyCode);
+
+		inline static Mathematics::Vector2Int mousePosition()
+		{
+			return Input::internalMousePosition;
+		}
+		inline static Mathematics::Vector2Int mouseMotion()
+		{
+			return Input::internalMouseMotion;
+		}
+
+		friend class Marble::Internal::CoreEngine;
+	};
 }
