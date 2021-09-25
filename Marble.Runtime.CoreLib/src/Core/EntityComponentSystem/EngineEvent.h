@@ -3,6 +3,7 @@
 #include "inc.h"
 
 #include <string_view>
+#include <Core/Input.h>
 #include <Utility/Event.h>
 
 namespace Marble
@@ -17,11 +18,13 @@ namespace Marble
         static FuncPtrEvent<> OnAcquireFocus;
         static FuncPtrEvent<> OnLoseFocus;
 
-        static FuncPtrEvent<int32_t> OnKeyDown;
-        static FuncPtrEvent<int32_t> OnKeyRepeat;
-        static FuncPtrEvent<int32_t> OnKeyUp;
-        static FuncPtrEvent<int> OnMouseDown;
-        static FuncPtrEvent<int> OnMouseUp;
+        static FuncPtrEvent<Key> OnKeyDown;
+        static FuncPtrEvent<Key> OnKeyHeld;
+        static FuncPtrEvent<Key> OnKeyRepeat;
+        static FuncPtrEvent<Key> OnKeyUp;
+        static FuncPtrEvent<MouseButton> OnMouseDown;
+        static FuncPtrEvent<MouseButton> OnMouseHeld;
+        static FuncPtrEvent<MouseButton> OnMouseUp;
 
         static FuncPtrEvent<> OnQuit;
 

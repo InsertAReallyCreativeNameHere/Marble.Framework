@@ -1,4 +1,4 @@
-#include "CoreSystem.h"
+#include "EngineEvent.h"
 
 using namespace Marble;
 using namespace Marble::Internal;
@@ -10,11 +10,13 @@ FuncPtrEvent<> EngineEvent::OnPhysicsTick;
 FuncPtrEvent<> EngineEvent::OnAcquireFocus;
 FuncPtrEvent<> EngineEvent::OnLoseFocus;
 
-FuncPtrEvent<int32_t> EngineEvent::OnKeyDown;
-FuncPtrEvent<int32_t> EngineEvent::OnKeyRepeat;
-FuncPtrEvent<int32_t> EngineEvent::OnKeyUp;
-FuncPtrEvent<int> EngineEvent::OnMouseDown;
-FuncPtrEvent<int> EngineEvent::OnMouseUp;
+FuncPtrEvent<Key> EngineEvent::OnKeyDown;
+FuncPtrEvent<Key> EngineEvent::OnKeyHeld;
+FuncPtrEvent<Key> EngineEvent::OnKeyRepeat;
+FuncPtrEvent<Key> EngineEvent::OnKeyUp;
+FuncPtrEvent<MouseButton> EngineEvent::OnMouseDown;
+FuncPtrEvent<MouseButton> EngineEvent::OnMouseHeld;
+FuncPtrEvent<MouseButton> EngineEvent::OnMouseUp;
 
 FuncPtrEvent<> EngineEvent::OnQuit;
 

@@ -1,8 +1,10 @@
 #pragma once
 
-#include <vector>
+#include <queue>
+#include <robin_hood.h>
 #include <SDL_mouse.h>
 #include <SDL_keycode.h>
+#include <vector>
 #include <Mathematics.h>
 
 namespace Marble
@@ -10,6 +12,13 @@ namespace Marble
 	namespace Internal
 	{
 		class CoreEngine;
+		
+		enum class InputEventType
+		{
+			Down = -1,
+			Held = 0,
+			Up = 1
+		};
 	}
 
 	enum class Key : uint_fast16_t
@@ -33,8 +42,8 @@ namespace Marble
 
 		Period, Comma, ExclamationMark, QuestionMark,
 		AtSign, Hashtag, Dollar, Percent,
-		Caret, Ampersand, Asterisk, Colon,
-		SemiColon, Underscore,
+		Caret, Ampersand, Asterisk,
+		Colon, SemiColon, Underscore,
 
 		Plus, Minus, Equals, GreaterThan, LessThan,
 
@@ -133,20 +142,23 @@ namespace Marble
 		Special1 = SDL_BUTTON_X1,
 		Special2 = SDL_BUTTON_X2
 	};
-	
+
 	// NB: Get input functions are all per frame.
 	class coreapi Input final
 	{
-		static std::vector<int> currentHeldMouseButtons;
-		static std::vector<SDL_Keycode> currentHeldKeys;
+		static robin_hood::unordered_map<MouseButton, Internal::InputEventType> mouseButtonsActive;
+		static robin_hood::unordered_map<Key, Internal::InputEventType> keysActive;
+		static std::vector<Key> keyRepeats;
 
 		static Mathematics::Vector2Int internalMousePosition;
 		static Mathematics::Vector2Int internalMouseMotion;
 
-		static Key convertFromSDLKey(SDL_KeyCode code);
+		static Key convertFromSDLKey(SDL_Keycode code);
+		
+		static void executeMouseEvents();
+		static void executeKeyEvents();
+		static void executeKeyRepeatEvent();
 	public:
-		static bool isMouseButtonHeld(int mouseButton);
-		static bool isKeyHeld(SDL_KeyCode keyCode);
 
 		inline static Mathematics::Vector2Int mousePosition()
 		{

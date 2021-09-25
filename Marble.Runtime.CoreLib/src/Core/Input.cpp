@@ -1,9 +1,11 @@
 #include "Input.h"
 
+#include <Core/EntityComponentSystem/EngineEvent.h>
+
 using namespace Marble;
 using namespace Marble::Internal;
 
-Key Input::convertFromSDLKey(SDL_KeyCode code)
+Key Input::convertFromSDLKey(SDL_Keycode code)
 {
 	switch (code)
 	{
@@ -46,43 +48,96 @@ Key Input::convertFromSDLKey(SDL_KeyCode code)
 	case SDLK_8: return Number8;
 	case SDLK_9: return Number9;
 	case SDLK_0: return Number0;
+
+	case SDLK_RETURN: return Return;
+	case SDLK_RETURN2: return SecondaryReturn;
+	case SDLK_ESCAPE: return Escape;
+	case SDLK_CAPSLOCK: return CapsLock;
+	case SDLK_SPACE: return Space;
+	case SDLK_TAB: return Tab;
+	case SDLK_BACKSPACE: return Backspace;
+
+	case SDLK_PERIOD: return Period;
+	case SDLK_COMMA: return Comma;
+	case SDLK_EXCLAIM: return ExclamationMark;
+	case SDLK_QUESTION: return QuestionMark;
+	case SDLK_AT: return AtSign;
+	case SDLK_HASH: return Hashtag;
+	case SDLK_DOLLAR: return Dollar;
+	case SDLK_PERCENT: return Percent;
+	case SDLK_CARET: return Caret;
+	case SDLK_AMPERSAND: return Ampersand;
+	case SDLK_ASTERISK: return Asterisk;
+	case SDLK_COLON: return Colon;
+	case SDLK_SEMICOLON: return SemiColon;
+	case SDLK_UNDERSCORE: return Underscore;
+
+	case SDLK_PLUS: return Plus;
+	case SDLK_MINUS: return Minus;
+	case SDLK_EQUALS: return Equals;
+	case SDLK_GREATER: return GreaterThan;
+	case SDLK_LESS: return LessThan;
+
+	case SDLK_QUOTE: return SingleQuote;
+	case SDLK_QUOTEDBL: return DoubleQuotes;
+	case SDLK_BACKQUOTE: return BackQuote;
+
+	// TODO: Implement rest.
 	
 	case SDLK_UNKNOWN: default: return Key::Unknown;
 	}
 }
 
-std::vector<int> Input::currentHeldMouseButtons;
-
-std::vector<SDL_Keycode> Input::currentHeldKeys;
+robin_hood::unordered_map<MouseButton, InputEventType> Input::mouseButtonsActive;
+robin_hood::unordered_map<Key, InputEventType> Input::keysActive;
+std::vector<Key> Input::keyRepeats;
 
 Mathematics::Vector2Int Input::internalMousePosition;
 Mathematics::Vector2Int Input::internalMouseMotion;
 
-bool Input::isMouseButtonHeld(int mouseButton)
+void Input::executeMouseEvents()
 {
-	for
-	(
-		auto it = Input::currentHeldMouseButtons.begin();
-		it != Input::currentHeldMouseButtons.end();
-		++it
-	)
+	for (auto it = Input::mouseButtonsActive.begin(); it != Input::mouseButtonsActive.end();)
 	{
-		if (*it == mouseButton)
-			return true;
+		switch (it->second)
+		{
+		case InputEventType::Down:
+			EngineEvent::OnMouseDown(it->first);
+			[[fallthrough]];
+		case InputEventType::Held:
+			EngineEvent::OnMouseHeld(it->first);
+			++it;
+			break;
+		case InputEventType::Up:
+			EngineEvent::OnMouseUp(it->first);
+			it = Input::mouseButtonsActive.erase(it);
+			break;
+		}
 	}
-	return false;
 }
-bool Input::isKeyHeld(SDL_KeyCode keyCode)
+void Input::executeKeyEvents()
 {
-	for
-	(
-		auto it = Input::currentHeldKeys.begin();
-		it != Input::currentHeldKeys.end();
-		++it
-	)
+	for (auto it = Input::keysActive.begin(); it != Input::keysActive.end();)
 	{
-		if (*it == keyCode)
-			return true;
+		switch (it->second)
+		{
+		case InputEventType::Down:
+			EngineEvent::OnKeyDown(it->first);
+			[[fallthrough]];
+		case InputEventType::Held:
+			EngineEvent::OnKeyHeld(it->first);
+			++it;
+			break;
+		case InputEventType::Up:
+			EngineEvent::OnKeyUp(it->first);
+			it = Input::keysActive.erase(it);
+			break;
+		}
 	}
-	return false;
+}
+void Input::executeKeyRepeatEvent()
+{
+	for (auto it = Input::keyRepeats.begin(); it != Input::keyRepeats.end(); ++it)
+		EngineEvent::OnKeyRepeat(*it);
+	Input::keyRepeats.clear();
 }

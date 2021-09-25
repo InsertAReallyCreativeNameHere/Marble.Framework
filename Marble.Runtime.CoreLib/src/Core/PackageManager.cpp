@@ -11,13 +11,13 @@ using namespace Marble;
 using namespace Marble::PackageSystem;
 namespace fs = std::filesystem;
 
-constexpr auto toEndianness = [](auto intType, Endianness from, Endianness to) constexpr -> decltype(intType)
+constexpr auto toEndianness = [](auto intType, Endianness from, Endianness to) -> decltype(intType)
 {
     if (from == to)
         return intType;
     else
     {
-        constexpr decltype(intType) _int = 0;
+        decltype(intType) _int = 0;
         for (size_t i = 0; i < sizeof(decltype(intType)); i++)
             reinterpret_cast<int8_t*>(&_int)[i] = reinterpret_cast<int8_t*>(&intType)[sizeof(decltype(intType)) - 1 - i];
         return _int;
@@ -100,6 +100,7 @@ void PackageManager::loadCorePackageIntoMemory(const fs::path& packagePath)
             it != PackageManager::textFileHandlers.end()
         )
         {
+            // TODO: Implement.
             Debug::LogError("Text file loading has not been implemented. This file handler will not be run.");
         }
         else PackageManager::loadedCorePackage.push_back(new BinaryPackageFile(std::move(fileBytes), filePath));

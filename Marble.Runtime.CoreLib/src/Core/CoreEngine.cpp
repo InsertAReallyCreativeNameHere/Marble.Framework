@@ -18,7 +18,7 @@
 #include <Core/Components/Panel.h>
 #include <Core/Components/Image.h>
 #include <Core/Components/Text.h>
-#include <Core/EntityComponentSystem/CoreSystem.h>
+#include <Core/EntityComponentSystem/EngineEvent.h>
 #include <Core/Debug.h>
 #include <Core/Display.h>
 #include <Core/Input.h>
@@ -205,17 +205,19 @@ void CoreEngine::internalLoop()
             tickEvent();
         #pragma endregion
 
+        Input::executeMouseEvents();
+        Input::executeKeyEvents();
+        Input::executeKeyRepeatEvent();
+
         EngineEvent::OnTick();
+
+        Input::internalMouseMotion = { 0, 0 };
 
         #pragma region Post-Tick
         while (CoreEngine::pendingPostTickEvents.try_dequeue(tickEvent))
             tickEvent();
         #pragma endregion
 
-        #pragma region Loop End
-        Input::internalMouseMotion = { 0, 0 };
-        #pragma endregion
-        
         #pragma region Render Offload
         for
         (
@@ -261,6 +263,10 @@ void CoreEngine::internalLoop()
         delete* it;
     }
     SceneManager::existingScenes.clear();
+
+    skarupke::function<void()> event;
+    while (CoreEngine::pendingPreTickEvents.try_dequeue(event));
+    while (CoreEngine::pendingPostTickEvents.try_dequeue(event));
 
     CoreEngine::threadsFinished_0.store(true, std::memory_order_relaxed);
 }
@@ -329,9 +335,6 @@ void CoreEngine::internalWindowLoop()
 
     Debug::LogInfo("Internal event loop started.");
 
-    Vector2Int mousePosition;
-    Vector2Int mouseMotion;
-
     SDL_SetWindowResizable(CoreEngine::wind, SDL_TRUE);
 
     initIndex++;
@@ -360,23 +363,25 @@ void CoreEngine::internalWindowLoop()
                     break;
                 }
                 break;
-            #pragma region Mouse Events
+                #pragma region Mouse Events
             case SDL_MOUSEMOTION:
-                mousePosition.x = ev.motion.x;
-                mousePosition.y = ev.motion.y;
-                mouseMotion.x = ev.motion.xrel;
-                mouseMotion.y = ev.motion.yrel;
-                Input::internalMousePosition = mousePosition;
+                CoreEngine::pendingPreTickEvents.enqueue
+                (
+                    [posX = ev.motion.x, posY = ev.motion.y, motX = ev.motion.xrel, motY = ev.motion.yrel]
+                    {
+                        Input::internalMousePosition = { posX, posY };
+                        Input::internalMouseMotion += { motX, motY };
+                    }
+                );
                 break;
             case SDL_MOUSEWHEEL:
                 break;
             case SDL_MOUSEBUTTONDOWN:
                 CoreEngine::pendingPreTickEvents.enqueue
                 (
-                    [=]
+                    [button = ev.button.button]
                     {
-                        Input::currentHeldMouseButtons.push_back(ev.button.button);
-                        EngineEvent::OnMouseDown(ev.button.button);
+                        Input::mouseButtonsActive[(MouseButton)button] = InputEventType::Down;
                     }
                 );
                 break;
@@ -385,26 +390,12 @@ void CoreEngine::internalWindowLoop()
                 (
                     [button = ev.button.button]
                     {
-                        CoreEngine::pendingPostTickEvents.enqueue
-                        (
-                            [button = button]
-                            {
-                                for (auto it = Input::currentHeldMouseButtons.begin(); it != Input::currentHeldMouseButtons.end(); ++it)
-                                {
-                                    if (*it == button)
-                                    {
-                                        Input::currentHeldMouseButtons.erase(it);
-                                        break;
-                                    }
-                                }
-                            }
-                        );
-                        EngineEvent::OnMouseUp(button);
+                        Input::mouseButtonsActive[(MouseButton)button] = InputEventType::Up;
                     }
                 );
                 break;
-            #pragma endregion
-            #pragma region Key Events
+                #pragma endregion
+                #pragma region Key Events
             case SDL_KEYDOWN:
                 if (ev.key.repeat)
                 {
@@ -412,7 +403,7 @@ void CoreEngine::internalWindowLoop()
                     (
                         [sym = ev.key.keysym.sym]
                         {
-                            EngineEvent::OnKeyRepeat(sym);
+                            Input::keyRepeats.push_back(Input::convertFromSDLKey(sym));
                         }
                     );
                 }
@@ -422,8 +413,7 @@ void CoreEngine::internalWindowLoop()
                     (
                         [sym = ev.key.keysym.sym]
                         {
-                            Input::currentHeldKeys.push_back(sym);
-                            EngineEvent::OnKeyDown(sym);
+                            Input::keysActive[Input::convertFromSDLKey(sym)] = InputEventType::Down;
                         }
                     );
                 }
@@ -433,40 +423,14 @@ void CoreEngine::internalWindowLoop()
                 (
                     [sym = ev.key.keysym.sym]
                     {
-                        CoreEngine::pendingPostTickEvents.enqueue
-                        (
-                            [sym = sym]
-                            {
-                                for (auto it = Input::currentHeldKeys.begin(); it != Input::currentHeldKeys.end(); ++it)
-                                {
-                                    if (*it == sym)
-                                    {
-                                        Input::currentHeldKeys.erase(it);
-                                        break;
-                                    }
-                                }
-                            }
-                        );
-                        EngineEvent::OnKeyUp(sym);
+                        Input::keysActive[Input::convertFromSDLKey(sym)] = InputEventType::Up;
                     }
                 );
                 break;
-            #pragma endregion
+                #pragma endregion
             }
         }
-        
-        SDL_GetWindowSize(wind, &w, &h);
-        Window::width = w;
-        Window::height = h;
     }
-
-    skarupke::function<void()> event;
-    while (CoreEngine::pendingPreTickEvents.try_dequeue(event));
-    while (CoreEngine::pendingPostTickEvents.try_dequeue(event));
-    Input::currentHeldKeys.clear();
-    Input::currentHeldKeys.shrink_to_fit();
-    Input::currentHeldMouseButtons.clear();
-    Input::currentHeldMouseButtons.shrink_to_fit();
 
     while (!CoreEngine::threadsFinished_2.load(std::memory_order_relaxed));
 

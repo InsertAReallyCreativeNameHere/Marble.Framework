@@ -1,7 +1,7 @@
 #include <Core/Components/Image.h>
 #include <Core/Components/Panel.h>
 #include <Core/Components/Text.h>
-#include <Core/EntityComponentSystem/CoreSystem.h>
+#include <Core/EntityComponentSystem/EngineEvent.h>
 #include <Core/PackageManager.h>
 #include <Utility/TypeInfo.h>
 
