@@ -88,7 +88,7 @@ Key Input::convertFromSDLKey(SDL_Keycode code)
 	}
 }
 
-std::unordered_multiset<Input::InputEvent, Input::InputEvent::Hash> Input::pendingInputEvents;
+std::vector<Input::InputEvent> Input::pendingInputEvents;
 
 Mathematics::Vector2Int Input::internalMousePosition;
 Mathematics::Vector2Int Input::internalMouseMotion;

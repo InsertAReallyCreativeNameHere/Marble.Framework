@@ -172,33 +172,19 @@ namespace Marble
 				{
 					switch (this->type)
 					{
-					case InputEventType::KeyDown:
-					case InputEventType::KeyRepeat:
-					case InputEventType::KeyHeld:
-					case InputEventType::KeyUp:
-						return this->key == other.key;
-						break;
 					case InputEventType::MouseDown:
 					case InputEventType::MouseHeld:
 					case InputEventType::MouseUp:
 						return this->button == other.button;
 						break;
+					default:
+						return this->key == other.key;
 					}
 				}
 				();
 			}
-			
-			struct Hash
-			{
-				inline size_t operator()(const InputEvent& ev) const
-				{
-					return
-					std::hash<uint_fast16_t>()((uint_fast16_t)ev.key) ^
-					std::hash<uint_fast8_t>()((uint_fast8_t)ev.type) << 1;
-				}
-			};
 		};
-		static std::unordered_multiset<InputEvent, InputEvent::Hash> pendingInputEvents;
+		static std::vector<InputEvent> pendingInputEvents;
 
 		static Mathematics::Vector2Int internalMousePosition;
 		static Mathematics::Vector2Int internalMouseMotion;

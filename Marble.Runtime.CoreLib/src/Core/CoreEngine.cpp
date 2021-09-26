@@ -189,16 +189,17 @@ void CoreEngine::internalLoop()
 
     EngineEvent::OnInitialize();
 
+    skarupke::function<void()> tickEvent;
+
     Uint64 frameBegin = SDL_GetPerformanceCounter();
     Uint64 perfFreq = SDL_GetPerformanceFrequency();
     constexpr float& targetDeltaTime = CoreEngine::mspf;
     float deltaTime;
+
     while (readyToExit.load(std::memory_order_seq_cst) == false)
     {
         #pragma region Loop Begin
         #pragma endregion
-
-        static skarupke::function<void()> tickEvent;
 
         #pragma region Pre-Tick
         while (CoreEngine::pendingPreTickEvents.try_dequeue(tickEvent))
@@ -217,8 +218,8 @@ void CoreEngine::internalLoop()
             case Input::InputEventType::MouseUp:
                 {
                     EngineEvent::OnMouseUp(it->button);
-                    auto heldEv = Input::pendingInputEvents.find(Input::InputEvent(it->button, Input::InputEventType::MouseHeld));
-                    if (heldEv != Input::pendingInputEvents.end()) [[likely]]
+                    auto heldEv = std::find(++Input::pendingInputEvents.begin(), it, Input::InputEvent(it->button, Input::InputEventType::MouseHeld));
+                    if (heldEv != it)
                     {
                         it = Input::pendingInputEvents.erase(heldEv);
                         continue;
@@ -235,8 +236,8 @@ void CoreEngine::internalLoop()
             case Input::InputEventType::KeyUp:
                 {
                     EngineEvent::OnKeyUp(it->key);
-                    auto heldEv = Input::pendingInputEvents.find(Input::InputEvent(it->key, Input::InputEventType::KeyHeld));
-                    if (heldEv != Input::pendingInputEvents.end()) [[likely]]
+                    auto heldEv = std::find(++Input::pendingInputEvents.begin(), it, Input::InputEvent(it->key, Input::InputEventType::KeyHeld));
+                    if (heldEv != it)
                     {
                         it = Input::pendingInputEvents.erase(heldEv);
                         continue;
@@ -249,7 +250,7 @@ void CoreEngine::internalLoop()
         std::erase_if
         (
             Input::pendingInputEvents,
-            [](const decltype(Input::pendingInputEvents)::key_type& key)
+            [](const decltype(Input::pendingInputEvents)::value_type& key)
             {
                 switch (key.type)
                 {
@@ -436,10 +437,11 @@ void CoreEngine::internalWindowLoop()
                 (
                     [button = (MouseButton)ev.button.button]
                     {
-                        Input::pendingInputEvents.emplace(button, Input::InputEventType::MouseDown);
+                        Input::pendingInputEvents.emplace_back(button, Input::InputEventType::MouseDown);
                         Input::InputEvent event(button, Input::InputEventType::MouseHeld);
-                        if (!Input::pendingInputEvents.contains(event))
-                            Input::pendingInputEvents.insert(std::move(event));
+                        auto it = std::find(++Input::pendingInputEvents.begin(), Input::pendingInputEvents.end(), event);
+                        if (it != Input::pendingInputEvents.end())
+                            Input::pendingInputEvents.push_back(std::move(event));
                     }
                 );
                 break;
@@ -448,7 +450,7 @@ void CoreEngine::internalWindowLoop()
                 (
                     [button = (MouseButton)ev.button.button]
                     {
-                        Input::pendingInputEvents.emplace(button, Input::InputEventType::MouseUp);
+                        Input::pendingInputEvents.emplace_back(button, Input::InputEventType::MouseUp);
                     }
                 );
                 break;
@@ -462,7 +464,7 @@ void CoreEngine::internalWindowLoop()
                     (
                         [key = Input::convertFromSDLKey(ev.key.keysym.sym)]
                         {
-                            Input::pendingInputEvents.emplace(key, Input::InputEventType::KeyRepeat);
+                            Input::pendingInputEvents.emplace_back(key, Input::InputEventType::KeyRepeat);
                         }
                     );
                     break;
@@ -471,10 +473,11 @@ void CoreEngine::internalWindowLoop()
                     (
                         [key = Input::convertFromSDLKey(ev.key.keysym.sym)]
                         {
-                            Input::pendingInputEvents.emplace(key, Input::InputEventType::KeyDown);
+                            Input::pendingInputEvents.emplace_back(key, Input::InputEventType::KeyDown);
                             Input::InputEvent event(key, Input::InputEventType::KeyHeld);
-                            if (!Input::pendingInputEvents.contains(event))
-                                Input::pendingInputEvents.insert(std::move(event));
+                            auto it = std::find(++Input::pendingInputEvents.begin(), Input::pendingInputEvents.end(), event);
+                            if (it != Input::pendingInputEvents.end())
+                                Input::pendingInputEvents.push_back(std::move(event));
                         }
                     );
                     break;
@@ -485,7 +488,7 @@ void CoreEngine::internalWindowLoop()
                 (
                     [key = Input::convertFromSDLKey(ev.key.keysym.sym)]
                     {
-                        Input::pendingInputEvents.emplace(key, Input::InputEventType::KeyUp);
+                        Input::pendingInputEvents.emplace_back(key, Input::InputEventType::KeyUp);
                     }
                 );
                 break;
