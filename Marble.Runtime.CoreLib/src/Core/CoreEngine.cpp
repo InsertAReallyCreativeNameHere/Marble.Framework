@@ -203,13 +203,72 @@ void CoreEngine::internalLoop()
         #pragma region Pre-Tick
         while (CoreEngine::pendingPreTickEvents.try_dequeue(tickEvent))
             tickEvent();
+
+        for (auto it = Input::pendingInputEvents.begin(); it != Input::pendingInputEvents.end();)
+        {
+            switch (it->type)
+            {
+            case Input::InputEventType::MouseDown:
+                EngineEvent::OnMouseDown(it->button);
+                break;
+            case Input::InputEventType::MouseHeld:
+                EngineEvent::OnMouseHeld(it->button);
+                break;
+            case Input::InputEventType::MouseUp:
+                {
+                    EngineEvent::OnMouseUp(it->button);
+                    auto heldEv = Input::pendingInputEvents.find(Input::InputEvent(it->button, Input::InputEventType::MouseHeld));
+                    if (heldEv != Input::pendingInputEvents.end()) [[likely]]
+                    {
+                        it = Input::pendingInputEvents.erase(heldEv);
+                        continue;
+                    }
+                }
+                break;
+            case Input::InputEventType::KeyDown:
+                EngineEvent::OnKeyDown(it->key);
+                break;
+            case Input::InputEventType::KeyRepeat:
+                EngineEvent::OnKeyRepeat(it->key);
+            case Input::InputEventType::KeyHeld:
+                EngineEvent::OnKeyHeld(it->key);
+            case Input::InputEventType::KeyUp:
+                {
+                    EngineEvent::OnKeyUp(it->key);
+                    auto heldEv = Input::pendingInputEvents.find(Input::InputEvent(it->key, Input::InputEventType::KeyHeld));
+                    if (heldEv != Input::pendingInputEvents.end()) [[likely]]
+                    {
+                        it = Input::pendingInputEvents.erase(heldEv);
+                        continue;
+                    }
+                }
+                break;
+            }
+            ++it;
+        }
+        std::erase_if
+        (
+            Input::pendingInputEvents,
+            [](const decltype(Input::pendingInputEvents)::key_type& key)
+            {
+                switch (key.type)
+                {
+                case Input::InputEventType::MouseHeld:
+                case Input::InputEventType::KeyHeld:
+                    return false;
+                    break;
+                default:
+                    return true;
+                }
+            }
+        );
         #pragma endregion
 
         EngineEvent::OnTick();
 
+        #pragma region Post-Tick
         Input::internalMouseMotion = { 0, 0 };
 
-        #pragma region Post-Tick
         while (CoreEngine::pendingPostTickEvents.try_dequeue(tickEvent))
             tickEvent();
         #pragma endregion

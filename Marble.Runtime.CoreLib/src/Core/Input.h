@@ -14,7 +14,7 @@ namespace Marble
 		class CoreEngine;
 	}
 
-	enum class Key : uint_fast16_t
+	enum class Key : std::conditional<sizeof(uint_fast16_t) < sizeof(uint32_t), uint_fast16_t, uint32_t>::type
 	{
 		Unknown = 0,
 
@@ -127,7 +127,7 @@ namespace Marble
 		Count
 	};
 
-	enum class MouseButton : uint_fast8_t
+	enum class MouseButton : std::conditional<sizeof(uint_fast8_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type
 	{
 		Left = SDL_BUTTON_LEFT,
 		Middle = SDL_BUTTON_MIDDLE,
@@ -164,8 +164,44 @@ namespace Marble
 			inline InputEvent(Key key, InputEventType type) : key(key), type(type)
 			{
 			}
+
+			inline bool operator==(const InputEvent& other) const
+			{
+				return this->type == other.type &&
+				[this, &other]
+				{
+					switch (this->type)
+					{
+					case InputEventType::KeyDown:
+					case InputEventType::KeyRepeat:
+					case InputEventType::KeyHeld:
+					case InputEventType::KeyUp:
+						return this->key == other.key;
+						break;
+					case InputEventType::MouseDown:
+					case InputEventType::MouseHeld:
+					case InputEventType::MouseUp:
+						return this->button == other.button;
+						break;
+					}
+				}
+				();
+			}
+			
+			struct Hash
+			{
+				inline size_t operator()(const InputEvent& ev) const
+				{
+					return 0 |
+					std::hash<std::conditional<sizeof(uint_fast16_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type>()
+					((std::conditional<sizeof(uint_fast16_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type)ev.key) |
+					std::hash<std::conditional<sizeof(uint_fast8_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type>()
+					((std::conditional<sizeof(uint_fast8_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type)ev.type) <<
+					sizeof(std::conditional<sizeof(uint_fast16_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type);
+				}
+			};
 		};
-		static std::unordered_multiset<InputEvent> pendingInputEvents;
+		static std::unordered_multiset<InputEvent, InputEvent::Hash> pendingInputEvents;
 
 		static Mathematics::Vector2Int internalMousePosition;
 		static Mathematics::Vector2Int internalMouseMotion;
