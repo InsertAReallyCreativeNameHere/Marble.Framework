@@ -13,11 +13,15 @@ namespace Marble
 	{
 		class CoreEngine;
 		
-		enum class InputEventType
+		enum class InputEventType : uint_fast8_t
 		{
-			Down = -1,
-			Held = 0,
-			Up = 1
+			MouseDown,
+			MouseHeld,
+			MouseUp,
+			KeyDown,
+			KeyRepeat,
+			KeyHeld,
+			KeyUp
 		};
 	}
 
@@ -134,7 +138,7 @@ namespace Marble
 		Count
 	};
 
-	enum class MouseButton : uint_fast8_t
+	enum class MouseButton : uint_fast16_t
 	{
 		Left = SDL_BUTTON_LEFT,
 		Middle = SDL_BUTTON_MIDDLE,
@@ -146,9 +150,7 @@ namespace Marble
 	// NB: Get input functions are all per frame.
 	class coreapi Input final
 	{
-		static robin_hood::unordered_map<MouseButton, Internal::InputEventType> mouseButtonsActive;
-		static robin_hood::unordered_map<Key, Internal::InputEventType> keysActive;
-		static std::vector<Key> keyRepeats;
+		static std::unordered_multiset<std::pair<uint_fast16_t, Internal::InputEventType>> pendingInputEvents;
 
 		static Mathematics::Vector2Int internalMousePosition;
 		static Mathematics::Vector2Int internalMouseMotion;
@@ -159,7 +161,6 @@ namespace Marble
 		static void executeKeyEvents();
 		static void executeKeyRepeatEvent();
 	public:
-
 		inline static Mathematics::Vector2Int mousePosition()
 		{
 			return Input::internalMousePosition;

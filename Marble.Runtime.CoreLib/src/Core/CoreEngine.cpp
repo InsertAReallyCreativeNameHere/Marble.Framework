@@ -381,7 +381,10 @@ void CoreEngine::internalWindowLoop()
                 (
                     [button = ev.button.button]
                     {
-                        Input::mouseButtonsActive[(MouseButton)button] = InputEventType::Down;
+                        Input::pendingInputEvents.emplace((uint_fast16_t)button, InputEventType::MouseDown);
+                        auto event = std::make_pair((uint_fast16_t)button, InputEventType::MouseHeld);
+                        if (!Input::pendingInputEvents.contains(event))
+                            Input::pendingInputEvents.insert(std::move(event));
                     }
                 );
                 break;
@@ -390,40 +393,44 @@ void CoreEngine::internalWindowLoop()
                 (
                     [button = ev.button.button]
                     {
-                        Input::mouseButtonsActive[(MouseButton)button] = InputEventType::Up;
+                        Input::pendingInputEvents.emplace((uint_fast16_t)button, InputEventType::MouseUp);
                     }
                 );
                 break;
                 #pragma endregion
                 #pragma region Key Events
             case SDL_KEYDOWN:
-                if (ev.key.repeat)
+                switch (ev.key.repeat)
                 {
+                case true:
                     CoreEngine::pendingPreTickEvents.enqueue
                     (
-                        [sym = ev.key.keysym.sym]
+                        [key = Input::convertFromSDLKey(ev.key.keysym.sym)]
                         {
-                            Input::keyRepeats.push_back(Input::convertFromSDLKey(sym));
+                            Input::pendingInputEvents.insert(std::make_pair((uint_fast16_t)key, InputEventType::KeyRepeat));
                         }
                     );
-                }
-                else
-                {
+                    break;
+                case false:
                     CoreEngine::pendingPreTickEvents.enqueue
                     (
-                        [sym = ev.key.keysym.sym]
+                        [key = Input::convertFromSDLKey(ev.key.keysym.sym)]
                         {
-                            Input::keysActive[Input::convertFromSDLKey(sym)] = InputEventType::Down;
+                            Input::pendingInputEvents.insert((uint_fast16_t)key, InputEventType::KeyDown);
+                            auto event = std::make_pair((uint_fast16_t)key, InputEventType::KeyHeld);
+                            if (!Input::pendingInputEvents.contains(event))
+                                Input::pendingInputEvents.insert(std::move(event));
                         }
                     );
+                    break;
                 }
                 break;
             case SDL_KEYUP:
                 CoreEngine::pendingPreTickEvents.enqueue
                 (
-                    [sym = ev.key.keysym.sym]
+                    [key = Input::convertFromSDLKey(ev.key.keysym.sym)]
                     {
-                        Input::keysActive[Input::convertFromSDLKey(sym)] = InputEventType::Up;
+                        Input::pendingInputEvents.emplace((uint_fast16_t)key, InputEventType::KeyUp);
                     }
                 );
                 break;

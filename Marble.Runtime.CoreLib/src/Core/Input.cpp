@@ -88,9 +88,7 @@ Key Input::convertFromSDLKey(SDL_Keycode code)
 	}
 }
 
-robin_hood::unordered_map<MouseButton, InputEventType> Input::mouseButtonsActive;
-robin_hood::unordered_map<Key, InputEventType> Input::keysActive;
-std::vector<Key> Input::keyRepeats;
+std::unordered_multiset<std::pair<uint_fast16_t, Internal::InputEventType>> Input::pendingInputEvents;
 
 Mathematics::Vector2Int Input::internalMousePosition;
 Mathematics::Vector2Int Input::internalMouseMotion;
@@ -123,6 +121,7 @@ void Input::executeKeyEvents()
 		{
 		case InputEventType::Down:
 			EngineEvent::OnKeyDown(it->first);
+			Input::keysActive[it->first] = InputEventType::Held;
 			[[fallthrough]];
 		case InputEventType::Held:
 			EngineEvent::OnKeyHeld(it->first);
