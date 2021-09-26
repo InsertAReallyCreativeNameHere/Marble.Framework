@@ -192,12 +192,12 @@ namespace Marble
 			{
 				inline size_t operator()(const InputEvent& ev) const
 				{
-					return 0 |
-					std::hash<std::conditional<sizeof(uint_fast16_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type>()
-					((std::conditional<sizeof(uint_fast16_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type)ev.key) |
+					return
+					std::hash<std::conditional<sizeof(uint_fast16_t) < sizeof(uint32_t), uint_fast16_t, uint32_t>::type>()
+					((std::conditional<sizeof(uint_fast16_t) < sizeof(uint32_t), uint_fast16_t, uint32_t>::type)ev.key) |
 					std::hash<std::conditional<sizeof(uint_fast8_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type>()
 					((std::conditional<sizeof(uint_fast8_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type)ev.type) <<
-					sizeof(std::conditional<sizeof(uint_fast16_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type);
+					sizeof(std::conditional<sizeof(uint_fast8_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type);
 				}
 			};
 		};
