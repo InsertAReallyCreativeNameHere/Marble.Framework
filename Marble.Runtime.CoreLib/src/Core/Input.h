@@ -14,7 +14,7 @@ namespace Marble
 		class CoreEngine;
 	}
 
-	enum class Key : std::conditional<sizeof(uint_fast16_t) < sizeof(uint32_t), uint_fast16_t, uint32_t>::type
+	enum class Key : uint_fast16_t
 	{
 		Unknown = 0,
 
@@ -127,7 +127,7 @@ namespace Marble
 		Count
 	};
 
-	enum class MouseButton : std::conditional<sizeof(uint_fast8_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type
+	enum class MouseButton : uint_fast8_t
 	{
 		Left = SDL_BUTTON_LEFT,
 		Middle = SDL_BUTTON_MIDDLE,
@@ -193,11 +193,8 @@ namespace Marble
 				inline size_t operator()(const InputEvent& ev) const
 				{
 					return
-					std::hash<std::conditional<sizeof(uint_fast16_t) < sizeof(uint32_t), uint_fast16_t, uint32_t>::type>()
-					((std::conditional<sizeof(uint_fast16_t) < sizeof(uint32_t), uint_fast16_t, uint32_t>::type)ev.key) |
-					std::hash<std::conditional<sizeof(uint_fast8_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type>()
-					((std::conditional<sizeof(uint_fast8_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type)ev.type) <<
-					sizeof(std::conditional<sizeof(uint_fast8_t) < sizeof(uint32_t), uint_fast8_t, uint32_t>::type);
+					std::hash<uint_fast16_t>()((uint_fast16_t)ev.key) ^
+					std::hash<uint_fast8_t>()((uint_fast8_t)ev.type) << 1;
 				}
 			};
 		};
