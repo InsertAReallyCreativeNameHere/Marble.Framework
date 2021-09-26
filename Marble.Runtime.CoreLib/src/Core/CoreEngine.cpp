@@ -440,7 +440,7 @@ void CoreEngine::internalWindowLoop()
                         Input::pendingInputEvents.emplace_back(button, Input::InputEventType::MouseDown);
                         Input::InputEvent event(button, Input::InputEventType::MouseHeld);
                         auto it = std::find(++Input::pendingInputEvents.begin(), Input::pendingInputEvents.end(), event);
-                        if (it != Input::pendingInputEvents.end())
+                        if (it == Input::pendingInputEvents.end())
                             Input::pendingInputEvents.push_back(std::move(event));
                     }
                 );
@@ -476,7 +476,7 @@ void CoreEngine::internalWindowLoop()
                             Input::pendingInputEvents.emplace_back(key, Input::InputEventType::KeyDown);
                             Input::InputEvent event(key, Input::InputEventType::KeyHeld);
                             auto it = std::find(++Input::pendingInputEvents.begin(), Input::pendingInputEvents.end(), event);
-                            if (it != Input::pendingInputEvents.end())
+                            if (it == Input::pendingInputEvents.end())
                                 Input::pendingInputEvents.push_back(std::move(event));
                         }
                     );
