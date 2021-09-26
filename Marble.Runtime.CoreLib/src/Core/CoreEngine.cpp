@@ -221,7 +221,7 @@ void CoreEngine::internalLoop()
                     auto heldEv = std::find(Input::pendingInputEvents.begin(), it, Input::InputEvent(it->button, Input::InputEventType::MouseHeld));
                     if (heldEv != it)
                     {
-                        it = Input::pendingInputEvents.erase(heldEv);
+                        it = Input::pendingInputEvents.erase(heldEv) + (it - heldEv);
                         continue;
                     }
                 }
@@ -239,7 +239,7 @@ void CoreEngine::internalLoop()
                     auto heldEv = std::find(Input::pendingInputEvents.begin(), it, Input::InputEvent(it->key, Input::InputEventType::KeyHeld));
                     if (heldEv != it)
                     {
-                        it = Input::pendingInputEvents.erase(heldEv);
+                        it = Input::pendingInputEvents.erase(heldEv) + (it - heldEv);
                         continue;
                     }
                 }
