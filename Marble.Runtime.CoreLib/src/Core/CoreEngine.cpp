@@ -218,7 +218,7 @@ void CoreEngine::internalLoop()
             case Input::InputEventType::MouseUp:
                 {
                     EngineEvent::OnMouseUp(it->button);
-                    auto heldEv = std::find(++Input::pendingInputEvents.begin(), it, Input::InputEvent(it->button, Input::InputEventType::MouseHeld));
+                    auto heldEv = std::find(Input::pendingInputEvents.begin(), it, Input::InputEvent(it->button, Input::InputEventType::MouseHeld));
                     if (heldEv != it)
                     {
                         it = Input::pendingInputEvents.erase(heldEv);
@@ -236,7 +236,7 @@ void CoreEngine::internalLoop()
             case Input::InputEventType::KeyUp:
                 {
                     EngineEvent::OnKeyUp(it->key);
-                    auto heldEv = std::find(++Input::pendingInputEvents.begin(), it, Input::InputEvent(it->key, Input::InputEventType::KeyHeld));
+                    auto heldEv = std::find(Input::pendingInputEvents.begin(), it, Input::InputEvent(it->key, Input::InputEventType::KeyHeld));
                     if (heldEv != it)
                     {
                         it = Input::pendingInputEvents.erase(heldEv);
@@ -439,7 +439,7 @@ void CoreEngine::internalWindowLoop()
                     {
                         Input::pendingInputEvents.emplace_back(button, Input::InputEventType::MouseDown);
                         Input::InputEvent event(button, Input::InputEventType::MouseHeld);
-                        auto it = std::find(++Input::pendingInputEvents.begin(), Input::pendingInputEvents.end(), event);
+                        auto it = std::find(Input::pendingInputEvents.begin(), Input::pendingInputEvents.end(), event);
                         if (it == Input::pendingInputEvents.end())
                             Input::pendingInputEvents.push_back(std::move(event));
                     }
@@ -475,7 +475,7 @@ void CoreEngine::internalWindowLoop()
                         {
                             Input::pendingInputEvents.emplace_back(key, Input::InputEventType::KeyDown);
                             Input::InputEvent event(key, Input::InputEventType::KeyHeld);
-                            auto it = std::find(++Input::pendingInputEvents.begin(), Input::pendingInputEvents.end(), event);
+                            auto it = std::find(Input::pendingInputEvents.begin(), Input::pendingInputEvents.end(), event);
                             if (it == Input::pendingInputEvents.end())
                                 Input::pendingInputEvents.push_back(std::move(event));
                         }
