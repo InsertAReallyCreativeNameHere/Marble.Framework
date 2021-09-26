@@ -12,17 +12,6 @@ namespace Marble
 	namespace Internal
 	{
 		class CoreEngine;
-		
-		enum class InputEventType : uint_fast8_t
-		{
-			MouseDown,
-			MouseHeld,
-			MouseUp,
-			KeyDown,
-			KeyRepeat,
-			KeyHeld,
-			KeyUp
-		};
 	}
 
 	enum class Key : uint_fast16_t
@@ -85,7 +74,7 @@ namespace Marble
 		NumpadPlus, NumpadMinus, NumpadMultiply, NumpadDivide,
 		NumpadEquals, NumpadEqualsAS400, NumpadLessThan, NumpadGreaterThan,
 
-		Application /* On Windows, its the Windows key. */, Power, Menu, Help,
+		Application /* NB: On Windows, its the Windows key. */, Power, Menu, Help,
 
 		Undo /* NB: Again */, Redo, Cut, Copy, Paste,
 
@@ -138,7 +127,7 @@ namespace Marble
 		Count
 	};
 
-	enum class MouseButton : uint_fast16_t
+	enum class MouseButton : uint_fast8_t
 	{
 		Left = SDL_BUTTON_LEFT,
 		Middle = SDL_BUTTON_MIDDLE,
@@ -150,16 +139,38 @@ namespace Marble
 	// NB: Get input functions are all per frame.
 	class coreapi Input final
 	{
-		static std::unordered_multiset<std::pair<uint_fast16_t, Internal::InputEventType>> pendingInputEvents;
+		enum class InputEventType : uint_fast8_t
+		{
+			MouseDown,
+			MouseHeld,
+			MouseUp,
+			KeyDown,
+			KeyRepeat,
+			KeyHeld,
+			KeyUp
+		};
+		struct InputEvent
+		{
+			union
+			{
+				MouseButton button;
+				Key key;
+			};
+			InputEventType type;
+
+			inline InputEvent(MouseButton button, InputEventType type) : button(button), type(type)
+			{
+			}
+			inline InputEvent(Key key, InputEventType type) : key(key), type(type)
+			{
+			}
+		};
+		static std::unordered_multiset<InputEvent> pendingInputEvents;
 
 		static Mathematics::Vector2Int internalMousePosition;
 		static Mathematics::Vector2Int internalMouseMotion;
 
 		static Key convertFromSDLKey(SDL_Keycode code);
-		
-		static void executeMouseEvents();
-		static void executeKeyEvents();
-		static void executeKeyRepeatEvent();
 	public:
 		inline static Mathematics::Vector2Int mousePosition()
 		{

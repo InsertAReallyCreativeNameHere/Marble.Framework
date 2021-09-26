@@ -88,55 +88,7 @@ Key Input::convertFromSDLKey(SDL_Keycode code)
 	}
 }
 
-std::unordered_multiset<std::pair<uint_fast16_t, Internal::InputEventType>> Input::pendingInputEvents;
+std::unordered_multiset<Input::InputEvent> Input::pendingInputEvents;
 
 Mathematics::Vector2Int Input::internalMousePosition;
 Mathematics::Vector2Int Input::internalMouseMotion;
-
-void Input::executeMouseEvents()
-{
-	for (auto it = Input::mouseButtonsActive.begin(); it != Input::mouseButtonsActive.end();)
-	{
-		switch (it->second)
-		{
-		case InputEventType::Down:
-			EngineEvent::OnMouseDown(it->first);
-			[[fallthrough]];
-		case InputEventType::Held:
-			EngineEvent::OnMouseHeld(it->first);
-			++it;
-			break;
-		case InputEventType::Up:
-			EngineEvent::OnMouseUp(it->first);
-			it = Input::mouseButtonsActive.erase(it);
-			break;
-		}
-	}
-}
-void Input::executeKeyEvents()
-{
-	for (auto it = Input::keysActive.begin(); it != Input::keysActive.end();)
-	{
-		switch (it->second)
-		{
-		case InputEventType::Down:
-			EngineEvent::OnKeyDown(it->first);
-			Input::keysActive[it->first] = InputEventType::Held;
-			[[fallthrough]];
-		case InputEventType::Held:
-			EngineEvent::OnKeyHeld(it->first);
-			++it;
-			break;
-		case InputEventType::Up:
-			EngineEvent::OnKeyUp(it->first);
-			it = Input::keysActive.erase(it);
-			break;
-		}
-	}
-}
-void Input::executeKeyRepeatEvent()
-{
-	for (auto it = Input::keyRepeats.begin(); it != Input::keyRepeats.end(); ++it)
-		EngineEvent::OnKeyRepeat(*it);
-	Input::keyRepeats.clear();
-}

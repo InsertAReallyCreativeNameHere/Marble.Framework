@@ -205,10 +205,6 @@ void CoreEngine::internalLoop()
             tickEvent();
         #pragma endregion
 
-        Input::executeMouseEvents();
-        Input::executeKeyEvents();
-        Input::executeKeyRepeatEvent();
-
         EngineEvent::OnTick();
 
         Input::internalMouseMotion = { 0, 0 };
@@ -379,10 +375,10 @@ void CoreEngine::internalWindowLoop()
             case SDL_MOUSEBUTTONDOWN:
                 CoreEngine::pendingPreTickEvents.enqueue
                 (
-                    [button = ev.button.button]
+                    [button = (MouseButton)ev.button.button]
                     {
-                        Input::pendingInputEvents.emplace((uint_fast16_t)button, InputEventType::MouseDown);
-                        auto event = std::make_pair((uint_fast16_t)button, InputEventType::MouseHeld);
+                        Input::pendingInputEvents.emplace(button, Input::InputEventType::MouseDown);
+                        Input::InputEvent event(button, Input::InputEventType::MouseHeld);
                         if (!Input::pendingInputEvents.contains(event))
                             Input::pendingInputEvents.insert(std::move(event));
                     }
@@ -391,9 +387,9 @@ void CoreEngine::internalWindowLoop()
             case SDL_MOUSEBUTTONUP:
                 CoreEngine::pendingPreTickEvents.enqueue
                 (
-                    [button = ev.button.button]
+                    [button = (MouseButton)ev.button.button]
                     {
-                        Input::pendingInputEvents.emplace((uint_fast16_t)button, InputEventType::MouseUp);
+                        Input::pendingInputEvents.emplace(button, Input::InputEventType::MouseUp);
                     }
                 );
                 break;
@@ -407,7 +403,7 @@ void CoreEngine::internalWindowLoop()
                     (
                         [key = Input::convertFromSDLKey(ev.key.keysym.sym)]
                         {
-                            Input::pendingInputEvents.insert(std::make_pair((uint_fast16_t)key, InputEventType::KeyRepeat));
+                            Input::pendingInputEvents.emplace(key, Input::InputEventType::KeyRepeat);
                         }
                     );
                     break;
@@ -416,8 +412,8 @@ void CoreEngine::internalWindowLoop()
                     (
                         [key = Input::convertFromSDLKey(ev.key.keysym.sym)]
                         {
-                            Input::pendingInputEvents.insert((uint_fast16_t)key, InputEventType::KeyDown);
-                            auto event = std::make_pair((uint_fast16_t)key, InputEventType::KeyHeld);
+                            Input::pendingInputEvents.emplace(key, Input::InputEventType::KeyDown);
+                            Input::InputEvent event(key, Input::InputEventType::KeyHeld);
                             if (!Input::pendingInputEvents.contains(event))
                                 Input::pendingInputEvents.insert(std::move(event));
                         }
@@ -430,7 +426,7 @@ void CoreEngine::internalWindowLoop()
                 (
                     [key = Input::convertFromSDLKey(ev.key.keysym.sym)]
                     {
-                        Input::pendingInputEvents.emplace((uint_fast16_t)key, InputEventType::KeyUp);
+                        Input::pendingInputEvents.emplace(key, Input::InputEventType::KeyUp);
                     }
                 );
                 break;
