@@ -1,7 +1,6 @@
 #pragma once
 
 #ifdef MARBLE_ENABLE_PROFILING
-    #define TRACY_ENABLE
     #include <Tracy.hpp>
 #endif
 

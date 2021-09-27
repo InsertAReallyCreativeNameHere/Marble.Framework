@@ -72,7 +72,7 @@ add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/libgl")
 if (MARBLE_ENABLE_PROFILING)
     set(TRACY_CALLSTACK ON CACHE INTERNAL "" FORCE)
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/tracy")
-    add_definitions(-DMARBLE_ENABLE_PROFILING)
+    add_definitions(-DMARBLE_ENABLE_PROFILING -DTRACY_ENABLE)
 endif()
 
 # Marble.Mathematics
