@@ -118,7 +118,7 @@ namespace Marble
                 static_assert(std::is_final<PackageFileType>::value, "A custom package file type is required to be final.");
                 static_assert(std::is_base_of<PackageFile, PackageFileType>::value, "A custom package file is required to be derived from Marble::PackageSystem::PackageFile.");
 
-                PackageManager::textFileHandlers.insert(robin_hood::pair<std::wstring, PackageFile* (*)(std::u32string)>(std::move(extension), handler));
+                PackageManager::textFileHandlers.insert({ std::move(extension), handler });
             }
             inline static void removeTextFileHandler(const std::wstring& extension)
             {
