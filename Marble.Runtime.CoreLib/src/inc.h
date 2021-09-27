@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef MARBLE_ENABLE_PROFILING
+    #define TRACY_ENABLE
+    #include <Tracy.hpp>
+#endif
+
 #include <Core/CoreAPI.h>
 #if __has_include(<Core/Debug.h>)
     #include <Core/Debug.h>

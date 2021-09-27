@@ -54,8 +54,8 @@ namespace Marble
             robin_hood::unordered_map<int, CharacterRenderData*> characters;
             PackageSystem::TrueTypeFontPackageFile* file;
 
-            inline void trackCharacters(const std::vector<CharacterData>& text);
-            inline void untrackCharacters(const std::vector<CharacterData>& text);
+            void trackCharacters(const std::vector<CharacterData>& text);
+            void untrackCharacters(const std::vector<CharacterData>& text);
         };
 
         static robin_hood::unordered_map<PackageSystem::TrueTypeFontPackageFile*, RenderData*> textFonts;

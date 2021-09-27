@@ -309,6 +309,10 @@ void CoreEngine::internalLoop()
         frameBegin = SDL_GetPerformanceCounter();
         targetDeltaTime = CoreEngine::mspf - (deltaTime - targetDeltaTime);
         //Debug::LogInfo("Update() frame time: ", deltaTime, ".");
+
+        #ifdef MARBLE_ENABLE_PROFILING
+        FrameMark
+        #endif
     }
     
     EngineEvent::OnQuit();

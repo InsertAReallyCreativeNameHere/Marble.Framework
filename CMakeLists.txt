@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.13.4)
 
 project(Marble.Framework)
 
+# Configuration options...
+set(MARBLE_ENABLE_PROFILING OFF CACHE BOOL "Enable frame-by-frame profiling with tracy.")
+
 if (CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(BUILD_ARCH x64)
 else()
@@ -34,11 +37,11 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     else()
         set(COMPILER "gcc")
     endif()
-    set(BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE INTERNAL "Configuration string in output dir." FORCE)
+    set(BUILD_TYPE "${CMAKE_BUILD_TYPE}")
     set(OUTNAME "${BUILD_ARCH}-${COMPILER}-${BUILD_TYPE}-${BUILD_PLATFORM}")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
     set(COMPILER "Clang")
-    set(BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE INTERNAL "Configuration string in output dir." FORCE)
+    set(BUILD_TYPE "${CMAKE_BUILD_TYPE}")
     set(OUTNAME "${BUILD_ARCH}-${COMPILER}-${BUILD_TYPE}-${BUILD_PLATFORM}")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(COMPILER "MSVC")
@@ -52,37 +55,27 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
-set(ORIGINAL_ARCHIVE_OUTPUT_DIRECTORY CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
-set(ORIGINAL_LIBRARY_OUTPUT_DIRECTORY CMAKE_LIBRARY_OUTPUT_DIRECTORY)
-set(ORIGINAL_RUNTIME_OUTPUT_DIRECTORY CMAKE_RUNTIME_OUTPUT_DIRECTORY)
 
 # Marble.Packager
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Marble.Packager")
 
 # SDL2
-set(SDL_STATIC_PIC ON CACHE INTERNAL "Build SDL2 with position independent code." FORCE)
-set(SDL_SHARED OFF CACHE INTERNAL "Build SDL2 shared library." FORCE)
+set(SDL_STATIC_PIC ON)
+set(SDL_SHARED OFF)
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/SDL")
 target_compile_definitions(SDL2-static PRIVATE HAVE_LIBC=1)
 
 # bgfx + Dependencies
-set(_CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE})
-set(CMAKE_BUILD_TYPE "Release") # Builds faster for MinGW/GCC this way.
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../libglbuild)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../libglbuild)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../libglbuild)
-set(BGFX_BUILD_TOOLS OFF CACHE INTERNAL "Build bgfx tools." FORCE)
-set(BGFX_BUILD_EXAMPLES OFF CACHE INTERNAL "Build bgfx examples." FORCE)
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/libgl")
-target_compile_definitions(bgfx PRIVATE BGFX_CONFIG_MULTITHREADED=0)
-set(CMAKE_BUILD_TYPE ${_CMAKE_BUILD_TYPE})
+
+# tracy
+if (MARBLE_ENABLE_PROFILING)
+    set(TRACY_CALLSTACK ON)
+    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/tracy")
+    add_definitions(-DMARBLE_ENABLE_PROFILING)
+endif()
 
 # Marble.Mathematics
-
-# FIXME: For all instances of this variable setting config code, change it to just set a target property.
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../lib/${OUTNAME}/Marble.Mathematics)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../lib/${OUTNAME}/Marble.Mathematics)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin/${OUTNAME}/Marble.Mathematics)
 
 file(GLOB_RECURSE METHSRCS configure_depends
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/*.h"
@@ -93,12 +86,18 @@ add_library(Marble.Mathematics SHARED ${METHSRCS})
 target_compile_definitions(Marble.Mathematics PRIVATE BUILD_TYPE_DYNAMIC=1)
 target_include_directories(Marble.Mathematics PUBLIC "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/src")
 target_include_directories(Marble.Mathematics PRIVATE "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src")
+if (MARBLE_ENABLE_PROFILING)
+    target_link_libraries(Marble.Mathematics PRIVATE TracyClient)
+endif()
+
+set_target_properties(Marble.Mathematics
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Mathematics"
+    LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Mathematics"
+    RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Mathematics"
+)
 
 # Marble.Typography
-
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../lib/${OUTNAME}/Marble.Typography)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../lib/${OUTNAME}/Marble.Typography)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin/${OUTNAME}/Marble.Typography)
 
 file(GLOB_RECURSE FONTSRCS configure_depends
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/*.h"
@@ -115,11 +114,18 @@ target_include_directories(Marble.Typography PUBLIC
 )
 target_include_directories(Marble.Typography PRIVATE "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src")
 
-# Marble.Runtime.GL
+if (MARBLE_ENABLE_PROFILING)
+    target_link_libraries(Marble.Typography PRIVATE TracyClient)
+endif()
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../lib/${OUTNAME}/Marble.Runtime.GL)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../lib/${OUTNAME}/Marble.Runtime.GL)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin/${OUTNAME}/Marble.Runtime.GL)
+set_target_properties(Marble.Typography
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Typography"
+    LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Typography"
+    RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Typography"
+)
+
+# Marble.Runtime.GL
 
 file(GLOB_RECURSE GLSRCS configure_depends
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/*.h"
@@ -151,11 +157,18 @@ elseif (COMPILER STREQUAL "MSVC")
 else()
 endif()
 
-# Marble.Runtime.CoreLib
+if (MARBLE_ENABLE_PROFILING)
+    target_link_libraries(Marble.Runtime.GL PRIVATE TracyClient)
+endif()
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../lib/${OUTNAME}/Marble.Runtime.CoreLib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ../lib/${OUTNAME}/Marble.Runtime.CoreLib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin/${OUTNAME}/Marble.Runtime.CoreLib)
+set_target_properties(Marble.Runtime.GL
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.GL"
+    LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.GL"
+    RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Runtime.GL"
+)
+
+# Marble.Runtime.CoreLib
 
 file(GLOB_RECURSE ENGINESRCS configure_depends
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/*.h"
@@ -197,6 +210,13 @@ if (BUILD_PLATFORM STREQUAL Win32)
     target_link_libraries(Marble.Runtime.CoreLib PRIVATE psapi)
 endif()
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ORIGINAL_ARCHIVE_OUTPUT_DIRECTORY})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ORIGINAL_LIBRARY_OUTPUT_DIRECTORY})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ORIGINAL_RUNTIME_OUTPUT_DIRECTORY})
+if (MARBLE_ENABLE_PROFILING)
+    target_link_libraries(Marble.Runtime.CoreLib PRIVATE TracyClient)
+endif()
+
+set_target_properties(Marble.Runtime.CoreLib
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.CoreLib"
+    LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.CoreLib"
+    RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Runtime.CoreLib"
+)

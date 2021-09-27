@@ -7,8 +7,19 @@ if (COMPILER STREQUAL "MinGW")
     add_definitions(-DMINGW_HAS_SECURE_API=0)
 endif()
 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "../libglbuild")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "../libglbuild")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../libglbuild")
+
+set(_CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE})
+set(CMAKE_BUILD_TYPE "Release") # Builds faster for MinGW/GCC this way.
 set(BGFX_LIBRARY_TYPE "STATIC")
+set(BGFX_BUILD_TOOLS OFF)
+set(BGFX_BUILD_EXAMPLES OFF)
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/../bgfx.cmake" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+target_compile_definitions(bgfx PRIVATE BGFX_CONFIG_MULTITHREADED=0)
+set(CMAKE_BUILD_TYPE ${_CMAKE_BUILD_TYPE})
+
 include("${CMAKE_CURRENT_LIST_DIR}/../bgfx.cmake/cmake/3rdparty/glslang.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/../bgfx.cmake/cmake/3rdparty/glsl-optimizer.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/../bgfx.cmake/cmake/3rdparty/fcpp.cmake")
