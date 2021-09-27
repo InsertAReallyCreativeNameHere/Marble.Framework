@@ -56,7 +56,7 @@ moodycamel::ConcurrentQueue<skarupke::function<void()>> CoreEngine::pendingPostT
 std::vector<skarupke::function<void()>> CoreEngine::pendingRenderJobBatchesOffload;
 moodycamel::ConcurrentQueue<std::vector<skarupke::function<void()>>> CoreEngine::pendingRenderJobBatches;
 
-float CoreEngine::mspf = 16.6666666666f;
+float CoreEngine::mspf = 100;
 
 static std::atomic<bool> renderResizeFlag = true;
 static std::atomic<bool> isRendering = false;
