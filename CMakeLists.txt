@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.13.4)
 project(Marble.Framework)
 
 # Configuration options...
-set(WINDOWS_COMPATIBILITY_SUPPORT OFF CACHE BOOL "Enable compatibility with Windows versions up to Windows XP.")
-set(MARBLE_ENABLE_PROFILING OFF CACHE BOOL "Enable frame-by-frame profiling with tracy.")
+option(WINDOWS_COMPATIBILITY_SUPPORT "Enable compatibility with Windows versions up to Windows XP." ON)
+option(MARBLE_ENABLE_PROFILING "Enable frame-by-frame profiling with tracy." OFF)
 
 if (CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(BUILD_ARCH x64)
