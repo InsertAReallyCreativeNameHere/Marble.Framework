@@ -87,6 +87,10 @@ void Image::setImageFile(PortableGraphicPackageFile* value)
 
 void Image::renderOffload()
 {
+    #ifdef MARBLE_ENABLE_PROFILING
+    ZoneScoped
+    #endif
+    
     if (this->data)
     {
         RectTransform* thisRect = this->rectTransform();

@@ -16,6 +16,10 @@ Panel::~Panel()
 
 void Panel::renderOffload()
 {
+    #ifdef MARBLE_ENABLE_PROFILING
+    ZoneScoped
+    #endif
+    
     RectTransform* thisRect = this->rectTransform();
     const Vector2& pos = thisRect->position;
     const Vector2& scale = thisRect->scale;

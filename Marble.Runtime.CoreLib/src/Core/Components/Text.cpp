@@ -318,6 +318,10 @@ void Text::setFontSize(uint32_t value)
 //       Duplicate code is a completely valid analyser complaint.
 void Text::renderOffload()
 {
+    #ifdef MARBLE_ENABLE_PROFILING
+    ZoneScoped
+    #endif
+    
     if (this->data && !this->_text.empty()) [[likely]]
     {
         RectTransform* thisRect = this->rectTransform();
