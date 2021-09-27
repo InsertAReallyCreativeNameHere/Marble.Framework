@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.13.4)
 project(Marble.Framework)
 
 # Configuration options...
+set(WINDOWS_COMPATIBILITY_SUPPORT OFF CACHE BOOL "Enable compatibility with Windows versions up to Windows XP.")
 set(MARBLE_ENABLE_PROFILING OFF CACHE BOOL "Enable frame-by-frame profiling with tracy.")
 
 if (CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -20,7 +21,11 @@ endif()
 
 if (WIN32 OR WIN64)
     set(BUILD_PLATFORM Win32)
-    add_definitions(-D_WIN32_WINNT=0x0501)
+    if (WINDOWS_COMPATIBILITY_SUPPORT)
+        add_definitions(-D_WIN32_WINNT=0x0501)
+    else()
+        add_definitions(-D_WIN32_WINNT=0x0601)
+    endif()
 elseif (UNIX AND NOT APPLE)
     set(BUILD_PLATFORM Linux)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -70,9 +75,13 @@ add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/libgl")
 
 # tracy
 if (MARBLE_ENABLE_PROFILING)
-    set(TRACY_CALLSTACK ON CACHE INTERNAL "" FORCE)
-    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/tracy")
-    add_definitions(-DMARBLE_ENABLE_PROFILING -DTRACY_ENABLE)
+    if (WINDOWS_COMPATIBILITY_SUPPORT)
+        message(WARNING "Profiling cannot be used with Windows compatibility support.")
+    else()
+        set(TRACY_CALLSTACK ON CACHE INTERNAL "" FORCE)
+        add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/tracy")
+        add_definitions(-DMARBLE_ENABLE_PROFILING -DTRACY_ENABLE)
+    endif()
 endif()
 
 # Marble.Mathematics
