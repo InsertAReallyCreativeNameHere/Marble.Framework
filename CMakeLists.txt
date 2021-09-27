@@ -60,8 +60,8 @@ set(CMAKE_SHARED_LIBRARY_PREFIX "")
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Marble.Packager")
 
 # SDL2
-set(SDL_STATIC_PIC ON)
-set(SDL_SHARED OFF)
+set(SDL_STATIC_PIC ON CACHE INTERNAL "" FORCE)
+set(SDL_SHARED OFF CACHE INTERNAL "" FORCE)
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/SDL")
 target_compile_definitions(SDL2-static PRIVATE HAVE_LIBC=1)
 
@@ -70,7 +70,7 @@ add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/libgl")
 
 # tracy
 if (MARBLE_ENABLE_PROFILING)
-    set(TRACY_CALLSTACK ON)
+    set(TRACY_CALLSTACK ON CACHE INTERNAL "" FORCE)
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/tracy")
     add_definitions(-DMARBLE_ENABLE_PROFILING)
 endif()
