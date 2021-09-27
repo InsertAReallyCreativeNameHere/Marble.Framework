@@ -81,7 +81,7 @@ if (MARBLE_ENABLE_PROFILING)
         set(TRACY_CALLSTACK ON CACHE INTERNAL "" FORCE)
         add_definitions(-DMARBLE_ENABLE_PROFILING -DTRACY_ENABLE)
         add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/tracy")
-        target_link_libraries(TracyClient PRIVATE ws2_32)
+        target_link_libraries(TracyClient PRIVATE ws2_32 dbghelp)
     endif()
 endif()
 
