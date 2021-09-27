@@ -10,6 +10,8 @@ using namespace Marble::Mathematics;
 
 Entity::Entity()
 {
+    ProfileFunction();
+
     this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
     this->attachedRectTransform->attachedRectTransform = this->attachedRectTransform;
@@ -22,6 +24,8 @@ Entity::Entity()
 }
 Entity::Entity(RectTransform* parent)
 {
+    ProfileFunction();
+
     this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
     this->attachedRectTransform->attachedRectTransform = this->attachedRectTransform;
@@ -35,6 +39,8 @@ Entity::Entity(RectTransform* parent)
 }
 Entity::Entity(const Vector2& localPosition, const float& localRotation, RectTransform* parent = nullptr)
 {
+    ProfileFunction();
+
     this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
     this->attachedRectTransform->attachedRectTransform = this->attachedRectTransform;
@@ -50,6 +56,8 @@ Entity::Entity(const Vector2& localPosition, const float& localRotation, RectTra
 }
 Entity::Entity(const Vector2& localPosition, const float& localRotation, const Vector2& scale, RectTransform* parent = nullptr)
 {
+    ProfileFunction();
+
     this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
     this->attachedRectTransform->attachedRectTransform = this->attachedRectTransform;
@@ -66,6 +74,8 @@ Entity::Entity(const Vector2& localPosition, const float& localRotation, const V
 }
 Entity::~Entity()
 {
+    ProfileFunction();
+    
     for (auto it = this->components.begin(); it != this->components.end(); ++it)
     {
         (*it)->eraseIteratorOnDestroy = false;

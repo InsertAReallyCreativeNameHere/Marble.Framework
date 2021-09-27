@@ -10,15 +10,9 @@ using namespace Marble::Internal;
 using namespace Marble::Mathematics;
 using namespace Marble::GL;
 
-Panel::~Panel()
-{
-}
-
 void Panel::renderOffload()
 {
-    #ifdef MARBLE_ENABLE_PROFILING
-    ZoneScoped
-    #endif
+    ProfileFunction();
     
     RectTransform* thisRect = this->rectTransform();
     const Vector2& pos = thisRect->position;

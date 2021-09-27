@@ -32,6 +32,8 @@ constexpr static auto rotatePointAroundOrigin = [](Vector2& point, float angle) 
 
 void RectTransform::setPosition(Vector2 value)
 {
+    ProfileFunction();
+    
     Vector2 delta = value - this->_position;
     this->_position = value;
 
@@ -47,6 +49,8 @@ void RectTransform::setPosition(Vector2 value)
 }
 void RectTransform::setRotation(float value)
 {
+    ProfileFunction();
+
     float delta = value - this->_rotation;
     this->_rotation = value;
 
@@ -63,6 +67,8 @@ void RectTransform::setRotation(float value)
 }
 void RectTransform::setScale(Vector2 value)
 {
+    ProfileFunction();
+
     Vector2 delta = value / this->_scale;
     this->_scale = value;
 
@@ -90,6 +96,8 @@ Vector2 RectTransform::getLocalPosition() const
 }
 void RectTransform::setLocalPosition(Vector2 value)
 {
+    ProfileFunction();
+
     Vector2 delta;
     if (this->_parent)
     {
@@ -111,6 +119,8 @@ void RectTransform::setLocalPosition(Vector2 value)
 }
 void RectTransform::setLocalRotation(float value)
 {
+    ProfileFunction();
+
     float delta;
     if (this->_parent)
         delta = this->_parent->_rotation + value - this->_rotation;
@@ -130,6 +140,8 @@ void RectTransform::setLocalRotation(float value)
 }
 void RectTransform::setLocalScale(Vector2 value)
 {
+    ProfileFunction();
+
     Vector2 delta;
     if (this->_parent)
         delta = value * this->_parent->_scale / this->_scale;
@@ -150,6 +162,8 @@ void RectTransform::setLocalScale(Vector2 value)
 
 void RectTransform::setParent(RectTransform* value)
 {
+    ProfileFunction();
+    
     if (this->_parent)
     {
         for (auto it = this->_parent->_children.begin(); it != this->_parent->_children.end(); ++it)

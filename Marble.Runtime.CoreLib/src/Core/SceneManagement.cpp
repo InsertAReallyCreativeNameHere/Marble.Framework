@@ -11,13 +11,10 @@ static struct Init {
     }
 } init;
 
-Scene::Scene()
-{
-    SceneManager::existingScenes.push_back(this);
-    this->it = --SceneManager::existingScenes.end();
-}
 Scene::~Scene()
 {
+    ProfileFunction();
+    
     for (auto it = this->entities.begin(); it != this->entities.end(); ++it)
     {
         (*it)->eraseIteratorOnDestroy = false;
@@ -31,6 +28,8 @@ Scene::~Scene()
 
 size_t Scene::index()
 {
+    ProfileFunction();
+    
     size_t i = 0;
     for (auto it = SceneManager::existingScenes.begin(); it != SceneManager::existingScenes.end(); ++it)
     {
@@ -42,19 +41,4 @@ size_t Scene::index()
     }
     Debug::LogError("Could not determine the index of the scene! Is the scene active?");
     return SIZE_MAX;
-}
-
-void SceneManager::setSceneActive(Scene* scene)
-{
-    scene->active = true;
-}
-void SceneManager::setSceneInactive(Scene* scene)
-{
-    scene->active = false;
-}
-void SceneManager::setMainScene(Scene* scene)
-{
-    SceneManager::existingScenes.erase(scene->it);
-    scene->active = true;
-    SceneManager::existingScenes.insert(SceneManager::existingScenes.begin(), scene);
 }

@@ -4,25 +4,10 @@
 
 using namespace Marble::GL;
 
-TextureCompileOptions::TextureCompileOptions(const std::string& fileType) : outputType(fileType), outputFormat(""), quality(TextureEncodingQuality::Default)
-{
-}
-
-TextureCompileOptions& Marble::GL::TextureCompileOptions::withOutputFormat(const std::string& format)
-{
-    this->outputFormat = format;
-
-    return *this;
-}
-TextureCompileOptions& Marble::GL::TextureCompileOptions::usingQuality(TextureEncodingQuality quality)
-{
-    this->quality = quality;
-
-    return *this;
-}
-
 std::vector<char> TextureUtility::compileTexture(const std::vector<char>& textureData, const TextureCompileOptions& options)
 {
+    ProfileFunction();
+
     const char* quality;
     switch (options.quality)
     {

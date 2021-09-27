@@ -158,14 +158,14 @@ namespace Marble
 			};
 			InputEventType type;
 
-			inline InputEvent(MouseButton button, InputEventType type) : button(button), type(type)
+			constexpr InputEvent(MouseButton button, InputEventType type) : button(button), type(type)
 			{
 			}
-			inline InputEvent(Key key, InputEventType type) : key(key), type(type)
+			constexpr InputEvent(Key key, InputEventType type) : key(key), type(type)
 			{
 			}
 
-			inline bool operator==(const InputEvent& other) const
+			constexpr bool operator==(const InputEvent& other) const
 			{
 				return this->type == other.type &&
 				[this, &other]

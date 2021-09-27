@@ -4,39 +4,35 @@
 
 #include <mapbox/earcut.hpp>
 #include <map>
-#undef STB_TRUETYPE_IMPLEMENTATION
 #include <stb_truetype.h>
 
 namespace Marble
 {
     namespace Typography
     {
-        struct GlyphOutline;
-        struct GlyphMetrics;
-
-        class coreapi Font final
+        template <typename Char>
+        constexpr size_t __strlen(const Char* str)
         {
-            stbtt_fontinfo fontInfo;
-        public:
-            int ascent, descent, lineGap;
+            size_t ret = 0;
+            while (str[ret++] != 0);
+            return ret;
+        }
 
-            Font(unsigned char* fontData);
-            Font(const Font&) = delete;
-            Font(Font&&) = delete;
+        class Font;
 
-            GlyphOutline getGlyphOutline(int glyphIndex);
-            GlyphMetrics getGlyphMetrics(int glyphIndex);
-            int getGlyphIndex(char32_t codepoint);
-        };
-
-        struct coreapi GlyphOutline final
+        struct GlyphOutline
         {
             stbtt_vertex* verts;
             int vertsSize;
 
             GlyphOutline(const GlyphOutline&) = delete; // Laziness.
-            GlyphOutline(GlyphOutline&& other);
-            ~GlyphOutline();
+            inline GlyphOutline(GlyphOutline&& other) : verts(other.verts), vertsSize(other.vertsSize)
+            {
+                other.verts = nullptr;
+                other.vertsSize = 0;
+            }
+            // FIXME: Not in header because STBTT_free supposedly doesn't exist here!
+            coreapi ~GlyphOutline();
 
             template <typename VertType>
             std::pair<std::vector<VertType>, std::vector<uint16_t>> createGeometryBuffers()
@@ -189,15 +185,30 @@ namespace Marble
             
             friend class Marble::Typography::Font;
         private:
-            GlyphOutline();
+            inline GlyphOutline() = default;
         };
-        struct coreapi GlyphMetrics final
+        struct GlyphMetrics
         {
             int advanceWidth, leftSideBearing;
 
             friend class Marble::Typography::Font;
         private:
-            GlyphMetrics();
+            inline GlyphMetrics() = default;
+        };
+        
+        class coreapi Font final
+        {
+            stbtt_fontinfo fontInfo;
+        public:
+            int ascent, descent, lineGap;
+
+            Font(unsigned char* fontData);
+            Font(const Font&) = delete;
+            Font(Font&&) = delete;
+
+            GlyphOutline getGlyphOutline(int glyphIndex);
+            GlyphMetrics getGlyphMetrics(int glyphIndex);
+            int getGlyphIndex(char32_t codepoint);
         };
     }
 }

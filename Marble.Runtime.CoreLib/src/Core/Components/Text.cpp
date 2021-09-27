@@ -18,6 +18,8 @@ robin_hood::unordered_map<PackageSystem::TrueTypeFontPackageFile*, Text::RenderD
 
 void Text::RenderData::trackCharacters(const std::vector<CharacterData>& text)
 {
+    ProfileFunction();
+
     for (auto it = text.begin(); it != text.end(); ++it)
     {
         auto c = this->characters.find(it->glyphIndex);
@@ -44,6 +46,8 @@ void Text::RenderData::trackCharacters(const std::vector<CharacterData>& text)
 }
 void Text::RenderData::untrackCharacters(const std::vector<CharacterData>& text)
 {
+    ProfileFunction();
+
     for (auto it = text.begin(); it != text.end(); ++it)
     {
         auto charData = this->characters.find(it->glyphIndex);
@@ -62,6 +66,8 @@ void Text::RenderData::untrackCharacters(const std::vector<CharacterData>& text)
 
 Text::~Text()
 {
+    ProfileFunction();
+
     if (this->data)
     {
         this->data->untrackCharacters(this->textData);
@@ -76,6 +82,8 @@ Text::~Text()
 
 void Text::setFontFile(TrueTypeFontPackageFile* value)
 {
+    ProfileFunction();
+
     if (this->data)
     {
         this->data->untrackCharacters(this->textData);
@@ -104,6 +112,8 @@ void Text::setFontFile(TrueTypeFontPackageFile* value)
 }
 void Text::setText(std::u32string value)
 {
+    ProfileFunction();
+
     if (this->data)
     {
         this->_text = std::move(value);
@@ -128,6 +138,8 @@ void Text::setText(std::u32string value)
 }
 void Text::setFontSize(uint32_t value)
 {
+    ProfileFunction();
+    
     switch (value)
     {
     case FontSize::RecalculateForRectSize:
@@ -318,9 +330,7 @@ void Text::setFontSize(uint32_t value)
 //       Duplicate code is a completely valid analyser complaint.
 void Text::renderOffload()
 {
-    #ifdef MARBLE_ENABLE_PROFILING
-    ZoneScoped
-    #endif
+    ProfileFunction();
     
     if (this->data && !this->_text.empty()) [[likely]]
     {

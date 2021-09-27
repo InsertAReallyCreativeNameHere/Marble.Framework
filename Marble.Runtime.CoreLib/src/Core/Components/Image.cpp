@@ -20,6 +20,8 @@ robin_hood::unordered_map<PackageSystem::PortableGraphicPackageFile*, Image::Ren
 
 Image::~Image()
 {
+    ProfileFunction();
+    
     RenderData* data = this->data;
     if (data)
     {
@@ -41,6 +43,8 @@ Image::~Image()
 
 void Image::setImageFile(PortableGraphicPackageFile* value)
 {
+    ProfileFunction();
+    
     if (this->data)
     {
         --this->data->accessCount;
@@ -87,9 +91,7 @@ void Image::setImageFile(PortableGraphicPackageFile* value)
 
 void Image::renderOffload()
 {
-    #ifdef MARBLE_ENABLE_PROFILING
-    ZoneScoped
-    #endif
+    ProfileFunction();
     
     if (this->data)
     {

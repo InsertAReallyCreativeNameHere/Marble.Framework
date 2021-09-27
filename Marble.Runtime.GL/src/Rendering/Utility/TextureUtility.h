@@ -8,7 +8,7 @@ namespace Marble
 {
     namespace GL
     {
-        enum class TextureEncodingQuality : uint8_t
+        enum class TextureEncodingQuality : uint_fast8_t
         {
             Fastest = 0,
             Default = 1,
@@ -18,10 +18,20 @@ namespace Marble
         class TextureUtility;
         struct coreapi TextureCompileOptions final
         {
-            TextureCompileOptions(const std::string& fileType);
+            inline TextureCompileOptions(std::string fileType) : outputType(std::move(fileType)), outputFormat(""), quality(TextureEncodingQuality::Default)
+            {
+            }
 
-            TextureCompileOptions& withOutputFormat(const std::string& format);
-            TextureCompileOptions& usingQuality(TextureEncodingQuality quality);
+            inline TextureCompileOptions& withOutputFormat(std::string format)
+            {
+                this->outputFormat = std::move(format);
+                return *this;
+            }
+            inline TextureCompileOptions& usingQuality(TextureEncodingQuality quality)
+            {
+                this->quality = quality;
+                return *this;
+            }
 
             friend class Marble::GL::TextureUtility;
         private:

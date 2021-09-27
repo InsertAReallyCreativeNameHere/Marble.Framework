@@ -16,10 +16,27 @@ namespace Marble
         // Rotation values should be in radians.
         struct coreapi TransformHandle
         {
-            void setPosition(float x, float y); // Positional transform after rotation.
-            void setOffset(float x, float y); // Positional transform before rotation.
-            void setScale(float x, float y);
-            void setRotation(float rot);
+            // NB: Positional transform after rotation.
+            constexpr void setPosition(float x, float y)
+            {
+                this->transform[0] = x;
+                this->transform[4] = y;
+            }
+            // NB: Positional transform before rotation. 
+            constexpr void setOffset(float x, float y)
+            {
+                this->transform[8] = x;
+                this->transform[12] = y;
+            }
+            constexpr void setScale(float x, float y)
+            {
+                this->transform[1] = x;
+                this->transform[5] = y;
+            }
+            constexpr void setRotation(float rot)
+            {
+                this->transform[9] = rot;
+            }
 
             friend class Marble::GL::Renderer;
         protected:
@@ -39,7 +56,13 @@ namespace Marble
         // Color values should be between 0.0f and 1.0f.
         struct coreapi ColoredTransformHandle : public TransformHandle
         {
-            void setColor(float r, float g, float b, float a);
+            constexpr void setColor(float r, float g, float b, float a)
+            {
+                this->transform[2] = r;
+                this->transform[6] = g;
+                this->transform[10] = b;
+                this->transform[14] = a;
+            }
         };
 
         struct Vertex2D final

@@ -8,10 +8,6 @@
 #include <numeric>
 #include <SDL_video.h>
 #include <SDL_pixels.h>
-#undef STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-#undef STB_TRUETYPE_IMPLEMENTATION
-#include <stb_truetype.h>
 
 #include <Mathematics.h>
 #include <Core/Application.h>
@@ -310,9 +306,7 @@ void CoreEngine::internalLoop()
         targetDeltaTime = CoreEngine::mspf - (deltaTime - targetDeltaTime);
         //Debug::LogInfo("Update() frame time: ", deltaTime, ".");
 
-        #ifdef MARBLE_ENABLE_PROFILING
-        FrameMark
-        #endif
+        ProfileEndFrame();
     }
     
     EngineEvent::OnQuit();

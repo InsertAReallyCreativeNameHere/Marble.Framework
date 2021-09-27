@@ -15,9 +15,32 @@ namespace Marble
         class CoreEngine;
     }
 
+    struct Scene;
+
+    class coreapi SceneManager final
+    {
+        static std::list<Scene*> existingScenes;
+    public:
+        SceneManager() = delete;
+
+        inline static void setSceneActive(Scene* scene);
+        inline static void setSceneInactive(Scene* scene);
+        inline static void setMainScene(Scene* scene);
+
+        static std::list<Scene*> getScenesByName(const std::string_view& name);
+
+        friend class Marble::Internal::CoreEngine;
+        friend struct Marble::Scene;
+        friend class Marble::Entity;
+    };
+
     struct coreapi Scene final
     {
-        Scene();
+        inline Scene()
+        {
+            SceneManager::existingScenes.push_back(this);
+            this->it = --SceneManager::existingScenes.end();
+        }
         ~Scene();
 
         inline const std::string& name()
@@ -37,21 +60,19 @@ namespace Marble
         std::list<Entity*> entities;
         std::string sceneName = "Untitled";
     };
-
-    class coreapi SceneManager final
+    
+    inline void SceneManager::setSceneActive(Scene* scene)
     {
-        static std::list<Scene*> existingScenes;
-    public:
-        SceneManager() = delete;
-
-        static void setSceneActive(Scene* scene);
-        static void setSceneInactive(Scene* scene);
-        static void setMainScene(Scene* scene);
-
-        static std::list<Scene*> getScenesByName(const std::string_view& name);
-
-        friend class Marble::Internal::CoreEngine;
-        friend struct Marble::Scene;
-        friend class Marble::Entity;
-    };
+        scene->active = true;
+    }
+    inline void SceneManager::setSceneInactive(Scene* scene)
+    {
+        scene->active = false;
+    }
+    inline void SceneManager::setMainScene(Scene* scene)
+    {
+        SceneManager::existingScenes.erase(scene->it);
+        scene->active = true;
+        SceneManager::existingScenes.insert(SceneManager::existingScenes.begin(), scene);
+    }
 }

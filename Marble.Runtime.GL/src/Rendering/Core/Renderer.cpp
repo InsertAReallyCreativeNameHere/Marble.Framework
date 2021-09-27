@@ -10,8 +10,6 @@
 using namespace Marble;
 using namespace Marble::GL;
 
-inline static std::list<skarupke::function<void()>> finalizers;
-
 inline static uint32_t renderWidth;
 inline static uint32_t renderHeight;
 
@@ -34,35 +32,9 @@ inline static bgfx::UniformHandle sampler2DTexturedPolygon;
 inline static bgfx::ProgramHandle program2DTexturedPolygon;
 #pragma endregion
 
-void TransformHandle::setPosition(float x, float y)
-{
-    this->transform[0] = x;
-    this->transform[4] = y;
-}
-void TransformHandle::setOffset(float x, float y)
-{
-    this->transform[8] = x;
-    this->transform[12] = y;
-}
-void TransformHandle::setScale(float x, float y)
-{
-    this->transform[1] = x;
-    this->transform[5] = y;
-}
-void TransformHandle::setRotation(float rot)
-{
-    this->transform[9] = rot;
-}
-void ColoredTransformHandle::setColor(float r, float g, float b, float a)
-{
-    this->transform[2] = r;
-    this->transform[6] = g;
-    this->transform[10] = b;
-    this->transform[14] = a;
-}
-
 void PolygonHandle::create(std::vector<Vertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer)
 {
+    ProfileFunction();
     this->vbBuf = new std::vector<Vertex2D>(std::move(vertexBuffer));
     this->ibBuf = new std::vector<uint16_t>(std::move(indexBuffer));
     this->vb = bgfx::createDynamicVertexBuffer(bgfx::makeRef(this->vbBuf->data(), sizeof(Vertex2D) * this->vbBuf->size()), layoutPolygon);
@@ -70,6 +42,7 @@ void PolygonHandle::create(std::vector<Vertex2D> vertexBuffer, std::vector<uint1
 }
 void PolygonHandle::update(std::vector<Vertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer)
 {
+    ProfileFunction();
     delete this->vbBuf;
     delete this->ibBuf;
     *this->vbBuf = std::move(vertexBuffer);
@@ -79,6 +52,7 @@ void PolygonHandle::update(std::vector<Vertex2D> vertexBuffer, std::vector<uint1
 }
 void PolygonHandle::destroy()
 {
+    ProfileFunction();
     bgfx::destroy(this->vb);
     bgfx::destroy(this->ib);
     delete this->vbBuf;
@@ -87,6 +61,7 @@ void PolygonHandle::destroy()
 
 void Texture2DHandle::create(std::vector<uint8_t> textureData, uint32_t width, uint32_t height)
 {
+    ProfileFunction();
     this->textureData = new std::vector<uint8_t>(std::move(textureData));
     this->tex = bgfx::createTexture2D
     (
@@ -97,17 +72,20 @@ void Texture2DHandle::create(std::vector<uint8_t> textureData, uint32_t width, u
 }
 void Texture2DHandle::update(std::vector<uint8_t> textureData, uint32_t width, uint32_t height)
 {
+    ProfileFunction();
     *this->textureData = std::move(textureData);
     bgfx::updateTexture2D(this->tex, 1, 0, 0, 0, width, height, bgfx::makeRef(this->textureData->data(), this->textureData->size() * sizeof(decltype(textureData)::value_type)), width * 4);
 }
 void Texture2DHandle::destroy()
 {
+    ProfileFunction();
     bgfx::destroy(this->tex);
     delete this->textureData;
 }
 
 void TexturedPolygonHandle::create(std::vector<TexturedVertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer)
 {
+    ProfileFunction();
     this->vbBuf = new std::vector<TexturedVertex2D>(std::move(vertexBuffer));
     this->ibBuf = new std::vector<uint16_t>(std::move(indexBuffer));
     this->vb = bgfx::createDynamicVertexBuffer(bgfx::makeRef(this->vbBuf->data(), sizeof(TexturedVertex2D) * this->vbBuf->size()), layoutTexturedPolygon);
@@ -115,6 +93,7 @@ void TexturedPolygonHandle::create(std::vector<TexturedVertex2D> vertexBuffer, s
 }
 void TexturedPolygonHandle::update(std::vector<TexturedVertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer)
 {
+    ProfileFunction();
     *this->vbBuf = std::move(vertexBuffer);
     *this->ibBuf = std::move(indexBuffer);
     bgfx::update(this->vb, 0, bgfx::makeRef(this->vbBuf->data(), sizeof(TexturedVertex2D) * this->vbBuf->size()));
@@ -122,6 +101,7 @@ void TexturedPolygonHandle::update(std::vector<TexturedVertex2D> vertexBuffer, s
 }
 void TexturedPolygonHandle::destroy()
 {
+    ProfileFunction();
     bgfx::destroy(this->vb);
     bgfx::destroy(this->ib);
     delete this->vbBuf;
@@ -130,6 +110,8 @@ void TexturedPolygonHandle::destroy()
 
 bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t initHeight)
 {
+    ProfileFunction();
+
     bgfx::PlatformData pd;
     pd.ndt = ndt;
     pd.nwh = nwh;
@@ -344,9 +326,7 @@ void main()
 }
 void Renderer::shutdown()
 {
-    for (auto it = finalizers.begin(); it != finalizers.end(); ++it)
-        (*it)();
-    finalizers.clear();
+    ProfileFunction();
 
     unitSquarePoly.destroy();
     unitTexturedSquarePoly.destroy();
@@ -362,6 +342,8 @@ void Renderer::shutdown()
 
 void Renderer::reset(uint32_t bufferWidth, uint32_t bufferHeight)
 {
+    ProfileFunction();
+
     bgfx::reset(bufferWidth, bufferHeight, BGFX_RESET_NONE);
 
     renderWidth = bufferWidth;
@@ -373,15 +355,18 @@ void Renderer::reset(uint32_t bufferWidth, uint32_t bufferHeight)
 }
 void Renderer::setViewArea(uint32_t left, uint32_t top, uint32_t width, uint32_t height)
 {
+    ProfileFunction();
     bgfx::setViewRect(0, left, top, width, height);
 }
 void Renderer::setClear(uint32_t rgbaColor)
 {
+    ProfileFunction();
     bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, rgbaColor);
 }
 
 void Renderer::beginFrame()
 {
+    ProfileFunction();
     bgfx::setState
     (
         0 |
@@ -392,15 +377,13 @@ void Renderer::beginFrame()
 }
 void Renderer::endFrame()
 {
+    ProfileFunction();
     bgfx::frame();
-
-    for (auto it = finalizers.begin(); it != finalizers.end(); ++it)
-        (*it)();
-    finalizers.clear();
 }
 
 void Renderer::drawUnitSquare(ColoredTransformHandle transform)
 {
+    ProfileFunction();
     bgfx::setVertexBuffer(0, unitSquarePoly.vb);
     bgfx::setIndexBuffer(unitSquarePoly.ib);
     bgfx::setUniform(uniform2DPolygon, transform.transform);
@@ -408,6 +391,7 @@ void Renderer::drawUnitSquare(ColoredTransformHandle transform)
 }
 void Renderer::drawPolygon(PolygonHandle polygon, ColoredTransformHandle transform)
 {
+    ProfileFunction();
     bgfx::setVertexBuffer(0, polygon.vb);
     bgfx::setIndexBuffer(polygon.ib);
     bgfx::setUniform(uniform2DPolygon, transform.transform);
@@ -415,6 +399,7 @@ void Renderer::drawPolygon(PolygonHandle polygon, ColoredTransformHandle transfo
 }
 void Renderer::drawImage(Texture2DHandle image, ColoredTransformHandle transform)
 {
+    ProfileFunction();
     bgfx::setVertexBuffer(0, unitTexturedSquarePoly.vb);
     bgfx::setIndexBuffer(unitTexturedSquarePoly.ib);
     bgfx::setTexture(0, sampler2DTexturedPolygon, image.tex);

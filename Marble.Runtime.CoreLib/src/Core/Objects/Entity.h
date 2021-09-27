@@ -49,7 +49,7 @@ namespace Marble
         }
 
         template <typename T>
-        T* addComponent()
+        inline T* addComponent()
         {
             static_assert(!std::is_same<T, RectTransform>::value, "Cannot add component to Entity. You cannot add RectTransform to an Entity, it is a default component.");
             static_assert(std::is_base_of<Internal::Component, T>::value, "Cannot add component to Entity. Typename \"T\" is not derived from type \"Component\"");
@@ -63,7 +63,7 @@ namespace Marble
             return ret;
         }
         template <typename T>
-        T* getFirstComponent()
+        inline T* getFirstComponent()
         {
             if constexpr (std::is_same<T, RectTransform>::value)
                 return this->attachedRectTransform;
@@ -81,7 +81,7 @@ namespace Marble
             }
         }
         template <typename T>
-        std::vector<T*> getAllComponents()
+        inline std::vector<T*> getAllComponents()
         {
             if constexpr (std::is_same<T, RectTransform>::value)
                 return std::vector<T*> { this->attachedRectTransform };
@@ -101,7 +101,7 @@ namespace Marble
             }
         }
         template <typename T>
-        void removeFirstComponent()
+        inline void removeFirstComponent()
         {
             static_assert(!std::is_same<T, RectTransform>::value, "Cannot remove component from Entity. You cannot remove RectTransform from an Entity, it is a default component.");
             static_assert(std::is_base_of<Internal::Component, T>::value, "Cannot get component from Entity. Typename \"T\" is not derived from type \"Component\"");
@@ -120,7 +120,7 @@ namespace Marble
             Debug::LogWarn("No identical component could be found on this Entity to be removed!");
         }
         template <typename T>
-        void removeAllComponents()
+        inline void removeAllComponents()
         {
             static_assert(!std::is_same<T, RectTransform>::value, "Cannot remove component from Entity. You cannot remove RectTransform from an Entity, it is a default component.");
 

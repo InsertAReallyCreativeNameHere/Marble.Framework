@@ -19,53 +19,155 @@ namespace Marble
 			float x;
 			float y;
 
-			Vector2();
-			Vector2(float x, float y);
+			constexpr Vector2() : x(0), y(0)
+			{
+			}
+			constexpr Vector2(float x, float y) : x(x), y(y)
+			{
+			}
 
-			bool operator== (const Vector2& rhs);
-			bool operator!= (const Vector2& rhs);
-			Vector2 operator+ (const Vector2& rhs) const;
-			Vector2 operator- (const Vector2& rhs) const;
-			Vector2 operator* (const Vector2& rhs) const;
-			Vector2 operator/ (const Vector2& rhs) const;
-			Vector2& operator+= (const Vector2& rhs);
-			Vector2& operator-= (const Vector2& rhs);
-			Vector2& operator*= (const Vector2& rhs);
-			Vector2& operator/= (const Vector2& rhs);
+			constexpr bool operator== (const Vector2& rhs) const
+			{
+				return this->x == rhs.x && this->y == rhs.y;
+			}
+			constexpr bool operator!= (const Vector2& rhs) const
+			{
+				return this->x != rhs.x || this->y != rhs.y;
+			}
+			constexpr Vector2 operator+ (const Vector2& rhs) const
+			{
+				return Vector2(this->x + rhs.x, this->y + rhs.y);
+			}
+			constexpr Vector2 operator- (const Vector2& rhs) const
+			{
+				return Vector2(this->x - rhs.x, this->y - rhs.y);
+			}
+			constexpr Vector2 operator* (const Vector2& rhs) const
+			{
+				return Vector2(this->x * rhs.x, this->y * rhs.y);
+			}
+			constexpr Vector2 operator/ (const Vector2& rhs) const
+			{
+				return Vector2(this->x / rhs.x, this->y / rhs.y);
+			}
+			constexpr Vector2& operator+= (const Vector2& rhs)
+			{
+				this->x += rhs.x;
+				this->y += rhs.y;
+				return *this;
+			}
+			constexpr Vector2& operator-= (const Vector2& rhs)
+			{
+				this->x -= rhs.x;
+				this->y -= rhs.y;
+				return *this;
+			}
+			constexpr Vector2& operator*= (const Vector2& rhs)
+			{
+				this->x *= rhs.x;
+				this->y *= rhs.y;
+				return *this;
+			}
+			constexpr Vector2& operator/= (const Vector2& rhs)
+			{
+				this->x /= rhs.x;
+				this->y /= rhs.y;
+				return *this;
+			}
 
-			operator std::string () const;
+			inline operator std::string () const;
 			inline friend std::ostream& operator<<(std::ostream& stream, const Vector2& rhs)
 			{
 				return stream << static_cast<std::string>(rhs);
 			}
 		};
 
+		inline const Vector2 Vector2::zero { 0.0f, 0.0f };
+		inline const Vector2 Vector2::one { 1.0f, 1.0f };
+		
+		Vector2::operator std::string() const
+		{
+			return std::string("{ ").append(std::to_string(this->x)).append(", ").append(std::to_string(this->y)).append(" }");
+		}
+
 		struct coreapi Vector2Int
 		{
 			static const Vector2Int zero;
 			static const Vector2Int one;
 
-			int x;
-			int y;
+			int32_t x;
+			int32_t y;
 
-			Vector2Int();
-			Vector2Int(int x, int y);
+			constexpr Vector2Int() : x(0), y(0)
+			{
+			}
+			constexpr Vector2Int(int32_t x, int32_t y) : x(x), y(y)
+			{
+			}
 
-			bool operator== (const Vector2Int& rhs) const;
-			bool operator!= (const Vector2Int& rhs) const;
-			Vector2Int operator+ (const Vector2Int& rhs) const;
-			Vector2Int operator- (const Vector2Int& rhs) const;
-			Vector2Int operator* (const Vector2Int& rhs) const;
-			Vector2Int operator/ (const Vector2Int& rhs) const;
-			Vector2Int& operator+= (const Vector2Int& rhs);
-			Vector2Int& operator-= (const Vector2Int& rhs);
+			constexpr bool operator== (const Vector2Int& rhs) const
+			{
+				return this->x == rhs.x && this->y == rhs.y;
+			}
+			constexpr bool operator!= (const Vector2Int& rhs) const
+			{
+				return this->x != rhs.x || this->y != rhs.y;
+			}
+			constexpr Vector2Int operator+ (const Vector2Int& rhs) const
+			{
+				return Vector2Int(this->x + rhs.x, this->y + rhs.y);
+			}
+			constexpr Vector2Int operator- (const Vector2Int& rhs) const
+			{
+				return Vector2Int(this->x - rhs.x, this->y - rhs.y);
+			}
+			constexpr Vector2Int operator* (const Vector2Int& rhs) const
+			{
+				return Vector2Int(this->x * rhs.x, this->y * rhs.y);
+			}
+			constexpr Vector2Int operator/ (const Vector2Int& rhs) const
+			{
+				return Vector2Int(this->x / rhs.x, this->y / rhs.y);
+			}
+			constexpr Vector2Int& operator+= (const Vector2Int& rhs)
+			{
+				this->x += rhs.x;
+				this->y += rhs.y;
+				return *this;
+			}
+			constexpr Vector2Int& operator-= (const Vector2Int& rhs)
+			{
+				this->x -= rhs.x;
+				this->y -= rhs.y;
+				return *this;
+			}
+			constexpr Vector2Int& operator*= (const Vector2Int& rhs)
+			{
+				this->x *= rhs.x;
+				this->y *= rhs.y;
+				return *this;
+			}
+			constexpr Vector2Int& operator/= (const Vector2Int& rhs)
+			{
+				this->x /= rhs.x;
+				this->y /= rhs.y;
+				return *this;
+			}
 
-			operator std::string () const;
+			inline operator std::string () const;
 			inline friend std::ostream& operator<<(std::ostream& stream, const Vector2Int& rhs)
 			{
 				return stream << static_cast<std::string>(rhs);
 			}
 		};
+
+		inline const Vector2Int Vector2Int::zero { 0, 0 };
+		inline const Vector2Int Vector2Int::one { 1, 1 };
+
+		Vector2Int::operator std::string() const
+		{
+			return std::string("{ ").append(std::to_string(this->x)).append(", ").append(std::to_string(this->y)).append(" }");
+		}
 
 		struct coreapi Vector3
 		{

@@ -25,7 +25,7 @@ namespace Marble
             [this](const Color& value) { this->_color = value; }
         }};
 
-        ~Panel() override;
+        inline ~Panel() override = default;
 
         friend class Marble::Internal::ComponentCoreStaticInit;
     };

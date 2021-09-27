@@ -28,6 +28,8 @@ Endianness PackageManager::endianness;
 
 void PackageManager::removeBinaryFileHandler(const std::vector<uint8_t>& signature, size_t offset)
 {
+    ProfileFunction();
+
     auto it1 = PackageManager::binFileHandlers.find(offset);
     if (it1 != PackageManager::binFileHandlers.end())
     {
@@ -54,6 +56,8 @@ std::ifstream PackageManager::corePackageStream;
 
 void PackageManager::loadCorePackageIntoMemory(const fs::path& packagePath)
 {
+    ProfileFunction();
+
     PackageManager::corePackageStream.open(packagePath, std::ios::binary);
     PackageManager::corePackageStream.seekg(0, std::ios::end);
     uint32_t length = PackageManager::corePackageStream.tellg();
@@ -110,6 +114,8 @@ void PackageManager::loadCorePackageIntoMemory(const fs::path& packagePath)
 }
 void PackageManager::freeCorePackageInMemory()
 {
+    ProfileFunction();
+
     PackageManager::corePackageStream.close();
     for (auto it = PackageManager::loadedCorePackage.begin(); it != PackageManager::loadedCorePackage.end(); ++it)
         delete *it;
@@ -117,6 +123,8 @@ void PackageManager::freeCorePackageInMemory()
 
 void PackageManager::normalizePath(std::wstring& path)
 {
+    ProfileFunction();
+
     bool extensionEnded = false;
     for (auto it = path.rbegin(); it != path.rend(); ++it)
     {
@@ -135,6 +143,8 @@ void PackageManager::normalizePath(std::wstring& path)
 }
 PackageFile* PackageManager::getCorePackageFileByPath(std::wstring filePath)
 {
+    ProfileFunction();
+    
     PackageManager::normalizePath(filePath);
     for (auto it = PackageManager::loadedCorePackage.begin(); it != PackageManager::loadedCorePackage.end(); ++it)
     {
