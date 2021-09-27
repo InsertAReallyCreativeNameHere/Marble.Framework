@@ -44,6 +44,8 @@ ShaderCompileOptions& ShaderCompileOptions::withDefines(const std::vector<std::s
 
 std::vector<char> ShaderUtility::compileShader(const std::string& shaderData, const ShaderCompileOptions& options)
 {
+    ProfileFunction();
+    
     char shaderType[2] { 0 };
     shaderType[0] = (char)options.shaderType;
 
