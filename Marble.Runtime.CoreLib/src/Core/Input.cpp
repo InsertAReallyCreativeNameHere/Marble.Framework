@@ -7,6 +7,8 @@ using namespace Marble::Internal;
 
 Key Input::convertFromSDLKey(SDL_Keycode code)
 {
+	ProfileFunction();
+
 	switch (code)
 	{
 	using enum Key;
