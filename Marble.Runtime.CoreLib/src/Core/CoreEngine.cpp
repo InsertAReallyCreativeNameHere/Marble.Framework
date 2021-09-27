@@ -300,6 +300,8 @@ void CoreEngine::internalLoop()
         CoreEngine::pendingRenderJobBatches.enqueue(std::move(CoreEngine::pendingRenderJobBatchesOffload));
         #pragma endregion
 
+        ProfileEndFrame();
+
         do deltaTime = (float)(SDL_GetPerformanceCounter() - frameBegin) * 1000.0f / (float)perfFreq;
         while (deltaTime < targetDeltaTime);
         frameBegin = SDL_GetPerformanceCounter();
