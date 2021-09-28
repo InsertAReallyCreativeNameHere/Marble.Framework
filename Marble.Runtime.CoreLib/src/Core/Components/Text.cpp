@@ -363,7 +363,7 @@ void Text::renderOffload()
             ++advanceLenIt;
         };
 
-        auto pushLineAndResetCurrent = [&, this](float spare)
+        auto pushLineAndResetCurrent = [&, this]
         {
             charsToDraw.reserve(charsToDraw.size() + curLine.size());
             for (auto it = curLine.begin(); it != curLine.end(); ++it)
@@ -371,7 +371,21 @@ void Text::renderOffload()
                 ColoredTransformHandle transform;
                 charsToDraw.push_back(std::make_pair(it->first->second->polygon, ColoredTransformHandle()));
                 charsToDraw.back().second.setPosition(pos.x, pos.y);
-                charsToDraw.back().second.setOffset(rect.left * scale.x + it->second, rect.top * scale.y - asc * glyphScale - accYAdvance);
+                switch (this->horizontalAlign)
+                {
+                case TextAlign::Justify:
+                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second + (rectWidth - accXAdvance) * (it->second / accXAdvance), rect.top * scale.y - asc * glyphScale - accYAdvance);
+                    break;
+                case TextAlign::Major:
+                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second + rectWidth - accXAdvance, rect.top * scale.y - asc * glyphScale - accYAdvance);
+                    break;
+                case TextAlign::Center:
+                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second + (rectWidth - accXAdvance) / 2, rect.top * scale.y - asc * glyphScale - accYAdvance);
+                    break;
+                case TextAlign::Minor:
+                default:
+                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second, rect.top * scale.y - asc * glyphScale - accYAdvance);
+                }
                 charsToDraw.back().second.setScale(glyphScale * scale.x, glyphScale * scale.y);
                 charsToDraw.back().second.setRotation(rot);
                 charsToDraw.back().second.setColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -416,7 +430,7 @@ void Text::renderOffload()
                     goto SplitDrawWord;
                 else
                 {
-                    pushLineAndResetCurrent(rectWidth - accXAdvance);
+                    pushLineAndResetCurrent();
                     goto InlineDrawWord;
                 }
             }
@@ -429,7 +443,7 @@ void Text::renderOffload()
             {
                 if (accXAdvance + *advanceLenIt > rectWidth) [[unlikely]]
                 {
-                    pushLineAndResetCurrent(rectWidth - accXAdvance);
+                    pushLineAndResetCurrent();
                     curLine.reserve(end - i);
                 }
                 pushCharAndIterNext(i);
@@ -470,7 +484,7 @@ void Text::renderOffload()
             case U'\r':
                 break;
             case U'\n':
-                pushLineAndResetCurrent(rectWidth - accXAdvance);
+                pushLineAndResetCurrent();
                 break;
             }
         }
@@ -484,7 +498,7 @@ void Text::renderOffload()
         // NB: No else here, it just goes to the same place anyways.
 
         ExitTextHandling:
-        pushLineAndResetCurrent(rectWidth - accXAdvance);
+        pushLineAndResetCurrent();
         CoreEngine::queueRenderJobForFrame
         (
             [charsToDraw = std::move(charsToDraw)]
