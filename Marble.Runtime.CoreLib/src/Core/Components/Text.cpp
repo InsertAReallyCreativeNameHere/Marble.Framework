@@ -19,7 +19,6 @@ robin_hood::unordered_map<PackageSystem::TrueTypeFontPackageFile*, Text::RenderD
 void Text::RenderData::trackCharacters(const std::vector<CharacterData>& text)
 {
     ProfileFunction();
-
     for (auto it = text.begin(); it != text.end(); ++it)
     {
         auto c = this->characters.find(it->glyphIndex);
@@ -28,7 +27,6 @@ void Text::RenderData::trackCharacters(const std::vector<CharacterData>& text)
         else
         {
             GlyphOutline glyph = this->file->fontHandle().getGlyphOutline(it->glyphIndex);
-            
             if (glyph.verts) [[likely]]
             {
                 auto buffers = glyph.createGeometryBuffers<Vertex2D>();
@@ -36,9 +34,7 @@ void Text::RenderData::trackCharacters(const std::vector<CharacterData>& text)
                 CoreEngine::queueRenderJobForFrame
                 (
                     [pointsFlattened = std::move(buffers.first), indexesFlattened = std::move(buffers.second), data = charData]
-                    {
-                        data->polygon.create(std::move(pointsFlattened), std::move(indexesFlattened));
-                    }
+                    { data->polygon.create(std::move(pointsFlattened), std::move(indexesFlattened)); }
                 );
             }
         }
@@ -47,7 +43,6 @@ void Text::RenderData::trackCharacters(const std::vector<CharacterData>& text)
 void Text::RenderData::untrackCharacters(const std::vector<CharacterData>& text)
 {
     ProfileFunction();
-
     for (auto it = text.begin(); it != text.end(); ++it)
     {
         auto charData = this->characters.find(it->glyphIndex);
@@ -58,7 +53,6 @@ void Text::RenderData::untrackCharacters(const std::vector<CharacterData>& text)
             {
                 this->characters.erase(charData);
                 CoreEngine::queueRenderJobForFrame([data = charData->second] { data->polygon.destroy(); delete data; });
-                this->characters.erase(it->glyphIndex);
             }
         }
     }
