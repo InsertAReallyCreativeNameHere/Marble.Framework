@@ -484,6 +484,7 @@ void Text::renderOffload()
         // NB: No else here, it just goes to the same place anyways.
 
         ExitTextHandling:
+        pushLineAndResetCurrent(rectWidth - accXAdvance);
         CoreEngine::queueRenderJobForFrame
         (
             [charsToDraw = std::move(charsToDraw)]
