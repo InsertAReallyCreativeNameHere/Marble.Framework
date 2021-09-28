@@ -140,7 +140,6 @@ void Text::setFontSize(uint32_t value)
                 Font& font = this->data->file->fontHandle();
 
                 const Vector2 pos = thisRect->position;
-                const Vector2 scale = thisRect->scale;
                 const RectFloat rect = thisRect->rect;
 
                 float accAdv = 0;
@@ -152,11 +151,11 @@ void Text::setFontSize(uint32_t value)
                 //     font sizing algorithm.
                 // TODO: Is it possible to eliminate the costly sqrt?
                 this->_fontSize = (font.ascent - font.descent) *
-                ((thisRect->rect().right - thisRect->rect().left) * scale.x / accAdv);
-                this->_fontSize = this->_fontSize * sqrt((thisRect->rect().top - thisRect->rect().bottom) * scale.y / this->_fontSize);
+                ((thisRect->rect().right - thisRect->rect().left) / accAdv);
+                this->_fontSize = this->_fontSize * sqrt((thisRect->rect().top - thisRect->rect().bottom) / this->_fontSize);
 
-                const float rectWidth = (rect.right - rect.left) * scale.x;
-                const float rectHeight = (rect.top - rect.bottom) * scale.y;
+                const float rectWidth = (rect.right - rect.left);
+                const float rectHeight = (rect.top - rect.bottom);
                 const float rot = deg2RadF(thisRect->rotation);
                 const float asc = this->data->file->fontHandle().ascent;
                 const float lineHeight = asc - this->data->file->fontHandle().descent;
@@ -166,7 +165,7 @@ void Text::setFontSize(uint32_t value)
                 while (this->_fontSize != 0)
                 {
                     float glyphScale = float(this->_fontSize) / lineHeight;
-                    float lineHeightScaled = lineHeight * glyphScale * scale.y;
+                    float lineHeightScaled = lineHeight * glyphScale;
                     
                     if (lineHeightScaled > rectHeight)
                     {
@@ -174,7 +173,7 @@ void Text::setFontSize(uint32_t value)
                         continue;
                     }
                     
-                    float lineDiff = this->data->file->fontHandle().lineGap * glyphScale * scale.y + lineHeightScaled;
+                    float lineDiff = this->data->file->fontHandle().lineGap * glyphScale + lineHeightScaled;
                     float accXAdvance = 0;
                     float accYAdvance = 0;
 
@@ -203,7 +202,7 @@ void Text::setFontSize(uint32_t value)
                         std::vector<float> advanceLengths;
                         advanceLengths.reserve(end - beg);
                         for (size_t i = beg; i < end; i++)
-                            advanceLengths.push_back(float(this->textData[i].metrics.advanceWidth) * glyphScale * scale.x);
+                            advanceLengths.push_back(float(this->textData[i].metrics.advanceWidth) * glyphScale);
 
                         auto advanceLenIt = advanceLengths.begin();
 
@@ -278,17 +277,17 @@ void Text::setFontSize(uint32_t value)
                         {
                         case U' ':
                             {
-                                float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale * scale.x;
+                                float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale;
                                 if (accXAdvance + charAdvScaled > rectWidth) [[unlikely]]
-                                    goto NewLine;
+                                    goto Newline;
                                 else accXAdvance += charAdvScaled;
                             }
                             break;
                         case U'\t':
                             {
-                                float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale * scale.x * 8;
+                                float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale * 8;
                                 if (accXAdvance + charAdvScaled > rectWidth) [[unlikely]]
-                                    goto NewLine;
+                                    goto Newline;
                                 else accXAdvance += charAdvScaled;
                             }
                             break;
@@ -480,7 +479,7 @@ void Text::renderOffload()
                     {
                         float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale * scale.x;
                         if (accXAdvance + charAdvScaled > rectWidth) [[unlikely]]
-                            goto NewLine;
+                            goto Newline;
                         else accXAdvance += charAdvScaled;
                     }
                     break;
@@ -488,7 +487,7 @@ void Text::renderOffload()
                     {
                         float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale * scale.x * 8;
                         if (accXAdvance + charAdvScaled > rectWidth) [[unlikely]]
-                            goto NewLine;
+                            goto Newline;
                         else accXAdvance += charAdvScaled;
                     }
                     break;
