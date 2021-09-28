@@ -136,7 +136,7 @@ void Text::setFontSize(uint32_t value)
         {
             if (this->data) [[likely]]
             {
-                RectTransform* thisRect = this->rectTransform();
+                const RectTransform* const thisRect = this->rectTransform();
                 Font& font = this->data->file->fontHandle();
 
                 float accAdv = 0;
@@ -151,14 +151,15 @@ void Text::setFontSize(uint32_t value)
                 ((thisRect->rect().right - thisRect->rect().left) / accAdv);
                 this->_fontSize = this->_fontSize * sqrt((thisRect->rect().top - thisRect->rect().bottom) / this->_fontSize);
 
-                Vector2 pos = thisRect->position;
-                Vector2 scale = thisRect->scale;
-                RectFloat rect = thisRect->rect;
-                float rectWidth = (rect.right - rect.left) * scale.x;
-                float rectHeight = (rect.top - rect.bottom) * scale.y;
-                float rot = deg2RadF(thisRect->rotation);
-                float asc = this->data->file->fontHandle().ascent;
-                float lineHeight = asc - this->data->file->fontHandle().descent;
+                const Vector2 pos = thisRect->position;
+                const Vector2 scale = thisRect->scale;
+                const RectFloat rect = thisRect->rect;
+
+                const float rectWidth = (rect.right - rect.left) * scale.x;
+                const float rectHeight = (rect.top - rect.bottom) * scale.y;
+                const float rot = deg2RadF(thisRect->rotation);
+                const float asc = this->data->file->fontHandle().ascent;
+                const float lineHeight = asc - this->data->file->fontHandle().descent;
 
                 Debug::LogInfo("Optimistic font size: ", this->_fontSize, '.');
 
@@ -277,13 +278,18 @@ void Text::setFontSize(uint32_t value)
                         {
                         case U' ':
                             accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.y;
-                            break;
+                            goto CheckOverrun;
                         case U'\t':
                             accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.y * 8;
+                            goto CheckOverrun;
+                        CheckOverrun:
+                            if (accXAdvance > rectWidth) [[unlikely]]
+                                goto Newline;
                             break;
                         case U'\r':
                             break;
                         case U'\n':
+                        Newline:
                             accXAdvance = 0;
                             accYAdvance += lineDiff;
                             if (accYAdvance + lineHeightScaled > rectHeight)
@@ -320,7 +326,7 @@ void Text::renderOffload()
     ProfileFunction();
     if (this->data && !this->_text.empty()) [[likely]]
     {
-        RectTransform* thisRect = this->rectTransform();
+        const RectTransform* const thisRect = this->rectTransform();
         const Vector2 pos = thisRect->position;
         const Vector2 scale = thisRect->scale;
         const RectFloat rect = thisRect->rect;
