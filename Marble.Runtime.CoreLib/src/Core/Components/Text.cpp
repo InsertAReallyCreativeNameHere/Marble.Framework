@@ -325,9 +325,6 @@ void Text::setFontSize(uint32_t value)
     }
 }
 
-// TODO: Lots of recycled code here from calculating font size.
-//       Is it possible to condense stuff down?
-//       Duplicate code is a completely valid analyser complaint.
 void Text::renderOffload()
 {
     ProfileFunction();
@@ -335,19 +332,56 @@ void Text::renderOffload()
     if (this->data && !this->_text.empty()) [[likely]]
     {
         RectTransform* thisRect = this->rectTransform();
-        Vector2 pos = thisRect->position;
-        Vector2 scale = thisRect->scale;
-        RectFloat rect = thisRect->rect;
-        float rectWidth = (rect.right - rect.left) * scale.x;
-        float rectHeight = (rect.top - rect.bottom) * scale.y;
-        float rot = deg2RadF(thisRect->rotation);
-        float asc = this->data->file->fontHandle().ascent;
-        float lineHeight = asc - this->data->file->fontHandle().descent;
-        float glyphScale = float(this->_fontSize) / lineHeight;
-        float lineDiff = (this->data->file->fontHandle().lineGap + lineHeight) * glyphScale * scale.y;
+        const Vector2 pos = thisRect->position;
+        const Vector2 scale = thisRect->scale;
+        const RectFloat rect = thisRect->rect;
+
+        const float rectWidth = (rect.right - rect.left) * scale.x;
+        const float rectHeight = (rect.top - rect.bottom) * scale.y;
+        const float rot = deg2RadF(thisRect->rotation);
+        const float asc = this->data->file->fontHandle().ascent;
+        const float lineHeight = asc - this->data->file->fontHandle().descent;
+        const float glyphScale = float(this->_fontSize) / lineHeight;
+        const float lineDiff = (this->data->file->fontHandle().lineGap + lineHeight) * glyphScale * scale.y;
+
         float accXAdvance = 0;
         float accYAdvance = 0;
 
+        std::vector<float> advanceLengths;
+        decltype(advanceLengths)::iterator advanceLenIt;
+        std::vector<std::pair<decltype(this->data->characters)::iterator, float>> curLine;
+        
+        std::vector<std::pair<PolygonHandle, ColoredTransformHandle>> charsToDraw;
+
+        auto pushCharAndIterNext = [&, this](size_t i)
+        {
+            auto c = this->data->characters.find(this->textData[i].glyphIndex);
+            if (c != this->data->characters.end())
+                curLine.push_back(std::make_pair(c, accXAdvance));
+
+            accXAdvance += *advanceLenIt;
+            ++advanceLenIt;
+        };
+
+        auto pushLineAndResetCurrent = [&, this](float spare)
+        {
+            charsToDraw.reserve(charsToDraw.size() + curLine.size());
+            for (auto it = curLine.begin(); it != curLine.end(); ++it)
+            {
+                ColoredTransformHandle transform;
+                charsToDraw.push_back({ });
+                charsToDraw.back().setPosition(pos.x, pos.y);
+                charsToDraw.back().setOffset(rect.left * scale.x + it->second, rect.top * scale.y - asc * glyphScale - accYAdvance);
+                charsToDraw.back().setScale(glyphScale * scale.x, glyphScale * scale.y);
+                charsToDraw.back().setRotation(rot);
+                charsToDraw.back().setColor(1.0f, 1.0f, 1.0f, 1.0f);
+            }
+
+            curLine.clear();
+            accXAdvance = 0;
+            accYAdvance += lineDiff;
+        };
+        
         size_t beg = 0;
         size_t end;
 
@@ -368,31 +402,13 @@ void Text::renderOffload()
         //     I am going to hell.
         HandleWord:
         {
-            std::vector<float> advanceLengths;
+            curLine.reserve(curLine.size() + end - beg);
             advanceLengths.reserve(end - beg);
             for (size_t i = beg; i < end; i++)
                 advanceLengths.push_back(float(this->textData[i].metrics.advanceWidth) * glyphScale * scale.x);
 
-            auto advanceLenIt = advanceLengths.begin();
+            advanceLenIt = advanceLengths.begin();
 
-            auto drawCharAndIterNext = [&](size_t i)
-            {
-                auto c = this->data->characters.find(this->textData[i].glyphIndex);
-                if (c != this->data->characters.end())
-                {
-                    ColoredTransformHandle transform;
-                    transform.setPosition(pos.x, pos.y);
-                    transform.setOffset(rect.left * scale.x + accXAdvance, rect.top * scale.y - asc * glyphScale - accYAdvance);
-                    transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
-                    transform.setRotation(rot);
-                    transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    CoreEngine::queueRenderJobForFrame([transform, data = c->second] { Renderer::drawPolygon(data->polygon, transform); });
-                }
-
-                accXAdvance += *advanceLenIt;
-                ++advanceLenIt;
-            };
-            
             float wordLen = std::accumulate(advanceLenIt, advanceLengths.end(), 0.0f);
             if (accXAdvance + wordLen > rectWidth) [[unlikely]]
             {
@@ -400,8 +416,7 @@ void Text::renderOffload()
                     goto SplitDrawWord;
                 else
                 {
-                    accXAdvance = 0;
-                    accYAdvance += lineDiff;
+                    pushLineAndResetCurrent(rectWidth - accXAdvance);
                     goto InlineDrawWord;
                 }
             }
@@ -414,22 +429,23 @@ void Text::renderOffload()
             {
                 if (accXAdvance + *advanceLenIt > rectWidth) [[unlikely]]
                 {
-                    accXAdvance = 0;
-                    accYAdvance += lineDiff;
+                    pushLineAndResetCurrent(rectWidth - accXAdvance);
+                    curLine.reserve(end - i);
                 }
-
-                drawCharAndIterNext(i);
+                pushCharAndIterNext(i);
             }
             goto ExitDrawWord;
 
             // NB: Draw a word in one line. This makes the assumption
             //     that the whole word will fit within a line.
             InlineDrawWord:
+            curLine.reserve(curLine.size() + end - beg);
             for (size_t i = beg; i < end; i++)
-                drawCharAndIterNext(i);
+                pushCharAndIterNext(i);
             // NB: No goto here, jump would go to the same place anyways.
 
-            ExitDrawWord:;
+            ExitDrawWord:
+            advanceLengths.clear();
         }
         beg = end;
         if (end != this->_text.size()) [[likely]]
@@ -454,8 +470,7 @@ void Text::renderOffload()
             case U'\r':
                 break;
             case U'\n':
-                accXAdvance = 0;
-                accYAdvance += lineDiff;
+                pushLineAndResetCurrent(rectWidth - accXAdvance);
                 break;
             }
         }
@@ -468,6 +483,14 @@ void Text::renderOffload()
         }
         // NB: No else here, it just goes to the same place anyways.
 
-        ExitTextHandling:;
+        ExitTextHandling:
+        CoreEngine::queueRenderJobForFrame
+        (
+            [charsToDraw = std::move(charsToDraw)]
+            {
+                for (auto it = charsToDraw.begin(); it != charsToDraw.end(); ++it)
+                    Renderer::drawPolygon(it->first, it->second);
+            }
+        );
     }
 }

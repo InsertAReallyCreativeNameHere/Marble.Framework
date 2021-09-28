@@ -17,11 +17,11 @@ namespace Marble
         struct ComponentCoreStaticInit;
     }
 
-    enum class TextAlign : uint8_t
+    enum class TextAlign : uint_fast8_t
     {
-        Left,
+        Minor,
         Center,
-        Right,
+        Major,
         Justify
     };
 
