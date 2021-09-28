@@ -81,7 +81,7 @@ if (MARBLE_ENABLE_PROFILING)
         set(TRACY_CALLSTACK ON CACHE INTERNAL "" FORCE)
         add_definitions(-DMARBLE_ENABLE_PROFILING -DTRACY_ENABLE)
         add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/tracy")
-        target_link_libraries(Tracy::TracyClient PRIVATE ws2_32 dbghelp)
+        target_link_libraries(TracyClient PRIVATE ws2_32 dbghelp)
     endif()
 endif()
 
@@ -97,7 +97,7 @@ target_compile_definitions(Marble.Mathematics PRIVATE BUILD_TYPE_DYNAMIC=1)
 target_include_directories(Marble.Mathematics PUBLIC "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/src")
 target_include_directories(Marble.Mathematics PRIVATE "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src")
 if (MARBLE_ENABLE_PROFILING)
-    target_link_libraries(Marble.Mathematics PRIVATE Tracy::TracyClient)
+    target_link_libraries(Marble.Mathematics PRIVATE TracyClient)
 endif()
 
 set_target_properties(Marble.Mathematics
@@ -125,7 +125,7 @@ target_include_directories(Marble.Typography PUBLIC
 target_include_directories(Marble.Typography PRIVATE "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src")
 
 if (MARBLE_ENABLE_PROFILING)
-    target_link_libraries(Marble.Typography PRIVATE Tracy::TracyClient)
+    target_link_libraries(Marble.Typography PRIVATE TracyClient)
 endif()
 
 set_target_properties(Marble.Typography
@@ -168,7 +168,7 @@ else()
 endif()
 
 if (MARBLE_ENABLE_PROFILING)
-    target_link_libraries(Marble.Runtime.GL PRIVATE Tracy::TracyClient)
+    target_link_libraries(Marble.Runtime.GL PRIVATE TracyClient)
 endif()
 
 set_target_properties(Marble.Runtime.GL
@@ -221,7 +221,7 @@ if (BUILD_PLATFORM STREQUAL Win32)
 endif()
 
 if (MARBLE_ENABLE_PROFILING)
-    target_link_libraries(Marble.Runtime.CoreLib PRIVATE Tracy::TracyClient)
+    target_link_libraries(Marble.Runtime.CoreLib PRIVATE TracyClient)
 endif()
 
 set_target_properties(Marble.Runtime.CoreLib
