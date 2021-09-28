@@ -369,7 +369,7 @@ void Text::renderOffload()
             for (auto it = curLine.begin(); it != curLine.end(); ++it)
             {
                 ColoredTransformHandle transform;
-                charsToDraw.push_back(std::make_pair(it->first->second->polygon, { }));
+                charsToDraw.push_back(std::make_pair(it->first->second->polygon, ColoredTransformHandle()));
                 charsToDraw.back().second.setPosition(pos.x, pos.y);
                 charsToDraw.back().second.setOffset(rect.left * scale.x + it->second, rect.top * scale.y - asc * glyphScale - accYAdvance);
                 charsToDraw.back().second.setScale(glyphScale * scale.x, glyphScale * scale.y);
