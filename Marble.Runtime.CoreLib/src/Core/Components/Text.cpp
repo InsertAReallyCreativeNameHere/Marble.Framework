@@ -369,17 +369,17 @@ void Text::renderOffload()
                 switch (this->horizontalAlign)
                 {
                 case TextAlign::Justify:
-                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second + (rectWidth - accXAdvance) * (it->second / accXAdvance), rect.top * scale.y - asc * glyphScale - accYAdvance);
+                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second + (rectWidth - accXAdvance) * (it->second / accXAdvance), (rect.top - asc * glyphScale) * scale.y - accYAdvance);
                     break;
                 case TextAlign::Major:
-                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second + rectWidth - accXAdvance, rect.top * scale.y - asc * glyphScale - accYAdvance);
+                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second + rectWidth - accXAdvance, (rect.top - asc * glyphScale) * scale.y - accYAdvance);
                     break;
                 case TextAlign::Center:
-                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second + (rectWidth - accXAdvance) / 2, rect.top * scale.y - asc * glyphScale - accYAdvance);
+                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second + (rectWidth - accXAdvance) / 2, (rect.top - asc * glyphScale) * scale.y - accYAdvance);
                     break;
                 case TextAlign::Minor:
                 default:
-                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second, rect.top * scale.y - asc * glyphScale - accYAdvance);
+                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second, (rect.top - asc * glyphScale) * scale.y - accYAdvance);
                 }
                 charsToDraw.back().second.setScale(glyphScale * scale.x, glyphScale * scale.y);
                 charsToDraw.back().second.setRotation(rot);
