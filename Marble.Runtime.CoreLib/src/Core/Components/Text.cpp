@@ -139,6 +139,10 @@ void Text::setFontSize(uint32_t value)
                 const RectTransform* const thisRect = this->rectTransform();
                 Font& font = this->data->file->fontHandle();
 
+                const Vector2 pos = thisRect->position;
+                const Vector2 scale = thisRect->scale;
+                const RectFloat rect = thisRect->rect;
+
                 float accAdv = 0;
                 for (auto it = this->textData.begin(); it != this->textData.end(); ++it)
                     accAdv += it->metrics.advanceWidth;
@@ -148,12 +152,8 @@ void Text::setFontSize(uint32_t value)
                 //     font sizing algorithm.
                 // TODO: Is it possible to eliminate the costly sqrt?
                 this->_fontSize = (font.ascent - font.descent) *
-                ((thisRect->rect().right - thisRect->rect().left) / accAdv);
-                this->_fontSize = this->_fontSize * sqrt((thisRect->rect().top - thisRect->rect().bottom) / this->_fontSize);
-
-                const Vector2 pos = thisRect->position;
-                const Vector2 scale = thisRect->scale;
-                const RectFloat rect = thisRect->rect;
+                ((thisRect->rect().right - thisRect->rect().left) * scale.x / accAdv);
+                this->_fontSize = this->_fontSize * sqrt((thisRect->rect().top - thisRect->rect().bottom) * scale.y / this->_fontSize);
 
                 const float rectWidth = (rect.right - rect.left) * scale.x;
                 const float rectHeight = (rect.top - rect.bottom) * scale.y;
