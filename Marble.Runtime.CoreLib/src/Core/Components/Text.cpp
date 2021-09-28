@@ -277,14 +277,20 @@ void Text::setFontSize(uint32_t value)
                         switch (this->_text[i])
                         {
                         case U' ':
-                            accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.x;
-                            goto CheckOverrun;
+                            {
+                                float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale * scale.x;
+                                if (accXAdvance + charAdvScaled > rectWidth) [[unlikely]]
+                                    goto NewLine;
+                                else accXAdvance += charAdvScaled;
+                            }
+                            break;
                         case U'\t':
-                            accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.x * 8;
-                            goto CheckOverrun;
-                        CheckOverrun:
-                            if (accXAdvance > rectWidth) [[unlikely]]
-                                goto Newline;
+                            {
+                                float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale * scale.x * 8;
+                                if (accXAdvance + charAdvScaled > rectWidth) [[unlikely]]
+                                    goto NewLine;
+                                else accXAdvance += charAdvScaled;
+                            }
                             break;
                         case U'\r':
                             break;
@@ -471,14 +477,20 @@ void Text::renderOffload()
             switch (this->_text[i])
             {
                 case U' ':
-                    accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.x;
-                    goto CheckOverrun;
+                    {
+                        float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale * scale.x;
+                        if (accXAdvance + charAdvScaled > rectWidth) [[unlikely]]
+                            goto NewLine;
+                        else accXAdvance += charAdvScaled;
+                    }
+                    break;
                 case U'\t':
-                    accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.x * 8;
-                    goto CheckOverrun;
-                CheckOverrun:
-                    if (accXAdvance > rectWidth) [[unlikely]]
-                        goto Newline;
+                    {
+                        float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale * scale.x * 8;
+                        if (accXAdvance + charAdvScaled > rectWidth) [[unlikely]]
+                            goto NewLine;
+                        else accXAdvance += charAdvScaled;
+                    }
                     break;
                 case U'\r':
                     break;
