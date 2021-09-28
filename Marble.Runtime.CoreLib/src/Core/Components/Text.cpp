@@ -277,10 +277,10 @@ void Text::setFontSize(uint32_t value)
                         switch (this->_text[i])
                         {
                         case U' ':
-                            accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.y;
+                            accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.x;
                             goto CheckOverrun;
                         case U'\t':
-                            accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.y * 8;
+                            accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.x * 8;
                             goto CheckOverrun;
                         CheckOverrun:
                             if (accXAdvance > rectWidth) [[unlikely]]
