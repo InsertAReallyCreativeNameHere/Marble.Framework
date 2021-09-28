@@ -230,3 +230,7 @@ set_target_properties(Marble.Runtime.CoreLib
     LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.CoreLib"
     RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Runtime.CoreLib"
 )
+
+if (BUILD_PLATFORM STREQUAL "Win32")
+    remove_definitions(-D_WIN32_WINNT)
+endif()

@@ -11,7 +11,7 @@ namespace Marble
 		#pragma region Vector
 		class Vector2Int;
 		
-		struct coreapi Vector2
+		struct Vector2
 		{
 			static const Vector2 zero;
 			static const Vector2 one;
@@ -90,7 +90,7 @@ namespace Marble
 			return std::string("{ ").append(std::to_string(this->x)).append(", ").append(std::to_string(this->y)).append(" }");
 		}
 
-		struct coreapi Vector2Int
+		struct Vector2Int
 		{
 			static const Vector2Int zero;
 			static const Vector2Int one;
