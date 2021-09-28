@@ -470,15 +470,20 @@ void Text::renderOffload()
         {
             switch (this->_text[i])
             {
-            case U' ':
-                accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.y;
-                break;
-            case U'\t':
-                accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.y * 8;
-                break;
-            case U'\r':
-                break;
-            case U'\n':
+                case U' ':
+                    accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.x;
+                    goto CheckOverrun;
+                case U'\t':
+                    accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.x * 8;
+                    goto CheckOverrun;
+                CheckOverrun:
+                    if (accXAdvance > rectWidth) [[unlikely]]
+                        goto Newline;
+                    break;
+                case U'\r':
+                    break;
+                case U'\n':
+                Newline:
                 pushLineAndResetCurrent();
                 break;
             }
