@@ -61,7 +61,6 @@ void Text::RenderData::untrackCharacters(const std::vector<CharacterData>& text)
 Text::~Text()
 {
     ProfileFunction();
-
     if (this->data)
     {
         this->data->untrackCharacters(this->textData);
@@ -77,7 +76,6 @@ Text::~Text()
 void Text::setFontFile(TrueTypeFontPackageFile* value)
 {
     ProfileFunction();
-
     if (this->data)
     {
         this->data->untrackCharacters(this->textData);
@@ -107,7 +105,6 @@ void Text::setFontFile(TrueTypeFontPackageFile* value)
 void Text::setText(std::u32string value)
 {
     ProfileFunction();
-
     if (this->data)
     {
         this->_text = std::move(value);
@@ -133,7 +130,6 @@ void Text::setText(std::u32string value)
 void Text::setFontSize(uint32_t value)
 {
     ProfileFunction();
-    
     switch (value)
     {
     case FontSize::RecalculateForRectSize:
@@ -322,7 +318,6 @@ void Text::setFontSize(uint32_t value)
 void Text::renderOffload()
 {
     ProfileFunction();
-    
     if (this->data && !this->_text.empty()) [[likely]]
     {
         RectTransform* thisRect = this->rectTransform();
