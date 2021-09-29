@@ -1,8 +1,9 @@
 #include "Text.h"
 
-#include <Mathematics.h>
+#include <cmath>
 #include <numeric>
 #include <tuple>
+#include <Mathematics.h>
 #include <Core/CoreEngine.h>
 #include <Core/Components/RectTransform.h>
 #include <Rendering/Core/Renderer.h>
@@ -146,16 +147,16 @@ void Text::setFontSize(uint32_t value)
                 for (auto it = this->textData.begin(); it != this->textData.end(); ++it)
                     accAdv += it->metrics.advanceWidth;
 
+                const float rectWidth = thisRect->rect().right - thisRect->rect().left;
+                const float rectHeight = thisRect->rect().top - thisRect->rect().bottom;
+
                 // NB: Calculate optimistic font size - the largest possible with given text.
                 //     This is done to be generally performant with the following iterative
                 //     font sizing algorithm.
                 // TODO: Is it possible to eliminate the costly sqrt?
-                this->_fontSize = (font.ascent - font.descent) *
-                ((thisRect->rect().right - thisRect->rect().left) / accAdv);
-                this->_fontSize = this->_fontSize * sqrt((thisRect->rect().top - thisRect->rect().bottom) / this->_fontSize);
+                float set = (font.ascent - font.descent) * (rectWidth / accAdv);
+                this->_fontSize = set * sqrtf(rectHeight / set);
 
-                /*const float rectWidth = (rect.right - rect.left);
-                const float rectHeight = (rect.top - rect.bottom);
                 const float rot = deg2RadF(thisRect->rotation);
                 const float asc = this->data->file->fontHandle().ascent;
                 const float lineHeight = asc - this->data->file->fontHandle().descent;
@@ -276,25 +277,14 @@ void Text::setFontSize(uint32_t value)
                         switch (this->_text[i])
                         {
                         case U' ':
-                            {
-                                float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale;
-                                if (accXAdvance + charAdvScaled > rectWidth) [[unlikely]]
-                                    goto Newline;
-                                else accXAdvance += charAdvScaled;
-                            }
+                            accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale;
                             break;
                         case U'\t':
-                            {
-                                float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale * 8;
-                                if (accXAdvance + charAdvScaled > rectWidth) [[unlikely]]
-                                    goto Newline;
-                                else accXAdvance += charAdvScaled;
-                            }
+                            accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * 8;
                             break;
                         case U'\r':
                             break;
                         case U'\n':
-                        Newline:
                             accXAdvance = 0;
                             accYAdvance += lineDiff;
                             if (accYAdvance + lineHeightScaled > rectHeight)
@@ -317,7 +307,7 @@ void Text::setFontSize(uint32_t value)
                     ExitTextHandling:
                     Debug::LogInfo("Fitting font size: ", this->_fontSize, '.');
                     break;
-                }*/
+                }
             }
         }
         break;
