@@ -154,7 +154,7 @@ void Text::setFontSize(uint32_t value)
                 ((thisRect->rect().right - thisRect->rect().left) / accAdv);
                 this->_fontSize = this->_fontSize * sqrt((thisRect->rect().top - thisRect->rect().bottom) / this->_fontSize);
 
-                const float rectWidth = (rect.right - rect.left);
+                /*const float rectWidth = (rect.right - rect.left);
                 const float rectHeight = (rect.top - rect.bottom);
                 const float rot = deg2RadF(thisRect->rotation);
                 const float asc = this->data->file->fontHandle().ascent;
@@ -317,7 +317,7 @@ void Text::setFontSize(uint32_t value)
                     ExitTextHandling:
                     Debug::LogInfo("Fitting font size: ", this->_fontSize, '.');
                     break;
-                }
+                }*/
             }
         }
         break;
