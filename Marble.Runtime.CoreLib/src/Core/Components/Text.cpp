@@ -133,25 +133,34 @@ void Text::setHorizontalAlign(TextAlign value)
     switch (value)
     {
     case TextAlign::Justify:
-        this->getAlignOffset = [](float endDiff, float mul)
-        {
-            return endDiff * mul;
-        };
+        this->getHorizontalAlignOffset = Text::getAlignOffsetJustify;
         break;
     case TextAlign::Major:
-        this->getAlignOffset = [](float endDiff, float)
-        {
-            return endDiff;
-        };
+        this->getHorizontalAlignOffset = Text::getAlignOffsetMajor;
         break;
     case TextAlign::Center:
-        this->getAlignOffset = [](float endDiff, float)
-        {
-            return endDiff / 2;
-        };
+        this->getHorizontalAlignOffset = Text::getAlignOffsetCenter;
         break;
     case TextAlign::Minor:
-        this->getAlignOffset = Text::getAlignOffsetMinor;
+        this->getHorizontalAlignOffset = Text::getAlignOffsetMinor;
+        break;
+    }
+}
+void Text::setVerticalAlign(TextAlign value)
+{
+    switch (value)
+    {
+    case TextAlign::Justify:
+        this->getVerticalAlignOffset = Text::getAlignOffsetJustify;
+        break;
+    case TextAlign::Major:
+        this->getVerticalAlignOffset = Text::getAlignOffsetMajor;
+        break;
+    case TextAlign::Center:
+        this->getVerticalAlignOffset = Text::getAlignOffsetCenter;
+        break;
+    case TextAlign::Minor:
+        this->getVerticalAlignOffset = Text::getAlignOffsetMinor;
         break;
     }
 }
@@ -362,12 +371,18 @@ void Text::renderOffload()
         const float lineHeightScaled = lineHeight * glyphScale * scale.y;
         const float lineDiff = (this->data->file->fontHandle().lineGap + lineHeight) * glyphScale * scale.y;
 
+        const float maxLines = floorf(rectHeight / this->_fontSize);
+        const float effectiveHeight = float(maxLines) * this->_fontSize;
+
         float accXAdvance = 0;
         float accYAdvance = 0;
 
         std::vector<float> advanceLengths;
         decltype(advanceLengths)::iterator advanceLenIt;
         std::vector<std::vector<std::pair<decltype(this->data->characters)::iterator, float>>> curLine;
+
+        float curLineIndex = 0;
+        float curVertAlignOffset = this->getVerticalAlignOffset(rectHeight - effectiveHeight, 0.0f);
         
         std::vector<std::pair<PolygonHandle, ColoredTransformHandle>> charsToDraw;
 
@@ -394,8 +409,8 @@ void Text::renderOffload()
                     transform.setOffset
                     (
                         rect.left * scale.x + it2->second +
-                        this->getAlignOffset(rectWidth - accXAdvance, float(it1 - curLine.begin()) / (curLine.size() - 1)),
-                        (rect.top - asc * glyphScale) * scale.y - accYAdvance
+                        this->getHorizontalAlignOffset(rectWidth - accXAdvance, float(it1 - curLine.begin()) / (curLine.size() - 1)),
+                        (rect.top - asc * glyphScale) * scale.y - accYAdvance - curVertAlignOffset
                     );
                     transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
                     transform.setRotation(rot);
@@ -407,6 +422,7 @@ void Text::renderOffload()
             curLine.clear();
             accXAdvance = 0;
             accYAdvance += lineDiff;
+            curVertAlignOffset = this->getVerticalAlignOffset(rectHeight - effectiveHeight, ++curLineIndex / maxLines);
         };
         
         size_t beg = 0;
