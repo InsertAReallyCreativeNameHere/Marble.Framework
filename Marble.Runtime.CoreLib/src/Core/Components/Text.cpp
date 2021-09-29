@@ -370,16 +370,32 @@ void Text::renderOffload()
         const float glyphScale = float(this->_fontSize) / lineHeight;
         const float lineHeightScaled = lineHeight * glyphScale * scale.y;
         const float lineDiff = (this->data->file->fontHandle().lineGap + lineHeight) * glyphScale * scale.y;
-
-        const float maxLines = floorf(rectHeight / this->_fontSize);
+        const uint32_t maxLines = uint32_t(rectHeight > 0 ? rectHeight : 0) / this->_fontSize;
         const float effectiveHeight = float(maxLines) * this->_fontSize;
 
-        float accXAdvance = 0;
-        float accYAdvance = 0;
+        float accYAdvance = 0.0f;
 
         std::vector<float> advanceLengths;
         decltype(advanceLengths)::iterator advanceLenIt;
-        std::vector<std::vector<std::pair<decltype(this->data->characters)::iterator, float>>> curLine;
+        // NB: Forgive me.
+
+        struct Character
+        {
+            decltype(this->data->characters)::iterator character;
+            float xOffset;
+        };
+        struct Word
+        {
+            std::vector<Character> characters;
+        };
+        struct Line
+        {
+            std::vector<Word> words;
+            float width;
+            float yOffset;
+        };
+        std::vector<Line> lines
+        ({{ { }, 0.0f, 0.0f }});
 
         float curLineIndex = 0;
         float curVertAlignOffset = this->getVerticalAlignOffset(rectHeight - effectiveHeight, 0.0f);
@@ -388,41 +404,18 @@ void Text::renderOffload()
 
         auto pushCharAndIterNext = [&, this](size_t i)
         {
-            curLine.back().reserve(advanceLengths.size());
             auto c = this->data->characters.find(this->textData[i].glyphIndex);
             if (c != this->data->characters.end())
-                curLine.back().push_back(std::make_pair(c, accXAdvance));
+                lines.back().words.back().characters.push_back({ c, lines.back().width });
 
-            accXAdvance += *advanceLenIt;
+            lines.back().width += *advanceLenIt;
             ++advanceLenIt;
         };
 
-        auto pushLineAndResetCurrent = [&, this]
+        auto pushCurrentLine = [&, this]
         {
-            for (auto it1 = curLine.begin(); it1 != curLine.end(); ++it1)
-            {
-                charsToDraw.reserve(charsToDraw.size() + it1->size());
-                for (auto it2 = it1->begin(); it2 != it1->end(); ++it2)
-                {
-                    ColoredTransformHandle transform;
-                    transform.setPosition(pos.x, pos.y);
-                    transform.setOffset
-                    (
-                        rect.left * scale.x + it2->second +
-                        this->getHorizontalAlignOffset(rectWidth - accXAdvance, float(it1 - curLine.begin()) / (curLine.size() - 1)),
-                        (rect.top - asc * glyphScale) * scale.y - accYAdvance - curVertAlignOffset
-                    );
-                    transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
-                    transform.setRotation(rot);
-                    transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    charsToDraw.push_back(std::make_pair(it2->first->second->polygon, transform));
-                }
-            }
-
-            curLine.clear();
-            accXAdvance = 0;
             accYAdvance += lineDiff;
-            curVertAlignOffset = this->getVerticalAlignOffset(rectHeight - effectiveHeight, ++curLineIndex / maxLines);
+            lines.push_back({ { }, 0.0f, accYAdvance });
         };
         
         size_t beg = 0;
@@ -445,8 +438,8 @@ void Text::renderOffload()
         //     I am going to hell.
         HandleWord:
         {
-            curLine.push_back({ });
-            curLine.back().reserve(curLine.size() + end - beg);
+            lines.back().words.push_back({ { } });
+            lines.back().words.back().characters.reserve(end - beg);
             advanceLengths.reserve(end - beg);
             for (size_t i = beg; i < end; i++)
                 advanceLengths.push_back(float(this->textData[i].metrics.advanceWidth) * glyphScale * scale.x);
@@ -454,7 +447,7 @@ void Text::renderOffload()
             advanceLenIt = advanceLengths.begin();
 
             float wordLen = std::accumulate(advanceLenIt, advanceLengths.end(), 0.0f);
-            if (accXAdvance + wordLen > rectWidth) [[unlikely]]
+            if (lines.back().width + wordLen > rectWidth) [[unlikely]]
             {
                 if (wordLen > rectWidth) [[unlikely]]
                     goto SplitDrawWord;
@@ -462,7 +455,7 @@ void Text::renderOffload()
                 {
                     if (accYAdvance + lineDiff + lineHeightScaled > rectHeight)
                         goto ExitTextHandling;
-                    pushLineAndResetCurrent();
+                    pushCurrentLine();
                     goto InlineDrawWord;
                 }
             }
@@ -473,12 +466,13 @@ void Text::renderOffload()
             SplitDrawWord:
             for (size_t i = beg; i < end; i++)
             {
-                if (accXAdvance + *advanceLenIt > rectWidth) [[unlikely]]
+                if (lines.back().width + *advanceLenIt > rectWidth) [[unlikely]]
                 {
                     if (accYAdvance + lineDiff + lineHeightScaled > rectHeight)
                         goto ExitTextHandling;
-                    pushLineAndResetCurrent();
-                    curLine.back().reserve(end - i);
+                    pushCurrentLine();
+                    lines.back().words.push_back({ { } });
+                    lines.back().words.back().characters.reserve(end - i);
                 }
                 pushCharAndIterNext(i);
             }
@@ -487,7 +481,7 @@ void Text::renderOffload()
             // NB: Draw a word in one line. This makes the assumption
             //     that the whole word will fit within a line.
             InlineDrawWord:
-            curLine.back().reserve(curLine.back().size() + end - beg);
+            lines.back().words.back().characters.reserve(end - beg);
             for (size_t i = beg; i < end; i++)
                 pushCharAndIterNext(i);
             // NB: No goto here, jump would go to the same place anyways.
@@ -512,17 +506,17 @@ void Text::renderOffload()
                 case U' ':
                     {
                         float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale * scale.x;
-                        if (accXAdvance + charAdvScaled > rectWidth) [[unlikely]]
+                        if (lines.back().width + charAdvScaled > rectWidth) [[unlikely]]
                             goto Newline;
-                        else accXAdvance += charAdvScaled;
+                        else lines.back().width += charAdvScaled;
                     }
                     break;
                 case U'\t':
                     {
                         float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale * scale.x * 8;
-                        if (accXAdvance + charAdvScaled > rectWidth) [[unlikely]]
+                        if (lines.back().width + charAdvScaled > rectWidth) [[unlikely]]
                             goto Newline;
-                        else accXAdvance += charAdvScaled;
+                        else lines.back().width += charAdvScaled;
                     }
                     break;
                 case U'\r':
@@ -531,7 +525,7 @@ void Text::renderOffload()
                 Newline:
                 if (accYAdvance + lineDiff + lineHeightScaled > rectHeight)
                     goto ExitTextHandling;
-                pushLineAndResetCurrent();
+                pushCurrentLine();
                 break;
             }
         }
@@ -545,7 +539,29 @@ void Text::renderOffload()
         // NB: No else here, it just goes to the same place anyways.
 
         ExitTextHandling:
-        pushLineAndResetCurrent();
+        for (auto it1 = lines.begin(); it1 != lines.end(); ++it1)
+        {
+            for (auto it2 = it1->words.begin(); it2 != it1->words.end(); ++it2)
+            {
+                charsToDraw.reserve(charsToDraw.size() + it2->characters.size());
+                for (auto it3 = it2->characters.begin(); it3 != it2->characters.end(); ++it3)
+                {
+                    ColoredTransformHandle transform;
+                    transform.setPosition(pos.x, pos.y);
+                    transform.setOffset
+                    (
+                        rect.left * scale.x + it3->xOffset +
+                        this->getHorizontalAlignOffset(rectWidth - it1->width, float(it2 - it1->words.begin()) / (it1->words.size() - 1)),
+                        (rect.top - asc * glyphScale) * scale.y - it1->yOffset -
+                        this->getVerticalAlignOffset(rectHeight - lines.size() * lineDiff, float(it1 - lines.begin()) / (lines.size() - 1))
+                    );
+                    transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
+                    transform.setRotation(rot);
+                    transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+                    charsToDraw.push_back(std::make_pair(it3->character->second->polygon, transform));
+                }
+            }
+        }
         CoreEngine::queueRenderJobForFrame
         (
             [charsToDraw = std::move(charsToDraw)]
