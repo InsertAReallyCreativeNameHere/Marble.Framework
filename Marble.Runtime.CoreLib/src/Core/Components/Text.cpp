@@ -391,7 +391,7 @@ void Text::renderOffload()
                 transform.setOffset
                 (
                     rect.left * scale.x + it->second +
-                    this->getAlignOffsetMinor(rectWidth, accXAdvance, it->second),
+                    this->getAlignOffset(rectWidth, accXAdvance, it->second),
                     (rect.top - asc * glyphScale) * scale.y - accYAdvance
                 );
                 transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
