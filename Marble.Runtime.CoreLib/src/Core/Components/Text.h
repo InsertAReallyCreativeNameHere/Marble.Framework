@@ -61,12 +61,20 @@ namespace Marble
         static robin_hood::unordered_map<PackageSystem::TrueTypeFontPackageFile*, RenderData*> textFonts;
         RenderData* data = nullptr;
 
+        inline static float getAlignOffsetMinor(float, float, float)
+        {
+            return 0.0f;
+        }
+
         std::u32string _text;
         std::vector<CharacterData> textData;
+        TextAlign _horizontalAlign = TextAlign::Minor;
+        float (*getAlignOffset)(float, float, float) = getAlignOffsetMinor;
         uint32_t _fontSize = 11;
 
         void setFontFile(PackageSystem::TrueTypeFontPackageFile* value);
         void setText(std::u32string value);
+        void setHorizontalAlign(TextAlign value);
         void setFontSize(uint32_t value);
 
         void renderOffload();
@@ -88,7 +96,11 @@ namespace Marble
             [&]() -> uint32_t { return this->_fontSize; },
             [&, this](uint32_t value) { this->setFontSize(value); }
         }};
-        TextAlign horizontalAlign;
+        const Property<TextAlign, TextAlign> horizontalAlign
+        {{
+            [&]() -> TextAlign { return this->_horizontalAlign; },
+            [&, this](TextAlign value) { this->setHorizontalAlign(value); }
+        }};
         TextAlign verticalAlign;
 
         friend class Marble::Internal::ComponentCoreStaticInit;

@@ -128,6 +128,33 @@ void Text::setText(std::u32string value)
         this->data->untrackCharacters(oldTextData);
     }
 }
+void Text::setHorizontalAlign(TextAlign value)
+{
+    switch (value)
+    {
+    case TextAlign::Justify:
+        this->getAlignOffset = [](float rectWidth, float totalXAdv, float xAdv)
+        {
+            return (xAdv / totalXAdv) * (rectWidth - totalXAdv);
+        };
+        break;
+    case TextAlign::Major:
+        this->getAlignOffset = [](float rectWidth, float totalXAdv, float)
+        {
+            return rectWidth - totalXAdv;
+        };
+        break;
+    case TextAlign::Center:
+        this->getAlignOffset = [](float rectWidth, float totalXAdv, float)
+        {
+            return (rectWidth - totalXAdv) / 2;
+        };
+        break;
+    case TextAlign::Minor:
+        this->getAlignOffset = Text::getAlignOffsetMinor;
+        break;
+    }
+}
 void Text::setFontSize(uint32_t value)
 {
     ProfileFunction();
@@ -359,26 +386,17 @@ void Text::renderOffload()
             for (auto it = curLine.begin(); it != curLine.end(); ++it)
             {
                 ColoredTransformHandle transform;
-                charsToDraw.push_back(std::make_pair(it->first->second->polygon, ColoredTransformHandle()));
-                charsToDraw.back().second.setPosition(pos.x, pos.y);
-                switch (this->horizontalAlign)
-                {
-                case TextAlign::Justify:
-                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second + (rectWidth - accXAdvance) * (it->second / accXAdvance), (rect.top - asc * glyphScale) * scale.y - accYAdvance);
-                    break;
-                case TextAlign::Major:
-                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second + rectWidth - accXAdvance, (rect.top - asc * glyphScale) * scale.y - accYAdvance);
-                    break;
-                case TextAlign::Center:
-                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second + (rectWidth - accXAdvance) / 2, (rect.top - asc * glyphScale) * scale.y - accYAdvance);
-                    break;
-                case TextAlign::Minor:
-                default:
-                    charsToDraw.back().second.setOffset(rect.left * scale.x + it->second, (rect.top - asc * glyphScale) * scale.y - accYAdvance);
-                }
-                charsToDraw.back().second.setScale(glyphScale * scale.x, glyphScale * scale.y);
-                charsToDraw.back().second.setRotation(rot);
-                charsToDraw.back().second.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+                transform.setPosition(pos.x, pos.y);
+                transform.setOffset
+                (
+                    rect.left * scale.x + it->second +
+                    this->getAlignOffsetMinor(rectWidth, accXAdvance, it->second),
+                    (rect.top - asc * glyphScale) * scale.y - accYAdvance
+                );
+                transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
+                transform.setRotation(rot);
+                transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+                charsToDraw.push_back(std::make_pair(it->first->second->polygon, transform));
             }
 
             curLine.clear();
@@ -420,6 +438,8 @@ void Text::renderOffload()
                     goto SplitDrawWord;
                 else
                 {
+                    if (accYAdvance + lineDiff + lineHeight > rectHeight)
+                        goto ExitTextHandling;
                     pushLineAndResetCurrent();
                     goto InlineDrawWord;
                 }
@@ -433,6 +453,8 @@ void Text::renderOffload()
             {
                 if (accXAdvance + *advanceLenIt > rectWidth) [[unlikely]]
                 {
+                    if (accYAdvance + lineDiff + lineHeight > rectHeight)
+                        goto ExitTextHandling;
                     pushLineAndResetCurrent();
                     curLine.reserve(end - i);
                 }
@@ -485,6 +507,8 @@ void Text::renderOffload()
                     break;
                 case U'\n':
                 Newline:
+                if (accYAdvance + lineDiff + lineHeight > rectHeight)
+                    goto ExitTextHandling;
                 pushLineAndResetCurrent();
                 break;
             }
