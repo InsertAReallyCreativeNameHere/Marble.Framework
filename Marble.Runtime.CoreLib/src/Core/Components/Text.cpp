@@ -133,21 +133,21 @@ void Text::setHorizontalAlign(TextAlign value)
     switch (value)
     {
     case TextAlign::Justify:
-        this->getAlignOffset = [](float rectWidth, float totalXAdv, std::vector<std::pair<decltype(Text::data->characters)::iterator, float>>& word)
+        this->getAlignOffset = [](float endDiff, float mul)
         {
-            return (word.front().second / totalXAdv) * (rectWidth - totalXAdv);
+            return endDiff * mul;
         };
         break;
     case TextAlign::Major:
-        this->getAlignOffset = [](float rectWidth, float totalXAdv, std::vector<std::pair<decltype(Text::data->characters)::iterator, float>>&)
+        this->getAlignOffset = [](float endDiff, float)
         {
-            return rectWidth - totalXAdv;
+            return endDiff;
         };
         break;
     case TextAlign::Center:
-        this->getAlignOffset = [](float rectWidth, float totalXAdv, std::vector<std::pair<decltype(Text::data->characters)::iterator, float>>&)
+        this->getAlignOffset = [](float endDiff, float)
         {
-            return (rectWidth - totalXAdv) / 2;
+            return endDiff / 2;
         };
         break;
     case TextAlign::Minor:
@@ -373,7 +373,6 @@ void Text::renderOffload()
 
         auto pushCharAndIterNext = [&, this](size_t i)
         {
-            curLine.push_back({ });
             curLine.back().reserve(advanceLengths.size());
             auto c = this->data->characters.find(this->textData[i].glyphIndex);
             if (c != this->data->characters.end())
@@ -395,7 +394,7 @@ void Text::renderOffload()
                     transform.setOffset
                     (
                         rect.left * scale.x + it2->second +
-                        this->getAlignOffset(rectWidth, accXAdvance, *it1),
+                        this->getAlignOffset(rectWidth - accXAdvance, float(it1 - curLine.begin()) / (curLine.size() - 1)),
                         (rect.top - asc * glyphScale) * scale.y - accYAdvance
                     );
                     transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
@@ -430,7 +429,8 @@ void Text::renderOffload()
         //     I am going to hell.
         HandleWord:
         {
-            curLine.reserve(curLine.size() + end - beg);
+            curLine.push_back({ });
+            curLine.back().reserve(curLine.size() + end - beg);
             advanceLengths.reserve(end - beg);
             for (size_t i = beg; i < end; i++)
                 advanceLengths.push_back(float(this->textData[i].metrics.advanceWidth) * glyphScale * scale.x);
@@ -462,7 +462,7 @@ void Text::renderOffload()
                     if (accYAdvance + lineDiff + lineHeightScaled > rectHeight)
                         goto ExitTextHandling;
                     pushLineAndResetCurrent();
-                    curLine.reserve(end - i);
+                    curLine.back().reserve(end - i);
                 }
                 pushCharAndIterNext(i);
             }
@@ -471,7 +471,7 @@ void Text::renderOffload()
             // NB: Draw a word in one line. This makes the assumption
             //     that the whole word will fit within a line.
             InlineDrawWord:
-            curLine.reserve(curLine.size() + end - beg);
+            curLine.back().reserve(curLine.back().size() + end - beg);
             for (size_t i = beg; i < end; i++)
                 pushCharAndIterNext(i);
             // NB: No goto here, jump would go to the same place anyways.
