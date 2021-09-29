@@ -51,11 +51,17 @@ namespace Marble
         
         inline GetterReturnType operator++() const
         {
-            return (this->getter()++);
+            GetterReturnType type = this->getter();
+            ++type;
+            this->setter(type);
+            return type;
         }
         inline GetterReturnType operator--() const
         {
-            return (this->getter()--);
+            GetterReturnType type = this->getter();
+            --type;
+            this->setter(type);
+            return type;
         }
         #pragma endregion
 
