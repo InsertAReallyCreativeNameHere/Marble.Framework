@@ -133,19 +133,19 @@ void Text::setHorizontalAlign(TextAlign value)
     switch (value)
     {
     case TextAlign::Justify:
-        this->getAlignOffset = [](float rectWidth, float totalXAdv, float xAdv)
+        this->getAlignOffset = [](float rectWidth, float totalXAdv, std::vector<std::pair<decltype(Text::data->characters)::iterator, float>>& word)
         {
-            return (xAdv / totalXAdv) * (rectWidth - totalXAdv);
+            return (word.front().second / totalXAdv) * (rectWidth - totalXAdv);
         };
         break;
     case TextAlign::Major:
-        this->getAlignOffset = [](float rectWidth, float totalXAdv, float)
+        this->getAlignOffset = [](float rectWidth, float totalXAdv, std::vector<std::pair<decltype(Text::data->characters)::iterator, float>>&)
         {
             return rectWidth - totalXAdv;
         };
         break;
     case TextAlign::Center:
-        this->getAlignOffset = [](float rectWidth, float totalXAdv, float)
+        this->getAlignOffset = [](float rectWidth, float totalXAdv, std::vector<std::pair<decltype(Text::data->characters)::iterator, float>>&)
         {
             return (rectWidth - totalXAdv) / 2;
         };
@@ -367,15 +367,17 @@ void Text::renderOffload()
 
         std::vector<float> advanceLengths;
         decltype(advanceLengths)::iterator advanceLenIt;
-        std::vector<std::pair<decltype(this->data->characters)::iterator, float>> curLine;
+        std::vector<std::vector<std::pair<decltype(this->data->characters)::iterator, float>>> curLine;
         
         std::vector<std::pair<PolygonHandle, ColoredTransformHandle>> charsToDraw;
 
         auto pushCharAndIterNext = [&, this](size_t i)
         {
+            curLine.push_back({ });
+            curLine.back().reserve(advanceLengths.size());
             auto c = this->data->characters.find(this->textData[i].glyphIndex);
             if (c != this->data->characters.end())
-                curLine.push_back(std::make_pair(c, accXAdvance));
+                curLine.back().push_back(std::make_pair(c, accXAdvance));
 
             accXAdvance += *advanceLenIt;
             ++advanceLenIt;
@@ -383,21 +385,24 @@ void Text::renderOffload()
 
         auto pushLineAndResetCurrent = [&, this]
         {
-            charsToDraw.reserve(charsToDraw.size() + curLine.size());
-            for (auto it = curLine.begin(); it != curLine.end(); ++it)
+            for (auto it1 = curLine.begin(); it1 != curLine.end(); ++it1)
             {
-                ColoredTransformHandle transform;
-                transform.setPosition(pos.x, pos.y);
-                transform.setOffset
-                (
-                    rect.left * scale.x + it->second +
-                    this->getAlignOffset(rectWidth, accXAdvance, it->second),
-                    (rect.top - asc * glyphScale) * scale.y - accYAdvance
-                );
-                transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
-                transform.setRotation(rot);
-                transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-                charsToDraw.push_back(std::make_pair(it->first->second->polygon, transform));
+                charsToDraw.reserve(charsToDraw.size() + it1->size());
+                for (auto it2 = it1->begin(); it2 != it1->end(); ++it2)
+                {
+                    ColoredTransformHandle transform;
+                    transform.setPosition(pos.x, pos.y);
+                    transform.setOffset
+                    (
+                        rect.left * scale.x + it2->second +
+                        this->getAlignOffset(rectWidth, accXAdvance, *it1),
+                        (rect.top - asc * glyphScale) * scale.y - accYAdvance
+                    );
+                    transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
+                    transform.setRotation(rot);
+                    transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+                    charsToDraw.push_back(std::make_pair(it2->first->second->polygon, transform));
+                }
             }
 
             curLine.clear();
