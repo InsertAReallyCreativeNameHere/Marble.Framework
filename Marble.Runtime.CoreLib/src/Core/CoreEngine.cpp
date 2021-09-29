@@ -56,7 +56,7 @@ moodycamel::ConcurrentQueue<skarupke::function<void()>> CoreEngine::pendingPostT
 std::vector<skarupke::function<void()>> CoreEngine::pendingRenderJobBatchesOffload;
 moodycamel::ConcurrentQueue<std::vector<skarupke::function<void()>>> CoreEngine::pendingRenderJobBatches;
 
-float CoreEngine::mspf = 100;
+float CoreEngine::mspf = 0;
 
 static std::atomic<bool> renderResizeFlag = true;
 static std::atomic<bool> isRendering = false;
@@ -306,7 +306,7 @@ void CoreEngine::internalLoop()
         while (deltaTime < targetDeltaTime);
         frameBegin = SDL_GetPerformanceCounter();
         targetDeltaTime = CoreEngine::mspf - (deltaTime - targetDeltaTime);
-        if (targetDeltaTime < -CoreEngine::mspf)
+        if (targetDeltaTime < 0)
             targetDeltaTime = CoreEngine::mspf;
         //Debug::LogInfo("Update() frame time: ", deltaTime, ".");
 
