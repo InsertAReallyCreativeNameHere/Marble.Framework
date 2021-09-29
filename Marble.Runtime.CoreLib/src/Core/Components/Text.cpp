@@ -359,6 +359,7 @@ void Text::renderOffload()
         const float asc = this->data->file->fontHandle().ascent;
         const float lineHeight = asc - this->data->file->fontHandle().descent;
         const float glyphScale = float(this->_fontSize) / lineHeight;
+        const float lineHeightScaled = lineHeight * glyphScale * scale.y;
         const float lineDiff = (this->data->file->fontHandle().lineGap + lineHeight) * glyphScale * scale.y;
 
         float accXAdvance = 0;
@@ -438,7 +439,7 @@ void Text::renderOffload()
                     goto SplitDrawWord;
                 else
                 {
-                    if (accYAdvance + lineDiff + lineHeight > rectHeight)
+                    if (accYAdvance + lineDiff + lineHeightScaled > rectHeight)
                         goto ExitTextHandling;
                     pushLineAndResetCurrent();
                     goto InlineDrawWord;
@@ -453,7 +454,7 @@ void Text::renderOffload()
             {
                 if (accXAdvance + *advanceLenIt > rectWidth) [[unlikely]]
                 {
-                    if (accYAdvance + lineDiff + lineHeight > rectHeight)
+                    if (accYAdvance + lineDiff + lineHeightScaled > rectHeight)
                         goto ExitTextHandling;
                     pushLineAndResetCurrent();
                     curLine.reserve(end - i);
@@ -507,7 +508,7 @@ void Text::renderOffload()
                     break;
                 case U'\n':
                 Newline:
-                if (accYAdvance + lineDiff + lineHeight > rectHeight)
+                if (accYAdvance + lineDiff + lineHeightScaled > rectHeight)
                     goto ExitTextHandling;
                 pushLineAndResetCurrent();
                 break;
