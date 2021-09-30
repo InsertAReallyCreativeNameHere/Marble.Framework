@@ -549,7 +549,7 @@ void CoreEngine::internalRenderLoop()
         nullptr,
         #endif
 
-        renderW, renderH
+        Window::width, Window::height
     );
     
     Renderer::setViewArea(0, 0, renderW, renderH);
