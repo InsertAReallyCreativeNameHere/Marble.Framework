@@ -38,7 +38,7 @@ namespace Marble
 			static std::atomic<bool> threadsFinished_1;
 			static std::atomic<bool> threadsFinished_2;
 
-			static void displayModeStuff();
+			static void resetDisplayData();
 
 			static moodycamel::ConcurrentQueue<skarupke::function<void()>> pendingPreTickEvents;
 			static moodycamel::ConcurrentQueue<skarupke::function<void()>> pendingPostTickEvents;

@@ -381,7 +381,7 @@ void Text::renderOffload()
 
         struct Character
         {
-            decltype(this->data->characters)::iterator character;
+            decltype(Text::data->characters)::iterator character;
             float xOffset;
         };
         struct Word

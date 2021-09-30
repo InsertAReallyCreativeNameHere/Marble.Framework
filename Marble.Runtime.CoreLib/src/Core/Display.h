@@ -14,23 +14,21 @@ namespace Marble
 
     class coreapi Window final
     {
-        static std::atomic<int> width;
-        static std::atomic<int> height;
-
-        static std::atomic<bool> resizing;
+        static int width;
+        static int height;
+        static bool resizing;
     public:
         inline static int pixelWidth()
         {
-            return Window::width.load(std::memory_order_relaxed);
+            return Window::width;
         }
         inline static int pixelHeight()
         {
-            return Window::height.load(std::memory_order_relaxed);
+            return Window::height;
         }
-
         inline static bool isResizing()
         {
-            return Window::resizing.load(std::memory_order_relaxed);
+            return Window::resizing;
         }
 
         friend class Marble::Internal::CoreEngine;

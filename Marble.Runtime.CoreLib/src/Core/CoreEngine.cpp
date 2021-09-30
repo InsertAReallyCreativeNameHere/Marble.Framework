@@ -58,6 +58,7 @@ moodycamel::ConcurrentQueue<std::vector<skarupke::function<void()>>> CoreEngine:
 
 float CoreEngine::mspf = 0;
 
+static int renderW, renderH;
 static std::atomic<bool> renderResizeFlag = true;
 static std::atomic<bool> isRendering = false;
 
@@ -168,7 +169,7 @@ void CoreEngine::exit()
     std::wcout << L"Done.\n";
 }
 
-void CoreEngine::displayModeStuff()
+void CoreEngine::resetDisplayData()
 {
     if (SDL_GetDesktopDisplayMode(0, &CoreEngine::displMd) != 0)
         Debug::LogError("Failed to get desktop display mode: ", SDL_GetError());
@@ -192,14 +193,27 @@ void CoreEngine::internalLoop()
     constexpr float& targetDeltaTime = CoreEngine::mspf;
     float deltaTime;
 
-    while (readyToExit.load(std::memory_order_seq_cst) == false)
-    {
-        #pragma region Loop Begin
-        #pragma endregion
+    int prevW = Window::height, prevH = Window::width;
 
+    while (readyToExit.load(std::memory_order_relaxed) == false)
+    {
         #pragma region Pre-Tick
         while (CoreEngine::pendingPreTickEvents.try_dequeue(tickEvent))
             tickEvent();
+
+        if (Window::width != prevW || Window::height != prevH) [[unlikely]]
+        {
+            CoreEngine::pendingRenderJobBatchesOffload.push_back
+            (
+                [w = Window::width, h = Window::height]
+                {
+                    Renderer::reset(w, h);
+                    Renderer::setViewArea(0, 0, w, h);
+                }
+            );
+        }
+        prevW = Window::width;
+        prevH = Window::height;
 
         for (auto it = Input::pendingInputEvents.begin(); it != Input::pendingInputEvents.end();)
         {
@@ -340,9 +354,7 @@ void CoreEngine::internalWindowLoop()
         CoreEngine::threadsFinished_1.store(true, std::memory_order_relaxed);
         return;
     }
-    displayModeStuff();
 
-    #pragma region SDL Window Initialisation
     wind = SDL_CreateWindow("Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Screen::width / 2, Screen::height / 2, SDL_WINDOW_ALLOW_HIGHDPI);
     if (wind == nullptr)
     {
@@ -351,50 +363,52 @@ void CoreEngine::internalWindowLoop()
         CoreEngine::threadsFinished_1.store(true, std::memory_order_relaxed);
         return;
     }
-    Window::width = Screen::width / 2;
-    Window::height = Screen::height / 2;
-    #pragma endregion
 
     SDL_VERSION(&CoreEngine::wmInfo.version);
     SDL_GetWindowWMInfo(CoreEngine::wind, &CoreEngine::wmInfo);
-
     SDL_SetWindowMinimumSize(wind, 200, 200);
+    resetDisplayData();
+
+    struct {
+        int w, h;
+    } windowSizeData;
+    SDL_GetWindowSize(wind, &windowSizeData.w, &windowSizeData.h);
+    Window::width = windowSizeData.w;
+    Window::height = windowSizeData.h;
 
     SDL_SetEventFilter
     (
-        [](void*, SDL_Event* event) -> int
+        [](void* userdata, SDL_Event* event) -> int
         {
             if (event->type == SDL_WINDOWEVENT && event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
             {
-                Window::resizing = true;
+                decltype(windowSizeData)* data = static_cast<decltype(windowSizeData)*>(userdata);
+                SDL_GetWindowSize(CoreEngine::wind, &data->w, &data->h);
 
-                static int w, h;
-                SDL_GetWindowSize(CoreEngine::wind, &w, &h);
-                Window::width = w;
-                Window::height = h;
+                CoreEngine::pendingPreTickEvents.enqueue
+                (
+                    [w = data->w, h = data->h]
+                    {
+                        Window::width = w;
+                        Window::height = h;
+                        Window::resizing = true;
+                    }
+                );
 
                 renderResizeFlag.store(true, std::memory_order_relaxed);
                 while (isRendering.load(std::memory_order_relaxed));
                 renderResizeFlag.store(false, std::memory_order_relaxed);
             }
-
             return 1;
         },
-        nullptr
+        &windowSizeData
     );
-        
-    static int w, h;
-    SDL_GetWindowSize(wind, &w, &h);
-    Window::width = w;
-    Window::height = h;
-
+    
     initIndex++;
     while (initIndex.load() != 2);
 
     Debug::LogInfo("Internal event loop started.");
-
     SDL_SetWindowResizable(CoreEngine::wind, SDL_TRUE);
-
     initIndex++;
     
     SDL_Event ev;
@@ -412,7 +426,7 @@ void CoreEngine::internalWindowLoop()
                 switch (ev.window.event)
                 {
                 case SDL_WINDOWEVENT_RESIZED:
-                    Window::resizing = false; // This line is very important.
+                    CoreEngine::pendingPreTickEvents.enqueue([] { Window::resizing = false; });
                     renderResizeFlag.store(true, std::memory_order_relaxed);
                     break;
                 case SDL_WINDOWEVENT_MOVED:
@@ -427,8 +441,10 @@ void CoreEngine::internalWindowLoop()
                 (
                     [posX = ev.motion.x, posY = ev.motion.y, motX = ev.motion.xrel, motY = ev.motion.yrel]
                     {
-                        Input::internalMousePosition = { posX, posY };
-                        Input::internalMouseMotion += { motX, motY };
+                        Input::internalMousePosition.x = posX;
+                        Input::internalMousePosition.y = posY;
+                        Input::internalMouseMotion.x += motX;
+                        Input::internalMouseMotion.y += motY;
                     }
                 );
                 break;
@@ -533,13 +549,10 @@ void CoreEngine::internalRenderLoop()
         nullptr,
         #endif
 
-        Window::width.load(), Window::height.load()
+        renderW, renderH
     );
     
-    int w = Window::width, h = Window::height;
-    int prevW, prevH;
-    
-    Renderer::setViewArea(0, 0, w, h);
+    Renderer::setViewArea(0, 0, renderW, renderH);
     Renderer::setClear(0x323232ff);
 
     // Empty draw call to set up window.
@@ -552,19 +565,7 @@ void CoreEngine::internalRenderLoop()
     {
         isRendering.store(true, std::memory_order_relaxed);
 
-        prevW = w;
-        prevH = h;
-
         while (!renderResizeFlag.load( std::memory_order_relaxed));
-
-        w = Window::width;
-        h = Window::height;
-        
-        if (prevW != w || prevH != h) [[unlikely]]
-        {
-            Renderer::reset(w, h);
-            Renderer::setViewArea(0, 0, w, h);
-        }
 
         static bool dequeued = false;
         std::vector<skarupke::function<void()>> jobs;
