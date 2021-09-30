@@ -173,9 +173,15 @@ void CoreEngine::resetDisplayData()
 {
     if (SDL_GetDesktopDisplayMode(0, &CoreEngine::displMd) != 0)
         Debug::LogError("Failed to get desktop display mode: ", SDL_GetError());
-    Screen::width = displMd.w;
-    Screen::height = displMd.h;
-    Screen::screenRefreshRate = displMd.refresh_rate;
+    CoreEngine::pendingPreTickEvents.enqueue
+    (
+        [w = CoreEngine::displMd.w, h = CoreEngine::displMd.h, rr = CoreEngine::displMd.refresh_rate]
+        {
+            Screen::width = w;
+            Screen::height = h;
+            Screen::screenRefreshRate = rr;
+        }
+    );
 }
 
 void CoreEngine::internalLoop()
@@ -355,6 +361,12 @@ void CoreEngine::internalWindowLoop()
         return;
     }
 
+    if (SDL_GetDesktopDisplayMode(0, &CoreEngine::displMd) != 0)
+        Debug::LogError("Failed to get desktop display mode: ", SDL_GetError());
+    Screen::width = displMd.w;
+    Screen::height = displMd.h;
+    Screen::screenRefreshRate = displMd.refresh_rate;
+    
     wind = SDL_CreateWindow("Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Screen::width / 2, Screen::height / 2, SDL_WINDOW_ALLOW_HIGHDPI);
     if (wind == nullptr)
     {
@@ -367,7 +379,6 @@ void CoreEngine::internalWindowLoop()
     SDL_VERSION(&CoreEngine::wmInfo.version);
     SDL_GetWindowWMInfo(CoreEngine::wind, &CoreEngine::wmInfo);
     SDL_SetWindowMinimumSize(wind, 200, 200);
-    resetDisplayData();
 
     struct {
         int w, h;
