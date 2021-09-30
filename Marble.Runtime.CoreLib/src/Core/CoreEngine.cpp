@@ -58,7 +58,7 @@ moodycamel::ConcurrentQueue<std::vector<skarupke::function<void()>>> CoreEngine:
 
 float CoreEngine::mspf = 0;
 
-static int renderW, renderH;
+static int windW = 0, windH = 0;
 static std::atomic<bool> renderResizeFlag = true;
 static std::atomic<bool> isRendering = false;
 
@@ -199,7 +199,7 @@ void CoreEngine::internalLoop()
     constexpr float& targetDeltaTime = CoreEngine::mspf;
     float deltaTime;
 
-    int prevW = Window::height, prevH = Window::width;
+    int prevW = windW, prevH = windH;
 
     while (readyToExit.load(std::memory_order_relaxed) == false)
     {
@@ -207,19 +207,21 @@ void CoreEngine::internalLoop()
         while (CoreEngine::pendingPreTickEvents.try_dequeue(tickEvent))
             tickEvent();
 
-        if (Window::width != prevW || Window::height != prevH) [[unlikely]]
+        if (windW != prevW || windH != prevH) [[unlikely]]
         {
             CoreEngine::pendingRenderJobBatchesOffload.push_back
             (
-                [w = Window::width, h = Window::height]
+                [w = windW, h = windH]
                 {
                     Renderer::reset(w, h);
                     Renderer::setViewArea(0, 0, w, h);
                 }
             );
+            Window::width = windW;
+            Window::height = windH;
         }
-        prevW = Window::width;
-        prevH = Window::height;
+        prevW = windW;
+        prevH = windH;
 
         for (auto it = Input::pendingInputEvents.begin(); it != Input::pendingInputEvents.end();)
         {
@@ -366,7 +368,7 @@ void CoreEngine::internalWindowLoop()
     Screen::width = displMd.w;
     Screen::height = displMd.h;
     Screen::screenRefreshRate = displMd.refresh_rate;
-    
+
     wind = SDL_CreateWindow("Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Screen::width / 2, Screen::height / 2, SDL_WINDOW_ALLOW_HIGHDPI);
     if (wind == nullptr)
     {
@@ -400,8 +402,8 @@ void CoreEngine::internalWindowLoop()
                 (
                     [w = data->w, h = data->h]
                     {
-                        Window::width = w;
-                        Window::height = h;
+                        windW = w;
+                        windH = h;
                         Window::resizing = true;
                     }
                 );
@@ -563,7 +565,7 @@ void CoreEngine::internalRenderLoop()
         Window::width, Window::height
     );
     
-    Renderer::setViewArea(0, 0, renderW, renderH);
+    Renderer::setViewArea(0, 0, Window::width, Window::height);
     Renderer::setClear(0x323232ff);
 
     // Empty draw call to set up window.
