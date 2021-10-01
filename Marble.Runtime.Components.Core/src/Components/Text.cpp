@@ -376,7 +376,6 @@ void Text::renderOffload()
         const uint32_t maxLines = uint32_t(rectHeight > 0 ? rectHeight : 0) / (this->_fontSize > 0 ? this->_fontSize : 1);
         const float effectiveHeight = float(maxLines) * this->_fontSize;
 
-        float spaceXAdvance = 0.0f;
         float accYAdvance = 0.0f;
 
         std::vector<float> advanceLengths;
@@ -446,23 +445,27 @@ void Text::renderOffload()
             advanceLenIt = advanceLengths.begin();
 
             float wordLen = std::accumulate(advanceLenIt, advanceLengths.end(), 0.0f);
-            if (lines.back().width + spaceXAdvance + wordLen > rectWidth) [[unlikely]]
+            if (lines.back().width + wordLen > rectWidth) [[unlikely]]
             {
-                if (accYAdvance + lineDiff + lineHeightScaled > rectHeight)
-                    goto ExitTextHandling;
-                pushCurrentLine();
-                lines.back().words.push_back({ { } });
-                lines.back().words.back().characters.reserve(end - beg);
-                spaceXAdvance = 0.0f;
                 if (wordLen > rectWidth) [[unlikely]]
+                {
+                    lines.back().words.push_back({ { } });
+                    lines.back().words.back().characters.reserve(end - beg);
                     goto SplitDrawWord;
-                else goto InlineDrawWord;
+                }
+                else
+                {
+                    if (accYAdvance + lineDiff + lineHeightScaled > rectHeight)
+                        goto ExitTextHandling;
+                    pushCurrentLine();
+                    lines.back().words.push_back({ { } });
+                    lines.back().words.back().characters.reserve(end - beg);
+                }
             }
             else
             {
                 lines.back().words.push_back({ { } });
                 lines.back().words.back().characters.reserve(end - beg);
-                lines.back().width += spaceXAdvance;
                 goto InlineDrawWord;
             }
 
@@ -479,7 +482,6 @@ void Text::renderOffload()
                     lines.back().words.push_back({ { } });
                     lines.back().words.back().characters.reserve(end - i);
                 }
-                Debug::LogInfo(lines.back().width, "  ", accYAdvance);
                 pushCharAndIterNext(i);
             }
             goto ExitDrawWord;
@@ -492,7 +494,6 @@ void Text::renderOffload()
             // NB: No goto here, jump would go to the same place anyways.
 
             ExitDrawWord:
-            spaceXAdvance = 0.0f;
             advanceLengths.clear();
         }
         beg = end;
@@ -505,24 +506,34 @@ void Text::renderOffload()
         else goto ExitTextHandling;
 
         HandleSpace:
-        for (size_t i = beg; i < end; i++)
         {
-            switch (this->_text[i])
+            float spaceAdv = 0.0f;
+            for (size_t i = beg; i < end; i++)
             {
-                case U' ':
-                    spaceXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.x;
+                switch (this->_text[i])
+                {
+                    case U' ':
+                        spaceAdv += this->textData[i].metrics.advanceWidth * glyphScale * scale.x;
+                        if (lines.back().width + spaceAdv > rectWidth)
+                            goto Newline;
+                        break;
+                    case U'\t':
+                        spaceAdv += this->textData[i].metrics.advanceWidth * glyphScale * scale.x * 8;
+                        if (lines.back().width + spaceAdv > rectWidth)
+                            goto Newline;
+                        break;
+                    case U'\r':
+                        break;
+                    case U'\n':
+                    Newline:
+                    if (accYAdvance + lineDiff + lineHeightScaled > rectHeight)
+                        goto ExitTextHandling;
+                    spaceAdv = 0.0f;
+                    pushCurrentLine();
                     break;
-                case U'\t':
-                    spaceXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.x * 8;
-                    break;
-                case U'\r':
-                    break;
-                case U'\n':
-                if (accYAdvance + lineDiff + lineHeightScaled > rectHeight)
-                    goto ExitTextHandling;
-                pushCurrentLine();
-                break;
+                }
             }
+            lines.back().width += spaceAdv;
         }
         beg = end;
         if (end != this->_text.size()) [[likely]]
@@ -547,9 +558,9 @@ void Text::renderOffload()
                     transform.setOffset
                     (
                         rect.left * scale.x + it3->xOffset +
-                        this->getHorizontalAlignOffset(rectWidth - it1->width, float(it2 - it1->words.begin()) / (it1->words.size() - 1)),
+                        this->getHorizontalAlignOffset(rectWidth - it1->width, float(it2 - it1->words.begin()) / (it1->words.size() > 1 ? it1->words.size() - 1 : 1)),
                         (rect.top - asc * glyphScale) * scale.y - it1->yOffset -
-                        this->getVerticalAlignOffset(rectHeight - lines.size() * lineDiff, float(it1 - lines.begin()) / (lines.size() - 1))
+                        this->getVerticalAlignOffset(rectHeight - lines.size() * lineDiff, float(it1 - lines.begin()) / (lines.size() > 1 ? lines.size() - 1 : 1))
                     );
                     transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
                     transform.setRotation(rot);
