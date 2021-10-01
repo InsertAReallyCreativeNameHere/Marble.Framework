@@ -1,6 +1,7 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.CoreLib.Exports.h"
 
 #include <filesystem>
 
@@ -19,7 +20,7 @@ namespace Marble
         class PackageManager;
     }
 
-    class coreapi Application final
+    class __marble_corelib_api Application final
     {
         static std::filesystem::path currentWorkingDirectory;
     public:

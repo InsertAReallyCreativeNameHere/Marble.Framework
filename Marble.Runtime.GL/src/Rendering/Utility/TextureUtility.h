@@ -1,6 +1,7 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.GL.Exports.h"
 
 #include <string>
 
@@ -16,7 +17,7 @@ namespace Marble
         };
 
         class TextureUtility;
-        struct coreapi TextureCompileOptions final
+        struct TextureCompileOptions final
         {
             inline TextureCompileOptions(std::string fileType) : outputType(std::move(fileType)), outputFormat(""), quality(TextureEncodingQuality::Default)
             {
@@ -40,7 +41,7 @@ namespace Marble
             TextureEncodingQuality quality;
         };
 
-        class coreapi TextureUtility final
+        class __marble_gl_api TextureUtility final
         {
         public:
             TextureUtility() = delete;

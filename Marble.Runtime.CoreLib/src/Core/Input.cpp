@@ -1,6 +1,6 @@
 #include "Input.h"
 
-#include <Core/EntityComponentSystem/EngineEvent.h>
+#include <EntityComponentSystem/EngineEvent.h>
 
 using namespace Marble;
 using namespace Marble::Internal;

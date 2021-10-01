@@ -11,17 +11,13 @@
 
 #include <Mathematics.h>
 #include <Core/Application.h>
-#include <Core/Components/Panel.h>
-#include <Core/Components/Image.h>
-#include <Core/Components/Text.h>
-#include <Core/EntityComponentSystem/EngineEvent.h>
 #include <Core/Debug.h>
 #include <Core/Display.h>
 #include <Core/Input.h>
-#include <Core/Objects/Entity.h>
 #include <Core/PackageManager.h>
 #include <Core/SceneManagement.h>
-#include <Drawing/Core.h>
+#include <EntityComponentSystem/EngineEvent.h>
+#include <Objects/Entity.h>
 #include <Rendering/Core/Renderer.h>
 #include <Rendering/Utility/ShaderUtility.h>
 #include <Utility/Hash.h>
@@ -32,7 +28,6 @@ using namespace Marble::GL;
 using namespace Marble::Internal;
 using namespace Marble::Mathematics;
 using namespace Marble::PackageSystem;
-using namespace Marble::Typography;
 
 #define WNDW 1280
 #define WNDH 720
@@ -56,9 +51,8 @@ moodycamel::ConcurrentQueue<skarupke::function<void()>> CoreEngine::pendingPostT
 std::vector<skarupke::function<void()>> CoreEngine::pendingRenderJobBatchesOffload;
 moodycamel::ConcurrentQueue<std::vector<skarupke::function<void()>>> CoreEngine::pendingRenderJobBatches;
 
-float CoreEngine::mspf = 0;
+float CoreEngine::mspf = 100;
 
-static int windW = 0, windH = 0;
 static std::atomic<bool> renderResizeFlag = true;
 static std::atomic<bool> isRendering = false;
 
@@ -199,7 +193,7 @@ void CoreEngine::internalLoop()
     constexpr float& targetDeltaTime = CoreEngine::mspf;
     float deltaTime;
 
-    int prevW = windW, prevH = windH;
+    int prevW = Window::width, prevH = Window::height;
 
     while (readyToExit.load(std::memory_order_relaxed) == false)
     {
@@ -207,21 +201,21 @@ void CoreEngine::internalLoop()
         while (CoreEngine::pendingPreTickEvents.try_dequeue(tickEvent))
             tickEvent();
 
-        if (windW != prevW || windH != prevH) [[unlikely]]
+        if (Window::width != prevW || Window::height != prevH) [[unlikely]]
         {
             CoreEngine::pendingRenderJobBatchesOffload.push_back
             (
-                [w = windW, h = windH]
+                [w = Window::width, h = Window::height]
                 {
                     Renderer::reset(w, h);
                     Renderer::setViewArea(0, 0, w, h);
                 }
             );
-            Window::width = windW;
-            Window::height = windH;
+            Window::width = Window::width;
+            Window::height = Window::height;
         }
-        prevW = windW;
-        prevH = windH;
+        prevW = Window::width;
+        prevH = Window::height;
 
         for (auto it = Input::pendingInputEvents.begin(); it != Input::pendingInputEvents.end();)
         {
@@ -293,33 +287,39 @@ void CoreEngine::internalLoop()
         #pragma endregion
 
         #pragma region Render Offload
-        for
-        (
-            auto it1 = SceneManager::existingScenes.begin();
-            it1 != SceneManager::existingScenes.end();
-            ++it1
-        )
+        if (!isRendering.load(std::memory_order_relaxed))
         {
-            if ((*it1)->active)
+            CoreEngine::pendingRenderJobBatchesOffload.push_back(Renderer::beginFrame);
+            for
+            (
+                auto it1 = SceneManager::existingScenes.begin();
+                it1 != SceneManager::existingScenes.end();
+                ++it1
+            )
             {
-                for
-                (
-                    auto it2 = (*it1)->entities.begin();
-                    it2 != (*it1)->entities.end();
-                    ++it2
-                )
+                if ((*it1)->active)
                 {
                     for
                     (
-                        auto it3 = (*it2)->components.begin();
-                        it3 != (*it2)->components.end();
-                        ++it3
+                        auto it2 = (*it1)->entities.begin();
+                        it2 != (*it1)->entities.end();
+                        ++it2
                     )
-                    { InternalEngineEvent::OnRenderOffloadForComponent(*it3); }
+                    {
+                        for
+                        (
+                            auto it3 = (*it2)->components.begin();
+                            it3 != (*it2)->components.end();
+                            ++it3
+                        )
+                        { InternalEngineEvent::OnRenderOffloadForComponent(*it3); }
+                    }
                 }
             }
+            CoreEngine::pendingRenderJobBatchesOffload.push_back(Renderer::endFrame);
         }
         CoreEngine::pendingRenderJobBatches.enqueue(std::move(CoreEngine::pendingRenderJobBatchesOffload));
+        CoreEngine::pendingRenderJobBatchesOffload.clear();
         #pragma endregion
 
         ProfileEndFrame();
@@ -402,8 +402,8 @@ void CoreEngine::internalWindowLoop()
                 (
                     [w = data->w, h = data->h]
                     {
-                        windW = w;
-                        windH = h;
+                        Window::width = w;
+                        Window::height = h;
                         Window::resizing = true;
                     }
                 );
@@ -574,37 +574,29 @@ void CoreEngine::internalRenderLoop()
 
     initIndex++;
 
+    std::vector<skarupke::function<void()>> jobs;
     while (readyToExit.load(std::memory_order_relaxed) == false)
     {
-        isRendering.store(true, std::memory_order_relaxed);
-
-        while (!renderResizeFlag.load( std::memory_order_relaxed));
-
-        static bool dequeued = false;
-        std::vector<skarupke::function<void()>> jobs;
-        while (CoreEngine::pendingRenderJobBatches.try_dequeue(jobs))
-            dequeued = true;
-        
-        if (dequeued) [[likely]]
+        if (CoreEngine::pendingRenderJobBatches.try_dequeue(jobs))
         {
-            Renderer::beginFrame();
+            isRendering.store(true, std::memory_order_relaxed);
+            while (!renderResizeFlag.load(std::memory_order_relaxed));
+
             for (auto it = jobs.begin(); it != jobs.end(); ++it)
                 (*it)();
-            Renderer::endFrame();
+
+            isRendering.store(false, std::memory_order_relaxed);
         }
-
-        dequeued = false;
-
-        isRendering.store(false, std::memory_order_relaxed);
     }
 
     while (!CoreEngine::threadsFinished_0.load(std::memory_order_relaxed));
 
+    /*while (CoreEngine::pendingRenderJobBatches.try_dequeue(jobs))
+        for (auto it = jobs.begin(); it != jobs.end(); ++it)
+            (*it)();*/
+
     InternalEngineEvent::OnRenderShutdown();
     Renderer::shutdown();
-
-    std::vector<skarupke::function<void()>> jobs;
-    while (CoreEngine::pendingRenderJobBatches.try_dequeue(jobs));
 
     CoreEngine::threadsFinished_2.store(true, std::memory_order_relaxed);
 }

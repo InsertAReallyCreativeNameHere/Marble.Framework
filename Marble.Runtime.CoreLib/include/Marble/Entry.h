@@ -1,6 +1,7 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.CoreLib.Exports.h"
 
 #include <Core/Application.h>
 #include <Core/Debug.h>

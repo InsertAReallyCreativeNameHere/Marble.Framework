@@ -1,6 +1,7 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.Components.Core.Exports.h"
 
 #include <stb_image.h>
 #include <Core/PackageManager.h>
@@ -10,7 +11,7 @@ namespace Marble
 {
     namespace PackageSystem
     {
-        class coreapi PortableGraphicPackageFile final : public PackageFile
+        class __marble_componentcore_api PortableGraphicPackageFile final : public PackageFile
         {
             stbi_uc* loadedImage;
             int width, height;
@@ -32,7 +33,7 @@ namespace Marble
             friend class Marble::PackageSystem::PackageManager;
         };
 
-        class coreapi TrueTypeFontPackageFile final : public PackageFile
+        class __marble_componentcore_api TrueTypeFontPackageFile final : public PackageFile
         {
             std::vector<uint8_t> data;
             Typography::Font font;

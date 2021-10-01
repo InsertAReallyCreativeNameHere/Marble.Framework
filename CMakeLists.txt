@@ -6,6 +6,8 @@ project(Marble.Framework)
 option(WINDOWS_COMPATIBILITY_SUPPORT "Enable compatibility with Windows versions up to Windows XP." ON)
 option(MARBLE_ENABLE_PROFILING "Enable frame-by-frame profiling with tracy." OFF)
 
+include(GenerateExportHeader)
+
 if (CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(BUILD_ARCH x64)
 else()
@@ -93,12 +95,8 @@ file(GLOB_RECURSE METHSRCS configure_depends
 )
 
 add_library(Marble.Mathematics SHARED ${METHSRCS})
-target_compile_definitions(Marble.Mathematics PRIVATE BUILD_TYPE_DYNAMIC=1)
 target_include_directories(Marble.Mathematics PUBLIC "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/src")
 target_include_directories(Marble.Mathematics PRIVATE "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src")
-if (MARBLE_ENABLE_PROFILING)
-    target_link_libraries(Marble.Mathematics PRIVATE TracyClient)
-endif()
 
 set_target_properties(Marble.Mathematics
     PROPERTIES
@@ -115,9 +113,15 @@ file(GLOB_RECURSE FONTSRCS configure_depends
 )
 
 add_library(Marble.Typography SHARED ${FONTSRCS})
-target_compile_definitions(Marble.Typography PRIVATE BUILD_TYPE_DYNAMIC=1)
+
+generate_export_header(Marble.Typography
+    BASE_NAME MARBLE_TYPOGRAPHY
+    EXPORT_MACRO_NAME __marble_typography_api
+    EXPORT_FILE_NAME Marble.Typography.Exports.h
+)
 
 target_include_directories(Marble.Typography PUBLIC
+    "${CMAKE_CURRENT_BINARY_DIR}"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/stb"
@@ -133,6 +137,7 @@ set_target_properties(Marble.Typography
     ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Typography"
     LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Typography"
     RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Typography"
+    #CXX_VISIBILITY_PRESET hidden
 )
 
 # Marble.Runtime.GL
@@ -147,9 +152,17 @@ file(GLOB_RECURSE SHADERC configure_depends
 )
 
 add_library(Marble.Runtime.GL SHARED ${GLSRCS} ${SHADERC})
-target_compile_definitions(Marble.Runtime.GL PRIVATE BUILD_TYPE_DYNAMIC=1)
 
-target_include_directories(Marble.Runtime.GL PUBLIC "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/src")
+generate_export_header(Marble.Runtime.GL
+    BASE_NAME MARBLE_GL
+    EXPORT_MACRO_NAME __marble_gl_api
+    EXPORT_FILE_NAME Marble.Runtime.GL.Exports.h
+)
+
+target_include_directories(Marble.Runtime.GL PUBLIC
+    "${CMAKE_CURRENT_BINARY_DIR}"
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/src"
+)
 target_include_directories(Marble.Runtime.GL PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies"
@@ -176,6 +189,7 @@ set_target_properties(Marble.Runtime.GL
     ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.GL"
     LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.GL"
     RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Runtime.GL"
+    #CXX_VISIBILITY_PRESET hidden
 )
 
 # Marble.Runtime.CoreLib
@@ -187,26 +201,27 @@ file(GLOB_RECURSE ENGINESRCS configure_depends
 
 add_library(Marble.Runtime.CoreLib SHARED ${ENGINESRCS})
 
-target_compile_definitions(Marble.Runtime.CoreLib PUBLIC SDL_MAIN_HANDLED)
-target_compile_definitions(Marble.Runtime.CoreLib PRIVATE BUILD_TYPE_DYNAMIC=1)
+generate_export_header(Marble.Runtime.CoreLib
+    BASE_NAME MARBLE_CORELIB
+    EXPORT_MACRO_NAME __marble_corelib_api
+    EXPORT_FILE_NAME Marble.Runtime.CoreLib.Exports.h
+)
 
+target_compile_definitions(Marble.Runtime.CoreLib PUBLIC SDL_MAIN_HANDLED)
 target_include_directories(Marble.Runtime.CoreLib PUBLIC
+    "${CMAKE_CURRENT_BINARY_DIR}"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/src"
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/include"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies"
-    "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/robin_hood/include"
-    "${CMAKE_CURRENT_LIST_DIR}/dependencies/stb"
     "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bgfx/include"
     "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include"
     "${CMAKE_CURRENT_LIST_DIR}/external/SDL/include"
 )
 target_link_libraries(Marble.Runtime.CoreLib PRIVATE
     Marble.Mathematics
-    Marble.Typography
     Marble.Runtime.GL
     SDL2-static
 )
@@ -229,6 +244,58 @@ set_target_properties(Marble.Runtime.CoreLib
     ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.CoreLib"
     LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.CoreLib"
     RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Runtime.CoreLib"
+    #CXX_VISIBILITY_PRESET hidden
+)
+
+# Marble.Runtime.Components.Core
+
+file(GLOB_RECURSE ENGINESRCS configure_depends
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.Components.Core/*.h"
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.Components.Core/*.cpp"
+)
+
+add_library(Marble.Runtime.Components.Core SHARED ${ENGINESRCS})
+
+generate_export_header(Marble.Runtime.Components.Core
+    BASE_NAME MARBLE_COMPONENTCORE
+    EXPORT_MACRO_NAME __marble_componentcore_api
+    EXPORT_FILE_NAME Marble.Runtime.Components.Core.Exports.h
+)
+
+target_include_directories(Marble.Runtime.Components.Core PUBLIC
+    "${CMAKE_CURRENT_BINARY_DIR}"
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/src"
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/src"
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src"
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/include"
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.Components.Core/src"
+    "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
+    "${CMAKE_CURRENT_LIST_DIR}/dependencies/stb"
+)
+target_link_libraries(Marble.Runtime.Components.Core PRIVATE
+    Marble.Mathematics
+    Marble.Typography
+    Marble.Runtime.GL
+    Marble.Runtime.CoreLib
+)
+
+if (MARBLE_ENABLE_PROFILING)
+    target_link_libraries(Marble.Runtime.Components.Core PRIVATE TracyClient)
+endif()
+
+set_target_properties(Marble.Runtime.Components.Core
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.Components.Core"
+    LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.Components.Core"
+    RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Runtime.Components.Core"
+)
+set_target_properties(Marble.Runtime.Components.Core
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.Components.Core"
+    LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.Components.Core"
+    RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Runtime.Components.Core"
+    #CXX_VISIBILITY_PRESET hidden
 )
 
 if (BUILD_PLATFORM STREQUAL "Win32")

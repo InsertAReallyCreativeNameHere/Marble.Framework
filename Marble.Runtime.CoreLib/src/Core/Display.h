@@ -1,6 +1,7 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.CoreLib.Exports.h"
 
 #include <atomic>
 #include <Mathematics.h>
@@ -12,7 +13,7 @@ namespace Marble
         class CoreEngine;
     }
 
-    class coreapi Window final
+    class __marble_corelib_api Window final
     {
         static int width;
         static int height;
@@ -34,7 +35,7 @@ namespace Marble
         friend class Marble::Internal::CoreEngine;
     };
     
-    class coreapi Screen final
+    class __marble_corelib_api Screen final
     {
         static int width;
         static int height;

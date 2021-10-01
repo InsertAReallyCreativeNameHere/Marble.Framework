@@ -1,6 +1,7 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.CoreLib.Exports.h"
 
 #include <filesystem>
 #include <map>
@@ -21,7 +22,7 @@ namespace Marble
         class BinaryPackageFile;
         class PackageManager;
 
-        struct coreapi PackageFile
+        struct __marble_corelib_api PackageFile
         {
             struct Reflection {
                 uint64_t typeID;
@@ -44,7 +45,7 @@ namespace Marble
         };
         inline PackageFile::~PackageFile() = default;
 
-        class coreapi BinaryPackageFile final : public PackageFile
+        class __marble_corelib_api BinaryPackageFile final : public PackageFile
         {
             std::vector<uint8_t> data;
             
@@ -73,7 +74,7 @@ namespace Marble
             Big = 0,
             Little = 1
         };
-        class coreapi PackageManager final
+        class __marble_corelib_api PackageManager final
         {
             static Endianness endianness;
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.GL.Exports.h"
 
 #include <filesystem>
 
@@ -16,12 +17,23 @@ namespace Marble
         };
 
         class ShaderUtility;
-        struct coreapi ShaderCompileOptions final
+        struct ShaderCompileOptions final
         {
-            ShaderCompileOptions(ShaderType type);
+            inline ShaderCompileOptions(ShaderType type)
+            {
+                this->shaderType = type;
+            }
 
-            ShaderCompileOptions& withIncludeDirs(const std::vector<std::string>& includeDirs);
-            ShaderCompileOptions& withDefines(const std::vector<std::string>& defines);
+            inline ShaderCompileOptions& withIncludeDirs(const std::vector<std::string>& includeDirs)
+            {
+                this->includeDirs.insert(this->includeDirs.end(), includeDirs.begin(), includeDirs.end());
+                return *this;
+            }
+            inline ShaderCompileOptions& withDefines(const std::vector<std::string>& defines)
+            {
+                this->defines.insert(this->defines.end(), defines.begin(), defines.end());
+                return *this;
+            }
 
             friend class Marble::GL::ShaderUtility;
         private:
@@ -30,7 +42,7 @@ namespace Marble
             ShaderType shaderType;
         };
 
-        class coreapi ShaderUtility final
+        class __marble_gl_api ShaderUtility final
         {
         public:
             ShaderUtility() = delete;

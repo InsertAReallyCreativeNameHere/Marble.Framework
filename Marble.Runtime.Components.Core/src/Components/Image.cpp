@@ -5,8 +5,8 @@
 #include <stb_image.h>
 #include <Mathematics.h>
 #include <Core/Application.h>
-#include <Core/Components/RectTransform.h>
 #include <Core/PackageManager.h>
+#include <EntityComponentSystem/RectTransform.h>
 #include <Rendering/Core/Renderer.h>
 
 using namespace Marble;

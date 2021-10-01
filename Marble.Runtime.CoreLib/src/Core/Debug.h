@@ -1,6 +1,7 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.CoreLib.Exports.h"
 
 #include <Utility/Lock.h>
 #include <codecvt>
@@ -31,7 +32,7 @@ namespace Marble
 		}
 	}
 
-	class coreapi Debug final
+	class __marble_corelib_api Debug final
 	{
 		template<typename... T>
 		static void variadicToString(std::wostringstream& str, const T&... args)

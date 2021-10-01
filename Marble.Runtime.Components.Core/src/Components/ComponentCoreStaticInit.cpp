@@ -1,8 +1,8 @@
-#include <Core/Components/Image.h>
-#include <Core/Components/Panel.h>
-#include <Core/Components/Text.h>
-#include <Core/EntityComponentSystem/EngineEvent.h>
+#include <Components/Image.h>
+#include <Components/Panel.h>
+#include <Components/Text.h>
 #include <Core/PackageManager.h>
+#include <EntityComponentSystem/EngineEvent.h>
 #include <Utility/TypeInfo.h>
 
 using namespace Marble;

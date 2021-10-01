@@ -1,9 +1,10 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.CoreLib.Exports.h"
 
 #include <list>
-#include <Core/Objects/Entity.h>
+#include <Objects/Entity.h>
  
 namespace Marble
 {
@@ -17,7 +18,7 @@ namespace Marble
 
     struct Scene;
 
-    class coreapi SceneManager final
+    class __marble_corelib_api SceneManager final
     {
         static std::list<Scene*> existingScenes;
     public:
@@ -34,7 +35,7 @@ namespace Marble
         friend class Marble::Entity;
     };
 
-    struct coreapi Scene final
+    struct __marble_corelib_api Scene final
     {
         inline Scene()
         {

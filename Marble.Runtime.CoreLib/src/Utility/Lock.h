@@ -1,7 +1,5 @@
 #pragma once
 
-#include "inc.h"
-
 #include <atomic>
 #include <thread>
 

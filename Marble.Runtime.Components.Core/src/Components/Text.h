@@ -1,12 +1,13 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.Components.Core.Exports.h"
 
 #include <robin_hood.h>
-#include <Core/Components/PackageFileCore.h>
-#include <Core/Objects/Component.h>
+#include <Components/PackageFileCore.h>
 #include <Core/PackageManager.h>
 #include <Font/Font.h>
+#include <Objects/Component.h>
 #include <Rendering/Core/Renderer.h>
 #include <Utility/Property.h>
 
@@ -36,7 +37,7 @@ namespace Marble
         };
     };
 
-    class coreapi Text final : public Internal::Component
+    class __marble_componentcore_api Text final : public Internal::Component
     {
         struct CharacterData
         {

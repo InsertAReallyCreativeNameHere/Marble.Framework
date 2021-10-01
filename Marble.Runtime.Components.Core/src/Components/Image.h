@@ -1,13 +1,14 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.Components.Core.Exports.h"
 
 #include <robin_hood.h>
-#include <Core/Components/PackageFileCore.h>
+#include <Components/PackageFileCore.h>
 #include <Core/CoreEngine.h>
-#include <Core/Objects/Component.h>
 #include <Core/PackageManager.h>
 #include <Drawing/Core.h>
+#include <Objects/Component.h>
 #include <Rendering/Core/Renderer.h>
 #include <Utility/Property.h>
 
@@ -18,9 +19,9 @@ namespace Marble
         struct ComponentCoreStaticInit;
     }
 
-    class coreapi Image final : public Internal::Component
+    class __marble_componentcore_api Image final : public Internal::Component
     {
-        struct coreapi RenderData final
+        struct __marble_componentcore_api RenderData final
         {
             uint32_t accessCount;
             GL::Texture2DHandle internalTexture;

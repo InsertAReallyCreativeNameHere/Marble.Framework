@@ -1,5 +1,8 @@
 #pragma once
 
+#include "inc.h"
+#include "Marble.Runtime.CoreLib.Exports.h"
+
 #include <queue>
 #include <robin_hood.h>
 #include <SDL_mouse.h>
@@ -137,7 +140,7 @@ namespace Marble
 	};
 
 	// NB: Get input functions are all per frame.
-	class coreapi Input final
+	class __marble_corelib_api Input final
 	{
 		enum class InputEventType : uint_fast8_t
 		{

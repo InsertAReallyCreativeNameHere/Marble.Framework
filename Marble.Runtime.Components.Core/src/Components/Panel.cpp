@@ -1,8 +1,8 @@
 #include "Panel.h"
 
 #include <Mathematics.h>
-#include <Core/Components/RectTransform.h>
 #include <Core/CoreEngine.h>
+#include <EntityComponentSystem/RectTransform.h>
 #include <Rendering/Core/Renderer.h>
 
 using namespace Marble;

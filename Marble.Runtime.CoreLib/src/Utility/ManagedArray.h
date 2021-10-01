@@ -1,12 +1,11 @@
 #pragma once
 
-#include "inc.h"
-#include <iterator>
+#include <algorithm>
 
 namespace Marble
 {
     template<typename T>
-    struct coreapi ManagedArray final
+    struct ManagedArray final
     {
         inline ManagedArray(size_t length = 0) : array(new T[length]), arrlen(length)
         {

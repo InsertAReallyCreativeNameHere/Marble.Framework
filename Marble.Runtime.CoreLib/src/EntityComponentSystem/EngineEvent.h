@@ -1,6 +1,7 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.CoreLib.Exports.h"
 
 #include <string_view>
 #include <Core/Input.h>
@@ -8,7 +9,7 @@
 
 namespace Marble
 {
-    class coreapi EngineEvent final
+    class __marble_corelib_api EngineEvent final
     {
     public:
         static FuncPtrEvent<> OnInitialize;
@@ -48,7 +49,7 @@ namespace Marble
     {
         class Component;
 
-        class coreapi InternalEngineEvent final
+        class __marble_corelib_api InternalEngineEvent final
         {
         public:
             static FuncPtrEvent<Component*> OnRenderOffloadForComponent;

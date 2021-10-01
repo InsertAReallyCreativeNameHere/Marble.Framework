@@ -5,7 +5,8 @@
 #include <tuple>
 #include <Mathematics.h>
 #include <Core/CoreEngine.h>
-#include <Core/Components/RectTransform.h>
+#include <Core/Debug.h>
+#include <EntityComponentSystem/RectTransform.h>
 #include <Rendering/Core/Renderer.h>
 
 using namespace Marble;
@@ -35,7 +36,9 @@ void Text::RenderData::trackCharacters(const std::vector<CharacterData>& text)
                 CoreEngine::queueRenderJobForFrame
                 (
                     [pointsFlattened = std::move(buffers.first), indexesFlattened = std::move(buffers.second), data = charData]
-                    { data->polygon.create(std::move(pointsFlattened), std::move(indexesFlattened)); }
+                    {
+                        data->polygon.create(std::move(pointsFlattened), std::move(indexesFlattened));
+                    }
                 );
             }
         }
@@ -370,18 +373,18 @@ void Text::renderOffload()
         const float glyphScale = float(this->_fontSize) / lineHeight;
         const float lineHeightScaled = lineHeight * glyphScale * scale.y;
         const float lineDiff = (this->data->file->fontHandle().lineGap + lineHeight) * glyphScale * scale.y;
-        const uint32_t maxLines = uint32_t(rectHeight > 0 ? rectHeight : 0) / this->_fontSize;
+        const uint32_t maxLines = uint32_t(rectHeight > 0 ? rectHeight : 0) / (this->_fontSize > 0 ? this->_fontSize : 1);
         const float effectiveHeight = float(maxLines) * this->_fontSize;
 
+        float spaceXAdvance = 0.0f;
         float accYAdvance = 0.0f;
 
         std::vector<float> advanceLengths;
         decltype(advanceLengths)::iterator advanceLenIt;
-        // NB: Forgive me.
 
         struct Character
         {
-            decltype(Text::data->characters)::iterator character;
+            CharacterRenderData* character;
             float xOffset;
         };
         struct Word
@@ -400,13 +403,11 @@ void Text::renderOffload()
         float curLineIndex = 0;
         float curVertAlignOffset = this->getVerticalAlignOffset(rectHeight - effectiveHeight, 0.0f);
         
-        std::vector<std::pair<PolygonHandle, ColoredTransformHandle>> charsToDraw;
-
         auto pushCharAndIterNext = [&, this](size_t i)
         {
             auto c = this->data->characters.find(this->textData[i].glyphIndex);
             if (c != this->data->characters.end())
-                lines.back().words.back().characters.push_back({ c, lines.back().width });
+                lines.back().words.back().characters.push_back({ c->second, lines.back().width });
 
             lines.back().width += *advanceLenIt;
             ++advanceLenIt;
@@ -438,8 +439,6 @@ void Text::renderOffload()
         //     I am going to hell.
         HandleWord:
         {
-            lines.back().words.push_back({ { } });
-            lines.back().words.back().characters.reserve(end - beg);
             advanceLengths.reserve(end - beg);
             for (size_t i = beg; i < end; i++)
                 advanceLengths.push_back(float(this->textData[i].metrics.advanceWidth) * glyphScale * scale.x);
@@ -447,19 +446,25 @@ void Text::renderOffload()
             advanceLenIt = advanceLengths.begin();
 
             float wordLen = std::accumulate(advanceLenIt, advanceLengths.end(), 0.0f);
-            if (lines.back().width + wordLen > rectWidth) [[unlikely]]
+            if (lines.back().width + spaceXAdvance + wordLen > rectWidth) [[unlikely]]
             {
+                if (accYAdvance + lineDiff + lineHeightScaled > rectHeight)
+                    goto ExitTextHandling;
+                pushCurrentLine();
+                lines.back().words.push_back({ { } });
+                lines.back().words.back().characters.reserve(end - beg);
+                spaceXAdvance = 0.0f;
                 if (wordLen > rectWidth) [[unlikely]]
                     goto SplitDrawWord;
-                else
-                {
-                    if (accYAdvance + lineDiff + lineHeightScaled > rectHeight)
-                        goto ExitTextHandling;
-                    pushCurrentLine();
-                    goto InlineDrawWord;
-                }
+                else goto InlineDrawWord;
             }
-            else goto InlineDrawWord;
+            else
+            {
+                lines.back().words.push_back({ { } });
+                lines.back().words.back().characters.reserve(end - beg);
+                lines.back().width += spaceXAdvance;
+                goto InlineDrawWord;
+            }
 
             // NB: Draw a word split across lines. This is used when
             //     a word is longer than the width of a line.
@@ -474,6 +479,7 @@ void Text::renderOffload()
                     lines.back().words.push_back({ { } });
                     lines.back().words.back().characters.reserve(end - i);
                 }
+                Debug::LogInfo(lines.back().width, "  ", accYAdvance);
                 pushCharAndIterNext(i);
             }
             goto ExitDrawWord;
@@ -481,12 +487,12 @@ void Text::renderOffload()
             // NB: Draw a word in one line. This makes the assumption
             //     that the whole word will fit within a line.
             InlineDrawWord:
-            lines.back().words.back().characters.reserve(end - beg);
             for (size_t i = beg; i < end; i++)
                 pushCharAndIterNext(i);
             // NB: No goto here, jump would go to the same place anyways.
 
             ExitDrawWord:
+            spaceXAdvance = 0.0f;
             advanceLengths.clear();
         }
         beg = end;
@@ -504,25 +510,14 @@ void Text::renderOffload()
             switch (this->_text[i])
             {
                 case U' ':
-                    {
-                        float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale * scale.x;
-                        if (lines.back().width + charAdvScaled > rectWidth) [[unlikely]]
-                            goto Newline;
-                        else lines.back().width += charAdvScaled;
-                    }
+                    spaceXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.x;
                     break;
                 case U'\t':
-                    {
-                        float charAdvScaled = this->textData[i].metrics.advanceWidth * glyphScale * scale.x * 8;
-                        if (lines.back().width + charAdvScaled > rectWidth) [[unlikely]]
-                            goto Newline;
-                        else lines.back().width += charAdvScaled;
-                    }
+                    spaceXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * scale.x * 8;
                     break;
                 case U'\r':
                     break;
                 case U'\n':
-                Newline:
                 if (accYAdvance + lineDiff + lineHeightScaled > rectHeight)
                     goto ExitTextHandling;
                 pushCurrentLine();
@@ -539,6 +534,7 @@ void Text::renderOffload()
         // NB: No else here, it just goes to the same place anyways.
 
         ExitTextHandling:
+        std::vector<std::pair<CharacterRenderData*, ColoredTransformHandle>> charsToDraw;
         for (auto it1 = lines.begin(); it1 != lines.end(); ++it1)
         {
             for (auto it2 = it1->words.begin(); it2 != it1->words.end(); ++it2)
@@ -558,7 +554,7 @@ void Text::renderOffload()
                     transform.setScale(glyphScale * scale.x, glyphScale * scale.y);
                     transform.setRotation(rot);
                     transform.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    charsToDraw.push_back(std::make_pair(it3->character->second->polygon, transform));
+                    charsToDraw.push_back(std::make_pair(it3->character, transform));
                 }
             }
         }
@@ -567,7 +563,7 @@ void Text::renderOffload()
             [charsToDraw = std::move(charsToDraw)]
             {
                 for (auto it = charsToDraw.begin(); it != charsToDraw.end(); ++it)
-                    Renderer::drawPolygon(it->first, it->second);
+                    Renderer::drawPolygon(it->first->polygon, it->second);
             }
         );
     }

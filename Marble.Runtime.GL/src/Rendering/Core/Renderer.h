@@ -1,6 +1,7 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.GL.Exports.h"
 
 #include <bgfx/bgfx.h>
 #include <list>
@@ -14,7 +15,7 @@ namespace Marble
         struct Texture2D;
 
         // Rotation values should be in radians.
-        struct coreapi TransformHandle
+        struct TransformHandle
         {
             // NB: Positional transform after rotation.
             constexpr void setPosition(float x, float y)
@@ -54,7 +55,7 @@ namespace Marble
             };
         };
         // Color values should be between 0.0f and 1.0f.
-        struct coreapi ColoredTransformHandle : public TransformHandle
+        struct ColoredTransformHandle : public TransformHandle
         {
             constexpr void setColor(float r, float g, float b, float a)
             {
@@ -70,7 +71,7 @@ namespace Marble
             float x = 0;
             float y = 0;
         };
-        struct coreapi PolygonHandle final
+        struct __marble_gl_api PolygonHandle final
         {
             bgfx::DynamicVertexBufferHandle vb { bgfx::kInvalidHandle };
             bgfx::DynamicIndexBufferHandle ib { bgfx::kInvalidHandle };
@@ -84,7 +85,7 @@ namespace Marble
         
         // All raw texture data is RGBA8, with no padding etc.
         // Width and height in pixels.
-        struct coreapi Texture2DHandle final
+        struct __marble_gl_api Texture2DHandle final
         {
             bgfx::TextureHandle tex;
             std::vector<uint8_t>* textureData;
@@ -101,7 +102,7 @@ namespace Marble
             float u = 0;
             float v = 0;
         };
-        struct coreapi TexturedPolygonHandle final
+        struct __marble_gl_api TexturedPolygonHandle final
         {
             bgfx::DynamicVertexBufferHandle vb { bgfx::kInvalidHandle };
             bgfx::DynamicIndexBufferHandle ib { bgfx::kInvalidHandle };
@@ -113,7 +114,7 @@ namespace Marble
             void destroy();
         };
 
-        class coreapi Renderer final
+        class __marble_gl_api Renderer final
         {
         public:
             Renderer() = delete;

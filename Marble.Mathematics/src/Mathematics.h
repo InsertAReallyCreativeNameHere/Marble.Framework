@@ -1,7 +1,7 @@
 #pragma once
 
-#include "inc.h"
-
+#include <sstream>
+#include <string>
 #include <Utility/ManagedArray.h>
 
 namespace Marble
@@ -169,7 +169,7 @@ namespace Marble
 			return std::string("{ ").append(std::to_string(this->x)).append(", ").append(std::to_string(this->y)).append(" }");
 		}
 
-		struct coreapi Vector3
+		struct Vector3
 		{
 			float x;
 			float y;
@@ -179,7 +179,7 @@ namespace Marble
 			Vector3(float x, float y, float z);
 		};
 
-		struct coreapi Vector4
+		struct Vector4
 		{
 			float x;
 			float y;
@@ -199,7 +199,7 @@ namespace Marble
 		#pragma endregion
 
 		#pragma region Matrix
-		struct coreapi Matrix final
+		struct Matrix final
 		{
 			Matrix(const size_t& rows, const size_t& columns, const float& value = 0);
 			Matrix(const std::initializer_list<std::initializer_list<float>>& matrix);

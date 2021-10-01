@@ -1,6 +1,6 @@
 #include "Component.h"
 
-#include <Core/Objects/Entity.h>
+#include <Objects/Entity.h>
 
 using namespace Marble;
 using namespace Marble::Internal;

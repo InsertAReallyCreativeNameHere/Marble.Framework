@@ -1,6 +1,7 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.CoreLib.Exports.h"
 
 #include <atomic>
 #include <list>
@@ -16,7 +17,7 @@ namespace Marble
 
 	namespace Internal
 	{
-		class coreapi CoreEngine final
+		class __marble_corelib_api CoreEngine final
 		{
 			static SDL_Window* wind;
 			static SDL_Renderer* rend;

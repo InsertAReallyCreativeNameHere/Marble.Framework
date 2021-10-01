@@ -1,19 +1,20 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.CoreLib.Exports.h"
 
 #include <vector>
 #include <list>
 #include <new>
 #include <type_traits>
 #include <cstring>
+#include <Mathematics.h>
 #include <Core/Debug.h>
-#include <Core/Components/RectTransform.h>
-#include <Core/Objects/Component.h>
+#include <EntityComponentSystem/RectTransform.h>
+#include <Objects/Component.h>
 #include <Utility/ManagedArray.h>
 #include <Utility/Hash.h>
 #include <Utility/TypeInfo.h>
-#include <Mathematics.h>
 
 namespace Marble
 {
@@ -25,7 +26,7 @@ namespace Marble
         class CoreEngine;
     }
 
-    class coreapi Entity final : public Internal::Object
+    class __marble_corelib_api Entity final : public Internal::Object
     {
         std::list<Entity*>::iterator it;
         bool eraseIteratorOnDestroy = true;

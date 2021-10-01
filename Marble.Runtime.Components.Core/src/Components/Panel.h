@@ -1,9 +1,10 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.Components.Core.Exports.h"
 
-#include <Core/Objects/Component.h>
 #include <Drawing/Core.h>
+#include <Objects/Component.h>
 #include <Utility/Property.h>
 
 namespace Marble
@@ -13,7 +14,7 @@ namespace Marble
         struct ComponentCoreStaticInit;
     }
 
-    class coreapi Panel final : public Internal::Component
+    class __marble_componentcore_api Panel final : public Internal::Component
     {
         Color _color { 0, 0, 0, 255 };
 

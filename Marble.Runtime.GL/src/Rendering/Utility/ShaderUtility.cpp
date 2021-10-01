@@ -24,24 +24,6 @@ vec4 a_color1    : COLOR1;
 vec2 a_texcoord0 : TEXCOORD0;
 )";
 
-ShaderCompileOptions::ShaderCompileOptions(ShaderType type)
-{
-    this->shaderType = type;
-}
-
-ShaderCompileOptions& ShaderCompileOptions::withIncludeDirs(const std::vector<std::string>& includeDirs)
-{
-    this->includeDirs.insert(this->includeDirs.end(), includeDirs.begin(), includeDirs.end());
-
-    return *this;
-}
-ShaderCompileOptions& ShaderCompileOptions::withDefines(const std::vector<std::string>& defines)
-{
-    this->defines.insert(this->defines.end(), defines.begin(), defines.end());
-
-    return *this;
-}
-
 std::vector<char> ShaderUtility::compileShader(const std::string& shaderData, const ShaderCompileOptions& options)
 {
     ProfileFunction();

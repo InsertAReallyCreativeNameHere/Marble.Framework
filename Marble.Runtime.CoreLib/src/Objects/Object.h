@@ -1,6 +1,7 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.CoreLib.Exports.h"
 
 #include <iostream>
 
@@ -14,7 +15,7 @@ namespace Marble
 
         typedef uintptr_t InstanceID;
         
-        class coreapi Object
+        class __marble_corelib_api Object
         {
             MemoryIdentifier* instanceID = new MemoryIdentifier();
         protected:

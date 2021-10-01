@@ -1,7 +1,5 @@
 #pragma once
 
-#include "inc.h"
-
 #include <vector>
 #include <skarupke/function.h>
 

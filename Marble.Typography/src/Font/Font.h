@@ -1,6 +1,7 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Typography.Exports.h"
 
 #include <mapbox/earcut.hpp>
 #include <map>
@@ -32,7 +33,7 @@ namespace Marble
                 other.vertsSize = 0;
             }
             // FIXME: Not in header because STBTT_free supposedly doesn't exist here!
-            coreapi ~GlyphOutline();
+            __marble_typography_api ~GlyphOutline();
 
             template <typename VertType>
             std::pair<std::vector<VertType>, std::vector<uint16_t>> createGeometryBuffers()
@@ -196,7 +197,7 @@ namespace Marble
             inline GlyphMetrics() = default;
         };
         
-        class coreapi Font final
+        class __marble_typography_api Font final
         {
             stbtt_fontinfo fontInfo;
         public:

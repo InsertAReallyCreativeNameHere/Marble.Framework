@@ -1,7 +1,8 @@
 #pragma once
 
 #include "inc.h"
-#include <Core/Objects/Component.h>
+#include "Marble.Runtime.CoreLib.Exports.h"
+#include <Objects/Component.h>
 #include <Utility/Property.h>
 #include <Mathematics.h>
 
@@ -31,7 +32,7 @@ namespace Marble
         }
     };
 
-    class coreapi RectTransform final : public Internal::Component
+    class __marble_corelib_api RectTransform final : public Internal::Component
     {
         inline ~RectTransform() override = default;
 

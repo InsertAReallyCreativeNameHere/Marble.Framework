@@ -1,7 +1,5 @@
 #include "Mathematics.h"
 
-#include <inc.h>
-
 using namespace Marble::Mathematics;
 
 #pragma region Vector3

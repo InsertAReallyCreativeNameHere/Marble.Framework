@@ -1,9 +1,10 @@
 #pragma once
 
 #include "inc.h"
+#include "Marble.Runtime.CoreLib.Exports.h"
 
 #include <list>
-#include <Core/Objects/Object.h>
+#include <Objects/Object.h>
 
 namespace Marble
 {
@@ -14,9 +15,9 @@ namespace Marble
     {
         class CoreEngine;
         
-        class coreapi Component : public Object
+        class __marble_corelib_api Component : public Object
         {
-            struct coreapi Reflection final {
+            struct __marble_corelib_api Reflection final {
                 uint64_t typeID;
             } reflection;
 
