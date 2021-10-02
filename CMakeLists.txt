@@ -89,14 +89,8 @@ endif()
 
 # Marble.Mathematics
 
-file(GLOB_RECURSE METHSRCS configure_depends
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/*.h"
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/*.cpp"
-)
-
-add_library(Marble.Mathematics SHARED ${METHSRCS})
-target_include_directories(Marble.Mathematics PUBLIC "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/src")
-target_include_directories(Marble.Mathematics PRIVATE "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src")
+add_library(Marble.Mathematics INTERFACE)
+target_include_directories(Marble.Mathematics INTERFACE "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/src")
 
 set_target_properties(Marble.Mathematics
     PROPERTIES
@@ -137,7 +131,6 @@ set_target_properties(Marble.Typography
     ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Typography"
     LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Typography"
     RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Typography"
-    #CXX_VISIBILITY_PRESET hidden
 )
 
 # Marble.Runtime.GL
@@ -189,7 +182,8 @@ set_target_properties(Marble.Runtime.GL
     ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.GL"
     LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.GL"
     RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Runtime.GL"
-    #CXX_VISIBILITY_PRESET hidden
+    C_VISIBILITY_PRESET hidden
+    CXX_VISIBILITY_PRESET hidden
 )
 
 # Marble.Runtime.CoreLib
@@ -244,7 +238,8 @@ set_target_properties(Marble.Runtime.CoreLib
     ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.CoreLib"
     LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.CoreLib"
     RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Runtime.CoreLib"
-    #CXX_VISIBILITY_PRESET hidden
+    C_VISIBILITY_PRESET hidden
+    CXX_VISIBILITY_PRESET hidden
 )
 
 # Marble.Runtime.Components.Core
@@ -295,7 +290,8 @@ set_target_properties(Marble.Runtime.Components.Core
     ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.Components.Core"
     LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.Components.Core"
     RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Runtime.Components.Core"
-    #CXX_VISIBILITY_PRESET hidden
+    C_VISIBILITY_PRESET hidden
+    CXX_VISIBILITY_PRESET hidden
 )
 
 if (BUILD_PLATFORM STREQUAL "Win32")
