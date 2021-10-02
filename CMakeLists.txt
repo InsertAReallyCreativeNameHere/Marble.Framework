@@ -92,13 +92,6 @@ endif()
 add_library(Marble.Mathematics INTERFACE)
 target_include_directories(Marble.Mathematics INTERFACE "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/src")
 
-set_target_properties(Marble.Mathematics
-    PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Mathematics"
-    LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Mathematics"
-    RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Mathematics"
-)
-
 # Marble.Typography
 
 file(GLOB_RECURSE FONTSRCS configure_depends
@@ -118,9 +111,11 @@ target_include_directories(Marble.Typography PUBLIC
     "${CMAKE_CURRENT_BINARY_DIR}"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
+)
+target_include_directories(Marble.Typography PRIVATE
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/stb"
 )
-target_include_directories(Marble.Typography PRIVATE "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src")
 
 if (MARBLE_ENABLE_PROFILING)
     target_link_libraries(Marble.Typography PRIVATE TracyClient)
@@ -204,15 +199,15 @@ generate_export_header(Marble.Runtime.CoreLib
 target_compile_definitions(Marble.Runtime.CoreLib PUBLIC SDL_MAIN_HANDLED)
 target_include_directories(Marble.Runtime.CoreLib PUBLIC
     "${CMAKE_CURRENT_BINARY_DIR}"
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/src"
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/include"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/robin_hood/include"
     "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bgfx/include"
-    "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include"
     "${CMAKE_CURRENT_LIST_DIR}/external/SDL/include"
+)
+target_include_directories(Marble.Runtime.CoreLib PRIVATE
+    "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include"
 )
 target_link_libraries(Marble.Runtime.CoreLib PRIVATE
     Marble.Mathematics
@@ -259,13 +254,9 @@ generate_export_header(Marble.Runtime.Components.Core
 
 target_include_directories(Marble.Runtime.Components.Core PUBLIC
     "${CMAKE_CURRENT_BINARY_DIR}"
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/src"
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/src"
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/src"
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.CoreLib/include"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.Components.Core/src"
-    "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
+)
+target_include_directories(Marble.Runtime.Components.Core PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/stb"
 )
 target_link_libraries(Marble.Runtime.Components.Core PRIVATE

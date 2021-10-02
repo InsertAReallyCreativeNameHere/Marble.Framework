@@ -188,7 +188,7 @@ void CoreEngine::internalLoop()
 
     EngineEvent::OnInitialize();
 
-    skarupke::function<void()> tickEvent;
+    skarupke::function<void()> event;
 
     Uint64 frameBegin = SDL_GetPerformanceCounter();
     Uint64 perfFreq = SDL_GetPerformanceFrequency();
@@ -200,8 +200,8 @@ void CoreEngine::internalLoop()
     while (readyToExit.load(std::memory_order_relaxed) == false)
     {
         #pragma region Pre-Tick
-        while (CoreEngine::pendingPreTickEvents.try_dequeue(tickEvent))
-            tickEvent();
+        while (CoreEngine::pendingPreTickEvents.try_dequeue(event))
+            event();
 
         Window::width = renderWidth.load(std::memory_order_relaxed);
         Window::height = renderHeight.load(std::memory_order_relaxed);
@@ -278,8 +278,8 @@ void CoreEngine::internalLoop()
         #pragma region Post-Tick
         Input::internalMouseMotion = { 0, 0 };
 
-        while (CoreEngine::pendingPostTickEvents.try_dequeue(tickEvent))
-            tickEvent();
+        while (CoreEngine::pendingPostTickEvents.try_dequeue(event))
+            event();
         #pragma endregion
 
         #pragma region Render Offload
@@ -333,16 +333,15 @@ void CoreEngine::internalLoop()
     
     EngineEvent::OnQuit();
 
+    while (CoreEngine::pendingPreTickEvents.try_dequeue(event));
+    while (CoreEngine::pendingPostTickEvents.try_dequeue(event));
+
     for (auto it = SceneManager::existingScenes.begin(); it != SceneManager::existingScenes.end(); ++it)
     {
         (*it)->eraseIteratorOnDestroy = false;
         delete* it;
     }
     SceneManager::existingScenes.clear();
-
-    skarupke::function<void()> event;
-    while (CoreEngine::pendingPreTickEvents.try_dequeue(event));
-    while (CoreEngine::pendingPostTickEvents.try_dequeue(event));
 
     CoreEngine::threadsFinished_0.store(true, std::memory_order_relaxed);
 }
