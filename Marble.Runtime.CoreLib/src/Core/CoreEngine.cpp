@@ -55,7 +55,6 @@ float CoreEngine::mspf = 200;
 
 static std::atomic<int32_t> renderWidth;
 static std::atomic<int32_t> renderHeight;
-int32_t _rWidth, _rHeight, prevWidth, prevHeight;
 static std::atomic<bool> renderResizeFlag = true;
 static std::atomic<bool> isRendering = false;
 
@@ -196,7 +195,7 @@ void CoreEngine::internalLoop()
     constexpr float& targetDeltaTime = CoreEngine::mspf;
     float deltaTime;
 
-    int prevW = Window::width, prevH = Window::height;
+    int32_t prevW = Window::width, prevH = Window::height;
 
     while (readyToExit.load(std::memory_order_relaxed) == false)
     {
@@ -206,6 +205,13 @@ void CoreEngine::internalLoop()
 
         Window::width = renderWidth.load(std::memory_order_relaxed);
         Window::height = renderHeight.load(std::memory_order_relaxed);
+        if (prevW != Window::width || prevH != Window::height)
+        {
+            Window::resizing = true;
+            prevW = Window::width;
+            prevH = Window::height;
+        }
+        else Window::resizing = false;
 
         for (auto it = Input::pendingInputEvents.begin(); it != Input::pendingInputEvents.end();)
         {
@@ -277,24 +283,9 @@ void CoreEngine::internalLoop()
         #pragma endregion
 
         #pragma region Render Offload
-        //if (CoreEngine::pendingRenderJobBatches.size_approx() == 0)
+        if (CoreEngine::pendingRenderJobBatches.size_approx() < 2)
         {
             CoreEngine::pendingRenderJobBatchesOffload.push_back(Renderer::beginFrame);
-            CoreEngine::pendingRenderJobBatchesOffload.push_back
-            (
-                []
-                {
-                    _rWidth = renderWidth.load(std::memory_order_relaxed);
-                    _rHeight = renderHeight.load(std::memory_order_relaxed);
-                    if (prevWidth != _rWidth || prevHeight != _rHeight) [[unlikely]]
-                    {
-                        Renderer::reset(_rWidth, _rHeight);
-                        Renderer::setViewArea(0, 0, _rWidth, _rHeight);
-                        prevWidth = _rWidth;
-                        prevHeight = _rHeight;
-                    }
-                }
-            );
             for
             (
                 auto it1 = SceneManager::existingScenes.begin();
@@ -406,12 +397,12 @@ void CoreEngine::internalWindowLoop()
                 decltype(windowSizeData)* data = static_cast<decltype(windowSizeData)*>(userdata);
                 data->w = event->window.data1;
                 data->h = event->window.data2;
-                renderWidth.store(data->w, std::memory_order_relaxed);
-                renderHeight.store(data->h, std::memory_order_relaxed);
+                renderWidth.store(data->w);
+                renderHeight.store(data->h);
 
-                renderResizeFlag.store(true, std::memory_order_relaxed);
-                while (isRendering.load(std::memory_order_relaxed));
-                renderResizeFlag.store(false, std::memory_order_relaxed);
+                renderResizeFlag.store(true);
+                while (isRendering.load());
+                renderResizeFlag.store(false);
             }
             return 1;
         },
@@ -444,7 +435,7 @@ void CoreEngine::internalWindowLoop()
                     windowSizeData.h = ev.window.data2;
                     renderWidth.store(windowSizeData.w);
                     renderHeight.store(windowSizeData.h);
-                    renderResizeFlag.store(true, std::memory_order_relaxed);
+                    renderResizeFlag.store(true);
                     break;
                 case SDL_WINDOWEVENT_MOVED:
                     break;
@@ -576,22 +567,33 @@ void CoreEngine::internalRenderLoop()
     Renderer::beginFrame();
     Renderer::endFrame();
 
-    prevWidth = renderWidth.load();
-    prevHeight = renderHeight.load();
+    int32_t prevW, prevH, w = Window::width, h = Window::height;
 
     initIndex++;
 
     std::vector<skarupke::function<void()>> jobs;
     while (readyToExit.load(std::memory_order_relaxed) == false)
     {
-        isRendering.store(true, std::memory_order_relaxed);
-        while (!renderResizeFlag.load( std::memory_order_relaxed));
+        isRendering.store(true);
+    
+        prevW = w;
+        prevH = h;
+
+        while (!renderResizeFlag.load());
+
+        w = renderWidth.load(std::memory_order_relaxed);
+        h = renderHeight.load(std::memory_order_relaxed);
+        if (prevW != w || prevH != h)
+        {
+            Renderer::reset(w, h);
+            //Renderer::setViewArea(0, 0, w, h);
+        }
 
         while (CoreEngine::pendingRenderJobBatches.try_dequeue(jobs))
             for (auto it = jobs.begin(); it != jobs.end(); ++it)
                 (*it)();
         
-        isRendering.store(false, std::memory_order_relaxed);
+        isRendering.store(false);
     }
 
     while (!CoreEngine::threadsFinished_0.load(std::memory_order_relaxed));
