@@ -182,7 +182,7 @@ void CoreEngine::resetDisplayData()
 
 void CoreEngine::internalLoop()
 {
-    while (initIndex.load() != 3);
+    while (initIndex.load(std::memory_order_relaxed) != 3);
 
     Debug::LogInfo("Internal loop started.\n");
 
@@ -396,12 +396,12 @@ void CoreEngine::internalWindowLoop()
                 decltype(windowSizeData)* data = static_cast<decltype(windowSizeData)*>(userdata);
                 data->w = event->window.data1;
                 data->h = event->window.data2;
-                renderWidth.store(data->w);
-                renderHeight.store(data->h);
+                renderWidth.store(data->w, std::memory_order_relaxed);
+                renderHeight.store(data->h, std::memory_order_relaxed);
 
-                renderResizeFlag.store(true);
-                while (isRendering.load());
-                renderResizeFlag.store(false);
+                renderResizeFlag.store(true, std::memory_order_relaxed);
+                while (isRendering.load(std::memory_order_relaxed));
+                renderResizeFlag.store(false, std::memory_order_relaxed);
             }
             return 1;
         },
@@ -409,7 +409,7 @@ void CoreEngine::internalWindowLoop()
     );
     
     initIndex++;
-    while (initIndex.load() != 2);
+    while (initIndex.load(std::memory_order_relaxed) != 2);
 
     Debug::LogInfo("Internal event loop started.");
     SDL_SetWindowResizable(CoreEngine::wind, SDL_TRUE);
@@ -430,11 +430,7 @@ void CoreEngine::internalWindowLoop()
                 switch (ev.window.event)
                 {
                 case SDL_WINDOWEVENT_RESIZED:
-                    windowSizeData.w = ev.window.data1;
-                    windowSizeData.h = ev.window.data2;
-                    renderWidth.store(windowSizeData.w);
-                    renderHeight.store(windowSizeData.h);
-                    renderResizeFlag.store(true);
+                    renderResizeFlag.store(true, std::memory_order_relaxed);
                     break;
                 case SDL_WINDOWEVENT_MOVED:
                     break;
@@ -530,7 +526,7 @@ void CoreEngine::internalWindowLoop()
 
 void CoreEngine::internalRenderLoop()
 {
-    while (initIndex.load() != 1);
+    while (initIndex.load(std::memory_order_relaxed) != 1);
 
     Debug::LogInfo("Internal render loop started.");
 
@@ -573,12 +569,12 @@ void CoreEngine::internalRenderLoop()
     std::vector<skarupke::function<void()>> jobs;
     while (readyToExit.load(std::memory_order_relaxed) == false)
     {
-        isRendering.store(true);
+        isRendering.store(true, std::memory_order_relaxed);
     
         prevW = w;
         prevH = h;
 
-        while (!renderResizeFlag.load());
+        while (!renderResizeFlag.load(std::memory_order_relaxed));
 
         w = renderWidth.load(std::memory_order_relaxed);
         h = renderHeight.load(std::memory_order_relaxed);
@@ -592,7 +588,7 @@ void CoreEngine::internalRenderLoop()
             for (auto it = jobs.begin(); it != jobs.end(); ++it)
                 (*it)();
         
-        isRendering.store(false);
+        isRendering.store(false, std::memory_order_relaxed);
     }
 
     while (!CoreEngine::threadsFinished_0.load(std::memory_order_relaxed));
