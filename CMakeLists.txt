@@ -255,6 +255,7 @@ generate_export_header(Marble.Runtime.Components.Core
 target_include_directories(Marble.Runtime.Components.Core PUBLIC
     "${CMAKE_CURRENT_BINARY_DIR}"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.Components.Core/src"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/stb"
