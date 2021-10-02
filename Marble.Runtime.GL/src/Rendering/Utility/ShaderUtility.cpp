@@ -61,8 +61,8 @@ std::vector<char> ShaderUtility::compileShader(const std::string& shaderData, co
     switch (options.shaderType)
     {
     case ShaderType::Vertex:
-        break;
         profile.push_back('v');
+        break;
     case ShaderType::Fragment:
     case ShaderType::Compute:
         profile.push_back('p');
