@@ -53,7 +53,22 @@ std::vector<char> ShaderUtility::compileShader(const std::string& shaderData, co
         "--type", shaderType,
         "-p"
     };
+    #if 0
     std::string profile("spirv");
+    #endif
+    std::string profile;
+    profile.reserve(16);
+    switch (options.shaderType)
+    {
+    case ShaderType::Vertex:
+        break;
+        profile.push_back('v');
+    case ShaderType::Fragment:
+    case ShaderType::Compute:
+        profile.push_back('p');
+        break;
+    }
+    profile.append("s_3_0");
     args.push_back(profile.c_str());
 
     for (auto it = options.includeDirs.begin(); it != options.includeDirs.end(); ++it)

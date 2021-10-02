@@ -586,7 +586,7 @@ void CoreEngine::internalRenderLoop()
         if (prevW != w || prevH != h)
         {
             Renderer::reset(w, h);
-            //Renderer::setViewArea(0, 0, w, h);
+            Renderer::setViewArea(0, 0, w, h);
         }
 
         while (CoreEngine::pendingRenderJobBatches.try_dequeue(jobs))
