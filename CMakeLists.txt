@@ -255,8 +255,6 @@ generate_export_header(Marble.Runtime.Components.Core
 target_include_directories(Marble.Runtime.Components.Core PUBLIC
     "${CMAKE_CURRENT_BINARY_DIR}"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.Components.Core/src"
-)
-target_include_directories(Marble.Runtime.Components.Core PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/stb"
 )
 target_link_libraries(Marble.Runtime.Components.Core PRIVATE
