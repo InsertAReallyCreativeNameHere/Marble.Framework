@@ -53,22 +53,61 @@ std::vector<char> ShaderUtility::compileShader(const std::string& shaderData, co
         "--type", shaderType,
         "-p"
     };
-    #if 0
-    std::string profile("spirv");
-    #endif
-    std::string profile;
-    profile.reserve(16);
-    switch (options.shaderType)
+
+    std::string profile =
+    [&]
     {
-    case ShaderType::Vertex:
-        profile.push_back('v');
-        break;
-    case ShaderType::Fragment:
-    case ShaderType::Compute:
-        profile.push_back('p');
-        break;
+        switch(bgfx::getRendererType())
+        {
+        case bgfx::RendererType::Direct3D9:
+            switch (options.shaderType)
+            {
+            case ShaderType::Vertex:
+                return "vs_3_0";
+            case ShaderType::Fragment:
+            case ShaderType::Compute:
+                return "ps_3_0";
+            }
+        case bgfx::RendererType::Direct3D11:
+            switch (options.shaderType)
+            {
+            case ShaderType::Vertex:
+                return "vs_4_0";
+            case ShaderType::Fragment:
+                return "ps_4_0";
+            case ShaderType::Compute:
+                return "cs_5_0";
+            }
+        case bgfx::RendererType::Direct3D12:
+            switch (options.shaderType)
+            {
+            case ShaderType::Vertex:
+                return "vs_5_0";
+            case ShaderType::Fragment:
+                return "ps_5_0";
+            case ShaderType::Compute:
+                return "cs_5_0";
+            }
+        case bgfx::RendererType::OpenGL:
+            switch (options.shaderType)
+            {
+            case ShaderType::Vertex:
+            case ShaderType::Fragment:
+                return "120";
+            case ShaderType::Compute:
+                return "430";
+            }
+        case bgfx::RendererType::Vulkan:
+            return "spirv";
+        case bgfx::RendererType::Gnm:
+        case bgfx::RendererType::Metal:
+        case bgfx::RendererType::OpenGLES:
+        case bgfx::RendererType::Noop:
+        default:
+            return "unknown";
+        };
     }
-    profile.append("s_3_0");
+    ();
     args.push_back(profile.c_str());
 
     for (auto it = options.includeDirs.begin(); it != options.includeDirs.end(); ++it)
