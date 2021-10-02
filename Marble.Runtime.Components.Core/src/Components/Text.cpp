@@ -18,6 +18,19 @@ using namespace Marble::PackageSystem;
 
 robin_hood::unordered_map<PackageSystem::TrueTypeFontPackageFile*, Text::RenderData*> Text::textFonts;
 
+inline static float getAlignOffsetJustify(float endDiff, float mul)
+{
+    return endDiff * mul;
+}
+inline static float getAlignOffsetMajor(float endDiff, float)
+{
+    return endDiff;
+}
+inline static float getAlignOffsetCenter(float endDiff, float)
+{
+    return endDiff / 2;
+}
+
 void Text::RenderData::trackCharacters(const std::vector<CharacterData>& text)
 {
     ProfileFunction();
@@ -136,13 +149,13 @@ void Text::setHorizontalAlign(TextAlign value)
     switch (value)
     {
     case TextAlign::Justify:
-        this->getHorizontalAlignOffset = Text::getAlignOffsetJustify;
+        this->getHorizontalAlignOffset = getAlignOffsetJustify;
         break;
     case TextAlign::Major:
-        this->getHorizontalAlignOffset = Text::getAlignOffsetMajor;
+        this->getHorizontalAlignOffset = getAlignOffsetMajor;
         break;
     case TextAlign::Center:
-        this->getHorizontalAlignOffset = Text::getAlignOffsetCenter;
+        this->getHorizontalAlignOffset = getAlignOffsetCenter;
         break;
     case TextAlign::Minor:
         this->getHorizontalAlignOffset = Text::getAlignOffsetMinor;
@@ -154,13 +167,13 @@ void Text::setVerticalAlign(TextAlign value)
     switch (value)
     {
     case TextAlign::Justify:
-        this->getVerticalAlignOffset = Text::getAlignOffsetJustify;
+        this->getVerticalAlignOffset = getAlignOffsetJustify;
         break;
     case TextAlign::Major:
-        this->getVerticalAlignOffset = Text::getAlignOffsetMajor;
+        this->getVerticalAlignOffset = getAlignOffsetMajor;
         break;
     case TextAlign::Center:
-        this->getVerticalAlignOffset = Text::getAlignOffsetCenter;
+        this->getVerticalAlignOffset = getAlignOffsetCenter;
         break;
     case TextAlign::Minor:
         this->getVerticalAlignOffset = Text::getAlignOffsetMinor;

@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <fstream>
 #include <shaderc.h>
+#include <vector>
 
 using namespace Marble;
 using namespace Marble::GL;
@@ -52,12 +53,7 @@ std::vector<char> ShaderUtility::compileShader(const std::string& shaderData, co
         "--type", shaderType,
         "-p"
     };
-    std::string profile;
-    profile.reserve(6);
-    if (options.shaderType == (ShaderType)'v')
-        profile.push_back('v');
-    else profile.push_back('p');
-    profile.append("s_3_0");
+    std::string profile("spirv");
     args.push_back(profile.c_str());
 
     for (auto it = options.includeDirs.begin(); it != options.includeDirs.end(); ++it)

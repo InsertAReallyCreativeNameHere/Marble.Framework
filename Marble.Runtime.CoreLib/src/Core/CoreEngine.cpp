@@ -51,8 +51,11 @@ moodycamel::ConcurrentQueue<skarupke::function<void()>> CoreEngine::pendingPostT
 std::vector<skarupke::function<void()>> CoreEngine::pendingRenderJobBatchesOffload;
 moodycamel::ConcurrentQueue<std::vector<skarupke::function<void()>>> CoreEngine::pendingRenderJobBatches;
 
-float CoreEngine::mspf = 100;
+float CoreEngine::mspf = 200;
 
+static std::atomic<int32_t> renderWidth;
+static std::atomic<int32_t> renderHeight;
+int32_t _rWidth, _rHeight, prevWidth, prevHeight;
 static std::atomic<bool> renderResizeFlag = true;
 static std::atomic<bool> isRendering = false;
 
@@ -201,21 +204,8 @@ void CoreEngine::internalLoop()
         while (CoreEngine::pendingPreTickEvents.try_dequeue(tickEvent))
             tickEvent();
 
-        if (Window::width != prevW || Window::height != prevH) [[unlikely]]
-        {
-            CoreEngine::pendingRenderJobBatchesOffload.push_back
-            (
-                [w = Window::width, h = Window::height]
-                {
-                    Renderer::reset(w, h);
-                    Renderer::setViewArea(0, 0, w, h);
-                }
-            );
-            Window::width = Window::width;
-            Window::height = Window::height;
-        }
-        prevW = Window::width;
-        prevH = Window::height;
+        Window::width = renderWidth.load(std::memory_order_relaxed);
+        Window::height = renderHeight.load(std::memory_order_relaxed);
 
         for (auto it = Input::pendingInputEvents.begin(); it != Input::pendingInputEvents.end();)
         {
@@ -287,9 +277,24 @@ void CoreEngine::internalLoop()
         #pragma endregion
 
         #pragma region Render Offload
-        if (!isRendering.load(std::memory_order_relaxed))
+        //if (CoreEngine::pendingRenderJobBatches.size_approx() == 0)
         {
             CoreEngine::pendingRenderJobBatchesOffload.push_back(Renderer::beginFrame);
+            CoreEngine::pendingRenderJobBatchesOffload.push_back
+            (
+                []
+                {
+                    _rWidth = renderWidth.load(std::memory_order_relaxed);
+                    _rHeight = renderHeight.load(std::memory_order_relaxed);
+                    if (prevWidth != _rWidth || prevHeight != _rHeight) [[unlikely]]
+                    {
+                        Renderer::reset(_rWidth, _rHeight);
+                        Renderer::setViewArea(0, 0, _rWidth, _rHeight);
+                        prevWidth = _rWidth;
+                        prevHeight = _rHeight;
+                    }
+                }
+            );
             for
             (
                 auto it1 = SceneManager::existingScenes.begin();
@@ -330,7 +335,7 @@ void CoreEngine::internalLoop()
         targetDeltaTime = CoreEngine::mspf - (deltaTime - targetDeltaTime);
         if (targetDeltaTime < 0)
             targetDeltaTime = CoreEngine::mspf;
-        //Debug::LogInfo("Update() frame time: ", deltaTime, ".");
+        Debug::LogInfo("Update() frame time: ", deltaTime, ".");
 
         ProfileEndFrame();
     }
@@ -383,11 +388,14 @@ void CoreEngine::internalWindowLoop()
     SDL_SetWindowMinimumSize(wind, 200, 200);
 
     struct {
-        int w, h;
+        int32_t w, h;
+        std::atomic<bool> windowSizeUpdated = true;
     } windowSizeData;
     SDL_GetWindowSize(wind, &windowSizeData.w, &windowSizeData.h);
     Window::width = windowSizeData.w;
     Window::height = windowSizeData.h;
+    renderWidth.store(windowSizeData.w);
+    renderHeight.store(windowSizeData.h);
 
     SDL_SetEventFilter
     (
@@ -396,17 +404,10 @@ void CoreEngine::internalWindowLoop()
             if (event->type == SDL_WINDOWEVENT && event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
             {
                 decltype(windowSizeData)* data = static_cast<decltype(windowSizeData)*>(userdata);
-                SDL_GetWindowSize(CoreEngine::wind, &data->w, &data->h);
-
-                CoreEngine::pendingPreTickEvents.enqueue
-                (
-                    [w = data->w, h = data->h]
-                    {
-                        Window::width = w;
-                        Window::height = h;
-                        Window::resizing = true;
-                    }
-                );
+                data->w = event->window.data1;
+                data->h = event->window.data2;
+                renderWidth.store(data->w, std::memory_order_relaxed);
+                renderHeight.store(data->h, std::memory_order_relaxed);
 
                 renderResizeFlag.store(true, std::memory_order_relaxed);
                 while (isRendering.load(std::memory_order_relaxed));
@@ -439,7 +440,10 @@ void CoreEngine::internalWindowLoop()
                 switch (ev.window.event)
                 {
                 case SDL_WINDOWEVENT_RESIZED:
-                    CoreEngine::pendingPreTickEvents.enqueue([] { Window::resizing = false; });
+                    windowSizeData.w = ev.window.data1;
+                    windowSizeData.h = ev.window.data2;
+                    renderWidth.store(windowSizeData.w);
+                    renderHeight.store(windowSizeData.h);
                     renderResizeFlag.store(true, std::memory_order_relaxed);
                     break;
                 case SDL_WINDOWEVENT_MOVED:
@@ -568,32 +572,33 @@ void CoreEngine::internalRenderLoop()
     Renderer::setViewArea(0, 0, Window::width, Window::height);
     Renderer::setClear(0x323232ff);
 
-    // Empty draw call to set up window.
+    // NB: Empty draw call to set up window.
     Renderer::beginFrame();
     Renderer::endFrame();
+
+    prevWidth = renderWidth.load();
+    prevHeight = renderHeight.load();
 
     initIndex++;
 
     std::vector<skarupke::function<void()>> jobs;
     while (readyToExit.load(std::memory_order_relaxed) == false)
     {
-        if (CoreEngine::pendingRenderJobBatches.try_dequeue(jobs))
-        {
-            isRendering.store(true, std::memory_order_relaxed);
-            while (!renderResizeFlag.load(std::memory_order_relaxed));
+        isRendering.store(true, std::memory_order_relaxed);
+        while (!renderResizeFlag.load( std::memory_order_relaxed));
 
+        while (CoreEngine::pendingRenderJobBatches.try_dequeue(jobs))
             for (auto it = jobs.begin(); it != jobs.end(); ++it)
                 (*it)();
-
-            isRendering.store(false, std::memory_order_relaxed);
-        }
+        
+        isRendering.store(false, std::memory_order_relaxed);
     }
 
     while (!CoreEngine::threadsFinished_0.load(std::memory_order_relaxed));
 
-    /*while (CoreEngine::pendingRenderJobBatches.try_dequeue(jobs))
+    while (CoreEngine::pendingRenderJobBatches.try_dequeue(jobs))
         for (auto it = jobs.begin(); it != jobs.end(); ++it)
-            (*it)();*/
+            (*it)();
 
     InternalEngineEvent::OnRenderShutdown();
     Renderer::shutdown();

@@ -62,18 +62,6 @@ namespace Marble
         static robin_hood::unordered_map<PackageSystem::TrueTypeFontPackageFile*, RenderData*> textFonts;
         RenderData* data = nullptr;
 
-        inline static float getAlignOffsetJustify(float endDiff, float mul)
-        {
-            return endDiff * mul;
-        }
-        inline static float getAlignOffsetMajor(float endDiff, float)
-        {
-            return endDiff;
-        }
-        inline static float getAlignOffsetCenter(float endDiff, float)
-        {
-            return endDiff / 2;
-        }
         inline static float getAlignOffsetMinor(float, float)
         {
             return 0.0f;
