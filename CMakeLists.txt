@@ -107,12 +107,7 @@ generate_export_header(Marble.Typography
     EXPORT_FILE_NAME Marble.Typography.Exports.h
 )
 
-target_include_directories(Marble.Typography PRIVATE
-    "${CMAKE_CURRENT_BINARY_DIR}"
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
-    "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
-)
-target_include_directories(Marble.Typography INTERFACE
+target_include_directories(Marble.Typography PUBLIC
     "${CMAKE_CURRENT_BINARY_DIR}"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
@@ -259,7 +254,9 @@ generate_export_header(Marble.Runtime.Components.Core
 
 target_include_directories(Marble.Runtime.Components.Core PUBLIC
     "${CMAKE_CURRENT_BINARY_DIR}"
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.Components.Core/src"
+    "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/stb"
 )
 target_link_libraries(Marble.Runtime.Components.Core PRIVATE
