@@ -44,7 +44,6 @@ void PackageManager::removeBinaryFileHandler(const std::vector<uint8_t>& signatu
                     PackageManager::binFileHandlers.erase(it1);
             }
         }
-        
     }
 }
 
