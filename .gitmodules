@@ -11,5 +11,5 @@
 	path = external/tracy
 	url = https://github.com/wolfpld/tracy.git
 [submodule "fast_io"]
-	path = fast_io
+	path = external/fast_io
 	url = https://github.com/tearosccebe/fast_io.git
