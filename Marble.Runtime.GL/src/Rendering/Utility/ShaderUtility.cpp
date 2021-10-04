@@ -3,7 +3,6 @@
 #include <filesystem>
 #include <fstream>
 #include <shaderc.h>
-#include <vector>
 
 using namespace Marble;
 using namespace Marble::GL;

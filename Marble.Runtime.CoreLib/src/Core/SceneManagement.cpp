@@ -1,8 +1,9 @@
 #include "SceneManagement.h"
 
 using namespace Marble;
+using namespace Marble::Internal;
 
-std::list<Scene*> SceneManager::existingScenes;
+std::list<SceneMemoryChunk> SceneManager::existingScenes;
 
 static struct Init {
     Init()
@@ -33,11 +34,9 @@ size_t Scene::index()
     size_t i = 0;
     for (auto it = SceneManager::existingScenes.begin(); it != SceneManager::existingScenes.end(); ++it)
     {
-        if (!(*it)->active)
-            continue;
-        if (*it == this)
+        if (reinterpret_cast<Scene*>(&it->data) == this)
             return i;
-        i++;
+        ++i;
     }
     Debug::LogError("Could not determine the index of the scene! Is the scene active?");
     return SIZE_MAX;

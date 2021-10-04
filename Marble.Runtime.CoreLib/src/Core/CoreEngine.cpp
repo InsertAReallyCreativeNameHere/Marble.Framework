@@ -288,17 +288,18 @@ void CoreEngine::internalLoop()
             CoreEngine::pendingRenderJobBatchesOffload.push_back(Renderer::beginFrame);
             for
             (
-                auto it1 = SceneManager::existingScenes.begin();
-                it1 != SceneManager::existingScenes.end();
-                ++it1
+                auto _it1 = SceneManager::existingScenes.begin();
+                _it1 != SceneManager::existingScenes.end();
+                ++_it1
             )
             {
-                if ((*it1)->active)
+                Scene* it1 = reinterpret_cast<Scene*>(&_it1->data);
+                if (it1->active)
                 {
                     for
                     (
-                        auto it2 = (*it1)->entities.begin();
-                        it2 != (*it1)->entities.end();
+                        auto it2 = it1->entities.begin();
+                        it2 != it1->entities.end();
                         ++it2
                     )
                     {
@@ -338,8 +339,9 @@ void CoreEngine::internalLoop()
 
     for (auto it = SceneManager::existingScenes.begin(); it != SceneManager::existingScenes.end(); ++it)
     {
-        (*it)->eraseIteratorOnDestroy = false;
-        delete* it;
+        Scene* scene = reinterpret_cast<Scene*>(&it->data);
+        scene->eraseIteratorOnDestroy = false;
+        delete scene;
     }
     SceneManager::existingScenes.clear();
 

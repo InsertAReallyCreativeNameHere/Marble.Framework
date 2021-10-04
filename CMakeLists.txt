@@ -110,6 +110,7 @@ generate_export_header(Marble.Typography
 target_include_directories(Marble.Typography PUBLIC
     "${CMAKE_CURRENT_BINARY_DIR}"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
+    "${CMAKE_CURRENT_LIST_DIR}/dependencies"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
 )
 target_include_directories(Marble.Typography PRIVATE

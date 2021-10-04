@@ -17,7 +17,7 @@ Entity::Entity()
     this->attachedRectTransform->attachedRectTransform = this->attachedRectTransform;
     this->attachedRectTransform->eraseIteratorOnDestroy = false;
 
-    auto mainScene = SceneManager::existingScenes.front();
+    Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
     mainScene->entities.push_back(this);
     this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;
@@ -32,7 +32,7 @@ Entity::Entity(RectTransform* parent)
     this->attachedRectTransform->parent = parent;
     this->attachedRectTransform->eraseIteratorOnDestroy = false;
 
-    auto mainScene = SceneManager::existingScenes.front();
+    Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
     mainScene->entities.push_back(this);
     this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;
@@ -49,7 +49,7 @@ Entity::Entity(const Vector2& localPosition, const float& localRotation, RectTra
     thisRect->localRotation = localRotation;
     thisRect->eraseIteratorOnDestroy = false;
 
-    auto mainScene = SceneManager::existingScenes.front();
+    Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
     mainScene->entities.push_back(this);
     this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;
@@ -67,7 +67,7 @@ Entity::Entity(const Vector2& localPosition, const float& localRotation, const V
     thisRect->scale = scale;
     thisRect->eraseIteratorOnDestroy = false;
 
-    auto mainScene = SceneManager::existingScenes.front();
+    Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
     mainScene->entities.push_back(this);
     this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;

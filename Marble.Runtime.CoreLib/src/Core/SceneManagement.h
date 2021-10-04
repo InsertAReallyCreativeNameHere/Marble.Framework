@@ -14,13 +14,19 @@ namespace Marble
     namespace Internal
     {
         class CoreEngine;
+
+        struct SceneMemoryChunk
+        {
+            // FIXME: This + the static_assert at the bottom is kind of a band-aid solution.
+            alignas(Scene) char data[72];
+        };
     }
 
     struct Scene;
 
     class __marble_corelib_api SceneManager final
     {
-        static std::list<Scene*> existingScenes;
+        static std::list<Internal::SceneMemoryChunk> existingScenes;
     public:
         SceneManager() = delete;
 
@@ -37,9 +43,20 @@ namespace Marble
 
     struct __marble_corelib_api Scene final
     {
+        inline void* operator new (size_t size)
+        {
+            SceneManager::existingScenes.emplace_back();
+            return SceneManager::existingScenes.back().data;
+        }
+        inline void operator delete (void* data)
+        {
+            Scene* scene = static_cast<Scene*>(data);
+            if (scene->eraseIteratorOnDestroy)
+                SceneManager::existingScenes.erase(scene->it);
+        }
+
         inline Scene()
         {
-            SceneManager::existingScenes.push_back(this);
             this->it = --SceneManager::existingScenes.end();
         }
         ~Scene();
@@ -54,7 +71,7 @@ namespace Marble
         friend class Marble::SceneManager;
         friend class Marble::Entity;
     private:
-        std::list<Scene*>::iterator it;
+        std::list<Internal::SceneMemoryChunk>::iterator it;
         bool eraseIteratorOnDestroy = true;
 
         bool active = false;
@@ -72,8 +89,9 @@ namespace Marble
     }
     inline void SceneManager::setMainScene(Scene* scene)
     {
-        SceneManager::existingScenes.erase(scene->it);
         scene->active = true;
-        SceneManager::existingScenes.insert(SceneManager::existingScenes.begin(), scene);
+        SceneManager::existingScenes.splice(SceneManager::existingScenes.begin(), SceneManager::existingScenes, scene->it);
     }
+
+    static_assert(sizeof(Scene) == 72, "The developer is not very smart and needs to change the size of SceneMemoryChunk.");
 }

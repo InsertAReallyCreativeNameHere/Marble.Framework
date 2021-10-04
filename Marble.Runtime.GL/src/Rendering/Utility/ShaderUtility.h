@@ -4,6 +4,7 @@
 #include "Marble.Runtime.GL.Exports.h"
 
 #include <filesystem>
+#include <vector>
 
 namespace Marble
 {
