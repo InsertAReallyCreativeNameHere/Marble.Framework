@@ -16,52 +16,15 @@ namespace Marble
         class CoreEngine;
     }
 
-    struct Scene;
-
-    class __marble_corelib_api SceneManager final
-    {
-        struct SceneMemoryChunk
-        {
-            // FIXME: This + the static_assert at the bottom is kind of a band-aid solution.
-            alignas(Scene) char data[72];
-        };
-        static std::list<SceneMemoryChunk> existingScenes;
-    public:
-        SceneManager() = delete;
-
-        inline static void setSceneActive(Scene* scene);
-        inline static void setSceneInactive(Scene* scene);
-        inline static void setMainScene(Scene* scene);
-
-        static std::list<Scene*> getScenesByName(const std::string_view& name);
-
-        friend class Marble::Internal::CoreEngine;
-        friend struct Marble::Scene;
-        friend class Marble::Entity;
-    };
-
     struct __marble_corelib_api Scene final
     {
-        inline void* operator new (size_t size)
-        {
-            SceneManager::existingScenes.emplace_back();
-            return SceneManager::existingScenes.back().data;
-        }
-        inline void operator delete (void* data)
-        {
-            SceneManager::existingScenes.erase(static_cast<Scene*>(data)->it);
-        }
+        inline void* operator new (size_t size);
+        inline void operator delete (void* data);
 
-        inline Scene()
-        {
-            this->it = --SceneManager::existingScenes.end();
-        }
+        inline Scene();
         ~Scene();
 
-        inline const std::string& name()
-        {
-            return this->sceneName;
-        }
+        inline const std::string& name();
         size_t index();
 
         friend class Marble::Internal::CoreEngine;
@@ -74,17 +37,54 @@ namespace Marble
         std::string sceneName = "Untitled";
     };
     
-    inline void SceneManager::setSceneActive(Scene* scene)
+    class __marble_corelib_api SceneManager final
     {
-        scene->active = true;
+        struct SceneMemoryChunk
+        {
+            // FIXME: This + the static_assert at the bottom is kind of a band-aid solution.
+            alignas(Scene) char data[sizeof(Scene)];
+        };
+        static std::list<SceneMemoryChunk> existingScenes;
+    public:
+        SceneManager() = delete;
+
+        inline static void setSceneActive(Scene* scene)
+        {
+            scene->active = true;
+        }
+        inline static void setSceneInactive(Scene* scene)
+        {
+            scene->active = false;
+        }
+        inline static void setMainScene(Scene* scene)
+        {
+            scene->active = true;
+            SceneManager::existingScenes.splice(SceneManager::existingScenes.begin(), SceneManager::existingScenes, scene->it);
+        }
+
+        static std::list<Scene*> getScenesByName(const std::string_view& name);
+
+        friend class Marble::Internal::CoreEngine;
+        friend struct Marble::Scene;
+        friend class Marble::Entity;
+    };
+
+    void* Scene::operator new (size_t size)
+    {
+        SceneManager::existingScenes.emplace_back();
+        return SceneManager::existingScenes.back().data;
     }
-    inline void SceneManager::setSceneInactive(Scene* scene)
+    void Scene::operator delete (void* data)
     {
-        scene->active = false;
+        SceneManager::existingScenes.erase(static_cast<Scene*>(data)->it);
     }
-    inline void SceneManager::setMainScene(Scene* scene)
+
+    Scene::Scene() : it(--SceneManager::existingScenes.end())
     {
-        scene->active = true;
-        SceneManager::existingScenes.splice(SceneManager::existingScenes.begin(), SceneManager::existingScenes, scene->it);
+    }
+
+    const std::string& Scene::name()
+    {
+        return this->sceneName;
     }
 }
