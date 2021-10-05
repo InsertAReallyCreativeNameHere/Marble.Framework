@@ -223,6 +223,8 @@ void main()
     #pragma endregion
 
     #pragma region Textured Polygon
+    sampler2DTexturedPolygon = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
+
     program2DTexturedPolygon = bgfx::createProgram
     (
         bgfx::createShader
@@ -282,13 +284,13 @@ $input v_texcoord0
 
 #include <Runtime/bgfx_shader.sh>
 
-SAMPLER2D(texColor, 0);
+SAMPLER2D(s_texColor, 0);
 
 uniform mat4 transformData;
 
 void main()
 {
-    vec4 color = texture2D(texColor, v_texcoord0.xy);
+    vec4 color = texture2D(s_texColor, v_texcoord0.xy);
     gl_FragColor = transformData[2] * color;
 }
 )",
@@ -306,8 +308,6 @@ void main()
     .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
     .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
     .end();
-
-    sampler2DTexturedPolygon = bgfx::createUniform("texColor", bgfx::UniformType::Sampler);
 
     unitSquarePoly.create({ { -0.5f, -0.5f }, { 0.5f, -0.5f }, { 0.5f, 0.5f }, { -0.5f, 0.5f } }, { 2, 3, 0, 1, 2, 0 });
     unitTexturedSquarePoly.create

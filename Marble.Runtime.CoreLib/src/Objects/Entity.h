@@ -76,7 +76,6 @@ namespace Marble
                     if ((*it)->reflection.typeID == __typeid(T).qualifiedNameHash())
                         return static_cast<T*>(*it);
 
-                // FIXME: Log the name, not the integer ID...
                 Debug::LogWarn("No component of type \"", __typeid(T).qualifiedName(), "\" could be found on this Entity!");
                 return nullptr;
             }
@@ -96,7 +95,7 @@ namespace Marble
                         components.push_back(static_cast<T*>(*it));
 
                 // TODO: Is this necessary?
-                if (components.empty())
+                if (components.empty()) [[unlikely]]
                     Debug::LogWarn("No component of type \"", __typeid(T).qualifiedName(), "\" could be found on this Entity!");
                 return components;
             }
@@ -139,7 +138,7 @@ namespace Marble
             }
 
             // TODO: Is this necessary?
-            if (emitWarn)
+            if (emitWarn) [[unlikely]]
                 Debug::LogWarn("No identical component could be found on this Entity to be removed!");
         }
 

@@ -14,15 +14,12 @@ namespace Marble
     namespace Internal
     {
         class CoreEngine;
+
+        struct SceneMemoryChunk;
     }
 
     struct __marble_corelib_api Scene final
     {
-        inline void* operator new (size_t size);
-        inline void operator delete (void* data);
-
-        ~Scene();
-
         inline const std::string& name();
         size_t index();
 
@@ -30,34 +27,49 @@ namespace Marble
         friend class Marble::SceneManager;
         friend class Marble::Entity;
     private:
+        inline Scene();
+        ~Scene();
+
+        std::list<Internal::SceneMemoryChunk>::iterator it;
         bool active = false;
         std::list<Entity*> entities;
         std::string sceneName = "Untitled";
     };
-    
-    class __marble_corelib_api SceneManager final
+
+    namespace Internal
     {
         struct SceneMemoryChunk
         {
-            std::list<SceneMemoryChunk>::iterator it;
             alignas(Scene) char data[sizeof(Scene)];
         };
-        static std::list<SceneMemoryChunk> existingScenes;
+    }
+    
+    class __marble_corelib_api SceneManager final
+    {
+        static std::list<Internal::SceneMemoryChunk> existingScenes;
     public:
         SceneManager() = delete;
 
-        inline static void setSceneActive(Scene* scene)
+        inline static Scene* createScene()
         {
-            scene->active = true;
+            SceneManager::existingScenes.emplace_back();
+            return new(SceneManager::existingScenes.back().data) Scene;
         }
-        inline static void setSceneInactive(Scene* scene)
+        inline static void destroyScene(Scene* scene)
         {
-            scene->active = false;
+            auto it = scene->it;
+            scene->~Scene();
+            SceneManager::existingScenes.erase(it);
+        }
+
+        inline static void setSceneActive(Scene* scene, bool active)
+        {
+            scene->active = active;
         }
         inline static void setMainScene(Scene* scene)
         {
             scene->active = true;
-            //SceneManager::existingScenes.splice(SceneManager::existingScenes.begin(), SceneManager::existingScenes, scene->it);
+            SceneManager::existingScenes.splice(SceneManager::existingScenes.begin(), SceneManager::existingScenes, scene->it);
         }
 
         static std::list<Scene*> getScenesByName(const std::string_view& name);
@@ -67,14 +79,8 @@ namespace Marble
         friend class Marble::Entity;
     };
 
-    void* Scene::operator new (size_t size)
+    Scene::Scene() : it(--SceneManager::existingScenes.end())
     {
-        SceneManager::existingScenes.emplace_back();
-        return SceneManager::existingScenes.back().data;
-    }
-    void Scene::operator delete (void* data)
-    {
-        SceneManager::existingScenes.erase(static_cast<Scene*>(data)->it);
     }
 
     const std::string& Scene::name()

@@ -3,12 +3,12 @@
 using namespace Marble;
 using namespace Marble::Internal;
 
-std::list<SceneManager::SceneMemoryChunk> SceneManager::existingScenes;
+std::list<Internal::SceneMemoryChunk> SceneManager::existingScenes;
 
 static struct Init {
     Init()
     {
-        SceneManager::setSceneActive(new Scene);
+        SceneManager::setSceneActive(SceneManager::createScene(), true);
     }
 } init;
 
