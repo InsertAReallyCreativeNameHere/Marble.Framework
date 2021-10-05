@@ -14,6 +14,8 @@ namespace Marble
     namespace Internal
     {
         class CoreEngine;
+        
+        class SceneMemoryChunk;
     }
 
     struct __marble_corelib_api Scene final
@@ -31,20 +33,24 @@ namespace Marble
         friend class Marble::SceneManager;
         friend class Marble::Entity;
     private:
-        std::list<SceneManager::SceneMemoryChunk>::iterator it;
+        std::list<Internal::SceneMemoryChunk>::iterator it;
         bool active = false;
         std::list<Entity*> entities;
         std::string sceneName = "Untitled";
     };
     
-    class __marble_corelib_api SceneManager final
+    namespace Internal
     {
         struct SceneMemoryChunk
         {
             // FIXME: This + the static_assert at the bottom is kind of a band-aid solution.
             alignas(Scene) char data[sizeof(Scene)];
         };
-        static std::list<SceneMemoryChunk> existingScenes;
+    }
+
+    class __marble_corelib_api SceneManager final
+    {
+        static std::list<Internal::SceneMemoryChunk> existingScenes;
     public:
         SceneManager() = delete;
 
