@@ -3,7 +3,7 @@
 using namespace Marble;
 using namespace Marble::Internal;
 
-std::list<SceneMemoryChunk> SceneManager::existingScenes;
+std::list<SceneManager::SceneMemoryChunk> SceneManager::existingScenes;
 
 static struct Init {
     Init()
@@ -22,9 +22,6 @@ Scene::~Scene()
         delete *it;
     }
     this->entities.clear();
-
-    if (this->eraseIteratorOnDestroy)
-        SceneManager::existingScenes.erase(this->it);
 }
 
 size_t Scene::index()

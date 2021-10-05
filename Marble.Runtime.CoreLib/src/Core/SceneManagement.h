@@ -14,19 +14,18 @@ namespace Marble
     namespace Internal
     {
         class CoreEngine;
-
-        struct SceneMemoryChunk
-        {
-            // FIXME: This + the static_assert at the bottom is kind of a band-aid solution.
-            alignas(Scene) char data[72];
-        };
     }
 
     struct Scene;
 
     class __marble_corelib_api SceneManager final
     {
-        static std::list<Internal::SceneMemoryChunk> existingScenes;
+        struct SceneMemoryChunk
+        {
+            // FIXME: This + the static_assert at the bottom is kind of a band-aid solution.
+            alignas(Scene) char data[72];
+        };
+        static std::list<SceneMemoryChunk> existingScenes;
     public:
         SceneManager() = delete;
 
@@ -50,9 +49,7 @@ namespace Marble
         }
         inline void operator delete (void* data)
         {
-            Scene* scene = static_cast<Scene*>(data);
-            if (scene->eraseIteratorOnDestroy)
-                SceneManager::existingScenes.erase(scene->it);
+            SceneManager::existingScenes.erase(static_cast<Scene*>(data)->it);
         }
 
         inline Scene()
@@ -71,9 +68,7 @@ namespace Marble
         friend class Marble::SceneManager;
         friend class Marble::Entity;
     private:
-        std::list<Internal::SceneMemoryChunk>::iterator it;
-        bool eraseIteratorOnDestroy = true;
-
+        std::list<SceneManager::SceneMemoryChunk>::iterator it;
         bool active = false;
         std::list<Entity*> entities;
         std::string sceneName = "Untitled";
@@ -92,6 +87,4 @@ namespace Marble
         scene->active = true;
         SceneManager::existingScenes.splice(SceneManager::existingScenes.begin(), SceneManager::existingScenes, scene->it);
     }
-
-    static_assert(sizeof(Scene) == 72, "The developer is not very smart and needs to change the size of SceneMemoryChunk.");
 }

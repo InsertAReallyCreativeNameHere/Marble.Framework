@@ -338,12 +338,7 @@ void CoreEngine::internalLoop()
     while (CoreEngine::pendingPostTickEvents.try_dequeue(event));
 
     for (auto it = SceneManager::existingScenes.begin(); it != SceneManager::existingScenes.end(); ++it)
-    {
-        Scene* scene = reinterpret_cast<Scene*>(&it->data);
-        scene->eraseIteratorOnDestroy = false;
-        delete scene;
-    }
-    SceneManager::existingScenes.clear();
+        delete reinterpret_cast<Scene*>(&it->data);
 
     CoreEngine::threadsFinished_0.store(true, std::memory_order_relaxed);
 }
