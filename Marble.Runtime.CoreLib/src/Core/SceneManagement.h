@@ -14,8 +14,6 @@ namespace Marble
     namespace Internal
     {
         class CoreEngine;
-        
-        class SceneMemoryChunk;
     }
 
     struct __marble_corelib_api Scene final
@@ -23,7 +21,6 @@ namespace Marble
         inline void* operator new (size_t size);
         inline void operator delete (void* data);
 
-        inline Scene();
         ~Scene();
 
         inline const std::string& name();
@@ -33,24 +30,19 @@ namespace Marble
         friend class Marble::SceneManager;
         friend class Marble::Entity;
     private:
-        std::list<Internal::SceneMemoryChunk>::iterator it;
         bool active = false;
         std::list<Entity*> entities;
         std::string sceneName = "Untitled";
     };
     
-    namespace Internal
+    class __marble_corelib_api SceneManager final
     {
         struct SceneMemoryChunk
         {
-            // FIXME: This + the static_assert at the bottom is kind of a band-aid solution.
+            std::list<SceneMemoryChunk>::iterator it;
             alignas(Scene) char data[sizeof(Scene)];
         };
-    }
-
-    class __marble_corelib_api SceneManager final
-    {
-        static std::list<Internal::SceneMemoryChunk> existingScenes;
+        static std::list<SceneMemoryChunk> existingScenes;
     public:
         SceneManager() = delete;
 
@@ -65,7 +57,7 @@ namespace Marble
         inline static void setMainScene(Scene* scene)
         {
             scene->active = true;
-            SceneManager::existingScenes.splice(SceneManager::existingScenes.begin(), SceneManager::existingScenes, scene->it);
+            //SceneManager::existingScenes.splice(SceneManager::existingScenes.begin(), SceneManager::existingScenes, scene->it);
         }
 
         static std::list<Scene*> getScenesByName(const std::string_view& name);
@@ -83,10 +75,6 @@ namespace Marble
     void Scene::operator delete (void* data)
     {
         SceneManager::existingScenes.erase(static_cast<Scene*>(data)->it);
-    }
-
-    Scene::Scene() : it(--SceneManager::existingScenes.end())
-    {
     }
 
     const std::string& Scene::name()
