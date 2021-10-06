@@ -132,7 +132,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
         return false;
     
     #if _DEBUG
-    bgfx::setDebug(BGFX_DEBUG_PROFILER | BGFX_DEBUG_STATS | BGFX_DEBUG_TEXT);
+    bgfx::setDebug(BGFX_DEBUG_PROFILER | BGFX_DEBUG_STATS | BGFX_DEBUG_TEXT | BGFX_DEBUG_WIREFRAME);
     bgfx::g_verbose = true;
     #endif
 
@@ -144,7 +144,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
     bx::mtxOrtho(proj2D, -(float)renderWidth / 2, (float)renderWidth / 2, -(float)renderHeight / 2, (float)renderHeight / 2, 0, 100, 0, bgfx::getCaps()->homogeneousDepth);
     bgfx::setViewTransform(0, view2D, proj2D);
 
-    uniform2DPolygon = bgfx::createUniform("transformData", bgfx::UniformType::Mat4);
+    uniform2DPolygon = bgfx::createUniform("u_transformData", bgfx::UniformType::Mat4);
 
     program2DPolygon = bgfx::createProgram
     (
@@ -159,19 +159,19 @@ $input a_position
 
 #include <Runtime/bgfx_shader.sh>
 
-uniform mat4 transformData;
+uniform mat4 u_transformData;
 
 void main()
 {
     vec3 pos = a_position;
 
-    pos.x *= transformData[1].x;
-    pos.y *= transformData[1].y;
-    pos.x += transformData[0].z;
-    pos.y += transformData[0].w;
+    pos.x *= u_transformData[1].x;
+    pos.y *= u_transformData[1].y;
+    pos.x += u_transformData[0].z;
+    pos.y += u_transformData[0].w;
 
-    float s = sin(transformData[1].z);
-    float c = cos(transformData[1].z);
+    float s = sin(u_transformData[1].z);
+    float c = cos(u_transformData[1].z);
 
     float x = pos.x;
     float y = pos.y;
@@ -179,10 +179,10 @@ void main()
     pos.x = x * c + y * s;
     pos.y = y * c - x * s;
     
-    pos.x += transformData[0].x;
-    pos.y += transformData[0].y;
+    pos.x += u_transformData[0].x;
+    pos.y += u_transformData[0].y;
 
-	gl_Position = mul(u_modelViewProj, vec4(pos.x, pos.y, 0.0, 1.0));
+	gl_Position = mul(u_modelViewProj, vec4(pos.x, pos.y, 50.0, 1.0));
 }
 )",
                     ShaderCompileOptions(ShaderType::Vertex)
@@ -200,11 +200,11 @@ void main()
 R"(
 #include <Runtime/bgfx_shader.sh>
 
-uniform mat4 transformData;
+uniform mat4 u_transformData;
 
 void main()
 {
-    gl_FragColor = transformData[2];
+    gl_FragColor = u_transformData[2];
 }
 )",
                     ShaderCompileOptions(ShaderType::Fragment)
@@ -239,19 +239,19 @@ $output v_texcoord0
 
 #include <Runtime/bgfx_shader.sh>
 
-uniform mat4 transformData;
+uniform mat4 u_transformData;
 
 void main()
 {
     vec3 pos = a_position;
 
-    pos.x *= transformData[1].x;
-    pos.y *= transformData[1].y;
-    pos.x += transformData[0].z;
-    pos.y += transformData[0].w;
+    pos.x *= u_transformData[1].x;
+    pos.y *= u_transformData[1].y;
+    pos.x += u_transformData[0].z;
+    pos.y += u_transformData[0].w;
 
-    float s = sin(transformData[1].z);
-    float c = cos(transformData[1].z);
+    float s = sin(u_transformData[1].z);
+    float c = cos(u_transformData[1].z);
 
     float x = pos.x;
     float y = pos.y;
@@ -259,8 +259,8 @@ void main()
     pos.x = x * c + y * s;
     pos.y = y * c - x * s;
     
-    pos.x += transformData[0].x;
-    pos.y += transformData[0].y;
+    pos.x += u_transformData[0].x;
+    pos.y += u_transformData[0].y;
 
 	gl_Position = mul(u_modelViewProj, vec4(pos.x, pos.y, 0.0, 1.0));
 
@@ -286,12 +286,12 @@ $input v_texcoord0
 
 SAMPLER2D(s_texColor, 0);
 
-uniform mat4 transformData;
+uniform mat4 u_transformData;
 
 void main()
 {
     vec4 color = texture2D(s_texColor, v_texcoord0.xy);
-    gl_FragColor = transformData[2] * color;
+    gl_FragColor = u_transformData[2] * color;
 }
 )",
                     ShaderCompileOptions(ShaderType::Fragment)
