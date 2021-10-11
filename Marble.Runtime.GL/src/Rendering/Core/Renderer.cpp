@@ -108,6 +108,17 @@ void TexturedPolygonHandle::destroy()
     delete this->ibBuf;
 }
 
+struct testvertex
+{
+    float x = 0;
+    float y = 0;
+};
+inline static bgfx::ProgramHandle testProg;
+inline static bgfx::VertexLayout testLayout;
+inline static bgfx::VertexBufferHandle testvb;
+inline static bgfx::IndexBufferHandle testib;
+inline static bgfx::UniformHandle testunif;
+
 bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t initHeight)
 {
     ProfileFunction();
@@ -132,13 +143,89 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
         return false;
     
     #if _DEBUG
-    bgfx::setDebug(BGFX_DEBUG_PROFILER | BGFX_DEBUG_STATS | BGFX_DEBUG_TEXT | BGFX_DEBUG_WIREFRAME);
+    bgfx::setDebug(BGFX_DEBUG_PROFILER | BGFX_DEBUG_STATS | BGFX_DEBUG_TEXT);
     bgfx::g_verbose = true;
     #endif
 
     renderWidth = initWidth;
     renderHeight = initHeight;
 
+    testProg = bgfx::createProgram
+    (
+        bgfx::createShader
+        (
+            []()
+            {
+                auto shad = ShaderUtility::compileShader
+                (
+R"(
+$input a_position
+
+#include <Runtime/bgfx_shader.sh>
+
+uniform mat4 u_transformData;
+
+void main()
+{
+    vec3 pos = a_position;
+
+    pos.x *= u_transformData[1].x;
+    pos.y *= u_transformData[1].y;
+    pos.x += u_transformData[0].z;
+    pos.y += u_transformData[0].w;
+
+    float s = sin(u_transformData[1].z);
+    float c = cos(u_transformData[1].z);
+
+    float x = pos.x;
+    float y = pos.y;
+
+    pos.x = x * c + y * s;
+    pos.y = y * c - x * s;
+    
+    pos.x += u_transformData[0].x;
+    pos.y += u_transformData[0].y;
+
+	gl_Position = mul(u_modelViewProj, vec4(pos.x, pos.y, 0.0, 1.0));
+}
+)",
+                    ShaderCompileOptions(ShaderType::Vertex)
+                );
+                return bgfx::copy(shad.data(), shad.size());
+            }
+            ()
+        ),
+        bgfx::createShader
+        (
+            []()
+            {
+                auto shad = ShaderUtility::compileShader
+                (
+R"(
+#include <Runtime/bgfx_shader.sh>
+
+uniform mat4 u_transformData;
+
+void main()
+{
+    gl_FragColor = u_transformData[2];
+}
+)",
+                    ShaderCompileOptions(ShaderType::Fragment)
+                );
+                return bgfx::copy(shad.data(), shad.size());
+            }
+            ()
+        ),
+        true
+    );
+    testLayout.begin().add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float).end();
+    testvertex* vbd = new testvertex[] { { -50.0f, -50.0f }, { 50.0f, -50.0f }, { 50.0f, 50.0f }, { -50.0f, 50.0f } };
+    testvb = bgfx::createVertexBuffer(bgfx::makeRef(vbd, sizeof(testvertex) * 4), testLayout);
+    uint16_t* ibd = new uint16_t[] { 2, 3, 0, 1, 2, 0 };
+    testib = bgfx::createIndexBuffer(bgfx::makeRef(ibd, sizeof(uint16_t) * 6));
+    testunif = bgfx::createUniform("u_transformData", bgfx::UniformType::Mat4);
+    
     #pragma region 2D
     bx::mtxLookAt(view2D, eye, at);
     bx::mtxOrtho(proj2D, -(float)renderWidth / 2, (float)renderWidth / 2, -(float)renderHeight / 2, (float)renderHeight / 2, 0, 100, 0, bgfx::getCaps()->homogeneousDepth);
@@ -182,7 +269,7 @@ void main()
     pos.x += u_transformData[0].x;
     pos.y += u_transformData[0].y;
 
-	gl_Position = mul(u_modelViewProj, vec4(pos.x, pos.y, 50.0, 1.0));
+	gl_Position = mul(u_modelViewProj, vec4(pos.x, pos.y, 0.0, 1.0));
 }
 )",
                     ShaderCompileOptions(ShaderType::Vertex)
@@ -378,12 +465,38 @@ void Renderer::beginFrame()
 void Renderer::endFrame()
 {
     ProfileFunction();
+
+    ColoredTransformHandle transform;
+    transform.setPosition(100, 100);
+    transform.setOffset(10, 10);
+    transform.setRotation(10.0f);
+    transform.setScale(2, 2);
+    transform.setColor(0.0f, 1.0f, 1.0f, 1.0f);
+    if (bgfx::getRendererType() == bgfx::RendererType::OpenGL) // FIXME: Strange matrix rows/column reversal with OpenGL.
+    {
+        float untransposed[16];
+        bx::memCopy(untransposed, transform.transform, sizeof(float[16]));
+        bx::mtxTranspose(transform.transform, untransposed);
+    }
+    bgfx::setVertexBuffer(0, testvb);
+    bgfx::setIndexBuffer(testib);
+    bgfx::setUniform(testunif, transform.transform);
+    bgfx::submit(0, testProg);
+
     bgfx::frame();
 }
 
 void Renderer::drawUnitSquare(ColoredTransformHandle transform)
 {
     ProfileFunction();
+    
+    if (bgfx::getRendererType() == bgfx::RendererType::OpenGL) // FIXME: Strange matrix rows/column reversal with OpenGL.
+    {
+        float untransposed[16];
+        bx::memCopy(untransposed, transform.transform, sizeof(decltype(transform.transform)));
+        bx::mtxTranspose(transform.transform, untransposed);
+    }
+
     bgfx::setVertexBuffer(0, unitSquarePoly.vb);
     bgfx::setIndexBuffer(unitSquarePoly.ib);
     bgfx::setUniform(uniform2DPolygon, transform.transform);
@@ -392,6 +505,14 @@ void Renderer::drawUnitSquare(ColoredTransformHandle transform)
 void Renderer::drawPolygon(PolygonHandle polygon, ColoredTransformHandle transform)
 {
     ProfileFunction();
+    
+    if (bgfx::getRendererType() == bgfx::RendererType::OpenGL) // FIXME: Strange matrix rows/column reversal with OpenGL.
+    {
+        float untransposed[16];
+        bx::memCopy(untransposed, transform.transform, sizeof(decltype(transform.transform)));
+        bx::mtxTranspose(transform.transform, untransposed);
+    }
+
     bgfx::setVertexBuffer(0, polygon.vb);
     bgfx::setIndexBuffer(polygon.ib);
     bgfx::setUniform(uniform2DPolygon, transform.transform);
@@ -400,6 +521,14 @@ void Renderer::drawPolygon(PolygonHandle polygon, ColoredTransformHandle transfo
 void Renderer::drawImage(Texture2DHandle image, ColoredTransformHandle transform)
 {
     ProfileFunction();
+    
+    if (bgfx::getRendererType() == bgfx::RendererType::OpenGL) // FIXME: Strange matrix rows/column reversal with OpenGL.
+    {
+        float untransposed[16];
+        bx::memCopy(untransposed, transform.transform, sizeof(decltype(transform.transform)));
+        bx::mtxTranspose(transform.transform, untransposed);
+    }
+
     bgfx::setVertexBuffer(0, unitTexturedSquarePoly.vb);
     bgfx::setIndexBuffer(unitTexturedSquarePoly.ib);
     bgfx::setTexture(0, sampler2DTexturedPolygon, image.tex);

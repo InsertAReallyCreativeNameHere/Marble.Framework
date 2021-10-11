@@ -29,9 +29,6 @@ using namespace Marble::Internal;
 using namespace Marble::Mathematics;
 using namespace Marble::PackageSystem;
 
-#define WNDW 1280
-#define WNDH 720
-
 std::atomic<CoreEngine::state> CoreEngine::currentState;
 
 std::atomic<uint8_t> CoreEngine::initIndex = 0;

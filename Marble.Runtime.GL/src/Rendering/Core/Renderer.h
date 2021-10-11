@@ -48,10 +48,10 @@ namespace Marble
             //  rotoff  rot     res3    user3
             //  rotoff  res0    res4    user4
 
-                0,      1,      0,      0,
-                0,      1,      0,      0,
-                0,      0,      0,      0,
-                0,      0,      0,      0
+                0,      1,      1,      0,
+                0,      1,      1,      0,
+                0,      0,      1,      0,
+                0,      0,      1,      0
             };
         };
         // Color values should be between 0.0f and 1.0f.
@@ -98,7 +98,6 @@ namespace Marble
         {
             float x = 0;
             float y = 0;
-            float z = 0;
             float u = 0;
             float v = 0;
         };
