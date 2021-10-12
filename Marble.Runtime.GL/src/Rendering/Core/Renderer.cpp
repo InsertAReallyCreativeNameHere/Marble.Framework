@@ -4,8 +4,12 @@
 #include <bimg/bimg.h>
 #include <bx/math.h>
 #include <Rendering/Utility/ShaderUtility.h>
-#include <shaderc.h>
 #include <skarupke/function.h>
+
+namespace bgfx
+{
+    extern bool g_verbose;
+}
 
 using namespace Marble;
 using namespace Marble::GL;

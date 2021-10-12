@@ -5,7 +5,6 @@
 
 #include "shaderc.h"
 #include "glsl_optimizer.h"
-#include <string.h>
 
 namespace bgfx { namespace glsl
 {

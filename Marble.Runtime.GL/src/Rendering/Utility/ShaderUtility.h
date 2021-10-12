@@ -48,7 +48,7 @@ namespace Marble
         public:
             ShaderUtility() = delete;
 
-            static std::vector<char> compileShader(const std::string& shaderData, const ShaderCompileOptions& options);
+            static std::vector<char> compileShader(std::string shaderData, const ShaderCompileOptions& options);
         };
     }
 }

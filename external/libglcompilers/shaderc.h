@@ -6,14 +6,60 @@
 #ifndef SHADERC_H_HEADER_GUARD
 #define SHADERC_H_HEADER_GUARD
 
+namespace bgfx
+{
+	extern bool g_verbose;
+}
+
+#define _BX_TRACE(_format, ...)                                                          \
+				BX_MACRO_BLOCK_BEGIN                                                     \
+					if (bgfx::g_verbose)                                                 \
+					{                                                                    \
+						bx::printf(BX_FILE_LINE_LITERAL "" _format "\n", ##__VA_ARGS__); \
+					}                                                                    \
+				BX_MACRO_BLOCK_END
+
+#define _BX_WARN(_condition, _format, ...)                        \
+				BX_MACRO_BLOCK_BEGIN                              \
+					if (!(_condition) )                           \
+					{                                             \
+						BX_TRACE("WARN " _format, ##__VA_ARGS__); \
+					}                                             \
+				BX_MACRO_BLOCK_END
+
+#define _BX_ASSERT(_condition, _format, ...)                       \
+				BX_MACRO_BLOCK_BEGIN                               \
+					if (!(_condition) )                            \
+					{                                              \
+						BX_TRACE("CHECK " _format, ##__VA_ARGS__); \
+						bx::debugBreak();                          \
+					}                                              \
+				BX_MACRO_BLOCK_END
+
+#define BX_TRACE  _BX_TRACE
+#define BX_WARN   _BX_WARN
+#define BX_ASSERT _BX_ASSERT
+
 #ifndef SHADERC_CONFIG_HLSL
 #	define SHADERC_CONFIG_HLSL BX_PLATFORM_WINDOWS
 #endif // SHADERC_CONFIG_HLSL
 
+#include <alloca.h>
+#include <stdint.h>
+#include <string.h>
+#include <algorithm>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
+#include <bx/bx.h>
+#include <bx/debug.h>
+#include <bx/commandline.h>
+#include <bx/endian.h>
+#include <bx/uint32_t.h>
 #include <bx/string.h>
+#include <bx/hash.h>
+#include <bx/file.h>
 #include "../../src/vertexlayout.h"
 
 namespace bgfx
@@ -45,6 +91,7 @@ namespace bgfx
 			, regCount(0)
 			, texComponent(0)
 			, texDimension(0)
+			, texFormat(0)
 		{
 		}
 
@@ -108,9 +155,6 @@ namespace bgfx
 	bool compileSPIRVShader(const Options& _options, uint32_t _version, const std::string& _code, bx::WriterI* _writer);
 
 	const char* getPsslPreamble();
-
-	std::vector<char> compileShader(const char* shaderData, uint32_t shaderDataSize, const char* varyingDefData, const std::vector<const char*>& args);
-	bool compileShader(const char* _varying, const char* _comment, char* _shader, uint32_t _shaderLen, Options& _options, bx::WriterI* _writer);
 
 } // namespace bgfx
 

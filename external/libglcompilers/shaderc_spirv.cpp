@@ -26,6 +26,8 @@ BX_PRAGMA_DIAGNOSTIC_POP()
 
 namespace bgfx
 {
+	extern bx::AllocatorI* g_allocator;
+
 	struct TinyStlAllocator
 	{
 		static void* static_allocate(size_t _bytes);

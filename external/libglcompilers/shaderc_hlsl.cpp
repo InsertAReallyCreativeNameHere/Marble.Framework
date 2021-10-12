@@ -13,7 +13,6 @@
 #	define __out
 #endif // defined(__MINGW32__)
 
-struct IUnknown;
 #define COM_NO_WINDOWS_H
 #include <d3dcompiler.h>
 #include <d3d11shader.h>
