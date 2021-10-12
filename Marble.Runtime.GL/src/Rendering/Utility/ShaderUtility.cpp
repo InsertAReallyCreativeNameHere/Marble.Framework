@@ -79,29 +79,37 @@ std::vector<char> ShaderUtility::compileShader(std::string shaderData, const Sha
         {
         case ShaderType::Vertex:
             compileOptions.profile = "vs_3_0";
+            break;
         case ShaderType::Fragment:
         case ShaderType::Compute:
             compileOptions.profile = "ps_3_0";
+            break;
         }
     case bgfx::RendererType::Direct3D11:
         switch (options.shaderType)
         {
         case ShaderType::Vertex:
             compileOptions.profile = "vs_4_0";
+            break;
         case ShaderType::Fragment:
             compileOptions.profile = "ps_4_0";
+            break;
         case ShaderType::Compute:
             compileOptions.profile = "cs_5_0";
+            break;
         }
     case bgfx::RendererType::Direct3D12:
         switch (options.shaderType)
         {
         case ShaderType::Vertex:
             compileOptions.profile = "vs_5_0";
+            break;
         case ShaderType::Fragment:
             compileOptions.profile = "ps_5_0";
+            break;
         case ShaderType::Compute:
             compileOptions.profile = "cs_5_0";
+            break;
         }
     case bgfx::RendererType::OpenGL:
         switch (options.shaderType)
@@ -109,11 +117,14 @@ std::vector<char> ShaderUtility::compileShader(std::string shaderData, const Sha
         case ShaderType::Vertex:
         case ShaderType::Fragment:
             compileOptions.profile = "120";
+            break;
         case ShaderType::Compute:
             compileOptions.profile = "430";
+            break;
         }
     case bgfx::RendererType::Vulkan:
         compileOptions.profile = "spirv";
+        break;
     case bgfx::RendererType::Gnm:
     case bgfx::RendererType::Metal:
     case bgfx::RendererType::OpenGLES:
