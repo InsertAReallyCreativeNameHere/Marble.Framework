@@ -63,17 +63,39 @@ endif()
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
 
-# Marble.Packager
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Marble.Packager")
-
 # SDL2
 set(SDL_STATIC_PIC ON CACHE INTERNAL "" FORCE)
 set(SDL_SHARED OFF CACHE INTERNAL "" FORCE)
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/SDL")
 target_compile_definitions(SDL2-static PRIVATE HAVE_LIBC=1)
 
-# bgfx + Dependencies
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/libgl")
+# bgfx
+
+set(CMAKE_CXX_STANDARD 14)
+if (COMPILER STREQUAL "MinGW")
+    add_definitions(-DMINGW_HAS_SECURE_API=0)
+endif()
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "../libglbuild")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "../libglbuild")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../libglbuild")
+
+set(_CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE})
+set(CMAKE_BUILD_TYPE "Release") # Builds faster for MinGW/GCC this way.
+set(BGFX_LIBRARY_TYPE "STATIC")
+set(BGFX_BUILD_TOOLS ON CACHE INTERNAL "" FORCE)
+set(BGFX_BUILD_EXAMPLES OFF CACHE INTERNAL "" FORCE)
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake")
+target_compile_definitions(bgfx PUBLIC BGFX_CONFIG_MULTITHREADED=0)
+set(CMAKE_BUILD_TYPE ${_CMAKE_BUILD_TYPE})
+
+if (COMPILER STREQUAL "MinGW")
+    remove_definitions(-DMINGW_HAS_SECURE_API)
+endif()
+set(CMAKE_CXX_STANDARD 20)
+
+# Marble.Tools
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Marble.Tools")
 
 # tracy
 if (MARBLE_ENABLE_PROFILING)
@@ -135,12 +157,8 @@ file(GLOB_RECURSE GLSRCS configure_depends
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/*.h"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/*.cpp"
 )
-file(GLOB_RECURSE SHADERC configure_depends
-    "${CMAKE_CURRENT_LIST_DIR}/external/libglcompilers/*.h"
-    "${CMAKE_CURRENT_LIST_DIR}/external/libglcompilers/*.cpp"
-)
 
-add_library(Marble.Runtime.GL SHARED ${GLSRCS} ${SHADERC})
+add_library(Marble.Runtime.GL SHARED ${GLSRCS})
 
 generate_export_header(Marble.Runtime.GL
     BASE_NAME MARBLE_GL
@@ -160,7 +178,9 @@ target_include_directories(Marble.Runtime.GL PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bimg/include"
 )
 target_link_libraries(Marble.Runtime.GL PRIVATE
-    gl
+    bimg
+    bx
+    bgfx
 )
 if (COMPILER STREQUAL "MinGW" OR COMPILER STREQUAL "Clang")
     target_include_directories(Marble.Runtime.GL PRIVATE "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include/compat/mingw")

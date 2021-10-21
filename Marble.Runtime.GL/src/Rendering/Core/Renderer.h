@@ -113,6 +113,26 @@ namespace Marble
             void destroy();
         };
 
+        struct GeometryProgramHandle;
+        struct __marble_gl_api ShaderHandle final
+        {
+            bgfx::ShaderHandle shad { bgfx::kInvalidHandle };
+            std::vector<uint8_t>* shadData;
+
+            bool create(std::vector<uint8_t> pshData);
+            void destroy();
+
+            friend struct GeometryProgramHandle;
+        };
+        struct __marble_gl_api GeometryProgramHandle final
+        {
+            bgfx::ProgramHandle prog { bgfx::kInvalidHandle };
+
+            void create(ShaderHandle vertexShader, ShaderHandle fragmentShader);
+            void destroy();
+        };
+        // TODO: Implement ComputeProgramHandle
+
         class __marble_gl_api Renderer final
         {
         public:

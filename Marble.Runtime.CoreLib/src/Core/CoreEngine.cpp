@@ -19,7 +19,6 @@
 #include <EntityComponentSystem/EngineEvent.h>
 #include <Objects/Entity.h>
 #include <Rendering/Core/Renderer.h>
-#include <Rendering/Utility/ShaderUtility.h>
 #include <Utility/Hash.h>
 
 namespace fs = std::filesystem;

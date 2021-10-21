@@ -13,6 +13,3 @@
 [submodule "fast_io"]
 	path = external/fast_io
 	url = https://github.com/tearosccebe/fast_io.git
-[submodule "external/Allocator"]
-	path = dependencies/Allocator
-	url = https://github.com/moya-lang/Allocator.git
