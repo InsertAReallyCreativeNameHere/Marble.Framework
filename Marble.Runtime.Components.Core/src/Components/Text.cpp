@@ -7,7 +7,7 @@
 #include <Core/CoreEngine.h>
 #include <Core/Debug.h>
 #include <EntityComponentSystem/RectTransform.h>
-#include <Rendering/Core/Renderer.h>
+#include <Rendering/Renderer.h>
 
 using namespace Marble;
 using namespace Marble::Internal;

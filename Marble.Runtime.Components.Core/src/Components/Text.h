@@ -8,7 +8,7 @@
 #include <Core/PackageManager.h>
 #include <Font/Font.h>
 #include <Objects/Component.h>
-#include <Rendering/Core/Renderer.h>
+#include <Rendering/Renderer.h>
 #include <Utility/Property.h>
 
 namespace Marble

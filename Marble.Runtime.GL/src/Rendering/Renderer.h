@@ -4,7 +4,8 @@
 #include "Marble.Runtime.GL.Exports.h"
 
 #include <bgfx/bgfx.h>
-#include <list>
+#include <initializer_list>
+#include <tuple>
 #include <vector>
 
 namespace Marble
@@ -113,13 +114,36 @@ namespace Marble
             void destroy();
         };
 
+        struct VertexDataSegment
+        {
+            bgfx::Attrib::Enum shaderData;
+            uint8_t count;
+            bgfx::AttribType::Enum valueType;
+            bool normalize = false;
+        };
+        struct __marble_gl_api VertexLayout final
+        {
+            bgfx::VertexLayout layout;
+
+            inline VertexLayout() = default;
+            VertexLayout(std::initializer_list<VertexDataSegment> layout);
+        };
+
+        struct __marble_gl_api UniformHandle final
+        {
+            bgfx::UniformHandle unif { bgfx::kInvalidHandle };
+
+            void create(const char* name, bgfx::UniformType::Enum);
+            void destroy();
+        };
+
         struct GeometryProgramHandle;
         struct __marble_gl_api ShaderHandle final
         {
             bgfx::ShaderHandle shad { bgfx::kInvalidHandle };
             std::vector<uint8_t>* shadData;
 
-            bool create(std::vector<uint8_t> pshData);
+            bool create(const uint8_t* pshDataBegin, const uint8_t* pshDataEnd);
             void destroy();
 
             friend struct GeometryProgramHandle;
@@ -128,7 +152,7 @@ namespace Marble
         {
             bgfx::ProgramHandle prog { bgfx::kInvalidHandle };
 
-            void create(ShaderHandle vertexShader, ShaderHandle fragmentShader);
+            void create(ShaderHandle vertexShader, ShaderHandle fragmentShader, bool destroyShadersOnDestroy = false);
             void destroy();
         };
         // TODO: Implement ComputeProgramHandle
@@ -151,8 +175,6 @@ namespace Marble
             static void drawUnitSquare(ColoredTransformHandle transform);
             static void drawPolygon(PolygonHandle polygon, ColoredTransformHandle transform);
             static void drawImage(Texture2DHandle image, ColoredTransformHandle transform);
-
-            friend struct Texture2D;
         };
     }
 }

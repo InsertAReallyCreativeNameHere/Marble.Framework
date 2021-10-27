@@ -9,7 +9,7 @@
 #include <Core/PackageManager.h>
 #include <Drawing/Core.h>
 #include <Objects/Component.h>
-#include <Rendering/Core/Renderer.h>
+#include <Rendering/Renderer.h>
 #include <Utility/Property.h>
 
 namespace Marble

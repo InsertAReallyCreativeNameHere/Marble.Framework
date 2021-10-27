@@ -153,12 +153,23 @@ set_target_properties(Marble.Typography
 
 # Marble.Runtime.GL
 
+add_custom_target(Marble.Runtime.GL.PrecompiledShaders
+    COMMAND ${CMAKE_COMMAND}
+    -DSHADERC_PATH="$<TARGET_FILE:Marble.ShaderCompiler>"
+    -DSHADERC_DIR="$<TARGET_FILE_DIR:Marble.ShaderCompiler>"
+    -DSHADER_FILES_DIR="${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/src/Shaders"
+    -DBGFX_SHADER_DIR="${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bgfx/src"
+    -P "${CMAKE_CURRENT_LIST_DIR}/cmake/PrecompileBuiltinShaders.cmake"
+    COMMENT "[Shader Precompile] Pre-build shader precompilation start."
+)
+
 file(GLOB_RECURSE GLSRCS configure_depends
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/*.h"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/*.cpp"
 )
 
 add_library(Marble.Runtime.GL SHARED ${GLSRCS})
+add_dependencies(Marble.Runtime.GL Marble.Runtime.GL.PrecompiledShaders)
 
 generate_export_header(Marble.Runtime.GL
     BASE_NAME MARBLE_GL

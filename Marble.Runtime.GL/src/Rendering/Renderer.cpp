@@ -3,33 +3,34 @@
 #include <bgfx/platform.h>
 #include <bimg/bimg.h>
 #include <bx/math.h>
+#include <cstring>
 #include <skarupke/function.h>
 
 using namespace Marble;
 using namespace Marble::GL;
 
-inline static uint32_t renderWidth;
-inline static uint32_t renderHeight;
+static const char8_t* pshLookupName;
 
-inline static const char8_t* pshLookupName;
+static uint32_t renderWidth;
+static uint32_t renderHeight;
 
 #pragma region 2D
-inline static bx::Vec3 at = { 0.0f, 0.0f, 0.0f };
-inline static bx::Vec3 eye = { 0.0f, 0.0f, -1.0f };
-inline static float view2D[16];
-inline static float proj2D[16];
+static bx::Vec3 at = { 0.0f, 0.0f, 0.0f };
+static bx::Vec3 eye = { 0.0f, 0.0f, -1.0f };
+static float view2D[16];
+static float proj2D[16];
 
-inline static PolygonHandle unitSquarePoly;
-inline static TexturedPolygonHandle unitTexturedSquarePoly;
+static PolygonHandle unitSquarePoly;
+static TexturedPolygonHandle unitTexturedSquarePoly;
 
-inline static bgfx::UniformHandle uniform2DPolygon;
+static UniformHandle uniform2DPolygon;
 
-inline static bgfx::VertexLayout layoutPolygon;
-inline static bgfx::ProgramHandle program2DPolygon;
+static VertexLayout layoutPolygon;
+static GeometryProgramHandle program2DPolygon;
 
-inline static bgfx::VertexLayout layoutTexturedPolygon;
-inline static bgfx::UniformHandle sampler2DTexturedPolygon;
-inline static bgfx::ProgramHandle program2DTexturedPolygon;
+static VertexLayout layoutTexturedPolygon;
+static UniformHandle sampler2DTexturedPolygon;
+static GeometryProgramHandle program2DTexturedPolygon;
 #pragma endregion
 
 void PolygonHandle::create(std::vector<Vertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer)
@@ -37,7 +38,7 @@ void PolygonHandle::create(std::vector<Vertex2D> vertexBuffer, std::vector<uint1
     ProfileFunction();
     this->vbBuf = new std::vector<Vertex2D>(std::move(vertexBuffer));
     this->ibBuf = new std::vector<uint16_t>(std::move(indexBuffer));
-    this->vb = bgfx::createDynamicVertexBuffer(bgfx::makeRef(this->vbBuf->data(), sizeof(Vertex2D) * this->vbBuf->size()), layoutPolygon);
+    this->vb = bgfx::createDynamicVertexBuffer(bgfx::makeRef(this->vbBuf->data(), sizeof(Vertex2D) * this->vbBuf->size()), layoutPolygon.layout);
     this->ib = bgfx::createDynamicIndexBuffer(bgfx::makeRef(this->ibBuf->data(), sizeof(uint16_t) * this->ibBuf->size()));
 }
 void PolygonHandle::update(std::vector<Vertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer)
@@ -88,7 +89,7 @@ void TexturedPolygonHandle::create(std::vector<TexturedVertex2D> vertexBuffer, s
     ProfileFunction();
     this->vbBuf = new std::vector<TexturedVertex2D>(std::move(vertexBuffer));
     this->ibBuf = new std::vector<uint16_t>(std::move(indexBuffer));
-    this->vb = bgfx::createDynamicVertexBuffer(bgfx::makeRef(this->vbBuf->data(), sizeof(TexturedVertex2D) * this->vbBuf->size()), layoutTexturedPolygon);
+    this->vb = bgfx::createDynamicVertexBuffer(bgfx::makeRef(this->vbBuf->data(), sizeof(TexturedVertex2D) * this->vbBuf->size()), layoutTexturedPolygon.layout);
     this->ib = bgfx::createDynamicIndexBuffer(bgfx::makeRef(this->ibBuf->data(), sizeof(uint16_t) * this->ibBuf->size()));
 }
 void TexturedPolygonHandle::update(std::vector<TexturedVertex2D> vertexBuffer, std::vector<uint16_t> indexBuffer)
@@ -108,13 +109,30 @@ void TexturedPolygonHandle::destroy()
     delete this->ibBuf;
 }
 
-bool ShaderHandle::create(std::vector<uint8_t> pshData)
+VertexLayout::VertexLayout(std::initializer_list<VertexDataSegment> layout)
+{
+    this->layout.begin();
+    for (auto it = layout.begin(); it != layout.end(); ++it)
+        this->layout.add(it->shaderData, it->count, it->valueType, it->normalize);
+    this->layout.end();
+}
+
+void UniformHandle::create(const char* name, bgfx::UniformType::Enum type)
+{
+    this->unif = bgfx::createUniform(name, type);
+}
+void UniformHandle::destroy()
+{
+    bgfx::destroy(this->unif);
+}
+
+bool ShaderHandle::create(const uint8_t* pshDataBegin, const uint8_t* pshDataEnd)
 {
     ProfileFunction();
 
-    if (pshData.size() < sizeof(char8_t) * 3 + sizeof(uint32_t)) [[unlikely]]
+    if (pshDataEnd - pshDataBegin < sizeof(char8_t) * 3 + sizeof(uint32_t)) [[unlikely]]
         return false;
-    auto it = pshData.begin() + sizeof(char8_t) * 3;
+    auto it = pshDataBegin + sizeof(char8_t) * 3;
 
     uint32_t version;
     memcpy(&version, &*it, sizeof(uint32_t));
@@ -127,27 +145,27 @@ bool ShaderHandle::create(std::vector<uint8_t> pshData)
             uint64_t size;
             while (true)
             {
-                if (it + sizeof(uint64_t) > pshData.end()) [[unlikely]]
+                if (it + sizeof(uint64_t) > pshDataEnd) [[unlikely]]
                     return false;
                 memcpy(&size, &*it, sizeof(uint64_t));
                 lookupName.resize(size);
                 it += sizeof(uint64_t);
 
-                if (it + size > pshData.end()) [[unlikely]]
+                if (it + size > pshDataEnd) [[unlikely]]
                     return false;
                 memcpy(&lookupName[0], &*it, size);
                 it += size;
                 
-                if (it + sizeof(uint64_t) > pshData.end()) [[unlikely]]
+                if (it + sizeof(uint64_t) > pshDataEnd) [[unlikely]]
                     return false;
                 memcpy(&size, &*it, sizeof(uint64_t));
                 it += sizeof(uint64_t);
                 
-                if (it + size > pshData.end()) [[unlikely]]
+                if (it + size > pshDataEnd) [[unlikely]]
                     return false;
                 if (lookupName == pshLookupName)
                 {
-                    this->shadData = new std::vector<uint8_t>(std::move(pshData));
+                    this->shadData = new std::vector<uint8_t>(pshDataBegin, pshDataEnd);
                     this->shad = bgfx::createShader(bgfx::makeRef(&*it, size));
                     return true;
                 }
@@ -165,14 +183,19 @@ void ShaderHandle::destroy()
     delete this->shadData;
 }
 
-void GeometryProgramHandle::create(ShaderHandle vertexShader, ShaderHandle fragmentShader)
+void GeometryProgramHandle::create(ShaderHandle vertexShader, ShaderHandle fragmentShader, bool destroyShadersOnDestroy)
 {
-    this->prog = bgfx::createProgram(vertexShader.shad, fragmentShader.shad);
+    this->prog = bgfx::createProgram(vertexShader.shad, fragmentShader.shad, destroyShadersOnDestroy);
 }
 void GeometryProgramHandle::destroy()
 {
     bgfx::destroy(this->prog);
 }
+
+#include <Shaders/2DPolygon.vert.h>
+#include <Shaders/2DPolygon.frag.h>
+#include <Shaders/Textured2DPolygon.vert.h>
+#include <Shaders/Textured2DPolygon.frag.h>
 
 bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t initHeight)
 {
@@ -230,186 +253,27 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
     bx::mtxLookAt(view2D, eye, at);
     bx::mtxOrtho(proj2D, -(float)renderWidth / 2, (float)renderWidth / 2, -(float)renderHeight / 2, (float)renderHeight / 2, 0, 100, 0, bgfx::getCaps()->homogeneousDepth);
     bgfx::setViewTransform(0, view2D, proj2D);
+    uniform2DPolygon.create("u_transformData", bgfx::UniformType::Mat4);
 
-    uniform2DPolygon = bgfx::createUniform("u_transformData", bgfx::UniformType::Mat4);
-
-    /*program2DPolygon = bgfx::createProgram
+    #pragma region Polygon
+    program2DPolygon.create
     (
-        bgfx::createShader
-        (
-            []()
-            {
-                auto shad = ShaderUtility::compileShader
-                (
-R"(
-$input a_position
-
-#include <Runtime/bgfx_shader.sh>
-
-uniform mat4 u_transformData;
-
-void main()
-{
-    vec3 pos = a_position;
-
-    pos.x *= u_transformData[1].x;
-    pos.y *= u_transformData[1].y;
-    pos.x += u_transformData[0].z;
-    pos.y += u_transformData[0].w;
-
-    float s = sin(u_transformData[1].z);
-    float c = cos(u_transformData[1].z);
-
-    float x = pos.x;
-    float y = pos.y;
-
-    pos.x = x * c + y * s;
-    pos.y = y * c - x * s;
-    
-    pos.x += u_transformData[0].x;
-    pos.y += u_transformData[0].y;
-
-	gl_Position = mul(u_modelViewProj, vec4(pos.x, pos.y, 0.0, 1.0));
-}
-)",
-                    ShaderCompileOptions(ShaderType::Vertex).withVaryingDef("vec3 a_position : POSITION;")
-                );
-                return bgfx::copy(shad.data(), shad.size());
-            }
-            ()
-        ),
-        bgfx::createShader
-        (
-            []()
-            {
-                auto shad = ShaderUtility::compileShader
-                (
-R"(
-#include <Runtime/bgfx_shader.sh>
-
-uniform mat4 u_transformData;
-
-void main()
-{
-    gl_FragColor = u_transformData[2];
-}
-)",
-                    ShaderCompileOptions(ShaderType::Fragment)
-                );
-                return bgfx::copy(shad.data(), shad.size());
-            }
-            ()
-        ),
+        [] { ShaderHandle ret; ret.create(SHADER2DPOLYGONVERTEXDATA, SHADER2DPOLYGONVERTEXDATA + SHADER2DPOLYGONVERTEXDATA_SIZE); return ret; } (),
+        [] { ShaderHandle ret; ret.create(SHADER2DPOLYGONFRAGMENTDATA, SHADER2DPOLYGONFRAGMENTDATA + SHADER2DPOLYGONFRAGMENTDATA_SIZE); return ret; } (),
         true
-    );*/
-    
-    layoutPolygon
-    .begin()
-    .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
-    .end();
+    );
+    layoutPolygon = VertexLayout({{ bgfx::Attrib::Position, 2, bgfx::AttribType::Float }});
+    unitSquarePoly.create({ { -0.5f, -0.5f }, { 0.5f, -0.5f }, { 0.5f, 0.5f }, { -0.5f, 0.5f } }, { 2, 3, 0, 1, 2, 0 });
     #pragma endregion
 
     #pragma region Textured Polygon
-    sampler2DTexturedPolygon = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
-
-    /*program2DTexturedPolygon = bgfx::createProgram
+    sampler2DTexturedPolygon.create("s_texColor", bgfx::UniformType::Sampler);
+    program2DPolygon.create
     (
-        bgfx::createShader
-        (
-            []()
-            {
-                auto shad = ShaderUtility::compileShader
-                (
-R"(
-$input a_position, a_texcoord0
-$output v_texcoord0
-
-#include <Runtime/bgfx_shader.sh>
-
-uniform mat4 u_transformData;
-
-void main()
-{
-    vec3 pos = a_position;
-
-    pos.x *= u_transformData[1].x;
-    pos.y *= u_transformData[1].y;
-    pos.x += u_transformData[0].z;
-    pos.y += u_transformData[0].w;
-
-    float s = sin(u_transformData[1].z);
-    float c = cos(u_transformData[1].z);
-
-    float x = pos.x;
-    float y = pos.y;
-
-    pos.x = x * c + y * s;
-    pos.y = y * c - x * s;
-    
-    pos.x += u_transformData[0].x;
-    pos.y += u_transformData[0].y;
-
-	gl_Position = mul(u_modelViewProj, vec4(pos.x, pos.y, 0.0, 1.0));
-
-    v_texcoord0 = a_texcoord0;
-}
-)",
-                    ShaderCompileOptions(ShaderType::Vertex).withVaryingDef
-                    (
-R"(
-vec2 v_texcoord0 : TEXCOORD0 = vec2(0.0, 0.0);
-
-vec3 a_position  : POSITION;
-vec2 a_texcoord0 : TEXCOORD0;
-)"
-                    )
-                );
-                return bgfx::copy(shad.data(), shad.size());
-            }
-            ()
-        ),
-        bgfx::createShader
-        (
-            []()
-            {
-                auto shad = ShaderUtility::compileShader
-                (
-R"(
-$input v_texcoord0
-
-#include <Runtime/bgfx_shader.sh>
-
-SAMPLER2D(s_texColor, 0);
-
-uniform mat4 u_transformData;
-
-void main()
-{
-    vec4 color = texture2D(s_texColor, v_texcoord0.xy);
-    gl_FragColor = u_transformData[2] * color;
-}
-)",
-                    ShaderCompileOptions(ShaderType::Fragment).withVaryingDef
-                    (
-R"(
-vec2 v_texcoord0 : TEXCOORD0 = vec2(0.0, 0.0);
-)"
-                    )
-                );
-                return bgfx::copy(shad.data(), shad.size());
-            }
-            ()
-        ),
+        [] { ShaderHandle ret; ret.create(SHADERTEXTURED2DPOLYGONVERTEXDATA, SHADERTEXTURED2DPOLYGONVERTEXDATA + SHADERTEXTURED2DPOLYGONVERTEXDATA_SIZE); return ret; } (),
+        [] { ShaderHandle ret; ret.create(SHADERTEXTURED2DPOLYGONFRAGMENTDATA, SHADERTEXTURED2DPOLYGONFRAGMENTDATA + SHADERTEXTURED2DPOLYGONFRAGMENTDATA_SIZE); return ret; } (),
         true
-    );*/
-    
-    layoutTexturedPolygon
-    .begin()
-    .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
-    .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
-    .end();
-
-    unitSquarePoly.create({ { -0.5f, -0.5f }, { 0.5f, -0.5f }, { 0.5f, 0.5f }, { -0.5f, 0.5f } }, { 2, 3, 0, 1, 2, 0 });
+    );
     unitTexturedSquarePoly.create
     (
         {
@@ -421,6 +285,7 @@ vec2 v_texcoord0 : TEXCOORD0 = vec2(0.0, 0.0);
         { 2, 3, 0, 1, 2, 0 }
     );
     #pragma endregion
+    #pragma endregion
 
     return true;
 }
@@ -431,11 +296,11 @@ void Renderer::shutdown()
     unitSquarePoly.destroy();
     unitTexturedSquarePoly.destroy();
     
-    bgfx::destroy(uniform2DPolygon);
+    uniform2DPolygon.destroy();
 
-    bgfx::destroy(program2DPolygon);
-    bgfx::destroy(sampler2DTexturedPolygon);
-    bgfx::destroy(program2DTexturedPolygon);
+    program2DPolygon.destroy();
+    sampler2DTexturedPolygon.destroy();
+    program2DTexturedPolygon.destroy();
 
     bgfx::shutdown();
 }
@@ -494,8 +359,8 @@ void Renderer::drawUnitSquare(ColoredTransformHandle transform)
 
     bgfx::setVertexBuffer(0, unitSquarePoly.vb);
     bgfx::setIndexBuffer(unitSquarePoly.ib);
-    bgfx::setUniform(uniform2DPolygon, transform.transform);
-    bgfx::submit(0, program2DPolygon);
+    bgfx::setUniform(uniform2DPolygon.unif, transform.transform);
+    bgfx::submit(0, program2DPolygon.prog);
 }
 void Renderer::drawPolygon(PolygonHandle polygon, ColoredTransformHandle transform)
 {
@@ -510,8 +375,8 @@ void Renderer::drawPolygon(PolygonHandle polygon, ColoredTransformHandle transfo
 
     bgfx::setVertexBuffer(0, polygon.vb);
     bgfx::setIndexBuffer(polygon.ib);
-    bgfx::setUniform(uniform2DPolygon, transform.transform);
-    bgfx::submit(0, program2DPolygon);
+    bgfx::setUniform(uniform2DPolygon.unif, transform.transform);
+    bgfx::submit(0, program2DPolygon.prog);
 }
 void Renderer::drawImage(Texture2DHandle image, ColoredTransformHandle transform)
 {
@@ -526,7 +391,7 @@ void Renderer::drawImage(Texture2DHandle image, ColoredTransformHandle transform
 
     bgfx::setVertexBuffer(0, unitTexturedSquarePoly.vb);
     bgfx::setIndexBuffer(unitTexturedSquarePoly.ib);
-    bgfx::setTexture(0, sampler2DTexturedPolygon, image.tex);
-    bgfx::setUniform(uniform2DPolygon, transform.transform);
-    bgfx::submit(0, program2DTexturedPolygon);
+    bgfx::setTexture(0, sampler2DTexturedPolygon.unif, image.tex);
+    bgfx::setUniform(uniform2DPolygon.unif, transform.transform);
+    bgfx::submit(0, program2DTexturedPolygon.prog);
 }
