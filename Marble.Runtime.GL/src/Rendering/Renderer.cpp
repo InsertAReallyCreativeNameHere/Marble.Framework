@@ -151,7 +151,7 @@ bool ShaderHandle::create(const uint8_t* pshDataBegin, const uint8_t* pshDataEnd
                 lookupName.resize(size);
                 it += sizeof(uint64_t);
 
-                if (it + size > pshDataEnd) [[unlikely]]
+                if (it + size > pshDataEnd || size == 0) [[unlikely]]
                     return false;
                 memcpy(&lookupName[0], &*it, size);
                 it += size;
@@ -161,12 +161,20 @@ bool ShaderHandle::create(const uint8_t* pshDataBegin, const uint8_t* pshDataEnd
                 memcpy(&size, &*it, sizeof(uint64_t));
                 it += sizeof(uint64_t);
                 
-                if (it + size > pshDataEnd) [[unlikely]]
+                if (it + size > pshDataEnd || size == 0) [[unlikely]]
                     return false;
                 if (lookupName == pshLookupName)
                 {
-                    this->shadData = new std::vector<uint8_t>(pshDataBegin, pshDataEnd);
-                    this->shad = bgfx::createShader(bgfx::makeRef(&*it, size));
+                    this->shadData = new std::vector<uint8_t>(it, it + size);
+                    this->shad = bgfx::createShader
+                    (
+                        bgfx::makeRef
+                        (
+                            &(*this->shadData)[0], this->shadData->size(),
+                            [](void* userdata) { delete static_cast<decltype(ShaderHandle::shadData)>(userdata); },
+                            this->shadData
+                        )
+                    );
                     return true;
                 }
                 else it += size;
@@ -180,7 +188,6 @@ bool ShaderHandle::create(const uint8_t* pshDataBegin, const uint8_t* pshDataEnd
 void ShaderHandle::destroy()
 {
     bgfx::destroy(this->shad);
-    delete this->shadData;
 }
 
 void GeometryProgramHandle::create(ShaderHandle vertexShader, ShaderHandle fragmentShader, bool destroyShadersOnDestroy)
@@ -210,7 +217,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
     bgfx::setPlatformData(pd);
 
 	bgfx::Init init;
-    init.type = bgfx::RendererType::OpenGL;
+    init.type = bgfx::RendererType::Vulkan;
     init.vendorId = BGFX_PCI_ID_NONE;
     init.resolution.width = initWidth;
     init.resolution.height = initHeight;
@@ -274,6 +281,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
         [] { ShaderHandle ret; ret.create(SHADERTEXTURED2DPOLYGONFRAGMENTDATA, SHADERTEXTURED2DPOLYGONFRAGMENTDATA + SHADERTEXTURED2DPOLYGONFRAGMENTDATA_SIZE); return ret; } (),
         true
     );
+    layoutTexturedPolygon = VertexLayout({ { bgfx::Attrib::Position, 2, bgfx::AttribType::Float }, { bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float } });
     unitTexturedSquarePoly.create
     (
         {

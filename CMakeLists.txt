@@ -18,7 +18,9 @@ if ((NOT DEFINED CMAKE_BUILD_TYPE) OR (CMAKE_BUILD_TYPE STREQUAL ""))
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_definitions(-D_DEBUG=1)
+    add_definitions(-D_DEBUG=1 -DBX_CONFIG_DEBUG=1)
+else()
+    add_definitions(-DBX_CONFIG_DEBUG=0)
 endif()
 
 if (WIN32 OR WIN64)
@@ -73,7 +75,7 @@ target_compile_definitions(SDL2-static PRIVATE HAVE_LIBC=1)
 
 set(CMAKE_CXX_STANDARD 14)
 if (COMPILER STREQUAL "MinGW")
-    add_definitions(-DMINGW_HAS_SECURE_API=0 -DBX_CONFIG_DEBUG=0)
+    add_definitions(-DMINGW_HAS_SECURE_API=0)
 endif()
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "../libglbuild")
@@ -90,7 +92,7 @@ target_compile_definitions(bgfx PUBLIC BGFX_CONFIG_MULTITHREADED=0)
 set(CMAKE_BUILD_TYPE ${_CMAKE_BUILD_TYPE})
 
 if (COMPILER STREQUAL "MinGW")
-    remove_definitions(-DMINGW_HAS_SECURE_API -DBX_CONFIG_DEBUG)
+    remove_definitions(-DMINGW_HAS_SECURE_API)
 endif()
 set(CMAKE_CXX_STANDARD 20)
 
@@ -110,7 +112,6 @@ if (MARBLE_ENABLE_PROFILING)
 endif()
 
 # Marble.Mathematics
-
 add_library(Marble.Mathematics INTERFACE)
 target_include_directories(Marble.Mathematics INTERFACE "${CMAKE_CURRENT_LIST_DIR}/Marble.Mathematics/src")
 
