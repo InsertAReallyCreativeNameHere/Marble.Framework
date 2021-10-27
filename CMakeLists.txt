@@ -73,7 +73,7 @@ target_compile_definitions(SDL2-static PRIVATE HAVE_LIBC=1)
 
 set(CMAKE_CXX_STANDARD 14)
 if (COMPILER STREQUAL "MinGW")
-    add_definitions(-DMINGW_HAS_SECURE_API=0)
+    add_definitions(-DMINGW_HAS_SECURE_API=0 -DBX_CONFIG_DEBUG=0)
 endif()
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "../libglbuild")
@@ -90,7 +90,7 @@ target_compile_definitions(bgfx PUBLIC BGFX_CONFIG_MULTITHREADED=0)
 set(CMAKE_BUILD_TYPE ${_CMAKE_BUILD_TYPE})
 
 if (COMPILER STREQUAL "MinGW")
-    remove_definitions(-DMINGW_HAS_SECURE_API)
+    remove_definitions(-DMINGW_HAS_SECURE_API -DBX_CONFIG_DEBUG)
 endif()
 set(CMAKE_CXX_STANDARD 20)
 
