@@ -7,12 +7,18 @@
 #define Stringify(x) #x
 #define StringifyValueOf(x) Stringify(x)
 
+#if !_WIN32
+    #define CurrentPathExecutionPrefix "./"
+#else
+    #define CurrentPathExecutionPrefix ""
+#endif
+
 namespace fs = std::filesystem;
 //                              .sc File        .mpsh File
 // Usage: Marble.ShaderCompiler [Shader Source] [Output Binary] [Shader Type (v/f/c)] [Additional BGFX shaderc Arguments]...
 int main(int argc, char* argv[])
 {
-    std::string shadercExec = "shaderc" StringifyValueOf(CMAKE_EXECUTABLE_SUFFIX);
+    std::string shadercExec = CurrentPathExecutionPrefix "shaderc" StringifyValueOf(CMAKE_EXECUTABLE_SUFFIX);
     if (!fs::exists(shadercExec))
     {
         std::cout << "The BGFX shader compiler (shaderc) could not be found in the current directory or PATH.";
