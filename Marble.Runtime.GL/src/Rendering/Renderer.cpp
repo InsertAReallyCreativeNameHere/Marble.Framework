@@ -171,7 +171,7 @@ bool ShaderHandle::create(const uint8_t* pshDataBegin, const uint8_t* pshDataEnd
                         bgfx::makeRef
                         (
                             &(*this->shadData)[0], this->shadData->size(),
-                            [](void* userdata) { delete static_cast<decltype(ShaderHandle::shadData)>(userdata); },
+                            [](void*, void* userdata) { delete static_cast<decltype(ShaderHandle::shadData)>(userdata); },
                             this->shadData
                         )
                     );
@@ -217,7 +217,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
     bgfx::setPlatformData(pd);
 
 	bgfx::Init init;
-    init.type = bgfx::RendererType::Vulkan;
+    init.type = bgfx::RendererType::Direct3D12;
     init.vendorId = BGFX_PCI_ID_NONE;
     init.resolution.width = initWidth;
     init.resolution.height = initHeight;
@@ -275,7 +275,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
 
     #pragma region Textured Polygon
     sampler2DTexturedPolygon.create("s_texColor", bgfx::UniformType::Sampler);
-    program2DPolygon.create
+    program2DTexturedPolygon.create
     (
         [] { ShaderHandle ret; ret.create(SHADERTEXTURED2DPOLYGONVERTEXDATA, SHADERTEXTURED2DPOLYGONVERTEXDATA + SHADERTEXTURED2DPOLYGONVERTEXDATA_SIZE); return ret; } (),
         [] { ShaderHandle ret; ret.create(SHADERTEXTURED2DPOLYGONFRAGMENTDATA, SHADERTEXTURED2DPOLYGONFRAGMENTDATA + SHADERTEXTURED2DPOLYGONFRAGMENTDATA_SIZE); return ret; } (),
@@ -304,11 +304,11 @@ void Renderer::shutdown()
     unitSquarePoly.destroy();
     unitTexturedSquarePoly.destroy();
     
-    uniform2DPolygon.destroy();
-
     program2DPolygon.destroy();
-    sampler2DTexturedPolygon.destroy();
     program2DTexturedPolygon.destroy();
+    sampler2DTexturedPolygon.destroy();
+    
+    uniform2DPolygon.destroy();
 
     bgfx::shutdown();
 }
