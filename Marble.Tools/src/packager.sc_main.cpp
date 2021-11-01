@@ -33,6 +33,8 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
+    int failCount = 0;
+
     std::string source = argv[1];
     std::string out = argv[2];
     char shaderType = argv[3][0];
@@ -68,7 +70,7 @@ int main(int argc, char* argv[])
     cmdLineExec.append("-o ").append(out).append(".d3d9.bin ");
     cmdLineExec.append(shadercArgs);
     std::cout << "Command line execution for d3d9: " << cmdLineExec << '\n';
-    system(cmdLineExec.c_str());
+    failCount += (bool)system(cmdLineExec.c_str());
 
     cmdLineExec.resize(resetToSize);
     switch (shaderType) // NB: d3d11.
@@ -86,7 +88,7 @@ int main(int argc, char* argv[])
     cmdLineExec.append("-o ").append(out).append(".d3d11.bin ");
     cmdLineExec.append(shadercArgs);
     std::cout << "Command line execution for d3d11: " << cmdLineExec << '\n';
-    system(cmdLineExec.c_str());
+    failCount += (bool)system(cmdLineExec.c_str());
     
     cmdLineExec.resize(resetToSize);
     switch (shaderType) // NB: d3d12.
@@ -104,7 +106,7 @@ int main(int argc, char* argv[])
     cmdLineExec.append("-o ").append(out).append(".d3d12.bin ");
     cmdLineExec.append(shadercArgs);
     std::cout << "Command line execution for d3d12: " << cmdLineExec << '\n';
-    system(cmdLineExec.c_str());
+    failCount += (bool)system(cmdLineExec.c_str());
     #endif
     
     cmdLineExec.resize(resetToSize);
@@ -121,14 +123,14 @@ int main(int argc, char* argv[])
     cmdLineExec.append("-o ").append(out).append(".opengl.bin ");
     cmdLineExec.append(shadercArgs);
     std::cout << "Command line execution for OpenGL: " << cmdLineExec << '\n';
-    system(cmdLineExec.c_str());
+    failCount += (bool)system(cmdLineExec.c_str());
     
     cmdLineExec.resize(resetToSize);
     cmdLineExec.append("spirv10-10 "); // NB: Vulkan.
     cmdLineExec.append("-o ").append(out).append(".vulkan.bin ");
     cmdLineExec.append(shadercArgs);
     std::cout << "Command line execution for Vulkan: " << cmdLineExec << '\n';
-    system(cmdLineExec.c_str());
+    failCount += (bool)system(cmdLineExec.c_str());
 
     // TODO: Implement other rendering backends as well.
 
@@ -160,4 +162,6 @@ int main(int argc, char* argv[])
     #endif
     writeBinary(out + ".opengl.bin", u8"opengl");
     writeBinary(out + ".vulkan.bin", u8"vulkan");
+
+    return failCount;
 }

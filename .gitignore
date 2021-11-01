@@ -1,5 +1,5 @@
-**/build/*.bin
-**/build/*.mpsh
+Marble.Runtime.GL/src/Shaders/build/*.bin
+Marble.Runtime.GL/src/Shaders/build/*.mpsh
 /build/
 /bin/
 /lib/

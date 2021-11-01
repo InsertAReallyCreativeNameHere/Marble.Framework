@@ -2,6 +2,8 @@ include(${CMAKE_CURRENT_LIST_DIR}/cmake-bin2h/bin2h.cmake)
 
 message(STATUS "[Shader Precompile] Compiling shaders...")
 
+file(MAKE_DIRECTORY "${SHADER_FILES_DIR}/build")
+
 # 2DPolygon Vertex
 execute_process(
     COMMAND "${SHADERC_PATH}" "${SHADER_FILES_DIR}/configure/2DPolygon.vert.sc" "${SHADER_FILES_DIR}/build/2DPolygon.vert.mpsh" v
@@ -10,9 +12,9 @@ execute_process(
     RESULT_VARIABLE SHADERC_RETURN
 )
 if (SHADERC_RETURN AND NOT SHADERC_RETURN EQUAL 0)
-    message(FATAL_ERROR "Shader compilation of vertex shader 2DPolygon failed.")
+    message(FATAL_ERROR "[Shader Precompile] Shader compilation of vertex shader 2DPolygon failed.")
 else()
-    message(STATUS "Shader compilation of vertex shader 2DPolygon succeeded.")
+    message(STATUS "[Shader Precompile] Shader compilation of vertex shader 2DPolygon succeeded.")
 endif()
 
 # 2DPolygon Fragment
@@ -23,9 +25,9 @@ execute_process(
     RESULT_VARIABLE SHADERC_RETURN
 )
 if (SHADERC_RETURN AND NOT SHADERC_RETURN EQUAL 0)
-    message(FATAL_ERROR "Shader compilation of fragment shader 2DPolygon failed.")
+    message(FATAL_ERROR "[Shader Precompile] Shader compilation of fragment shader 2DPolygon failed.")
 else()
-    message(STATUS "Shader compilation of fragment shader 2DPolygon succeeded.")
+    message(STATUS "[Shader Precompile] Shader compilation of fragment shader 2DPolygon succeeded.")
 endif()
 
 # Textured2DPolygon Vertex
@@ -36,9 +38,9 @@ execute_process(
     RESULT_VARIABLE SHADERC_RETURN
 )
 if (SHADERC_RETURN AND NOT SHADERC_RETURN EQUAL 0)
-    message(FATAL_ERROR "Shader compilation of vertex shader Textured2DPolygon failed.")
+    message(FATAL_ERROR "[Shader Precompile] Shader compilation of vertex shader Textured2DPolygon failed.")
 else()
-    message(STATUS "Shader compilation of vertex shader Textured2DPolygon succeeded.")
+    message(STATUS "[Shader Precompile] Shader compilation of vertex shader Textured2DPolygon succeeded.")
 endif()
 
 # Textured2DPolygon Fragment
@@ -49,9 +51,9 @@ execute_process(
     RESULT_VARIABLE SHADERC_RETURN
 )
 if (SHADERC_RETURN AND NOT SHADERC_RETURN EQUAL 0)
-    message(FATAL_ERROR "Shader compilation of fragment shader Textured2DPolygon failed.")
+    message(FATAL_ERROR "[Shader Precompile] Shader compilation of fragment shader Textured2DPolygon failed.")
 else()
-    message(STATUS "Shader compilation of fragment shader Textured2DPolygon succeeded.")
+    message(STATUS "[Shader Precompile] Shader compilation of fragment shader Textured2DPolygon succeeded.")
 endif()
 
 bin2h(
