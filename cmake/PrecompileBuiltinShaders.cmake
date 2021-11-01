@@ -5,7 +5,7 @@ message(STATUS "[Shader Precompile] Compiling shaders...")
 # 2DPolygon Vertex
 execute_process(
     COMMAND "${SHADERC_PATH}" "${SHADER_FILES_DIR}/configure/2DPolygon.vert.sc" "${SHADER_FILES_DIR}/build/2DPolygon.vert.mpsh" v
-    --varyingdef "${SHADER_FILES_DIR}/configure/2DPolygon.varying.def.sc" -i "${BGFX_SHADER_DIR}"
+    --varyingdef "\"${SHADER_FILES_DIR}/configure/2DPolygon.varying.def.sc\"" -i "\"${BGFX_SHADER_DIR}\""
     WORKING_DIRECTORY "${SHADERC_DIR}"
     RESULT_VARIABLE SHADERC_RETURN
 )
@@ -18,7 +18,7 @@ endif()
 # 2DPolygon Fragment
 execute_process(
     COMMAND "${SHADERC_PATH}" "${SHADER_FILES_DIR}/configure/2DPolygon.frag.sc" "${SHADER_FILES_DIR}/build/2DPolygon.frag.mpsh" f
-    --varyingdef "${SHADER_FILES_DIR}/configure/2DPolygon.varying.def.sc" -i "${BGFX_SHADER_DIR}"
+    --varyingdef "\"${SHADER_FILES_DIR}/configure/2DPolygon.varying.def.sc\"" -i "\"${BGFX_SHADER_DIR}\""
     WORKING_DIRECTORY "${SHADERC_DIR}"
     RESULT_VARIABLE SHADERC_RETURN
 )
@@ -31,7 +31,7 @@ endif()
 # Textured2DPolygon Vertex
 execute_process(
     COMMAND "${SHADERC_PATH}" "${SHADER_FILES_DIR}/configure/Textured2DPolygon.vert.sc" "${SHADER_FILES_DIR}/build/Textured2DPolygon.vert.mpsh" v
-    --varyingdef "${SHADER_FILES_DIR}/configure/Textured2DPolygon.varying.def.sc" -i "${BGFX_SHADER_DIR}"
+    --varyingdef "\"${SHADER_FILES_DIR}/configure/Textured2DPolygon.varying.def.sc\"" -i "\"${BGFX_SHADER_DIR}\""
     WORKING_DIRECTORY "${SHADERC_DIR}"
     RESULT_VARIABLE SHADERC_RETURN
 )
@@ -44,7 +44,7 @@ endif()
 # Textured2DPolygon Fragment
 execute_process(
     COMMAND "${SHADERC_PATH}" "${SHADER_FILES_DIR}/configure/Textured2DPolygon.frag.sc" "${SHADER_FILES_DIR}/build/Textured2DPolygon.frag.mpsh" f
-    --varyingdef "${SHADER_FILES_DIR}/configure/Textured2DPolygon.varying.def.sc" -i "${BGFX_SHADER_DIR}"
+    --varyingdef "\"${SHADER_FILES_DIR}/configure/Textured2DPolygon.varying.def.sc\"" -i "\"${BGFX_SHADER_DIR}\""
     WORKING_DIRECTORY "${SHADERC_DIR}"
     RESULT_VARIABLE SHADERC_RETURN
 )

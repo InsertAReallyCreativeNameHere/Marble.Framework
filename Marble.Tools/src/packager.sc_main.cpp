@@ -38,9 +38,8 @@ int main(int argc, char* argv[])
     char shaderType = argv[3][0];
     
     std::string shadercArgs;
-    shadercArgs.append("-f ").append(source);
-    shadercArgs.push_back(' ');
-    shadercArgs.append("--type ").push_back(shaderType);
+    shadercArgs.append("-f\" ").append(source).append("\" ")
+    .append("--type ").push_back(shaderType);
     shadercArgs.push_back(' ');
     for (int i = 4; i < argc; i++)
     {
@@ -65,7 +64,7 @@ int main(int argc, char* argv[])
         cmdLineExec.append("ps_3_0 ");
         break;
     }
-    cmdLineExec.append("-o ").append(out).append(".d3d9.bin ");
+    cmdLineExec.append("-o \"").append(out).append(".d3d9.bin\" ");
     cmdLineExec.append(shadercArgs);
     std::cout << "Command line execution for d3d9: " << cmdLineExec << '\n';
     system(cmdLineExec.c_str());
@@ -83,7 +82,7 @@ int main(int argc, char* argv[])
         cmdLineExec.append("cs_5_0 ");
         break;
     }
-    cmdLineExec.append("-o ").append(out).append(".d3d11.bin ");
+    cmdLineExec.append("-o \"").append(out).append(".d3d11.bin\" ");
     cmdLineExec.append(shadercArgs);
     std::cout << "Command line execution for d3d11: " << cmdLineExec << '\n';
     system(cmdLineExec.c_str());
@@ -101,7 +100,7 @@ int main(int argc, char* argv[])
         cmdLineExec.append("cs_5_0 ");
         break;
     }
-    cmdLineExec.append("-o ").append(out).append(".d3d12.bin ");
+    cmdLineExec.append("-o \"").append(out).append(".d3d12.bin\" ");
     cmdLineExec.append(shadercArgs);
     std::cout << "Command line execution for d3d12: " << cmdLineExec << '\n';
     system(cmdLineExec.c_str());
@@ -118,14 +117,14 @@ int main(int argc, char* argv[])
         cmdLineExec.append("430 ");
         break;
     }
-    cmdLineExec.append("-o ").append(out).append(".opengl.bin ");
+    cmdLineExec.append("-o \"").append(out).append(".opengl.bin\" ");
     cmdLineExec.append(shadercArgs);
     std::cout << "Command line execution for OpenGL: " << cmdLineExec << '\n';
     system(cmdLineExec.c_str());
     
     cmdLineExec.resize(resetToSize);
     cmdLineExec.append("spirv10-10 "); // NB: Vulkan.
-    cmdLineExec.append("-o ").append(out).append(".vulkan.bin ");
+    cmdLineExec.append("-o \"").append(out).append(".vulkan.bin\" ");
     cmdLineExec.append(shadercArgs);
     std::cout << "Command line execution for Vulkan: " << cmdLineExec << '\n';
     system(cmdLineExec.c_str());
