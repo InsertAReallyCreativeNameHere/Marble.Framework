@@ -390,6 +390,7 @@ void Text::renderOffload()
         const float effectiveHeight = float(maxLines) * this->_fontSize;
 
         float accYAdvance = 0.0f;
+        float spaceAdv = 0.0f;
 
         std::vector<float> advanceLengths;
         decltype(advanceLengths)::iterator advanceLenIt;
@@ -439,7 +440,7 @@ void Text::renderOffload()
         if
         (
             size_t _end = this->_text.find_first_of(U" \t\r\n", 0);
-            _end < (end = this->_text.find_first_not_of(U" \t\r\n", 0))
+            _end > (end = this->_text.find_first_not_of(U" \t\r\n", 0))
         )
         {
             end = _end;
@@ -458,7 +459,7 @@ void Text::renderOffload()
             advanceLenIt = advanceLengths.begin();
 
             float wordLen = std::accumulate(advanceLenIt, advanceLengths.end(), 0.0f);
-            if (lines.back().width + wordLen > rectWidth) [[unlikely]]
+            if (lines.back().width + spaceAdv + wordLen > rectWidth) [[unlikely]]
             {
                 if (wordLen > rectWidth) [[unlikely]]
                 {
@@ -477,6 +478,7 @@ void Text::renderOffload()
             }
             else
             {
+                lines.back().width += spaceAdv;
                 lines.back().words.push_back({ { } });
                 lines.back().words.back().characters.reserve(end - beg);
                 goto InlineDrawWord;
@@ -520,20 +522,16 @@ void Text::renderOffload()
 
         HandleSpace:
         {
-            float spaceAdv = 0.0f;
+            spaceAdv = 0.0f;
             for (size_t i = beg; i < end; i++)
             {
                 switch (this->_text[i])
                 {
                     case U' ':
                         spaceAdv += this->textData[i].metrics.advanceWidth * glyphScale * scale.x;
-                        if (lines.back().width + spaceAdv > rectWidth)
-                            goto Newline;
                         break;
                     case U'\t':
                         spaceAdv += this->textData[i].metrics.advanceWidth * glyphScale * scale.x * 8;
-                        if (lines.back().width + spaceAdv > rectWidth)
-                            goto Newline;
                         break;
                     case U'\r':
                         break;
@@ -546,7 +544,6 @@ void Text::renderOffload()
                     break;
                 }
             }
-            lines.back().width += spaceAdv;
         }
         beg = end;
         if (end != this->_text.size()) [[likely]]
