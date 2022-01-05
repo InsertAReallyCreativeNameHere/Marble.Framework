@@ -359,7 +359,6 @@ void Renderer::drawUnitSquare(ColoredTransformHandle transform)
         bx::mtxTranspose(transform.transform, untransposed);
     }
 
-    bgfx::setTransform
     bgfx::setVertexBuffer(0, unitSquarePoly.vb);
     bgfx::setIndexBuffer(unitSquarePoly.ib);
     bgfx::setUniform(uniform2DTransform.unif, transform.transform);
