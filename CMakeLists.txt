@@ -274,30 +274,30 @@ set_target_properties(Marble.Runtime.CoreLib
     CXX_VISIBILITY_PRESET hidden
 )
 
-# Marble.Runtime.Components.Core
+# Marble.Runtime.Components.Core2D
 
 file(GLOB_RECURSE ENGINESRCS configure_depends
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.Components.Core/*.h"
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.Components.Core/*.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.Components.Core2D/*.h"
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.Components.Core2D/*.cpp"
 )
 
-add_library(Marble.Runtime.Components.Core SHARED ${ENGINESRCS})
+add_library(Marble.Runtime.Components.Core2D SHARED ${ENGINESRCS})
 
-generate_export_header(Marble.Runtime.Components.Core
+generate_export_header(Marble.Runtime.Components.Core2D
     BASE_NAME MARBLE_COMPONENTCORE
     EXPORT_MACRO_NAME __marble_componentcore_api
-    EXPORT_FILE_NAME Marble.Runtime.Components.Core.Exports.h
+    EXPORT_FILE_NAME Marble.Runtime.Components.Core2D.Exports.h
 )
 
-target_include_directories(Marble.Runtime.Components.Core PUBLIC
+target_include_directories(Marble.Runtime.Components.Core2D PUBLIC
     "${CMAKE_CURRENT_BINARY_DIR}"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Typography/src"
     "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.GL/src"
-    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.Components.Core/src"
+    "${CMAKE_CURRENT_LIST_DIR}/Marble.Runtime.Components.Core2D/src"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/earcut/include"
     "${CMAKE_CURRENT_LIST_DIR}/dependencies/stb"
 )
-target_link_libraries(Marble.Runtime.Components.Core PRIVATE
+target_link_libraries(Marble.Runtime.Components.Core2D PRIVATE
     Marble.Mathematics
     Marble.Typography
     Marble.Runtime.GL
@@ -305,20 +305,20 @@ target_link_libraries(Marble.Runtime.Components.Core PRIVATE
 )
 
 if (MARBLE_ENABLE_PROFILING)
-    target_link_libraries(Marble.Runtime.Components.Core PRIVATE TracyClient)
+    target_link_libraries(Marble.Runtime.Components.Core2D PRIVATE TracyClient)
 endif()
 
-set_target_properties(Marble.Runtime.Components.Core
+set_target_properties(Marble.Runtime.Components.Core2D
     PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.Components.Core"
-    LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.Components.Core"
-    RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Runtime.Components.Core"
+    ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.Components.Core2D"
+    LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.Components.Core2D"
+    RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Runtime.Components.Core2D"
 )
-set_target_properties(Marble.Runtime.Components.Core
+set_target_properties(Marble.Runtime.Components.Core2D
     PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.Components.Core"
-    LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.Components.Core"
-    RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Runtime.Components.Core"
+    ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.Components.Core2D"
+    LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Marble.Runtime.Components.Core2D"
+    RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Marble.Runtime.Components.Core2D"
     C_VISIBILITY_PRESET hidden
     CXX_VISIBILITY_PRESET hidden
 )

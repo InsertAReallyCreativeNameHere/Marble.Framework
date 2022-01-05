@@ -26,7 +26,7 @@ void main()
     pos.x += u_transformData[0].x;
     pos.y += u_transformData[0].y;
 
-	gl_Position = mul(u_modelViewProj, vec4(pos.x, pos.y, 0.0, 1.0));
+	gl_Position = mul(u_modelViewProj, vec4(pos.x, pos.y, u_transformData[1][3], 1.0));
 
     v_texcoord0 = a_texcoord0;
 }

@@ -18,6 +18,7 @@ Entity::Entity()
     this->attachedRectTransform->eraseIteratorOnDestroy = false;
 
     Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
+    this->_index = mainScene->entities.size();
     mainScene->entities.push_back(this);
     this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;
@@ -33,11 +34,12 @@ Entity::Entity(RectTransform* parent)
     this->attachedRectTransform->eraseIteratorOnDestroy = false;
 
     Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
+    this->_index = mainScene->entities.size();
     mainScene->entities.push_back(this);
     this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;
 }
-Entity::Entity(const Vector2& localPosition, const float& localRotation, RectTransform* parent = nullptr)
+Entity::Entity(const Vector2& localPosition, float localRotation, RectTransform* parent = nullptr)
 {
     ProfileFunction();
 
@@ -50,11 +52,12 @@ Entity::Entity(const Vector2& localPosition, const float& localRotation, RectTra
     thisRect->eraseIteratorOnDestroy = false;
 
     Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
+    this->_index = mainScene->entities.size();
     mainScene->entities.push_back(this);
     this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;
 }
-Entity::Entity(const Vector2& localPosition, const float& localRotation, const Vector2& scale, RectTransform* parent = nullptr)
+Entity::Entity(const Vector2& localPosition, float localRotation, const Vector2& scale, RectTransform* parent = nullptr)
 {
     ProfileFunction();
 
@@ -68,6 +71,7 @@ Entity::Entity(const Vector2& localPosition, const float& localRotation, const V
     thisRect->eraseIteratorOnDestroy = false;
 
     Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
+    this->_index = mainScene->entities.size();
     mainScene->entities.push_back(this);
     this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;
@@ -85,4 +89,23 @@ Entity::~Entity()
 
     if (this->eraseIteratorOnDestroy)
         this->attachedScene->entities.erase(this->it);
+}
+
+void Entity::setIndex(size_t value)
+{
+    if (value < this->attachedScene->entities.size())
+    {
+        this->attachedScene->entities.splice
+        (
+            std::next(this->attachedScene->entities.begin(), value),
+            this->attachedScene->entities, this->it
+        );
+        this->_index = value;
+        auto it = std::next(this->it);
+        while (it != this->attachedScene->entities.end())
+        {
+            ++(*it)->_index;
+            ++it;
+        }
+    }
 }

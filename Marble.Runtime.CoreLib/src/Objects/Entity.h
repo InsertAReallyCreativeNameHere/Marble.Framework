@@ -35,19 +35,28 @@ namespace Marble
         RectTransform* attachedRectTransform;
 
         std::list<Internal::Component*> components {  };
+        size_t _index;
+
+        void setIndex(size_t value);
         
         void removeComponentInternal(Internal::Component* component);
     public:
         Entity();
         Entity(RectTransform* parent);
-        Entity(const Mathematics::Vector2& localPosition, const float& localRotation, RectTransform* parent);
-        Entity(const Mathematics::Vector2& localPosition, const float& localRotation, const Mathematics::Vector2& scale, RectTransform* parent);
+        Entity(const Mathematics::Vector2& localPosition, float localRotation, RectTransform* parent);
+        Entity(const Mathematics::Vector2& localPosition, float localRotation, const Mathematics::Vector2& scale, RectTransform* parent);
         ~Entity() override;
 
         inline RectTransform* rectTransform()
         {
             return this->attachedRectTransform;
         }
+
+        Property<size_t, size_t> index
+        {{
+            [this]() -> size_t { return this->_index; },
+            [this](size_t value) { this->setIndex(value); }
+        }};
 
         template <typename T>
         inline T* addComponent()
@@ -59,6 +68,7 @@ namespace Marble
             ret->attachedEntity = this;
             ret->attachedRectTransform = this->attachedRectTransform;
             ret->reflection.typeID = __typeid(T).qualifiedNameHash();
+            ret->_index = this->components.size();
             this->components.push_back(ret);
             ret->it = --this->components.end();
             return ret;

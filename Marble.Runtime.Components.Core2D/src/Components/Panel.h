@@ -1,7 +1,7 @@
 #pragma once
 
 #include "inc.h"
-#include "Marble.Runtime.Components.Core.Exports.h"
+#include "Marble.Runtime.Components.Core2D.Exports.h"
 
 #include <Drawing/Core.h>
 #include <Objects/Component.h>
@@ -26,7 +26,7 @@ namespace Marble
             [this](const Color& value) { this->_color = value; }
         }};
 
-        inline ~Panel() override = default;
+        ~Panel() override = default;
 
         friend class Marble::Internal::ComponentCoreStaticInit;
     };

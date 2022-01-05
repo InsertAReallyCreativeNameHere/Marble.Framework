@@ -110,6 +110,8 @@ namespace Marble
             return this->_children;
         }
 
+        bool queryPointIn(const Mathematics::Vector2& point);
+
         friend class Marble::Entity;
     };
 }

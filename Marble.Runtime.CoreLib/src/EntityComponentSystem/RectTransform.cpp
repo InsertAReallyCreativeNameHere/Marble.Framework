@@ -179,3 +179,32 @@ void RectTransform::setParent(RectTransform* value)
     if (this->_parent)
         this->_parent->_children.push_back(this);
 }
+
+bool RectTransform::queryPointIn(const Vector2& point)
+{
+    float rL = this->_rect.left * this->_scale.x;
+    float rB = this->_rect.bottom * this->_scale.y;
+
+    Vector2 vA(this->_rect.right * this->_scale.x, rB);
+    rotatePointAroundOrigin(vA, this->_rotation);
+    Vector2 vB(rL, rB);
+    rotatePointAroundOrigin(vB, this->_rotation);
+    Vector2 vC(rL, this->_rect.top * this->_scale.y);
+    rotatePointAroundOrigin(vC, this->_rotation);
+
+    Vector2 vAB = vB - vA;
+    Vector2 vBC = vC - vB;
+
+    vA += this->_position;
+    vB += this->_position;
+    vC += this->_position;
+
+    Vector2 vAM = point - vA;
+    Vector2 vBM = point - vB;
+
+    float dABAM = vAB.dot(vAM);
+    float dBCBM = vBC.dot(vBM);
+
+    return 0 <= dABAM && dABAM <= vAB.dot(vAB) &&
+    0 <= dBCBM && dBCBM <= vBC.dot(vBC);
+}

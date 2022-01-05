@@ -1,7 +1,7 @@
 #pragma once
 
 #include "inc.h"
-#include "Marble.Runtime.Components.Core.Exports.h"
+#include "Marble.Runtime.Components.Core2D.Exports.h"
 
 namespace Marble
 {

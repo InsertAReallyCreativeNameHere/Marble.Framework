@@ -305,7 +305,10 @@ void CoreEngine::internalLoop()
                             it3 != (*it2)->components.end();
                             ++it3
                         )
-                        { InternalEngineEvent::OnRenderOffloadForComponent(*it3); }
+                        {
+                            if ((*it3)->active)
+                                InternalEngineEvent::OnRenderOffloadForComponent(*it3);
+                        }
                     }
                 }
             }
@@ -438,8 +441,8 @@ void CoreEngine::internalWindowLoop()
                 (
                     [posX = ev.motion.x, posY = ev.motion.y, motX = ev.motion.xrel, motY = ev.motion.yrel]
                     {
-                        Input::internalMousePosition.x = posX;
-                        Input::internalMousePosition.y = posY;
+                        Input::internalMousePosition.x = posX - Window::width / 2;
+                        Input::internalMousePosition.y = -posY + Window::height / 2;
                         Input::internalMouseMotion.x += motX;
                         Input::internalMouseMotion.y += motY;
                     }

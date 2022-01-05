@@ -20,23 +20,8 @@ FuncPtrEvent<MouseButton> EngineEvent::OnMouseUp;
 
 FuncPtrEvent<> EngineEvent::OnQuit;
 
-/*void (*EngineEvent::OnInitialize)();
-void (*EngineEvent::OnTick)();
-void (*EngineEvent::OnPhysicsTick)();
-
-void (*EngineEvent::OnAcquireFocus)();
-void (*EngineEvent::OnLoseFocus)();
-
-void (*EngineEvent::OnKeyDown)(SDL_Keycode);
-void (*EngineEvent::OnKeyRepeat)(SDL_Keycode);
-void (*EngineEvent::OnKeyUp)(SDL_Keycode);
-void (*EngineEvent::OnMouseDown)(int);
-void (*EngineEvent::OnMouseUp)(int);
-
-void (*EngineEvent::OnQuit)();*/
-
 // NB: Runs in main thread.
 FuncPtrEvent<Component*> InternalEngineEvent::OnRenderOffloadForComponent;
 // NB: Runs in render thread. Note FuncPtrEvent is not thread-safe,
-//     so make sure you modify this event _before_ the main update loop exits.
+//     so make sure you modify this event _before_ the main tick loop exits.
 FuncPtrEvent<> InternalEngineEvent::OnRenderShutdown;

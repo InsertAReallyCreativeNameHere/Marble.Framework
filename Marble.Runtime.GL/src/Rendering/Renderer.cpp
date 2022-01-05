@@ -3,6 +3,7 @@
 #include <bgfx/platform.h>
 #include <bimg/bimg.h>
 #include <bx/math.h>
+#include <cmath>
 #include <cstring>
 #include <skarupke/function.h>
 
@@ -15,15 +16,14 @@ static uint32_t renderWidth;
 static uint32_t renderHeight;
 
 #pragma region 2D
-static bx::Vec3 at = { 0.0f, 0.0f, 0.0f };
-static bx::Vec3 eye = { 0.0f, 0.0f, -1.0f };
 static float view2D[16];
 static float proj2D[16];
+static float renderOrder2D = 1024.0f;
+
+static UniformHandle uniform2DTransform;
 
 static PolygonHandle unitSquarePoly;
 static TexturedPolygonHandle unitTexturedSquarePoly;
-
-static UniformHandle uniform2DPolygon;
 
 static VertexLayout layoutPolygon;
 static GeometryProgramHandle program2DPolygon;
@@ -217,7 +217,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
     bgfx::setPlatformData(pd);
 
 	bgfx::Init init;
-    init.type = bgfx::RendererType::Direct3D12;
+    init.type = bgfx::RendererType::OpenGL;
     init.vendorId = BGFX_PCI_ID_NONE;
     init.resolution.width = initWidth;
     init.resolution.height = initHeight;
@@ -257,10 +257,10 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
     }
 
     #pragma region 2D
-    bx::mtxLookAt(view2D, eye, at);
-    bx::mtxOrtho(proj2D, -(float)renderWidth / 2, (float)renderWidth / 2, -(float)renderHeight / 2, (float)renderHeight / 2, 0, 100, 0, bgfx::getCaps()->homogeneousDepth);
+    bx::mtxLookAt(view2D, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 1024.0f });
+    bx::mtxOrtho(proj2D, -(float)renderWidth / 2, (float)renderWidth / 2, -(float)renderHeight / 2, (float)renderHeight / 2, 0.0f, 1024.0f, 0, bgfx::getCaps()->homogeneousDepth);
     bgfx::setViewTransform(0, view2D, proj2D);
-    uniform2DPolygon.create("u_transformData", bgfx::UniformType::Mat4);
+    uniform2DTransform.create("u_transformData", bgfx::UniformType::Mat4);
 
     #pragma region Polygon
     program2DPolygon.create
@@ -308,7 +308,7 @@ void Renderer::shutdown()
     program2DTexturedPolygon.destroy();
     sampler2DTexturedPolygon.destroy();
     
-    uniform2DPolygon.destroy();
+    uniform2DTransform.destroy();
 
     bgfx::shutdown();
 }
@@ -321,10 +321,6 @@ void Renderer::reset(uint32_t bufferWidth, uint32_t bufferHeight)
 
     renderWidth = bufferWidth;
     renderHeight = bufferHeight;
-
-    bx::mtxLookAt(view2D, eye, at);
-    bx::mtxOrtho(proj2D, -(float)renderWidth / 2, (float)renderWidth / 2, -(float)renderHeight / 2, (float)renderHeight / 2, 0, 100, 0, bgfx::getCaps()->homogeneousDepth);
-    bgfx::setViewTransform(0, view2D, proj2D);
 }
 void Renderer::setViewArea(uint32_t left, uint32_t top, uint32_t width, uint32_t height)
 {
@@ -340,23 +336,21 @@ void Renderer::setClear(uint32_t rgbaColor)
 void Renderer::beginFrame()
 {
     ProfileFunction();
-    bgfx::setState
-    (
-        0 |
-        BGFX_STATE_CULL_CW | 
-        BGFX_STATE_DEPTH_TEST_GREATER
-    );
     bgfx::touch(0);
 }
 void Renderer::endFrame()
 {
     ProfileFunction();
     bgfx::frame();
+    renderOrder2D = 0.0f;
 }
 
 void Renderer::drawUnitSquare(ColoredTransformHandle transform)
 {
     ProfileFunction();
+
+    renderOrder2D += 1;
+    transform.transform[13] = renderOrder2D;
     
     if (bgfx::getRendererType() == bgfx::RendererType::OpenGL) // FIXME: Strange matrix rows/column reversal with OpenGL.
     {
@@ -365,14 +359,29 @@ void Renderer::drawUnitSquare(ColoredTransformHandle transform)
         bx::mtxTranspose(transform.transform, untransposed);
     }
 
+    bgfx::setTransform
     bgfx::setVertexBuffer(0, unitSquarePoly.vb);
     bgfx::setIndexBuffer(unitSquarePoly.ib);
-    bgfx::setUniform(uniform2DPolygon.unif, transform.transform);
+    bgfx::setUniform(uniform2DTransform.unif, transform.transform);
+    
+    bgfx::setState
+    (
+        0 |
+        BGFX_STATE_CULL_CW |
+        BGFX_STATE_WRITE_RGB |
+        BGFX_STATE_WRITE_A |
+        BGFX_STATE_BLEND_ALPHA |
+		BGFX_STATE_WRITE_Z |
+		BGFX_STATE_DEPTH_TEST_LESS
+    );
     bgfx::submit(0, program2DPolygon.prog);
 }
 void Renderer::drawPolygon(PolygonHandle polygon, ColoredTransformHandle transform)
 {
     ProfileFunction();
+
+    renderOrder2D -= 50;
+    transform.transform[13] = renderOrder2D;
     
     if (bgfx::getRendererType() == bgfx::RendererType::OpenGL) // FIXME: Strange matrix rows/column reversal with OpenGL.
     {
@@ -383,12 +392,15 @@ void Renderer::drawPolygon(PolygonHandle polygon, ColoredTransformHandle transfo
 
     bgfx::setVertexBuffer(0, polygon.vb);
     bgfx::setIndexBuffer(polygon.ib);
-    bgfx::setUniform(uniform2DPolygon.unif, transform.transform);
+    bgfx::setUniform(uniform2DTransform.unif, transform.transform);
     bgfx::submit(0, program2DPolygon.prog);
 }
 void Renderer::drawImage(Texture2DHandle image, ColoredTransformHandle transform)
 {
     ProfileFunction();
+
+    renderOrder2D -= 50;
+    transform.transform[13] = renderOrder2D;
     
     if (bgfx::getRendererType() == bgfx::RendererType::OpenGL) // FIXME: Strange matrix rows/column reversal with OpenGL.
     {
@@ -400,6 +412,6 @@ void Renderer::drawImage(Texture2DHandle image, ColoredTransformHandle transform
     bgfx::setVertexBuffer(0, unitTexturedSquarePoly.vb);
     bgfx::setIndexBuffer(unitTexturedSquarePoly.ib);
     bgfx::setTexture(0, sampler2DTexturedPolygon.unif, image.tex);
-    bgfx::setUniform(uniform2DPolygon.unif, transform.transform);
+    bgfx::setUniform(uniform2DTransform.unif, transform.transform);
     bgfx::submit(0, program2DTexturedPolygon.prog);
 }

@@ -72,7 +72,11 @@ namespace Marble
             SceneManager::existingScenes.splice(SceneManager::existingScenes.begin(), SceneManager::existingScenes, scene->it);
         }
 
-        static std::list<Scene*> getScenesByName(const std::string_view& name);
+        inline static Scene* getSceneByIndex(size_t index)
+        {
+            if (index < SceneManager::existingScenes.size())
+                return reinterpret_cast<Scene*>(&std::next(SceneManager::existingScenes.begin(), index)->data);
+        }
 
         friend class Marble::Internal::CoreEngine;
         friend struct Marble::Scene;

@@ -39,6 +39,10 @@ namespace Marble
             {
                 this->transform[9] = rot;
             }
+            constexpr void setDrawPriority(float priority)
+            {
+                this->transform[13] = priority;
+            }
 
             friend class Marble::GL::Renderer;
         protected:
@@ -47,8 +51,7 @@ namespace Marble
             //  pos     scale   res1    user1
             //  pos     scale   res2    user2
             //  rotoff  rot     res3    user3
-            //  rotoff  res0    res4    user4
-
+            //  rotoff  order   res4    user4
                 0,      1,      1,      0,
                 0,      1,      1,      0,
                 0,      0,      1,      0,
@@ -84,7 +87,7 @@ namespace Marble
             void destroy();
         };
         
-        // All raw texture data is RGBA8, with no padding etc.
+        // All raw texture data is RGBA8, with no padding.
         // Width and height in pixels.
         struct __marble_gl_api Texture2DHandle final
         {

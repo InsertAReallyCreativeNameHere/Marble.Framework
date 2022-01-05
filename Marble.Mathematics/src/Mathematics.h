@@ -9,7 +9,7 @@ namespace Marble
 	namespace Mathematics
 	{
 		#pragma region Vector
-		class Vector2Int;
+		struct Vector2Int;
 		
 		struct Vector2
 		{
@@ -50,6 +50,10 @@ namespace Marble
 			{
 				return Vector2(this->x / rhs.x, this->y / rhs.y);
 			}
+			constexpr float dot(const Vector2& rhs)
+			{
+				return this->x * rhs.x + this->y * rhs.y;
+			}
 			constexpr Vector2& operator+= (const Vector2& rhs)
 			{
 				this->x += rhs.x;
@@ -75,6 +79,7 @@ namespace Marble
 				return *this;
 			}
 
+			constexpr explicit operator Vector2Int () const;
 			inline operator std::string () const;
 			inline friend std::ostream& operator<<(std::ostream& stream, const Vector2& rhs)
 			{
@@ -154,6 +159,7 @@ namespace Marble
 				return *this;
 			}
 
+			constexpr explicit operator Vector2 () const;
 			inline operator std::string () const;
 			inline friend std::ostream& operator<<(std::ostream& stream, const Vector2Int& rhs)
 			{
@@ -167,6 +173,15 @@ namespace Marble
 		Vector2Int::operator std::string() const
 		{
 			return std::string("{ ").append(std::to_string(this->x)).append(", ").append(std::to_string(this->y)).append(" }");
+		}
+
+		constexpr Vector2::operator Vector2Int() const
+		{
+			return Vector2Int((int32_t)this->x, (int32_t)this->y);
+		}
+		constexpr Vector2Int::operator Vector2() const
+		{
+			return Vector2((float)this->x, (float)this->y);
 		}
 
 		struct Vector3

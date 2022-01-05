@@ -5,6 +5,7 @@
 
 #include <list>
 #include <Objects/Object.h>
+#include <Utility/Property.h>
 
 namespace Marble
 {
@@ -23,12 +24,23 @@ namespace Marble
 
             std::list<Component*>::iterator it;
             bool eraseIteratorOnDestroy = true;
-            
+
             Entity* attachedEntity = nullptr;
             RectTransform* attachedRectTransform = nullptr;
+
+            size_t _index;
+            void setIndex(size_t value);
         protected:
             virtual ~Component();
         public:
+            bool active = true;
+
+            Property<size_t, size_t> index
+            {{
+                [this]() -> size_t { return this->_index; },
+                [this](size_t value) { this->setIndex(value); }
+            }};
+
             inline uint64_t typeIndex()
             {
                 return this->reflection.typeID;

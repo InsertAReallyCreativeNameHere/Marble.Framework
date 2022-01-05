@@ -1,6 +1,7 @@
 #include <Components/Image.h>
 #include <Components/Panel.h>
 #include <Components/Text.h>
+#include <Components/Button.h>
 #include <Core/PackageManager.h>
 #include <EntityComponentSystem/EngineEvent.h>
 #include <Utility/TypeInfo.h>
@@ -32,6 +33,9 @@ namespace Marble::Internal
                     break;
                 case __typeid(Text).qualifiedNameHash():
                     static_cast<Text*>(component)->renderOffload();
+                    break;
+                case __typeid(ColorHighlightButton).qualifiedNameHash():
+                    static_cast<ColorHighlightButton*>(component)->renderOffload();
                     break;
                 }
             };
