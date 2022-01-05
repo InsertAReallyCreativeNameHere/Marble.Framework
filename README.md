@@ -31,6 +31,7 @@ TODO: put stuff here lol
     Solution:
     -   Cold restart your device.
     -   If problem persists, update/reinstall your graphics drivers.
+-   We don't know if the issue above is still an issue.
 
 ## Acknowledgements
 -   Delvix000#9263: Singlehandedly the biggest gigachad in the world. Helped get lots of bgfx stuff working!
