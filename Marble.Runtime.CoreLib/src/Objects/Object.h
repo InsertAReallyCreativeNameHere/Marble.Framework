@@ -9,25 +9,14 @@ namespace Marble
 {
     namespace Internal
     {
-        struct MemoryIdentifier
+        class Object
         {
+        public:
+            inline virtual ~Object() = 0;
         };
 
-        typedef uintptr_t InstanceID;
-        
-        class __marble_corelib_api Object
+        Object::~Object()
         {
-            MemoryIdentifier* instanceID = new MemoryIdentifier();
-        protected:
-            inline virtual ~Object()
-            {
-                delete this->instanceID;
-            }
-        public:
-            inline InstanceID getInstanceID()
-            {
-                return (InstanceID)this->instanceID;
-            }
-        };
+        }
     }
 }

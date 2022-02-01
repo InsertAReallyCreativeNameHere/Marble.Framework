@@ -1,0 +1,1 @@
+#define Config_EntitiesPerChunk 4096

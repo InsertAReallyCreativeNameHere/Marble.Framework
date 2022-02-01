@@ -12,7 +12,6 @@
 #include <Core/Debug.h>
 #include <EntityComponentSystem/RectTransform.h>
 #include <Objects/Component.h>
-#include <Utility/ManagedArray.h>
 #include <Utility/Hash.h>
 #include <Utility/TypeInfo.h>
 
@@ -20,27 +19,29 @@ namespace Marble
 {
     class Scene;
     class SceneManager;
-
+    class EntityManager;
+    
     namespace Internal
     {
         class CoreEngine;
+        struct EntityChunk;
     }
 
     class __marble_corelib_api Entity final : public Internal::Object
     {
-        std::list<Entity*>::iterator it;
-        bool eraseIteratorOnDestroy = true;
+        std::list<Internal::EntityChunk>::iterator chunk;
+        size_t index;
 
         Scene* attachedScene;
         RectTransform* attachedRectTransform;
 
-        std::list<Internal::Component*> components {  };
-        size_t _index;
+        std::list<Internal::Component*> components { };
 
-        void setIndex(size_t value);
-        
         void removeComponentInternal(Internal::Component* component);
     public:
+        void* operator new (size_t);
+        void operator delete (Entity* entity, std::destroying_delete_t);
+
         Entity();
         Entity(RectTransform* parent);
         Entity(const Mathematics::Vector2& localPosition, float localRotation, RectTransform* parent);
@@ -51,12 +52,6 @@ namespace Marble
         {
             return this->attachedRectTransform;
         }
-
-        Property<size_t, size_t> index
-        {{
-            [this]() -> size_t { return this->_index; },
-            [this](size_t value) { this->setIndex(value); }
-        }};
 
         template <typename T>
         inline T* addComponent()
@@ -151,9 +146,10 @@ namespace Marble
             if (emitWarn) [[unlikely]]
                 Debug::LogWarn("No identical component could be found on this Entity to be removed!");
         }
-
+        
         friend class Marble::SceneManager;
         friend class Marble::Scene;
+        friend class Marble::EntityManager;
         friend class Marble::Internal::Component;
         friend class Marble::Internal::CoreEngine;
     };

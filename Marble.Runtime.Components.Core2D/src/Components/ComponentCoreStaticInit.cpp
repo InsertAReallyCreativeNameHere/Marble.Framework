@@ -21,6 +21,9 @@ namespace Marble::Internal
             PackageManager::addBinaryFileHandler<TrueTypeFontPackageFile>({ 0x00, 0x01, 0x00, 0x00, 0x00 });
             PackageManager::addBinaryFileHandler<TrueTypeFontPackageFile>({ 0x74, 0x72, 0x75, 0x65, 0x00 });
 
+            EngineEvent::OnTick += []()
+            {
+            };
             InternalEngineEvent::OnRenderOffloadForComponent += [](Component* component)
             {
                 switch (component->typeIndex())

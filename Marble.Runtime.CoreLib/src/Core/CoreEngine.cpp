@@ -15,7 +15,7 @@
 #include <Core/Display.h>
 #include <Core/Input.h>
 #include <Core/PackageManager.h>
-#include <Core/SceneManagement.h>
+#include <EntityComponentSystem/SceneManagement.h>
 #include <EntityComponentSystem/EngineEvent.h>
 #include <Objects/Entity.h>
 #include <Rendering/Renderer.h>

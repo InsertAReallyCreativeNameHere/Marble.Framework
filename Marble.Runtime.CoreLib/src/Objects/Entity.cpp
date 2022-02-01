@@ -1,10 +1,20 @@
 #include "Entity.h"
 
-#include <Core/SceneManagement.h>
+#include <EntityComponentSystem/EntityManagement.h>
+#include <EntityComponentSystem/SceneManagement.h>
 
 using namespace Marble;
 using namespace Marble::Internal;
 using namespace Marble::Mathematics;
+
+void* Entity::operator new(size_t)
+{
+    return EntityManager::allocateEntity();
+}
+void Entity::operator delete (Entity* entity, std::destroying_delete_t)
+{
+    EntityManager::destroyEntity(entity);
+}
 
 #define thisRect this->attachedRectTransform
 
@@ -12,20 +22,24 @@ Entity::Entity()
 {
     ProfileFunction();
 
+    this->chunk = EntityManager::lastAllocChunk;
+    this->index = EntityManager::lastAllocIndex;
+
     this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
     this->attachedRectTransform->attachedRectTransform = this->attachedRectTransform;
     this->attachedRectTransform->eraseIteratorOnDestroy = false;
 
     Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
-    this->_index = mainScene->entities.size();
     mainScene->entities.push_back(this);
-    this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;
 }
 Entity::Entity(RectTransform* parent)
 {
     ProfileFunction();
+
+    this->chunk = EntityManager::lastAllocChunk;
+    this->index = EntityManager::lastAllocIndex;
 
     this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
@@ -34,14 +48,15 @@ Entity::Entity(RectTransform* parent)
     this->attachedRectTransform->eraseIteratorOnDestroy = false;
 
     Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
-    this->_index = mainScene->entities.size();
     mainScene->entities.push_back(this);
-    this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;
 }
 Entity::Entity(const Vector2& localPosition, float localRotation, RectTransform* parent = nullptr)
 {
     ProfileFunction();
+
+    this->chunk = EntityManager::lastAllocChunk;
+    this->index = EntityManager::lastAllocIndex;
 
     this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
@@ -52,14 +67,15 @@ Entity::Entity(const Vector2& localPosition, float localRotation, RectTransform*
     thisRect->eraseIteratorOnDestroy = false;
 
     Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
-    this->_index = mainScene->entities.size();
     mainScene->entities.push_back(this);
-    this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;
 }
 Entity::Entity(const Vector2& localPosition, float localRotation, const Vector2& scale, RectTransform* parent = nullptr)
 {
     ProfileFunction();
+
+    this->chunk = EntityManager::lastAllocChunk;
+    this->index = EntityManager::lastAllocIndex;
 
     this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
@@ -71,9 +87,7 @@ Entity::Entity(const Vector2& localPosition, float localRotation, const Vector2&
     thisRect->eraseIteratorOnDestroy = false;
 
     Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
-    this->_index = mainScene->entities.size();
     mainScene->entities.push_back(this);
-    this->it = --mainScene->entities.end();
     this->attachedScene = mainScene;
 }
 Entity::~Entity()
@@ -86,26 +100,4 @@ Entity::~Entity()
         delete *it;
     }
     delete this->attachedRectTransform;
-
-    if (this->eraseIteratorOnDestroy)
-        this->attachedScene->entities.erase(this->it);
-}
-
-void Entity::setIndex(size_t value)
-{
-    if (value < this->attachedScene->entities.size())
-    {
-        this->attachedScene->entities.splice
-        (
-            std::next(this->attachedScene->entities.begin(), value),
-            this->attachedScene->entities, this->it
-        );
-        this->_index = value;
-        auto it = std::next(this->it);
-        while (it != this->attachedScene->entities.end())
-        {
-            ++(*it)->_index;
-            ++it;
-        }
-    }
 }
