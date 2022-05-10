@@ -9,14 +9,8 @@ namespace Marble
 {
     namespace Internal
     {
-        class Object
+        class Object final
         {
-        public:
-            inline virtual ~Object() = 0;
         };
-
-        Object::~Object()
-        {
-        }
     }
 }

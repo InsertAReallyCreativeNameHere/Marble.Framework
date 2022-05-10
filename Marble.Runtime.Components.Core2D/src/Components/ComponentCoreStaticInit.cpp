@@ -23,7 +23,11 @@ namespace Marble::Internal
 
             EngineEvent::OnTick += []()
             {
-            };
+                for (auto it = Entities::begin(); it != Entities::end(); ++it)
+                {
+                    switch (it->)
+                }
+            }
             InternalEngineEvent::OnRenderOffloadForComponent += [](Component* component)
             {
                 switch (component->typeIndex())

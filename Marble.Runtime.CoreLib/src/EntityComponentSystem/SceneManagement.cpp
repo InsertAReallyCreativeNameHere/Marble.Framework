@@ -1,7 +1,5 @@
 #include "SceneManagement.h"
 
-#include <EntityComponentSystem/EntityManagement.h>
-
 using namespace Marble;
 using namespace Marble::Internal;
 
@@ -19,7 +17,10 @@ Scene::~Scene()
     ProfileFunction();
     
     for (auto it = this->entities.begin(); it != this->entities.end(); ++it)
-        EntityManager::destroyEntity(*it);
+    {
+        (*it)->eraseIteratorOnDestroy = false;
+        delete *it;
+    }
     this->entities.clear();
 }
 
