@@ -56,6 +56,7 @@ int main(int argc, char* argv[])
     cmdLineExec.append(shadercExecStr).append("\" -p ");
     size_t resetToSize = shadercExecStr.size() + 6;
 
+    int ec;
     #if _WIN32
     switch (shaderType) // NB: d3d9.
     {
@@ -70,7 +71,7 @@ int main(int argc, char* argv[])
     cmdLineExec.append("-o ").append(out).append(".d3d9.bin ");
     cmdLineExec.append(shadercArgs);
     std::cout << "shaderc commandline invocation: " << cmdLineExec << '\n';
-    int ec = system(cmdLineExec.c_str());
+    ec = system(cmdLineExec.c_str());
     if (ec)
     {
         std::cout << "d3d9 shader compilation failed with error code [" << ec << "]\n";

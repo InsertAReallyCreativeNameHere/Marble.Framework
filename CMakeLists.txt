@@ -4,6 +4,7 @@ project(Marble.Framework)
 
 # Configuration options...
 option(WINDOWS_COMPATIBILITY_SUPPORT "Enable compatibility with Windows versions up to Windows XP." ON)
+option(MARBLE_BUILD_TESTS "Build various tests and examples." ON)
 option(MARBLE_ENABLE_PROFILING "Enable frame-by-frame profiling with tracy." OFF)
 
 include(GenerateExportHeader)
@@ -241,8 +242,8 @@ target_include_directories(Marble.Runtime.CoreLib PUBLIC
 target_include_directories(Marble.Runtime.CoreLib PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include"
 )
+target_link_libraries(Marble.Runtime.CoreLib PUBLIC Marble.Mathematics)
 target_link_libraries(Marble.Runtime.CoreLib PRIVATE
-    Marble.Mathematics
     Marble.Runtime.GL
     SDL2-static
 )
@@ -318,6 +319,40 @@ set_target_properties(Marble.Runtime.Components.Core2D
     C_VISIBILITY_PRESET hidden
     CXX_VISIBILITY_PRESET hidden
 )
+
+if (MARBLE_BUILD_TESTS)
+    add_executable(VisualTest.Marble.RectTransform "${CMAKE_CURRENT_LIST_DIR}/Marble.Tests/VisualTest.Marble.RectTransform/main.cpp")
+    target_link_libraries(VisualTest.Marble.RectTransform PUBLIC Marble.Runtime.Components.Core2D Marble.Runtime.CoreLib)
+    set_target_properties(VisualTest.Marble.RectTransform
+        PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Tests"
+        LIBRARY_OUTPUT_DIRECTORY "../lib/${OUTNAME}/Tests"
+        RUNTIME_OUTPUT_DIRECTORY "../bin/${OUTNAME}/Tests"
+        C_VISIBILITY_PRESET hidden
+        CXX_VISIBILITY_PRESET hidden
+    )
+
+    add_custom_command(TARGET VisualTest.Marble.RectTransform POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:Marble.Typography>
+        $<TARGET_FILE_DIR:VisualTest.Marble.RectTransform>
+    )
+    add_custom_command(TARGET VisualTest.Marble.RectTransform POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:Marble.Runtime.GL>
+        $<TARGET_FILE_DIR:VisualTest.Marble.RectTransform>
+    )
+    add_custom_command(TARGET VisualTest.Marble.RectTransform POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:Marble.Runtime.CoreLib>
+        $<TARGET_FILE_DIR:VisualTest.Marble.RectTransform>
+    )
+    add_custom_command(TARGET VisualTest.Marble.RectTransform POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:Marble.Runtime.Components.Core2D>
+        $<TARGET_FILE_DIR:VisualTest.Marble.RectTransform>
+    )
+endif()
 
 if (BUILD_PLATFORM STREQUAL "Win32")
     remove_definitions(-D_WIN32_WINNT)
