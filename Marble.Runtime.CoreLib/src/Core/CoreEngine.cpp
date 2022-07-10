@@ -47,7 +47,7 @@ moodycamel::ConcurrentQueue<skarupke::function<void()>> CoreEngine::pendingPostT
 std::vector<skarupke::function<void()>> CoreEngine::pendingRenderJobBatchesOffload;
 moodycamel::ConcurrentQueue<std::vector<skarupke::function<void()>>> CoreEngine::pendingRenderJobBatches;
 
-float CoreEngine::mspf = 200;
+float CoreEngine::mspf = 0;
 
 static std::atomic<int32_t> renderWidth;
 static std::atomic<int32_t> renderHeight;
@@ -188,7 +188,7 @@ void CoreEngine::internalLoop()
 
     Uint64 frameBegin = SDL_GetPerformanceCounter();
     Uint64 perfFreq = SDL_GetPerformanceFrequency();
-    constexpr float& targetDeltaTime = CoreEngine::mspf;
+    float targetDeltaTime = CoreEngine::mspf;
     float deltaTime;
 
     int32_t prevW = Window::width, prevH = Window::height;
@@ -294,20 +294,21 @@ void CoreEngine::internalLoop()
                 {
                     for
                     (
-                        auto it2 = it1->entities.begin();
-                        it2 != it1->entities.end();
-                        ++it2
+                        auto it2 = it1->front;
+                        it2 != nullptr;
+                        it2 = it2->next
                     )
                     {
                         for
                         (
-                            auto it3 = (*it2)->components.begin();
-                            it3 != (*it2)->components.end();
+                            auto it3 = EntityManager::existingComponents.begin();
+                            it3 != EntityManager::existingComponents.end();
                             ++it3
                         )
                         {
-                            if ((*it3)->active)
-                                InternalEngineEvent::OnRenderOffloadForComponent(*it3);
+                            auto component = EntityManager::components.find({ it1, it2, it3->first });
+                            if (component != EntityManager::components.end() && component->second->active)
+                                InternalEngineEvent::OnRenderOffloadForComponent(component->second);
                         }
                     }
                 }
@@ -326,7 +327,7 @@ void CoreEngine::internalLoop()
         targetDeltaTime = CoreEngine::mspf - (deltaTime - targetDeltaTime);
         if (targetDeltaTime < 0)
             targetDeltaTime = CoreEngine::mspf;
-        Debug::LogInfo("Update() frame time: ", deltaTime, ".");
+        Debug::LogInfo("Update() frame time: ", deltaTime, ". Target: ", targetDeltaTime, ".");
 
         ProfileEndFrame();
     }

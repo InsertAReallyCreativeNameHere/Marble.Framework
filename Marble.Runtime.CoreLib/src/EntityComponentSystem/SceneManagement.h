@@ -4,35 +4,41 @@
 #include "Marble.Runtime.CoreLib.Exports.h"
 
 #include <list>
-#include <Objects/Entity.h>
+#include <string>
  
 namespace Marble
 {
     class SceneManager;
     class Entity;
+    class Debug;
 
     namespace Internal
     {
         class CoreEngine;
-
         struct SceneMemoryChunk;
     }
 
     struct __marble_corelib_api Scene final
     {
-        inline const std::string& name();
+        inline const std::string& name()
+        {
+            return this->sceneName;
+        }
         size_t index();
 
         friend class Marble::Internal::CoreEngine;
         friend class Marble::SceneManager;
         friend class Marble::Entity;
+        friend class Marble::Debug;
     private:
+        Entity* front = nullptr;
+        Entity* back = nullptr;
+        
         inline Scene();
         ~Scene();
 
         std::list<Internal::SceneMemoryChunk>::iterator it;
         bool active = false;
-        std::list<Entity*> entities;
         std::string sceneName = "Untitled";
     };
 
@@ -81,14 +87,10 @@ namespace Marble
         friend class Marble::Internal::CoreEngine;
         friend struct Marble::Scene;
         friend class Marble::Entity;
+        friend class Marble::Debug;
     };
 
     Scene::Scene() : it(--SceneManager::existingScenes.end())
     {
-    }
-
-    const std::string& Scene::name()
-    {
-        return this->sceneName;
     }
 }

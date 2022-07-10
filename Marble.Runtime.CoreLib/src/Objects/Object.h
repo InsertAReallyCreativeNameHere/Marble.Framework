@@ -3,14 +3,18 @@
 #include "inc.h"
 #include "Marble.Runtime.CoreLib.Exports.h"
 
-#include <iostream>
-
 namespace Marble
 {
     namespace Internal
     {
-        class Object final
+        class Object
         {
+        public:
+            inline virtual ~Object() = 0;
         };
+
+        Object::~Object()
+        {
+        }
     }
 }

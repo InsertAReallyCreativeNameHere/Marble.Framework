@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13.4)
+cmake_minimum_required(VERSION 3.23.1)
 
 project(Marble.Framework)
 
@@ -43,7 +43,7 @@ else()
     set(BUILD_PLATFORM "UnknownPlatform")
 endif()
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     if (CMAKE_SHARED_LIBRARY_SUFFIX STREQUAL ".dll")
         set(COMPILER "MinGW")
@@ -60,6 +60,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(COMPILER "MSVC")
     set(BUILD_TYPE "Any")
     set(OUTNAME "${BUILD_ARCH}-${COMPILER}-${BUILD_PLATFORM}")
+    add_compile_options(/Zc:__cplusplus)
 else()
     set(COMPILER ${CMAKE_CXX_COMPILER_ID})
     set(BUILD_TYPE "UnknownBuildType")
@@ -77,7 +78,6 @@ target_compile_definitions(SDL2-static PRIVATE HAVE_LIBC=1)
 
 # bgfx
 
-set(CMAKE_CXX_STANDARD 14)
 if (COMPILER STREQUAL "MinGW")
     add_definitions(-DMINGW_HAS_SECURE_API=0)
 endif()
@@ -86,19 +86,14 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "../libglbuild")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "../libglbuild")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../libglbuild")
 
-set(_CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE})
-set(CMAKE_BUILD_TYPE "Release") # Builds faster for MinGW/GCC this way.
 set(BGFX_LIBRARY_TYPE "STATIC")
-set(BGFX_BUILD_TOOLS ON CACHE INTERNAL "" FORCE)
-set(BGFX_BUILD_EXAMPLES OFF CACHE INTERNAL "" FORCE)
+option(BGFX_BUILD_EXAMPLES "Build bgfx examples." OFF)
+option(BGFX_CONFIG_MULTITHREADED "Build bgfx with multithreaded configuration" OFF)
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake")
-target_compile_definitions(bgfx PUBLIC BGFX_CONFIG_MULTITHREADED=0)
-set(CMAKE_BUILD_TYPE ${_CMAKE_BUILD_TYPE})
 
 if (COMPILER STREQUAL "MinGW")
     remove_definitions(-DMINGW_HAS_SECURE_API)
 endif()
-set(CMAKE_CXX_STANDARD 20)
 
 # Marble.Tools
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Marble.Tools")
@@ -253,6 +248,7 @@ target_link_libraries(Marble.Runtime.CoreLib PRIVATE
 )
 if (COMPILER STREQUAL "MinGW" OR COMPILER STREQUAL "Clang")
     target_include_directories(Marble.Runtime.CoreLib PRIVATE "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include/compat/mingw")
+    target_compile_definitions(Marble.Runtime.CoreLib PRIVATE __GXX_TYPEINFO_EQUALITY_INLINE=0)
 elseif (COMPILER STREQUAL "MSVC")
     target_include_directories(Marble.Runtime.CoreLib PRIVATE "${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake/bx/include/compat/msvc")
 else()

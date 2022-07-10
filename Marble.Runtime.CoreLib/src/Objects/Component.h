@@ -5,12 +5,15 @@
 
 #include <list>
 #include <Objects/Object.h>
+#include <Utility/MemoryChunk.h>
+#include <Utility/MinAllocList.h>
 #include <Utility/Property.h>
 
 namespace Marble
 {
     class Entity;
     class RectTransform;
+    class Debug;
 
     namespace Internal
     {
@@ -18,28 +21,16 @@ namespace Marble
         
         class __marble_corelib_api Component : public Object
         {
-            struct __marble_corelib_api Reflection final {
+            struct Reflection {
                 uint64_t typeID;
             } reflection;
 
-            std::list<Component*>::iterator it;
-            bool eraseIteratorOnDestroy = true;
-
             Entity* attachedEntity = nullptr;
             RectTransform* attachedRectTransform = nullptr;
-
-            size_t _index;
-            void setIndex(size_t value);
         protected:
-            virtual ~Component();
+            virtual ~Component() override;
         public:
             bool active = true;
-
-            Property<size_t, size_t> index
-            {{
-                [this]() -> size_t { return this->_index; },
-                [this](size_t value) { this->setIndex(value); }
-            }};
 
             inline uint64_t typeIndex()
             {
@@ -58,6 +49,7 @@ namespace Marble
             friend class Marble::Entity;
             friend class Marble::RectTransform;
             friend class Marble::Internal::CoreEngine;
+            friend class Marble::Debug;
         };
     }
 }

@@ -14,7 +14,7 @@ namespace Marble
 {
     struct TypeInfo
     {
-        // As of 2021/09/23, only MSVC STL implements a constexpr std::string.
+        // NB: As of 2021/09/23, only MSVC STL implements a constexpr std::string.
         #ifdef _MSC_VER
         constexpr
         #else

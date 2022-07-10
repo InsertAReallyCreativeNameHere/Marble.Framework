@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstdio>
 #include <cmath>
 #include <cstring>

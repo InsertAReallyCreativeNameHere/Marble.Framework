@@ -1,5 +1,6 @@
 #include "Entity.h"
 
+#include <EntityComponentSystem/EntityManagement.h>
 #include <EntityComponentSystem/SceneManagement.h>
 
 using namespace Marble;
@@ -12,86 +13,180 @@ Entity::Entity()
 {
     ProfileFunction();
 
-    this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
     this->attachedRectTransform->attachedRectTransform = this->attachedRectTransform;
-    this->attachedRectTransform->eraseIteratorOnDestroy = false;
 
     Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
-    this->_index = mainScene->entities.size();
-    mainScene->entities.push_back(this);
-    this->it = --mainScene->entities.end();
+    if (mainScene->front)
+        this->insertAfter(mainScene->back);
+    else
+    {
+        mainScene->front = this;
+        mainScene->back = this;
+    }
     this->attachedScene = mainScene;
 }
-Entity::Entity(RectTransform* parent)
+Entity::Entity(Entity* parent)
 {
     ProfileFunction();
 
-    this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
     this->attachedRectTransform->attachedRectTransform = this->attachedRectTransform;
-    this->attachedRectTransform->parent = parent;
-    this->attachedRectTransform->eraseIteratorOnDestroy = false;
+    this->parent = parent;
 
     Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
-    this->_index = mainScene->entities.size();
-    mainScene->entities.push_back(this);
-    this->it = --mainScene->entities.end();
+    if (mainScene->front)
+        this->insertAfter(mainScene->back);
+    else
+    {
+        mainScene->front = this;
+        mainScene->back = this;
+    }
     this->attachedScene = mainScene;
 }
-Entity::Entity(const Vector2& localPosition, float localRotation, RectTransform* parent = nullptr)
+Entity::Entity(const Vector2& localPosition, float localRotation, Entity* parent)
 {
     ProfileFunction();
 
-    this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
     this->attachedRectTransform->attachedRectTransform = this->attachedRectTransform;
-    thisRect->parent = parent;
+    this->parent = parent;
     thisRect->localPosition = localPosition;
     thisRect->localRotation = localRotation;
-    thisRect->eraseIteratorOnDestroy = false;
 
     Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
-    this->_index = mainScene->entities.size();
-    mainScene->entities.push_back(this);
-    this->it = --mainScene->entities.end();
+    if (mainScene->front)
+        this->insertAfter(mainScene->back);
+    else
+    {
+        mainScene->front = this;
+        mainScene->back = this;
+    }
     this->attachedScene = mainScene;
 }
-Entity::Entity(const Vector2& localPosition, float localRotation, const Vector2& scale, RectTransform* parent = nullptr)
+Entity::Entity(const Vector2& localPosition, float localRotation, const Vector2& scale, Entity* parent)
 {
     ProfileFunction();
 
-    this->attachedRectTransform = new RectTransform();
     this->attachedRectTransform->attachedEntity = this;
     this->attachedRectTransform->attachedRectTransform = this->attachedRectTransform;
-    thisRect->parent = parent;
+    this->parent = parent;
     thisRect->localPosition = localPosition;
     thisRect->localRotation = localRotation;
     thisRect->scale = scale;
-    thisRect->eraseIteratorOnDestroy = false;
 
     Scene* mainScene = reinterpret_cast<Scene*>(&SceneManager::existingScenes.front().data);
-    this->_index = mainScene->entities.size();
-    mainScene->entities.push_back(this);
-    this->it = --mainScene->entities.end();
+    if (mainScene->front)
+        this->insertAfter(mainScene->back);
+    else
+    {
+        mainScene->front = this;
+        mainScene->back = this;
+    }
     this->attachedScene = mainScene;
 }
 Entity::~Entity()
 {
     ProfileFunction();
     
-    for (auto it = this->components.begin(); it != this->components.end(); ++it)
+    auto it = this->childrenFront;
+    while (it != nullptr)
     {
-        (*it)->eraseIteratorOnDestroy = false;
-        delete *it;
+        auto itNext = it->next;
+        delete it;
+        it = itNext;
+    }
+
+    for (auto it = EntityManager::existingComponents.begin(); it != EntityManager::existingComponents.end(); ++it)
+    {
+        auto component = EntityManager::components.find({ this->attachedScene, this, it->first });
+        if (component != EntityManager::components.end())
+        {
+            delete component->second;
+            EntityManager::components.erase(component);
+            if (--it->second == 0)
+                EntityManager::existingComponents.erase(it);
+        }
     }
     delete this->attachedRectTransform;
 
-    if (this->eraseIteratorOnDestroy)
-        this->attachedScene->entities.erase(this->it);
+    this->eraseFromImplicitList();
 }
 
-void Entity::setIndex(size_t value)
+void Entity::insertAfter(Entity* entity)
+{
+    if (entity->next)
+    {
+        entity->next->prev = this;
+        this->next = entity->next;
+    }
+    else
+    {
+        this->next = nullptr;
+        entity->attachedScene->back = this;
+    }
+    entity->next = this;
+    this->prev = entity;
+}
+void Entity::moveAfter(Entity* entity)
+{
+    this->eraseFromImplicitList();
+    this->insertAfter(entity);
+}
+void Entity::eraseFromImplicitList()
+{
+    if (this->prev)
+        this->prev->next = this->next;
+    else
+    {  
+        if (this->_parent)
+            this->_parent->childrenFront = this->next;
+        else this->attachedScene->front = this->next;
+    }
+    if (this->next)
+        this->next->prev = this->prev;
+    else
+    {
+        if (this->_parent)
+            this->_parent->childrenBack = this->prev;
+        else this->attachedScene->back = this->prev;
+    }
+}
+
+void Entity::setParent(Entity* value)
+{
+    ProfileFunction();
+    
+    this->eraseFromImplicitList();
+    
+    this->_parent = value;
+    if (this->_parent)
+    {
+        if (this->_parent->childrenBack)
+            this->insertAfter(this->_parent->childrenBack);
+        else
+        {
+            this->_parent->childrenFront = this;
+            this->_parent->childrenBack = this;
+            this->prev = nullptr;
+            this->next = nullptr;
+        }
+    }
+    else
+    {
+        if (this->attachedScene->back)
+            this->insertAfter(this->attachedScene->back);
+        else
+        {
+            this->attachedScene->front = this;
+            this->attachedScene->back = this;
+            this->prev = nullptr;
+            this->next = nullptr;
+        }
+    }
+}
+
+/*void Entity::setIndex(size_t value)
 {
     if (value < this->attachedScene->entities.size())
     {
@@ -108,4 +203,4 @@ void Entity::setIndex(size_t value)
             ++it;
         }
     }
-}
+}*/

@@ -26,17 +26,6 @@ namespace Marble
         Justify
     };
 
-    struct FontSize
-    {
-        FontSize() = delete;
-
-        enum
-        {
-            Default = 11,
-            RecalculateForRectSize = UINT32_MAX
-        };
-    };
-
     class __marble_componentcore_api Text final : public Internal::Component
     {
         struct CharacterData
@@ -110,6 +99,8 @@ namespace Marble
             [&]() -> TextAlign { return this->_verticalAlign; },
             [&, this](TextAlign value) { this->setVerticalAlign(value); }
         }};
+
+        uint32_t calculateBestFitFontSize();
 
         friend class Marble::Internal::ComponentCoreStaticInit;
     };

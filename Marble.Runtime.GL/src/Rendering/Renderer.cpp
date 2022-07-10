@@ -217,7 +217,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
     bgfx::setPlatformData(pd);
 
 	bgfx::Init init;
-    init.type = bgfx::RendererType::OpenGL;
+    init.type = bgfx::RendererType::Direct3D11;
     init.vendorId = BGFX_PCI_ID_NONE;
     init.resolution.width = initWidth;
     init.resolution.height = initHeight;
@@ -379,7 +379,7 @@ void Renderer::drawPolygon(PolygonHandle polygon, ColoredTransformHandle transfo
 {
     ProfileFunction();
 
-    renderOrder2D -= 50;
+    renderOrder2D += 1;
     transform.transform[13] = renderOrder2D;
     
     if (bgfx::getRendererType() == bgfx::RendererType::OpenGL) // FIXME: Strange matrix rows/column reversal with OpenGL.
@@ -398,7 +398,7 @@ void Renderer::drawImage(Texture2DHandle image, ColoredTransformHandle transform
 {
     ProfileFunction();
 
-    renderOrder2D -= 50;
+    renderOrder2D += 1;
     transform.transform[13] = renderOrder2D;
     
     if (bgfx::getRendererType() == bgfx::RendererType::OpenGL) // FIXME: Strange matrix rows/column reversal with OpenGL.

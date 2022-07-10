@@ -1,6 +1,7 @@
 #include "RectTransform.h"
 
 #include <cmath>
+#include <Objects/Entity.h>
 #include <Mathematics.h>
 
 using namespace Marble;
@@ -37,15 +38,15 @@ void RectTransform::setPosition(Vector2 value)
     Vector2 delta = value - this->_position;
     this->_position = value;
 
-    auto setChildrenPositionRecursive = [&](auto& recurseFunc, RectTransform* rectTransform) -> void
+    auto setChildrenPositionRecursive = [&](auto& recurseFunc, Entity* entity) -> void
     {
-        for (auto it = rectTransform->_children.begin(); it != rectTransform->_children.end(); ++it)
+        for (auto it = entity->childrenFront; it != nullptr; it = it->next)
         {
-            (*it)->_position += delta;
-            recurseFunc(recurseFunc, *it);
+            it->attachedRectTransform->_position += delta;
+            recurseFunc(recurseFunc, it);
         }
     };
-    setChildrenPositionRecursive(setChildrenPositionRecursive, this);
+    setChildrenPositionRecursive(setChildrenPositionRecursive, this->attachedEntity);
 }
 void RectTransform::setRotation(float value)
 {
@@ -54,16 +55,16 @@ void RectTransform::setRotation(float value)
     float delta = value - this->_rotation;
     this->_rotation = value;
 
-    auto setChildrenRotationRecursive = [&, this](auto& recurseFunc, RectTransform* rectTransform) -> void
+    auto setChildrenRotationRecursive = [&, this](auto& recurseFunc, Entity* entity) -> void
     {
-        for (auto it = rectTransform->_children.begin(); it != rectTransform->_children.end(); ++it)
+        for (auto it = entity->childrenFront; it != nullptr; it = it->next)
         {
-            (*it)->_rotation += delta;
-            rotatePointAround((*it)->_position, this->_position, delta);
-            recurseFunc(recurseFunc, *it);
+            it->attachedRectTransform->_rotation += delta;
+            rotatePointAround(it->attachedRectTransform->_position, this->_position, delta);
+            recurseFunc(recurseFunc, it);
         }
     };
-    setChildrenRotationRecursive(setChildrenRotationRecursive, this);
+    setChildrenRotationRecursive(setChildrenRotationRecursive, this->attachedEntity);
 }
 void RectTransform::setScale(Vector2 value)
 {
@@ -72,24 +73,25 @@ void RectTransform::setScale(Vector2 value)
     Vector2 delta = value / this->_scale;
     this->_scale = value;
 
-    auto setChildrenScaleRecursive = [&, this](auto& recurseFunc, RectTransform* rectTransform) -> void
+    auto setChildrenScaleRecursive = [&, this](auto& recurseFunc, Entity* entity) -> void
     {
-        for (auto it = rectTransform->_children.begin(); it != rectTransform->_children.end(); ++it)
+        for (auto it = entity->childrenFront; it != nullptr; it = it->next)
         {
-            (*it)->_scale *= delta;
-            (*it)->_position = delta * ((*it)->_position - this->_position) + this->_position;
-            recurseFunc(recurseFunc, *it);
+            it->attachedRectTransform->_scale *= delta;
+            it->attachedRectTransform->_position = delta * (it->attachedRectTransform->_position - this->_position) + this->_position;
+            recurseFunc(recurseFunc, it);
         }
     };
-    setChildrenScaleRecursive(setChildrenScaleRecursive, this);
+    setChildrenScaleRecursive(setChildrenScaleRecursive, this->attachedEntity);
 }
 
 Vector2 RectTransform::getLocalPosition() const
 {
-    if (this->_parent)
+    Entity* parent = this->attachedEntity->_parent;
+    if (parent)
     {
-        Vector2 locPos = (this->_position - this->_parent->_position) / this->_parent->_scale;
-        rotatePointAroundOrigin(locPos, -this->_parent->_rotation);
+        Vector2 locPos = (this->_position - parent->attachedRectTransform->_position) / parent->attachedRectTransform->_scale;
+        rotatePointAroundOrigin(locPos, -parent->attachedRectTransform->_rotation);
         return locPos;
     }
     else return this->_position;
@@ -99,85 +101,80 @@ void RectTransform::setLocalPosition(Vector2 value)
     ProfileFunction();
 
     Vector2 delta;
-    if (this->_parent)
+    Entity* parent = this->attachedEntity->_parent;
+    if (parent)
     {
-        rotatePointAroundOrigin(value, this->_parent->_rotation);
-        delta = this->_parent->_position + this->_parent->_scale * value - this->_position;
+        rotatePointAroundOrigin(value, parent->attachedRectTransform->_rotation);
+        delta = parent->attachedRectTransform->_position + parent->attachedRectTransform->_scale * value - this->_position;
     }
     else delta = value - this->_position;
     this->_position += delta;
 
-    auto setChildrenScaleRecursive = [&](auto& recurseFunc, RectTransform* rectTransform) -> void
+    auto setChildrenScaleRecursive = [&](auto&& recurseFunc, Entity* entity) -> void
     {
-        for (auto it = rectTransform->_children.begin(); it != rectTransform->_children.end(); ++it)
+        for (auto it = entity->childrenFront; it != nullptr; it = it->next)
         {
-            (*it)->_position += delta;
-            recurseFunc(recurseFunc, *it);
+            it->attachedRectTransform->_position += delta;
+            recurseFunc(recurseFunc, it);
         }
     };
-    setChildrenScaleRecursive(setChildrenScaleRecursive, this);
+    setChildrenScaleRecursive(setChildrenScaleRecursive, this->attachedEntity);
+}
+float RectTransform::getLocalRotation() const
+{
+    Entity* parent = this->attachedEntity->_parent;
+    return parent ? this->_rotation - parent->attachedRectTransform->_rotation : this->_rotation;
 }
 void RectTransform::setLocalRotation(float value)
 {
     ProfileFunction();
 
+    Entity* parent = this->attachedEntity->_parent;
+
     float delta;
-    if (this->_parent)
-        delta = this->_parent->_rotation + value - this->_rotation;
+    if (parent)
+        delta = parent->attachedRectTransform->_rotation + value - this->_rotation;
     else delta = value - this->_rotation;
     this->_rotation += delta;
 
-    auto setChildrenRotationRecursive = [&, this](auto& recurseFunc, RectTransform* rectTransform) -> void
+    auto setChildrenRotationRecursive = [&, this](auto& recurseFunc, Entity* entity) -> void
     {
-        for (auto it = rectTransform->_children.begin(); it != rectTransform->_children.end(); ++it)
+        for (auto it = entity->childrenFront; it != nullptr; it = it->next)
         {
-            (*it)->_rotation += delta;
-            recurseFunc(recurseFunc, *it);
-            rotatePointAround((*it)->_position, this->_position, delta);
+            it->attachedRectTransform->_rotation += delta;
+            recurseFunc(recurseFunc, it);
+            rotatePointAround(it->attachedRectTransform->_position, this->_position, delta);
         }
     };
-    setChildrenRotationRecursive(setChildrenRotationRecursive, this);
+    setChildrenRotationRecursive(setChildrenRotationRecursive, this->attachedEntity);
+}
+Vector2 RectTransform::getLocalScale() const
+{
+    Entity* parent = this->attachedEntity->_parent;
+    return parent ? this->_scale / parent->attachedRectTransform->_scale : this->_scale;
 }
 void RectTransform::setLocalScale(Vector2 value)
 {
     ProfileFunction();
 
+    Entity* parent = this->attachedEntity->_parent;
+
     Vector2 delta;
-    if (this->_parent)
-        delta = value * this->_parent->_scale / this->_scale;
+    if (parent)
+        delta = value * parent->attachedRectTransform->_scale / this->_scale;
     else delta = value / this->_scale;
     this->_scale *= delta;
 
-    auto setChildrenScaleRecursive = [&, this](auto& recurseFunc, RectTransform* rectTransform) -> void
+    auto setChildrenScaleRecursive = [&, this](auto& recurseFunc, Entity* entity) -> void
     {
-        for (auto it = rectTransform->_children.begin(); it != rectTransform->_children.end(); ++it)
+        for (auto it = entity->childrenFront; it != nullptr; it = it->next)
         {
-            (*it)->_scale *= delta;
-            (*it)->_position = delta * ((*it)->_position - this->_position) + this->_position;
-            recurseFunc(recurseFunc, *it);
+            it->attachedRectTransform->_scale *= delta;
+            it->attachedRectTransform->_position = delta * (it->attachedRectTransform->_position - this->_position) + this->_position;
+            recurseFunc(recurseFunc, it);
         }
     };
-    setChildrenScaleRecursive(setChildrenScaleRecursive, this);
-}
-
-void RectTransform::setParent(RectTransform* value)
-{
-    ProfileFunction();
-    
-    if (this->_parent)
-    {
-        for (auto it = this->_parent->_children.begin(); it != this->_parent->_children.end(); ++it)
-        {
-            if (*it == this)
-            {
-                this->_parent->_children.erase(it);
-                break;
-            }
-        }
-    }
-    this->_parent = value;
-    if (this->_parent)
-        this->_parent->_children.push_back(this);
+    setChildrenScaleRecursive(setChildrenScaleRecursive, this->attachedEntity);
 }
 
 bool RectTransform::queryPointIn(const Vector2& point)

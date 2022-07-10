@@ -69,8 +69,13 @@ int main(int argc, char* argv[])
     }
     cmdLineExec.append("-o ").append(out).append(".d3d9.bin ");
     cmdLineExec.append(shadercArgs);
-    std::cout << "Command line execution for d3d9: " << cmdLineExec << '\n';
-    failCount += (bool)system(cmdLineExec.c_str());
+    std::cout << "shaderc commandline invocation: " << cmdLineExec << '\n';
+    int ec = system(cmdLineExec.c_str());
+    if (ec)
+    {
+        std::cout << "d3d9 shader compilation failed with error code [" << ec << "]\n";
+        ++failCount;
+    }
 
     cmdLineExec.resize(resetToSize);
     switch (shaderType) // NB: d3d11.
@@ -87,8 +92,13 @@ int main(int argc, char* argv[])
     }
     cmdLineExec.append("-o ").append(out).append(".d3d11.bin ");
     cmdLineExec.append(shadercArgs);
-    std::cout << "Command line execution for d3d11: " << cmdLineExec << '\n';
-    failCount += (bool)system(cmdLineExec.c_str());
+    std::cout << "shaderc commandline invocation: " << cmdLineExec << '\n';
+    ec = system(cmdLineExec.c_str());
+    if (ec)
+    {
+        std::cout << "d3d11 shader compilation failed with error code [" << ec << "]\n";
+        ++failCount;
+    }
     
     cmdLineExec.resize(resetToSize);
     switch (shaderType) // NB: d3d12.
@@ -105,8 +115,13 @@ int main(int argc, char* argv[])
     }
     cmdLineExec.append("-o ").append(out).append(".d3d12.bin ");
     cmdLineExec.append(shadercArgs);
-    std::cout << "Command line execution for d3d12: " << cmdLineExec << '\n';
-    failCount += (bool)system(cmdLineExec.c_str());
+    std::cout << "shaderc commandline invocation: " << cmdLineExec << '\n';
+    ec = system(cmdLineExec.c_str());
+    if (ec)
+    {
+        std::cout << "d3d12 shader compilation failed with error code [" << ec << "]\n";
+        ++failCount;
+    }
     #endif
     
     cmdLineExec.resize(resetToSize);
@@ -122,15 +137,25 @@ int main(int argc, char* argv[])
     }
     cmdLineExec.append("-o ").append(out).append(".opengl.bin ");
     cmdLineExec.append(shadercArgs);
-    std::cout << "Command line execution for OpenGL: " << cmdLineExec << '\n';
-    failCount += (bool)system(cmdLineExec.c_str());
+    std::cout << "shaderc commandline invocation: " << cmdLineExec << '\n';
+    ec = system(cmdLineExec.c_str());
+    if (ec)
+    {
+        std::cout << "opengl shader compilation failed with error code [" << ec << "]\n";
+        ++failCount;
+    }
     
     cmdLineExec.resize(resetToSize);
     cmdLineExec.append("spirv10-10 "); // NB: Vulkan.
     cmdLineExec.append("-o ").append(out).append(".vulkan.bin ");
     cmdLineExec.append(shadercArgs);
-    std::cout << "Command line execution for Vulkan: " << cmdLineExec << '\n';
-    failCount += (bool)system(cmdLineExec.c_str());
+    std::cout << "shaderc commandline invocation: " << cmdLineExec << '\n';
+    ec = system(cmdLineExec.c_str());
+    if (ec)
+    {
+        std::cout << "vulkan shader compilation failed with error code [" << ec << "]\n";
+        ++failCount;
+    }
 
     // TODO: Implement other rendering backends as well.
 

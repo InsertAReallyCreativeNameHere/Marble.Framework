@@ -218,5 +218,7 @@ namespace Marble
 			"\n";
 			Debug::outputLock.unlock();
 		}
+
+		static void printHierarchy();
 	};
 }

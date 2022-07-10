@@ -8,6 +8,8 @@
 
 namespace Marble
 {
+    class Debug;
+
     namespace Internal
     {
         class CoreEngine;
@@ -34,7 +36,7 @@ namespace Marble
 
     class __marble_corelib_api RectTransform final : public Internal::Component
     {
-        inline ~RectTransform() override = default;
+        ~RectTransform() override = default;
 
         RectFloat _rect { 10, 10, -10, -10 };
         RectFloat _anchor { 0, 0, 0, 0 };
@@ -43,19 +45,16 @@ namespace Marble
         float _rotation = 0;
         Mathematics::Vector2 _scale { 1, 1 };
 
-        RectTransform* _parent = nullptr;
-        std::list<RectTransform*> _children;
-
         void setPosition(Mathematics::Vector2 value);
         void setRotation(float value);
         void setScale(Mathematics::Vector2 value);
 
         Mathematics::Vector2 getLocalPosition() const;
         void setLocalPosition(Mathematics::Vector2 value);
+        float getLocalRotation() const;
         void setLocalRotation(float value);
+        Mathematics::Vector2 getLocalScale() const;
         void setLocalScale(Mathematics::Vector2 scale);
-
-        void setParent(RectTransform* value);
     public:
         const Property<const RectFloat&, const RectFloat&> rect
         {{
@@ -91,27 +90,18 @@ namespace Marble
         }};
         const Property<float, float> localRotation
         {{
-            [this]() -> float { return this->_parent ? this->_rotation - this->_parent->_rotation : this->_rotation; },
+            [this]() -> float { return this->getLocalRotation(); },
             [this](float value) { this->setLocalRotation(value); }
         }};
         const Property<Mathematics::Vector2, Mathematics::Vector2> localScale
         {{
-            [this]() -> Mathematics::Vector2 { return this->_parent ? this->_scale / this->_parent->_scale : this->_scale; },
+            [this]() -> Mathematics::Vector2 { return this->getLocalScale(); },
             [this](Mathematics::Vector2 value) { this->setLocalScale(value); }
         }};
-
-        const Property<RectTransform*, RectTransform*> parent
-        {{
-            [this]() -> RectTransform* { return this->_parent; },
-            [this](RectTransform* value) { this->setParent(value); }
-        }};
-        inline const std::list<RectTransform*>& children() const
-        {
-            return this->_children;
-        }
 
         bool queryPointIn(const Mathematics::Vector2& point);
 
         friend class Marble::Entity;
+        friend class Marble::Debug;
     };
 }

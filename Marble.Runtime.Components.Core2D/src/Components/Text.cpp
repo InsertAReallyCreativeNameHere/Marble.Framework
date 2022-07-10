@@ -183,189 +183,227 @@ void Text::setVerticalAlign(TextAlign value)
 void Text::setFontSize(uint32_t value)
 {
     ProfileFunction();
-    switch (value)
+    this->_fontSize = value;
+}
+
+uint32_t Text::calculateBestFitFontSize()
+{
+    if (this->data) [[likely]]
     {
-    case FontSize::RecalculateForRectSize:
+        const RectTransform* const thisRect = this->rectTransform();
+        Font& font = this->data->file->fontHandle();
+
+        const Vector2 pos = thisRect->position;
+        const RectFloat rect = thisRect->rect;
+
+        float accAdv = 0;
+        for (auto it = this->textData.begin(); it != this->textData.end(); ++it)
+            accAdv += it->metrics.advanceWidth;
+
+        const float rectWidth = thisRect->rect().right - thisRect->rect().left;
+        const float rectHeight = thisRect->rect().top - thisRect->rect().bottom;
+
+        // NB: Calculate optimistic font size - the largest possible with given text.
+        //     This is done to be generally performant with the following iterative
+        //     font sizing algorithm.
+        // TODO: Is it possible to eliminate the costly sqrt?
+        float set = (font.ascent - font.descent) * (rectWidth / accAdv);
+        this->_fontSize = set * sqrtf(rectHeight / set);
+
+        const float rot = deg2RadF(thisRect->rotation);
+        const float asc = this->data->file->fontHandle().ascent;
+        const float lineHeight = asc - this->data->file->fontHandle().descent;
+
+        float increment = (float)this->_fontSize;
+        while (true)
         {
-            if (this->data) [[likely]]
+            float glyphScale = float(this->_fontSize) / lineHeight;
+            float lineHeightScaled = lineHeight * glyphScale;
+            
+            if (lineHeightScaled > rectHeight)
             {
-                const RectTransform* const thisRect = this->rectTransform();
-                Font& font = this->data->file->fontHandle();
-
-                const Vector2 pos = thisRect->position;
-                const RectFloat rect = thisRect->rect;
-
-                float accAdv = 0;
-                for (auto it = this->textData.begin(); it != this->textData.end(); ++it)
-                    accAdv += it->metrics.advanceWidth;
-
-                const float rectWidth = thisRect->rect().right - thisRect->rect().left;
-                const float rectHeight = thisRect->rect().top - thisRect->rect().bottom;
-
-                // NB: Calculate optimistic font size - the largest possible with given text.
-                //     This is done to be generally performant with the following iterative
-                //     font sizing algorithm.
-                // TODO: Is it possible to eliminate the costly sqrt?
-                float set = (font.ascent - font.descent) * (rectWidth / accAdv);
-                this->_fontSize = set * sqrtf(rectHeight / set);
-
-                const float rot = deg2RadF(thisRect->rotation);
-                const float asc = this->data->file->fontHandle().ascent;
-                const float lineHeight = asc - this->data->file->fontHandle().descent;
-
-                Debug::LogInfo("Optimistic font size: ", this->_fontSize, '.');
-
-                while (this->_fontSize != 0)
+                increment /= 2.0f;
+                if (this->_fontSize - increment == this->_fontSize)
                 {
-                    float glyphScale = float(this->_fontSize) / lineHeight;
-                    float lineHeightScaled = lineHeight * glyphScale;
-                    
-                    if (lineHeightScaled > rectHeight)
+                    --this->_fontSize;
+                    break;
+                }
+                else
+                {
+                    this->_fontSize -= increment;
+                    continue;
+                }
+            }
+            
+            float lineDiff = this->data->file->fontHandle().lineGap * glyphScale + lineHeightScaled;
+            float accXAdvance = 0;
+            float accYAdvance = 0;
+
+            size_t beg = 0;
+            size_t end;
+
+            // NB: Horrific code that avoids multiple calls of find_first_*.
+            //     I don't even know if this was optimal.
+            if
+            (
+                size_t _end = this->_text.find_first_of(U" \t\r\n", 0);
+                _end < (end = this->_text.find_first_not_of(U" \t\r\n", 0))
+            )
+            {
+                end = _end;
+                goto HandleWord;
+            }
+            else goto HandleSpace;
+
+            // NB: Ohhhhhhh the goto abuse...
+            //     I am going to hell.
+            // NB: Do calculations for an individual text segment. This matters because
+            //     each word cannot be split across lines, unless there is no space for it to fit in one line.
+            HandleWord:
+            {
+                std::vector<float> advanceLengths;
+                advanceLengths.reserve(end - beg);
+                for (size_t i = beg; i < end; i++)
+                    advanceLengths.push_back(float(this->textData[i].metrics.advanceWidth) * glyphScale);
+
+                auto advanceLenIt = advanceLengths.begin();
+
+                float wordLen = std::accumulate(advanceLenIt, advanceLengths.end(), 0.0f);
+                if (accXAdvance + wordLen > rectWidth) [[unlikely]]
+                {
+                    // NB: If the word doesn't fit in one line,
+                    //     split it across two, otherwise,
+                    //     put it on a new line.
+                    if (wordLen > rectWidth) [[unlikely]]
+                        goto SplitCalcWord;
+                    else
                     {
-                        --this->_fontSize;
-                        continue;
-                    }
-                    
-                    float lineDiff = this->data->file->fontHandle().lineGap * glyphScale + lineHeightScaled;
-                    float accXAdvance = 0;
-                    float accYAdvance = 0;
-
-                    size_t beg = 0;
-                    size_t end;
-
-                    // NB: Horrific code that avoids multiple calls of find_first_*.
-                    //     I don't even know if this was optimal.
-                    if
-                    (
-                        size_t _end = this->_text.find_first_of(U" \t\r\n", 0);
-                        _end < (end = this->_text.find_first_not_of(U" \t\r\n", 0))
-                    )
-                    {
-                        end = _end;
-                        goto HandleWord;
-                    }
-                    else goto HandleSpace;
-
-                    // NB: Ohhhhhhh the goto abuse...
-                    //     I am going to hell.
-                    // NB: Do calculations for an individual text segment. This matters because
-                    //     each word cannot be split across lines, unless there is no space for it to fit in one line.
-                    HandleWord:
-                    {
-                        std::vector<float> advanceLengths;
-                        advanceLengths.reserve(end - beg);
-                        for (size_t i = beg; i < end; i++)
-                            advanceLengths.push_back(float(this->textData[i].metrics.advanceWidth) * glyphScale);
-
-                        auto advanceLenIt = advanceLengths.begin();
-
-                        float wordLen = std::accumulate(advanceLenIt, advanceLengths.end(), 0.0f);
-                        if (accXAdvance + wordLen > rectWidth) [[unlikely]]
+                        accXAdvance = 0;
+                        accYAdvance += lineDiff;
+                        if (accYAdvance + lineHeightScaled > rectHeight)
                         {
-                            // NB: If the word doesn't fit in one line,
-                            //     split it across two, otherwise,
-                            //     put it on a new line.
-                            if (wordLen > rectWidth) [[unlikely]]
-                                goto SplitCalcWord;
-                            else
-                            {
-                                accXAdvance = 0;
-                                accYAdvance += lineDiff;
-                                if (accYAdvance + lineHeightScaled > rectHeight)
-                                {
-                                    --this->_fontSize;
-                                    continue;
-                                }
-                                goto InlineCalcWord;
-                            }
-                        }
-                        else goto InlineCalcWord;
-
-                        // NB: For when a word doesn't fit within its line,
-                        //     and has to be split across two.
-                        SplitCalcWord:
-                        for (auto it = advanceLengths.begin(); it != advanceLengths.end(); ++it)
-                        {
-                            if (accXAdvance + *it > rectWidth) [[unlikely]]
-                            {
-                                accXAdvance = 0;
-                                accYAdvance += lineDiff;
-                                if (accYAdvance + lineHeightScaled > rectHeight)
-                                {
-                                    --this->_fontSize;
-                                    goto Continue;
-                                }
-                            }
-                            accXAdvance += *it;
-                        }
-                        goto ExitCalcWord;
-
-                        // NB: More label abuse to allow for continuing
-                        //     of the outer loop.
-                        Continue:
-                        continue;
-                        // NB: Never falls through.
-
-                        // NB: For when a text segment fits within its line.
-                        InlineCalcWord:
-                        for (auto it = advanceLengths.begin(); it != advanceLengths.end(); ++it)
-                            accXAdvance += *it;
-                        // NB: No goto here, jump would go to the same place anyways.
-
-                        ExitCalcWord:;
-                    }
-                    beg = end;
-                    if (end != this->_text.size()) [[likely]]
-                    {
-                        size_t _end = this->_text.find_first_not_of(U" \t\r\n", beg + 1);
-                        end = (_end == std::u32string::npos ? this->_text.size() : _end);
-                        goto HandleSpace;
-                    }
-                    else goto ExitTextHandling;
-
-                    HandleSpace:
-                    for (size_t i = beg; i < end; i++)
-                    {
-                        switch (this->_text[i])
-                        {
-                        case U' ':
-                            accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale;
-                            break;
-                        case U'\t':
-                            accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * 8;
-                            break;
-                        case U'\r':
-                            break;
-                        case U'\n':
-                            accXAdvance = 0;
-                            accYAdvance += lineDiff;
-                            if (accYAdvance + lineHeightScaled > rectHeight)
+                            increment /= 2.0f;
+                            if (this->_fontSize - increment == this->_fontSize)
                             {
                                 --this->_fontSize;
+                                break;
+                            }
+                            else
+                            {
+                                this->_fontSize -= increment;
                                 continue;
                             }
-                            break;
+                        }
+                        goto InlineCalcWord;
+                    }
+                }
+                else goto InlineCalcWord;
+
+                // NB: For when a word doesn't fit within its line,
+                //     and has to be split across two.
+                SplitCalcWord:
+                for (auto it = advanceLengths.begin(); it != advanceLengths.end(); ++it)
+                {
+                    if (accXAdvance + *it > rectWidth) [[unlikely]]
+                    {
+                        accXAdvance = 0;
+                        accYAdvance += lineDiff;
+                        if (accYAdvance + lineHeightScaled > rectHeight)
+                        {
+                            increment /= 2.0f;
+                            if (this->_fontSize - increment == this->_fontSize)
+                            {
+                                --this->_fontSize;
+                                break;
+                            }
+                            else
+                            {
+                                this->_fontSize -= increment;
+                                goto Continue;
+                            }
                         }
                     }
-                    beg = end;
-                    if (end != this->_text.size()) [[likely]]
-                    {
-                        size_t _end = this->_text.find_first_of(U" \t\r\n", beg + 1);
-                        end = (_end == std::u32string::npos ? this->_text.size() : _end);
-                        goto HandleWord;
-                    }
-                    // NB: No else here, it just goes to the same place anyways.
+                    accXAdvance += *it;
+                }
+                goto ExitCalcWord;
 
-                    ExitTextHandling:
-                    Debug::LogInfo("Fitting font size: ", this->_fontSize, '.');
+                // NB: For when a text segment fits within its line.
+                InlineCalcWord:
+                for (auto it = advanceLengths.begin(); it != advanceLengths.end(); ++it)
+                    accXAdvance += *it;
+                // NB: No goto here, jump would go to the same place anyways.
+
+                ExitCalcWord:;
+            }
+            beg = end;
+            if (end != this->_text.size()) [[likely]]
+            {
+                size_t _end = this->_text.find_first_not_of(U" \t\r\n", beg + 1);
+                end = (_end == std::u32string::npos ? this->_text.size() : _end);
+                goto HandleSpace;
+            }
+            else goto ExitTextHandling;
+
+            HandleSpace:
+            for (size_t i = beg; i < end; i++)
+            {
+                switch (this->_text[i])
+                {
+                case U' ':
+                    accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale;
+                    break;
+                case U'\t':
+                    accXAdvance += this->textData[i].metrics.advanceWidth * glyphScale * 8;
+                    break;
+                case U'\r':
+                    break;
+                case U'\n':
+                    accXAdvance = 0;
+                    accYAdvance += lineDiff;
+                    if (accYAdvance + lineHeightScaled > rectHeight)
+                    {
+                        increment /= 2.0f;
+                        if (this->_fontSize - increment == this->_fontSize)
+                        {
+                            --this->_fontSize;
+                            goto Break;
+                        }
+                        else
+                        {
+                            this->_fontSize -= increment;
+                            goto Continue;
+                        }
+                    }
                     break;
                 }
             }
+            beg = end;
+            if (end != this->_text.size()) [[likely]]
+            {
+                size_t _end = this->_text.find_first_of(U" \t\r\n", beg + 1);
+                end = (_end == std::u32string::npos ? this->_text.size() : _end);
+                goto HandleWord;
+            }
+            // NB: No else here, it just goes to the same place anyways.
+
+            goto ExitTextHandling;
+            // NB: More label abuse to allow for continuing and breaking
+            //     of the outer loop.
+            Continue:
+            continue;
+            // NB: Never falls through.
+            Break:
+            break;
+            // NB: Never falls through.
+            
+            ExitTextHandling:
+            increment /= 2.0f;
+            if (this->_fontSize + increment == this->_fontSize)
+                break;
+            else this->_fontSize += increment;
         }
-        break;
-    default:
-        this->_fontSize = value;
     }
+    else return 0;
 }
 
 void Text::renderOffload()

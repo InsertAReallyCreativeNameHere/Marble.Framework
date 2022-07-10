@@ -1,5 +1,7 @@
 #include "SceneManagement.h"
 
+#include <Objects/Entity.h>
+
 using namespace Marble;
 using namespace Marble::Internal;
 
@@ -16,12 +18,14 @@ Scene::~Scene()
 {
     ProfileFunction();
     
-    for (auto it = this->entities.begin(); it != this->entities.end(); ++it)
+    auto it = this->front;
+    while (it)
     {
-        (*it)->eraseIteratorOnDestroy = false;
-        delete *it;
+        Debug::printHierarchy();
+        auto itNext = it->next;
+        delete it;
+        it = itNext;
     }
-    this->entities.clear();
 }
 
 size_t Scene::index()
