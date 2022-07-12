@@ -36,7 +36,7 @@ namespace Marble
 
     class __marble_corelib_api RectTransform final : public Internal::Component
     {
-        ~RectTransform() override = default;
+        ~RectTransform() override;
 
         RectFloat _rect { 10, 10, -10, -10 };
         RectFloat _anchor { 0, 0, 0, 0 };

@@ -4,6 +4,8 @@ message(STATUS "[Shader Precompile] Compiling shaders...")
 
 file(MAKE_DIRECTORY "${SHADER_FILES_DIR}/build")
 
+message(STATUS "SHADERC_PATH=${SHADERC_PATH}, SHADERC_DIR=${SHADERC_DIR}, SHADER_FILES_DIR=${SHADER_FILES_DIR}, BGFX_SHADER_DIR=${BGFX_SHADER_DIR}")
+
 # 2DPolygon Vertex
 execute_process(
     COMMAND "${SHADERC_PATH}" "${SHADER_FILES_DIR}/configure/2DPolygon.vert.sc" "${SHADER_FILES_DIR}/build/2DPolygon.vert.mpsh" v

@@ -66,7 +66,7 @@ namespace Marble
     class __marble_corelib_api Entity final : public Internal::Object
     {
         Scene* attachedScene;
-        RectTransform* attachedRectTransform = new RectTransform();
+        RectTransform* attachedRectTransform;
 
         Entity* next = nullptr;
         Entity* prev = nullptr;

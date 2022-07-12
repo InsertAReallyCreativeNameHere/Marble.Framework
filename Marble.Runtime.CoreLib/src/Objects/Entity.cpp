@@ -9,7 +9,7 @@ using namespace Marble::Mathematics;
 
 #define thisRect this->attachedRectTransform
 
-Entity::Entity()
+Entity::Entity() : attachedRectTransform(new RectTransform())
 {
     ProfileFunction();
 
@@ -26,7 +26,7 @@ Entity::Entity()
     }
     this->attachedScene = mainScene;
 }
-Entity::Entity(Entity* parent)
+Entity::Entity(Entity* parent) : attachedRectTransform(new RectTransform())
 {
     ProfileFunction();
 
@@ -44,7 +44,7 @@ Entity::Entity(Entity* parent)
     }
     this->attachedScene = mainScene;
 }
-Entity::Entity(const Vector2& localPosition, float localRotation, Entity* parent)
+Entity::Entity(const Vector2& localPosition, float localRotation, Entity* parent) : attachedRectTransform(new RectTransform())
 {
     ProfileFunction();
 
@@ -64,7 +64,7 @@ Entity::Entity(const Vector2& localPosition, float localRotation, Entity* parent
     }
     this->attachedScene = mainScene;
 }
-Entity::Entity(const Vector2& localPosition, float localRotation, const Vector2& scale, Entity* parent)
+Entity::Entity(const Vector2& localPosition, float localRotation, const Vector2& scale, Entity* parent) : attachedRectTransform(new RectTransform())
 {
     ProfileFunction();
 

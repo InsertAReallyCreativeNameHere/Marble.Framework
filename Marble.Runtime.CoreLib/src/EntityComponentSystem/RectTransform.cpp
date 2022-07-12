@@ -8,6 +8,10 @@ using namespace Marble;
 using namespace Marble::Internal;
 using namespace Marble::Mathematics;
 
+RectTransform::~RectTransform()
+{
+}
+
 constexpr static auto rotatePointAround = [](Vector2& point, const Vector2& rotateAround, float angle) -> void
 {
     float s = sinf(-angle * float(piF) / 180);
