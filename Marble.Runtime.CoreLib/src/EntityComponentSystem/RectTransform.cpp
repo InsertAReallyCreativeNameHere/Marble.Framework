@@ -8,10 +8,6 @@ using namespace Marble;
 using namespace Marble::Internal;
 using namespace Marble::Mathematics;
 
-RectTransform::~RectTransform()
-{
-}
-
 constexpr static auto rotatePointAround = [](Vector2& point, const Vector2& rotateAround, float angle) -> void
 {
     float s = sinf(-angle * float(piF) / 180);
@@ -206,6 +202,6 @@ bool RectTransform::queryPointIn(const Vector2& point)
     float dABAM = vAB.dot(vAM);
     float dBCBM = vBC.dot(vBM);
 
-    return 0 <= dABAM && dABAM <= vAB.dot(vAB) &&
-    0 <= dBCBM && dBCBM <= vBC.dot(vBC);
+    return 0.0f <= dABAM && dABAM <= vAB.dot(vAB) &&
+    0.0f <= dBCBM && dBCBM <= vBC.dot(vBC);
 }
