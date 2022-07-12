@@ -1,4 +1,5 @@
 path_classifiers:
   library:
-  - exclude: dependencies
-  - exclude: external
+  - exclude: cmake/cmake-bin2h
+  - exclude: dependencies/**
+  - exclude: external/**

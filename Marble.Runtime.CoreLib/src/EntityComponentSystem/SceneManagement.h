@@ -82,6 +82,7 @@ namespace Marble
         {
             if (index < SceneManager::existingScenes.size())
                 return reinterpret_cast<Scene*>(&std::next(SceneManager::existingScenes.begin(), index)->data);
+            else return nullptr;
         }
 
         friend class Marble::Internal::CoreEngine;

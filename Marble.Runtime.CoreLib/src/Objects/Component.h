@@ -28,7 +28,7 @@ namespace Marble
             Entity* attachedEntity = nullptr;
             RectTransform* attachedRectTransform = nullptr;
         protected:
-            virtual ~Component() override;
+            ~Component() override;
         public:
             bool active = true;
 
