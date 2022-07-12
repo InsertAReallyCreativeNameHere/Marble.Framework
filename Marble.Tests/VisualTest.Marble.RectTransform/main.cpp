@@ -25,4 +25,6 @@ int main(int argc, char* argv[])
         entity->rectTransform()->position = { cosf(t) * 10, sinf(t) * 10 };
         t += 0.1f;
     };
+
+    return 0;
 }
