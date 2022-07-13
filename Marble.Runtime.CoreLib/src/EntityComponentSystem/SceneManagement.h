@@ -9,6 +9,7 @@
 namespace Marble
 {
     class SceneManager;
+    class EntityManager;
     class Entity;
     class Debug;
 
@@ -28,6 +29,7 @@ namespace Marble
 
         friend class Marble::Internal::CoreEngine;
         friend class Marble::SceneManager;
+        friend class Marble::EntityManager;
         friend class Marble::Entity;
         friend class Marble::Debug;
     private:
@@ -87,6 +89,7 @@ namespace Marble
 
         friend class Marble::Internal::CoreEngine;
         friend struct Marble::Scene;
+        friend class Marble::EntityManager;
         friend class Marble::Entity;
         friend class Marble::Debug;
     };

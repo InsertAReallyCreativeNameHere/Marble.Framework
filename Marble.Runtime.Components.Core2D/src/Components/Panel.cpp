@@ -2,7 +2,7 @@
 
 #include <Mathematics.h>
 #include <Core/CoreEngine.h>
-#include <EntityComponentSystem/RectTransform.h>
+#include <Components/RectTransform.h>
 #include <Rendering/Renderer.h>
 
 using namespace Marble;

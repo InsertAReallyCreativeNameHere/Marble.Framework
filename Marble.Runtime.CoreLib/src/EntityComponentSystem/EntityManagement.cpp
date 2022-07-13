@@ -1,6 +1,6 @@
 #include "EntityManagement.h"
 
-#include <Objects/Entity.h>
+#include <Objects/internal/Entity.nodep.h>
 
 using namespace Marble;
 

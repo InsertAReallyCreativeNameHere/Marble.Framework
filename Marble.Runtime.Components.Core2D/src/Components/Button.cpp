@@ -4,7 +4,7 @@
 #include <Mathematics.h>
 #include <Core/CoreEngine.h>
 #include <Core/Input.h>
-#include <EntityComponentSystem/RectTransform.h>
+#include <Components/RectTransform.h>
 
 using namespace Marble;
 using namespace Marble::GL;

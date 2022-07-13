@@ -6,7 +6,7 @@
 #include <Mathematics.h>
 #include <Core/Application.h>
 #include <Core/PackageManager.h>
-#include <EntityComponentSystem/RectTransform.h>
+#include <Components/RectTransform.h>
 #include <Rendering/Renderer.h>
 
 using namespace Marble;

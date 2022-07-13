@@ -21,7 +21,6 @@ Scene::~Scene()
     auto it = this->front;
     while (it)
     {
-        Debug::printHierarchy();
         auto itNext = it->next;
         delete it;
         it = itNext;

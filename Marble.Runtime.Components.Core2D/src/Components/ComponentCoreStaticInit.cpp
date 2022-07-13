@@ -4,6 +4,7 @@
 #include <Components/Button.h>
 #include <Core/PackageManager.h>
 #include <EntityComponentSystem/EngineEvent.h>
+#include <EntityComponentSystem/EntityManagement.h>
 #include <Utility/TypeInfo.h>
 
 using namespace Marble;

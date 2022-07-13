@@ -18,6 +18,8 @@ int main(int argc, char* argv[])
         entity = new Entity();
         entity->addComponent<Panel>()->color = { 0, 255, 255, 255 };
         entity->rectTransform()->rect = { 50, 50, -50, -50 };
+        
+        EntityManager::foreachEntityWithAll<Panel, RectTransform>([](Entity* ent, Panel*, RectTransform*) { Debug::LogInfo(ent->name); });
     };
     EngineEvent::OnTick += []
     {

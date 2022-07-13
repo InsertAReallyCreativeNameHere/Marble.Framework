@@ -3,3 +3,4 @@ Marble.Runtime.GL/src/Shaders/build/*.mpsh
 /build/
 /bin/
 /lib/
+/.vscode/
