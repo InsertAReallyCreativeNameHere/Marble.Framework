@@ -26,11 +26,8 @@ void Panel::renderOffload()
     t.setRotation(deg2RadF(thisRect->rotation));
     t.setColor(this->_color.r, this->_color.g, this->_color.b, this->_color.a);
     
-    CoreEngine::queueRenderJobForFrame
-    (
-        [t]()
-        {
-            Renderer::drawUnitSquare(t);
-        }
-    );
+    CoreEngine::queueRenderJobForFrame([t]
+    {
+        Renderer::drawUnitSquare(t);
+    });
 }

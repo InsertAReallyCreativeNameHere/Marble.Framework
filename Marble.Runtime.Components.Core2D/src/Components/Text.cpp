@@ -617,13 +617,10 @@ void Text::renderOffload()
                 }
             }
         }
-        CoreEngine::queueRenderJobForFrame
-        (
-            [charsToDraw = std::move(charsToDraw)]
-            {
-                for (auto it = charsToDraw.begin(); it != charsToDraw.end(); ++it)
-                    Renderer::drawPolygon(it->first->polygon, it->second);
-            }
-        );
+        CoreEngine::queueRenderJobForFrame([charsToDraw = std::move(charsToDraw)]
+        {
+            for (auto it = charsToDraw.begin(); it != charsToDraw.end(); ++it)
+                Renderer::drawPolygon(it->first->polygon, it->second);
+        }, false);
     }
 }

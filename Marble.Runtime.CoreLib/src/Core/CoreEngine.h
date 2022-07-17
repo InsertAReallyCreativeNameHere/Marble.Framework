@@ -43,8 +43,10 @@ namespace Marble
 
 			static moodycamel::ConcurrentQueue<skarupke::function<void()>> pendingPreTickEvents;
 			static moodycamel::ConcurrentQueue<skarupke::function<void()>> pendingPostTickEvents;
-			static std::vector<skarupke::function<void()>> pendingRenderJobBatchesOffload;
-			static moodycamel::ConcurrentQueue<std::vector<skarupke::function<void()>>> pendingRenderJobBatches;
+			static SpinLock renderJobsLock;
+			static std::vector<std::pair<skarupke::function<void()>, bool>> pendingRenderJobs;
+			static std::vector<std::pair<skarupke::function<void()>, bool>> pendingRenderJobsTransfer;
+			static std::vector<std::pair<skarupke::function<void()>, bool>> pendingRenderJobsOffload;
 
 			static float mspf;
 
@@ -58,9 +60,9 @@ namespace Marble
 			CoreEngine() = delete;
 
 			template <typename Func>
-			inline static void queueRenderJobForFrame(Func&& job)
+			inline static void queueRenderJobForFrame(Func&& job, bool persistAfterLate = true)
 			{
-				CoreEngine::pendingRenderJobBatchesOffload.push_back(job);
+				CoreEngine::pendingRenderJobs.push_back(std::make_pair(job, persistAfterLate));
 			}
 
 			friend int __handleInitializeAndExit(int argc, char* argv[]);

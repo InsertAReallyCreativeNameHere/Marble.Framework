@@ -1,6 +1,7 @@
 #include "CoreEngine.h"
 
 #include <bx/platform.h>
+#include <algorithm>
 #include <cmath>
 #include <fcntl.h>
 #include <filesystem>
@@ -15,6 +16,7 @@
 #include <Core/Display.h>
 #include <Core/Input.h>
 #include <Core/PackageManager.h>
+#include <Core/Time.h>
 #include <EntityComponentSystem/SceneManagement.h>
 #include <EntityComponentSystem/EngineEvent.h>
 #include <Objects/Entity.h>
@@ -44,10 +46,13 @@ SDL_SysWMinfo CoreEngine::wmInfo;
 
 moodycamel::ConcurrentQueue<skarupke::function<void()>> CoreEngine::pendingPreTickEvents;
 moodycamel::ConcurrentQueue<skarupke::function<void()>> CoreEngine::pendingPostTickEvents;
-std::vector<skarupke::function<void()>> CoreEngine::pendingRenderJobBatchesOffload;
-moodycamel::ConcurrentQueue<std::vector<skarupke::function<void()>>> CoreEngine::pendingRenderJobBatches;
 
-float CoreEngine::mspf = 0;
+SpinLock CoreEngine::renderJobsLock;
+std::vector<std::pair<skarupke::function<void()>, bool>> CoreEngine::pendingRenderJobs;
+std::vector<std::pair<skarupke::function<void()>, bool>> CoreEngine::pendingRenderJobsTransfer;
+std::vector<std::pair<skarupke::function<void()>, bool>> CoreEngine::pendingRenderJobsOffload;
+
+float CoreEngine::mspf = 0;//0.01666666666666666666666666666666666666666666666f;
 
 static std::atomic<int32_t> renderWidth;
 static std::atomic<int32_t> renderHeight;
@@ -279,54 +284,61 @@ void CoreEngine::internalLoop()
         #pragma endregion
 
         #pragma region Render Offload
-        if (CoreEngine::pendingRenderJobBatches.size_approx() < 2)
+        CoreEngine::renderJobsLock.lock();
+        std::swap(CoreEngine::pendingRenderJobs, CoreEngine::pendingRenderJobsTransfer);
+        CoreEngine::renderJobsLock.unlock();
+
+        std::erase_if(CoreEngine::pendingRenderJobs, [](const auto& job)
         {
-            CoreEngine::pendingRenderJobBatchesOffload.push_back(Renderer::beginFrame);
-            for
-            (
-                auto _it1 = SceneManager::existingScenes.begin();
-                _it1 != SceneManager::existingScenes.end();
-                ++_it1
-            )
+            return !job.second;
+        });
+
+        CoreEngine::pendingRenderJobs.push_back(std::make_pair(Renderer::endFrame, false));
+        for
+        (
+            auto _it1 = SceneManager::existingScenes.begin();
+            _it1 != SceneManager::existingScenes.end();
+            ++_it1
+        )
+        {
+            Scene* it1 = reinterpret_cast<Scene*>(&_it1->data);
+            if (it1->active)
             {
-                Scene* it1 = reinterpret_cast<Scene*>(&_it1->data);
-                if (it1->active)
+                for
+                (
+                    auto it2 = it1->front;
+                    it2 != nullptr;
+                    it2 = it2->next
+                )
                 {
                     for
                     (
-                        auto it2 = it1->front;
-                        it2 != nullptr;
-                        it2 = it2->next
+                        auto it3 = EntityManager::existingComponents.begin();
+                        it3 != EntityManager::existingComponents.end();
+                        ++it3
                     )
                     {
-                        for
-                        (
-                            auto it3 = EntityManager::existingComponents.begin();
-                            it3 != EntityManager::existingComponents.end();
-                            ++it3
-                        )
-                        {
-                            auto component = EntityManager::components.find({ it1, it2, it3->first });
-                            if (component != EntityManager::components.end() && component->second->active)
-                                InternalEngineEvent::OnRenderOffloadForComponent(component->second);
-                        }
+                        auto component = EntityManager::components.find({ it1, it2, it3->first });
+                        if (component != EntityManager::components.end() && component->second->active)
+                            InternalEngineEvent::OnRenderOffloadForComponent(component->second);
                     }
                 }
             }
-            CoreEngine::pendingRenderJobBatchesOffload.push_back(Renderer::endFrame);
         }
-        CoreEngine::pendingRenderJobBatches.enqueue(std::move(CoreEngine::pendingRenderJobBatchesOffload));
-        CoreEngine::pendingRenderJobBatchesOffload.clear();
+        CoreEngine::pendingRenderJobs.push_back(std::make_pair(Renderer::endFrame, false));
+
+        CoreEngine::renderJobsLock.lock();
+        std::swap(CoreEngine::pendingRenderJobs, CoreEngine::pendingRenderJobsTransfer);
+        CoreEngine::renderJobsLock.unlock();
         #pragma endregion
 
         ProfileEndFrame();
 
-        do deltaTime = (float)(SDL_GetPerformanceCounter() - frameBegin) * 1000.0f / (float)perfFreq;
+        do deltaTime = (float)(SDL_GetPerformanceCounter() - frameBegin) / (float)perfFreq;
         while (deltaTime < targetDeltaTime);
         frameBegin = SDL_GetPerformanceCounter();
-        targetDeltaTime = CoreEngine::mspf - (deltaTime - targetDeltaTime);
-        if (targetDeltaTime < 0)
-            targetDeltaTime = CoreEngine::mspf;
+        targetDeltaTime = std::max(CoreEngine::mspf - (deltaTime - targetDeltaTime), 0.0f);
+        Time::frameDeltaTime = deltaTime * Time::timeScale;
         Debug::LogInfo("Update() frame time: ", deltaTime, ". Target: ", targetDeltaTime, ".");
 
         ProfileEndFrame();
@@ -582,18 +594,29 @@ void CoreEngine::internalRenderLoop()
             Renderer::setViewArea(0, 0, w, h);
         }
 
-        while (CoreEngine::pendingRenderJobBatches.try_dequeue(jobs))
-            for (auto it = jobs.begin(); it != jobs.end(); ++it)
-                (*it)();
-        
+        CoreEngine::renderJobsLock.lock();
+        if (!CoreEngine::pendingRenderJobsTransfer.empty())
+        {
+            std::swap(CoreEngine::pendingRenderJobsOffload, CoreEngine::pendingRenderJobsTransfer);
+            CoreEngine::renderJobsLock.unlock();
+
+            for (auto it = CoreEngine::pendingRenderJobsOffload.begin(); it != CoreEngine::pendingRenderJobsOffload.end(); ++it)
+                it->first();
+            CoreEngine::pendingRenderJobsOffload.clear();
+        }
+        else CoreEngine::renderJobsLock.unlock();
+
         isRendering.store(false, std::memory_order_relaxed);
     }
 
     while (!CoreEngine::threadsFinished_0.load(std::memory_order_relaxed));
 
-    while (CoreEngine::pendingRenderJobBatches.try_dequeue(jobs))
-        for (auto it = jobs.begin(); it != jobs.end(); ++it)
-            (*it)();
+    for (auto it = CoreEngine::pendingRenderJobsTransfer.begin(); it != CoreEngine::pendingRenderJobsTransfer.end(); ++it)
+        it->first();
+    CoreEngine::pendingRenderJobsTransfer.clear();
+    for (auto it = CoreEngine::pendingRenderJobsOffload.begin(); it != CoreEngine::pendingRenderJobsOffload.end(); ++it)
+        it->first();
+    CoreEngine::pendingRenderJobsOffload.clear();
 
     InternalEngineEvent::OnRenderShutdown();
     Renderer::shutdown();

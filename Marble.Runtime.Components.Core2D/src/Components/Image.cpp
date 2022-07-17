@@ -107,12 +107,9 @@ void Image::renderOffload()
         t.setRotation(deg2RadF(thisRect->rotation));
         t.setColor(1.0f, 1.0f, 1.0f, 1.0f);
         
-        CoreEngine::queueRenderJobForFrame
-        (
-            [t, data = this->data]
-            {
-                Renderer::drawImage(data->internalTexture, t);
-            }
-        );
+        CoreEngine::queueRenderJobForFrame([t, data = this->data]
+        {
+            Renderer::drawImage(data->internalTexture, t);
+        });
     }
 }

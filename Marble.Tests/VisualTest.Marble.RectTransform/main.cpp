@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     };
     EngineEvent::OnTick += []
     {
-        entity->rectTransform()->rotation += 0.1f;
+        entity->rectTransform()->rotation += 360.0f / 60.0f / 4.0f;
         entity->rectTransform()->position = { cosf(t) * 10, sinf(t) * 10 };
         t += 0.1f;
     };

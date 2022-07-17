@@ -217,7 +217,7 @@ bool Renderer::initialize(void* ndt, void* nwh, uint32_t initWidth, uint32_t ini
     bgfx::setPlatformData(pd);
 
 	bgfx::Init init;
-    init.type = bgfx::RendererType::Direct3D11;
+    init.type = bgfx::RendererType::Vulkan;
     init.vendorId = BGFX_PCI_ID_NONE;
     init.resolution.width = initWidth;
     init.resolution.height = initHeight;
