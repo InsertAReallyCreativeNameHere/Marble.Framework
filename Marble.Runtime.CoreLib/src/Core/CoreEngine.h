@@ -24,7 +24,7 @@ namespace Marble
 			static SDL_DisplayMode displMd;
 			static SDL_SysWMinfo wmInfo;
 
-			enum state : int8_t
+			enum state : int_fast8_t
 			{
 				unknown = -1,
 				playing,
