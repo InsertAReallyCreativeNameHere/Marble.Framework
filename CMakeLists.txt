@@ -89,7 +89,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../libglbuild")
 
 set(BGFX_LIBRARY_TYPE "STATIC")
 option(BGFX_BUILD_EXAMPLES "Build bgfx examples." OFF)
-option(BGFX_CONFIG_MULTITHREADED "Build bgfx with multithreaded configuration" OFF)
+option(BGFX_CONFIG_MULTITHREADED "Build bgfx with multithreaded configuration" ON)
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/external/bgfx.cmake")
 
 if (COMPILER STREQUAL "MinGW")

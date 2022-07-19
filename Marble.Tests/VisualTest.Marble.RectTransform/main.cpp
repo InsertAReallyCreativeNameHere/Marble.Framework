@@ -1,5 +1,6 @@
 #include <cmath>
 #include <Components/Panel.h>
+#include <Core/Time.h>
 #include <EntityComponentSystem/EngineEvent.h>
 #include <Marble/Entry.h>
 #include <Objects/Entity.h>
@@ -23,9 +24,9 @@ int main(int argc, char* argv[])
     };
     EngineEvent::OnTick += []
     {
-        entity->rectTransform()->rotation += 360.0f / 60.0f / 4.0f;
+        entity->rectTransform()->rotation = t;
         entity->rectTransform()->position = { cosf(t) * 10, sinf(t) * 10 };
-        t += 0.1f;
+        t += 360000.f * Time::deltaTime();
     };
 
     return 0;
